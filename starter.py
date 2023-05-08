@@ -41,11 +41,17 @@ is_debug = 0
 teams_stats = body_content["onTablo"]["teams2"]
 
 last_teams_kart = []
+team_last_lap = []
 for team in teams_stats:
     team_kart = {
         team: 0
     }
     last_teams_kart.append(team_kart)
+    
+    last_lap = {
+        team: 0
+    }
+    team_last_lap.append(last_lap)
 
 while (
     race_started_button_timestamp>race_finished_timestamp
@@ -64,24 +70,31 @@ while (
                     true_kart = False
                 else: 
                     true_kart = True
+                    # NEED TO ADD SOME FUNCTIONALITY TO CHANGE TRUE_CART INTO TRUE
+                        # IN THE TABLE ITSELF, TO CHANGE TO THE INITIAL CART NUMBER
                 
-                # NEED TO ADD SOME CHECK OF A LAP COUNTER 
-                    # AND/OR CHECKER IF THERE IS A LAP ROW IN THE TABLE
-                add_row.add_a_row(
-                    df_statistic,
-                    [
-                        pilot_name, # pilot_name
-                        kart, # kart
-                        lap_count, 
-                        last_lap_time, # lap_time
-                        last_lap_s1_time, # s1
-                        last_lap_s2_time, # s2
-                        true_kart # Flag to check if kart is true or still 0
-                    ]
-                )
-            is_on_pit = teams_stats[str(team)]["isOnPit"]
-            best_lap_on_segment = teams_stats[str(team)]["bestLapOnSegment"]
-            mid_lap = teams_stats[str(team)]["midLap"]
+                # NEED TO ADD FUNCTIONALITY FOR is_on_pit = True SCENARIO
+                is_on_pit = teams_stats[str(team)]["isOnPit"]
+                if is_on_pit:
+                    pass
+                
+                if lap_count > last_lap[team]:
+                    add_row.add_a_row(
+                        df_statistic,
+                        [
+                            pilot_name, # pilot_name
+                            kart, # kart
+                            lap_count, 
+                            last_lap_time, # lap_time
+                            last_lap_s1_time, # s1
+                            last_lap_s2_time, # s2
+                            true_kart # Flag to check if kart is true or still 0
+                        ]
+                    )
+                    last_lap[team] = lap_count
+                
+                best_lap_on_segment = teams_stats[str(team)]["bestLapOnSegment"]
+                mid_lap = teams_stats[str(team)]["midLap"]
         
         # RENEW VARIABLES FOR THE NEXT CYCLE
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']

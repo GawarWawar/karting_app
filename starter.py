@@ -6,6 +6,7 @@ from utils import add_row
 import json
 import pprint
 
+from utils import tools as u_tools
 
 # Importing BeautifulSoup class from the bs4 module
 from bs4 import BeautifulSoup
@@ -47,7 +48,7 @@ for team in teams_stats:
             "last_lap": 0,
             "last_kart": 0,
             "current_segment": 1,
-            "was_on_pit" : False
+            "was_on_pit" : True
         }
     }
     last_lap_info.update(last_lap_info_update)
@@ -64,41 +65,60 @@ while (
             lap_count = teams_stats[team]["lapCount"]
             if lap_count !=0:
                 pilot_name = teams_stats[team]["pilotName"]
-                kart = teams_stats[team]["kart"]
                 last_lap_time = teams_stats[team]["lastLap"]
                 last_lap_s1_time = teams_stats[team]["lastLapS1"]
                 last_lap_s2_time = teams_stats[team]["lastLapS2"]
 
-                if int(kart) == 0 or int(kart) != df_last_lap_info.loc[team, "last_kart"]:
+                kart = int(teams_stats[team]["kart"])
+                if kart == 0:
                     true_kart = False
                 else: 
                     true_kart = True
-                    needed_indexes = df_statistic[
-                        (df_statistic.loc[:,"pilot_name"] == pilot_name) 
-                        &(df_statistic.loc[:,"true_kart"] == False) 
-                        &(
-                            (df_statistic.loc[:,"kart"] == 0) |
-                            (df_statistic.loc[:,"kart"] ==\
-                                df_last_lap_info.loc[str(team), "last_kart"])
-                        )
-                    ].index
-                    df_statistic.loc[needed_indexes, "true_kart"] = True
-                    df_statistic.loc[needed_indexes, "kart"] = int(kart)
-                    df_last_lap_info.loc[team, "last_kart"] = kart
+                    if kart != df_last_lap_info.loc[team, "last_kart"]:
+                        needed_indexes = df_statistic[
+                            (df_statistic.loc[:,"pilot"] == pilot_name) 
+                            &(df_statistic.loc[:,"true_kart"] == False) 
+                            &(
+                                (df_statistic.loc[:,"kart"] == 0) |
+                                (df_statistic.loc[:,"kart"] ==\
+                                    df_last_lap_info.loc[team, "last_kart"])
+                            )
+                        ].index
+                        df_statistic.loc[needed_indexes, "true_kart"] = True
+                        df_statistic.loc[needed_indexes, "kart"] = kart
+                        df_last_lap_info.loc[team, "last_kart"] = kart
                 
+                if  (int(teams_stats[team]["secondsFromPit"]) >= 540):
+                    true_name = True
+                    if (df_last_lap_info.loc[team, "was_on_pit"] == True):
+                        needed_indexes = df_statistic[
+                            (df_statistic.loc[:,"team"] == team) 
+                            &(df_statistic.loc[:,"true_name"] == False) 
+                            &(
+                                df_statistic.loc[:,"segment"] ==\
+                                    df_last_lap_info.loc[team, "current_segment"]
+                            )
+                        ].index
+                        df_statistic.loc[needed_indexes, "true_name"] = True
+                        df_statistic.loc[needed_indexes, "pilot"] = pilot_name
+                        df_last_lap_info.loc[team, "was_on_pit"] = False
+                else:
+                    true_name = False
                 if int(lap_count) > int(
                     df_last_lap_info.loc[team].at["last_lap"]
                 ):
                     add_row.add_a_row(
                         df_statistic,
                         [
+                            team, #team number in str
                             pilot_name, # pilot_name
-                            int(kart), # kart
+                            kart, # kart
                             lap_count, 
                             last_lap_time, # lap_time
                             last_lap_s1_time, # s1
                             last_lap_s2_time, # s2
                             df_last_lap_info.loc[team, "current_segment"], #team_segment
+                            true_name, # Flag to check if name is true and was changed after start or pit 
                             true_kart, # Flag to check if kart is true or still 0
                         ]
                     )
@@ -127,8 +147,5 @@ while (
     # MAKE NEW REQUEST
 
 print(df_statistic)
-
-
-
 print(df_statistic)
 

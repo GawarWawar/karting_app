@@ -8,6 +8,11 @@ import pprint
 
 from utils import tools as u_tools
 
+import time
+
+# TESTING TIMER
+start_of_the_programme = time.perf_counter()
+
 # Importing BeautifulSoup class from the bs4 module
 from bs4 import BeautifulSoup
 
@@ -42,7 +47,7 @@ race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimest
 race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
 
 # Testing variable
-only_one_cycle = 1
+only_one_cycle = 2
 
 # Variable to make team_stats calls shorter
 teams_stats = body_content["onTablo"]["teams2"]
@@ -62,6 +67,9 @@ for team in teams_stats:
     
 df_last_lap_info = pd.DataFrame.from_dict(last_lap_info, orient="index")
 last_lap_info = None
+
+# TESTING TIMER
+prep_to_cycle_finished_time = time.perf_counter()
 
 # Main cycle
 while (
@@ -162,8 +170,22 @@ while (
     # TESTING STUFF
     only_one_cycle -= 1
     
+    # CHECK CYCLE TIMING. CYCLE SHOULD NOT BE LOWER THEN n_seconds; 
+        # CREATE WAIT CYCLE IF IT NEEDS TO WAIT
+    
     # MAKE NEW REQUEST HERE
 
+# TESTING TIMER
+end_of_cycle_time = time.perf_counter()
 print(df_statistic)
 
+# TESTING TIMER
+end_of_programme = time.perf_counter()
 
+# TESTING TIME PRINTS
+print(
+    "\n",
+    "Time to perform preparation before cycle:", prep_to_cycle_finished_time-start_of_the_programme, "\n",
+    "Time to perform cycle to run:", (end_of_cycle_time-prep_to_cycle_finished_time), "\n",
+    "Time for the whole programme to run:", end_of_programme-start_of_the_programme, "\n",
+)

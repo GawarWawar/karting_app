@@ -36,27 +36,28 @@ initial_total_race_time = body_content["onTablo"]["totalRaceTime"]
 race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
 race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
 
-is_debug = 0
+only_one_cycle = False
 
 teams_stats = body_content["onTablo"]["teams2"]
 
-last_teams_kart = []
-team_last_lap = []
+last_lap_info = {}
 for team in teams_stats:
-    team_kart = {
-        team: 0
+    last_lap_info_update = {
+        team: {
+            "last_lap": 0,
+            "last_kart": 0
+        }
     }
-    last_teams_kart.append(team_kart)
+    last_lap_info.update(last_lap_info_update)
     
-    last_lap = {
-        team: 0
-    }
-    team_last_lap.append(last_lap)
+    
+df_last_lap_info = pd.DataFrame.from_dict(last_lap_info, orient="index")
+last_lap_info = None
 
 while (
     race_started_button_timestamp>race_finished_timestamp
-) and is_debug == 0:
-    if initial_total_race_time != body_content["onTablo"]["totalRaceTime"] or is_debug == 0:
+) and not(only_one_cycle):
+    if initial_total_race_time != body_content["onTablo"]["totalRaceTime"] or not(only_one_cycle):
         for team in teams_stats:
             lap_count = teams_stats[str(team)]["lapCount"]
             if lap_count !=0:
@@ -78,7 +79,9 @@ while (
                 if is_on_pit:
                     pass
                 
-                if lap_count > last_lap[team]:
+                if int(lap_count) > int(
+                    df_last_lap_info.loc[team].at["last_lap"]
+                ):
                     add_row.add_a_row(
                         df_statistic,
                         [
@@ -91,18 +94,18 @@ while (
                             true_kart # Flag to check if kart is true or still 0
                         ]
                     )
-                    last_lap[team] = lap_count
+                    df_last_lap_info.loc[team].at["last_lap"] = lap_count
                 
                 best_lap_on_segment = teams_stats[str(team)]["bestLapOnSegment"]
                 mid_lap = teams_stats[str(team)]["midLap"]
         
-        # RENEW VARIABLES FOR THE NEXT CYCLE
-        race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
-        race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
-        
-        initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
-        
-        is_debug += 1
-        # MAKE NEW REQUEST
+    # RENEW VARIABLES FOR THE NEXT CYCLE
+    race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
+    race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
+    
+    initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
+    
+    only_one_cycle = True
+    # MAKE NEW REQUEST
 
 print(df_statistic)

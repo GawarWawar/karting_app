@@ -79,26 +79,19 @@ while (
     if initial_total_race_time != body_content["onTablo"]["totalRaceTime"]\
         or not (only_one_cycle == 0): # TESTING SUFF
         for team in teams_stats:
+            pilot_name = teams_stats[team]["pilotName"]
                 
             # Check if team made 9 minutes on track after the pit or start:
                 #yes -> change all names  before this point on the current segment to the current name
                 #no -> set a flag to indicate vrong name 
-            if  (int(teams_stats[team]["secondsFromPit"]) >= 540):
-                true_name = True
-                if (df_last_lap_info.loc[team, "was_on_pit"] == True):
-                    needed_indexes = df_statistic[
-                        (df_statistic.loc[:,"team"] == team) 
-                        &(df_statistic.loc[:,"true_name"] == False) 
-                        &(
-                            df_statistic.loc[:,"segment"] ==\
-                                df_last_lap_info.loc[team, "current_segment"]
-                        )
-                    ].index
-                    df_statistic.loc[needed_indexes, "true_name"] = True
-                    df_statistic.loc[needed_indexes, "pilot"] = pilot_name
-                    df_last_lap_info.loc[team, "was_on_pit"] = False
-            else:
-                true_name = False
+            seconds_from_pit = int(teams_stats[team]["secondsFromPit"])
+            true_name = main_functions.name_check_after_pit(
+                df_statistic,
+                df_last_lap_info,
+                team,
+                seconds_from_pit,
+                pilot_name
+            )
 
             # Check if kart was changed on valid or it is still 0:
                 #yes -> changes all previous 0 kart records for this pilot to valid kart number
@@ -120,7 +113,6 @@ while (
             lap_count = teams_stats[team]["lapCount"]
             if lap_count !=0 or (int(lap_count) > int(
                     df_last_lap_info.loc[team].at["last_lap"])):
-                pilot_name = teams_stats[team]["pilotName"]
                 
                 add_row.add_a_row(
                     df_statistic,
@@ -144,10 +136,11 @@ while (
                 #yes -> change team`s flag was_on_pit to true
                     # + if it is 1st encounter -> add to segment and renew segment for the team  
             is_on_pit = teams_stats[team]["isOnPit"]
-            if is_on_pit:
-                if df_last_lap_info.loc[team, "was_on_pit"] == False:
-                    df_last_lap_info.loc[team, "current_segment"] += 1
-                df_last_lap_info.loc[team, "was_on_pit"] = True
+            main_functions.check_is_team_on_pit(
+                is_on_pit,
+                df_last_lap_info,
+                team
+            )
             
             # REDUNDENT INFO, NEED TO MAKE A DECISION ABOUT IT
             best_lap_on_segment = teams_stats[team]["bestLapOnSegment"]
@@ -182,13 +175,4 @@ end_of_programme = time.perf_counter()
 #     "Time for the whole programme to run:", end_of_programme-start_of_the_programme, "\n",
 # )
 
-kart=6
 
-
-print(
-    df_statistic, "\n",
-    df_last_lap_info, "\n",
-    team,"\n",
-    kart,"\n",
-    pilot_name,"\n",
-)

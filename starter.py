@@ -1,15 +1,17 @@
 import pandas as pd
 import numpy as np
 
-from utils import add_row
-
 import json
-import pprint
+import requests
 
+from utils import add_row
 from utils import main_functions
 from utils import tools as u_tools
 
 import time
+import pprint
+
+#needed link: https://nfs-stats.herokuapp.com/getmaininfo.json
 
 # TESTING TIMER
 start_of_the_programme = time.perf_counter()
@@ -32,7 +34,8 @@ with open("html.json", "w") as JSONFile:
     json.dump(body_content, JSONFile, indent=2)
 
 
-# NEED TO MAKE A FIRST REQUEST HERE
+server_request = requests.get("https://nfs-stats.herokuapp.com/getmaininfo.json")
+body_content = server_request.json()
 
 df_statistic = pd.read_csv("pilots_stats.csv")
 
@@ -167,12 +170,12 @@ print(df_statistic)
 # TESTING TIMER
 end_of_programme = time.perf_counter()
 
-# TESTING TIME PRINTS
-# print(
-#     "\n",
-#     "Time to perform preparation before cycle:", prep_to_cycle_finished_time-start_of_the_programme, "\n",
-#     "Time to perform cycle to run:", (end_of_cycle_time-prep_to_cycle_finished_time), "\n",
-#     "Time for the whole programme to run:", end_of_programme-start_of_the_programme, "\n",
-# )
+#TESTING TIME PRINTS
+print(
+    "\n",
+    "Time to perform preparation before cycle:", prep_to_cycle_finished_time-start_of_the_programme, "\n",
+    "Time to perform cycle to run:", (end_of_cycle_time-prep_to_cycle_finished_time), "\n",
+    "Time for the whole programme to run:", end_of_programme-start_of_the_programme, "\n",
+)
 
 

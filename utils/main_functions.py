@@ -4,6 +4,18 @@ import requests
 
 import time
 
+import sys
+from os.path import dirname, abspath
+import importlib.util
+
+#SCRIPT_DIR = dirname(abspath(__file__))
+#path = sys.path.append(dirname(SCRIPT_DIR))
+
+spec = importlib.util.spec_from_file_location("add_row", "utils/add_row.py")
+add_row = importlib.util.module_from_spec(spec)
+sys.modules["add_row"] = add_row
+spec.loader.exec_module(add_row)
+
 def kart_check (
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
@@ -104,50 +116,83 @@ def check_is_team_on_pit(
             df_last_lap_info.loc[team, "current_segment"] += 1
         df_last_lap_info.loc[team, "was_on_pit"] = True
         
+def add_row_with_lap_check(
+    df_statistic: pd.DataFrame,
+    df_last_lap_info: pd.DataFrame,
+    teams_stats: dict,
+    team: str,
+    true_name: bool,
+    true_kart: bool
+) -> None:
+    lap_count = teams_stats[team]["lapCount"]
+    if lap_count !=0 and (int(lap_count) > int(
+            df_last_lap_info.loc[team].at["last_lap"])):
+        
+        add_row.add_a_row(
+            df_statistic,
+            [
+                team, #team number in str
+                teams_stats[team]["pilotName"], # pilot_name
+                int(teams_stats[team]["kart"]), # kart
+                lap_count, 
+                teams_stats[team]["lastLap"], # lap_time
+                teams_stats[team]["lastLapS1"], # s1
+                teams_stats[team]["lastLapS2"], # s2
+                df_last_lap_info.loc[team, "current_segment"], #team_segment
+                true_name, # Flag to check if name is true and was changed after start or pit 
+                true_kart, # Flag to check if kart is true or still 0
+            ]
+        )
+        print("Row_added for team:", team)
+        df_last_lap_info.loc[team, "last_lap"] = lap_count
+        
 def request_was_not_sucsessful_check(
-    server_request,
+    server_request: requests.Response,
+    request_count: int,
     start_time_to_wait = time.perf_counter()
-):
+) -> dict:
     while server_request.status_code != 200:
-        print(server_request.status_code)
         end_time_to_wait = time.perf_counter()
         if end_time_to_wait-start_time_to_wait > 1:
-            server_request = requests.get("https://nfs-stats.herokuapp.com/getmaininfo.json", timeout=10)
+            request_count += 1
+            server_request = requests.get(
+                "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+                timeout=10
+            )
+            print(request_count, end_time_to_wait-start_time_to_wait, server_request.status_code)
             start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
     return body_content
 
 def first_request(
-    server,
-    request_count,
+    server: str,
+    request_count: int,
     start_time_to_wait = time.perf_counter()
-):
+) -> dict:
     request_count +=1
     server_request = requests.get(server, timeout=10)
-    body_content = request_was_not_sucsessful_check(server_request)
     end_time_to_wait = time.perf_counter()
     print(request_count, end_time_to_wait-start_time_to_wait)
+    body_content = request_was_not_sucsessful_check(
+        server_request,
+        request_count
+    )
     return body_content
 
-def new_request (
+def new_request  (
     start_time_to_wait,
-    request_count
-):
+    request_count: int,
+    time_to_wait: int = 1
+) -> dict:
     request_count +=1
     end_time_to_wait = time.perf_counter()
-    if end_time_to_wait-start_time_to_wait < 1:
-        while end_time_to_wait-start_time_to_wait < 1:
+    if end_time_to_wait-start_time_to_wait < time_to_wait:
+        while end_time_to_wait-start_time_to_wait < time_to_wait:
             end_time_to_wait = time.perf_counter()
-        server_request = requests.get(
-            "https://nfs-stats.herokuapp.com/getmaininfo.json", 
-            timeout=10
-        )
-    else:
-        server_request = requests.get(
-            "https://nfs-stats.herokuapp.com/getmaininfo.json", 
-            timeout=10
-        )
-           
-    body_content = request_was_not_sucsessful_check(server_request, start_time_to_wait)
+    server_request = requests.get(
+        "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+        timeout=10
+    ) 
     print(request_count, end_time_to_wait-start_time_to_wait)
+    body_content = request_was_not_sucsessful_check(server_request, start_time_to_wait)
     return body_content

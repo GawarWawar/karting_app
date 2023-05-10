@@ -36,8 +36,9 @@ request_count = 0
 #     json.dump(body_content, JSONFile, indent=2)
 
 
-body_content = main_functions(
-    "https://nfs-stats.herokuapp.com/getmaininfo.json"    
+body_content = main_functions.first_request(
+    "https://nfs-stats.herokuapp.com/getmaininfo.json",
+    request_count    
 )
 
 df_statistic = pd.read_csv("pilots_stats.csv")
@@ -91,12 +92,11 @@ while (
             # Check if team made 9 minutes on track after the pit or start:
                 #yes -> change all names  before this point on the current segment to the current name
                 #no -> set a flag to indicate vrong name 
-            seconds_from_pit = int(teams_stats[team]["secondsFromPit"])
             true_name = main_functions.name_check_after_pit(
                 df_statistic,
                 df_last_lap_info,
                 team,
-                seconds_from_pit,
+                int(teams_stats[team]["secondsFromPit"]),
                 pilot_name
             )
 
@@ -104,12 +104,11 @@ while (
                 #yes -> changes all previous 0 kart records for this pilot to valid kart number
                 #no -> make a flag, to indicate all non valid kard records
                     # + make a last team`s kart = 0
-            kart = int(teams_stats[team]["kart"])
             true_kart = main_functions.kart_check(
                 df_statistic,
                 df_last_lap_info,
                 team,
-                kart,
+                int(teams_stats[team]["kart"]),
                 pilot_name
             )
 
@@ -117,52 +116,27 @@ while (
                 #yes -> make a record about last_lap
                     # + renew team`s lap count
                 # no -> pass  
-            lap_count = teams_stats[team]["lapCount"]
-            if lap_count !=0 and (int(lap_count) > int(
-                    df_last_lap_info.loc[team].at["last_lap"])):
-                
-                add_row.add_a_row(
-                    df_statistic,
-                    [
-                        team, #team number in str
-                        pilot_name, # pilot_name
-                        kart, # kart
-                        lap_count, 
-                        teams_stats[team]["lastLap"], # lap_time
-                        teams_stats[team]["lastLapS1"], # s1
-                        teams_stats[team]["lastLapS2"], # s2
-                        df_last_lap_info.loc[team, "current_segment"], #team_segment
-                        true_name, # Flag to check if name is true and was changed after start or pit 
-                        true_kart, # Flag to check if kart is true or still 0
-                    ]
-                )
-                print("Row_added for team:", team)
-                
-                df_last_lap_info.loc[team, "last_lap"] = lap_count
+            main_functions.add_row_with_lap_check(
+                df_statistic,
+                df_last_lap_info,
+                teams_stats,
+                team,
+                true_name,
+                true_kart
+            )
                    
             # Check if isOnPit flag is True:
                 #yes -> change team`s flag was_on_pit to true
                     # + if it is 1st encounter -> add to segment and renew segment for the team  
-            is_on_pit = teams_stats[team]["isOnPit"]
             main_functions.check_is_team_on_pit(
-                is_on_pit,
+                teams_stats[team]["isOnPit"],
                 df_last_lap_info,
                 team
             )
-            
-            # REDUNDENT INFO, NEED TO MAKE A DECISION ABOUT IT
-            best_lap_on_segment = teams_stats[team]["bestLapOnSegment"]
-            mid_lap = teams_stats[team]["midLap"]
-    
-    # TESTING STUFF
-    only_one_cycle -= 1
-    
-    # CHECK CYCLE TIMING. CYCLE SHOULD NOT BE LOWER THEN n_seconds; 
-        # CREATE WAIT CYCLE IF IT NEEDS TO WAIT
     
     df_statistic.to_csv("test_data.csv", index=False, index_label=False)
     
-    # MAKE NEW REQUEST HERE
+    # New request
     body_content = main_functions.new_request(
         start_time_to_wait,
         request_count
@@ -174,6 +148,9 @@ while (
     
     initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
     teams_stats = body_content["onTablo"]["teams2"]
+    
+    # TESTING STUFF
+    only_one_cycle -= 1
 
     
 

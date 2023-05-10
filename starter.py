@@ -3,6 +3,7 @@ import numpy as np
 
 import json
 import requests
+import datetime
 
 from utils import add_row
 from utils import main_functions
@@ -116,7 +117,12 @@ while (
                 team
             )
     
-    df_statistic.to_csv("test_data.csv", index=False, index_label=False)
+    records_to_write_path = "data/records"
+    record_file_name = datetime.datetime.now()
+    df_statistic.to_csv(
+        "test_record.csv", 
+        index=False, 
+        index_label=False)
     
     # New request
     body_content = main_functions.new_request(

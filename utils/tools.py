@@ -44,7 +44,8 @@ def read_from_htmlfile(
     return body_content
 
 def create_body_content_file(
-    body_content
+    body_content,
+    file_path = "test_data/html.json"
 ):
-    with open("html.json", "w") as JSONFile:
+    with open(file_path, "w") as JSONFile:
         json.dump(body_content, JSONFile, indent=2)

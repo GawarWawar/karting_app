@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+import json
 
 def needed_rows(
     df_to_look_for_rows: pd.DataFrame,
@@ -23,3 +23,28 @@ def needed_rows(
                 criteries[criteria]["criteria"]
         ].copy()
     return df_to_look_for_rows
+
+def read_from_htmlfile(
+    file_name
+):
+    # Importing BeautifulSoup class from the bs4 module
+    from bs4 import BeautifulSoup
+
+    # Opening the html file
+    with open(file_name, "r") as HTMLFile:
+        # Reading the file
+        index = HTMLFile.read()
+    
+    # Creating a BeautifulSoup object and specifying the parser
+    S = BeautifulSoup(index, 'lxml')
+
+    body_content = str(S.body.contents[0])
+    body_content = json.loads(body_content)
+
+    return body_content
+
+def create_body_content_file(
+    body_content
+):
+    with open("html.json", "w") as JSONFile:
+        json.dump(body_content, JSONFile, indent=2)

@@ -18,24 +18,6 @@ start_of_the_programme = time.perf_counter()
 
 request_count = 0
 
-# # Importing BeautifulSoup class from the bs4 module
-# from bs4 import BeautifulSoup
-
-# # Opening the html file
-# with open("getmaininfo.json.html", "r") as HTMLFile:
-#     # Reading the file
-#     index = HTMLFile.read()
-  
-# # Creating a BeautifulSoup object and specifying the parser
-# S = BeautifulSoup(index, 'lxml')
-
-# body_content = str(S.body.contents[0])
-# body_content = json.loads(body_content)
-
-# with open("html.json", "w") as JSONFile:
-#     json.dump(body_content, JSONFile, indent=2)
-
-
 body_content = main_functions.first_request(
     "https://nfs-stats.herokuapp.com/getmaininfo.json",
     request_count    

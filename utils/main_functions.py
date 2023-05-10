@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import requests
 
+import time
 
 def kart_check (
     df_statistic: pd.DataFrame,
@@ -64,7 +66,7 @@ def name_check_after_pit(
     Returns:
         bool: True, if set amout of seconds passed after the last pit
     """
-    if  seconds_from_pit >= 540:
+    if  seconds_from_pit >= seconds_to_pass:
         true_name = True
         if (df_last_lap_info.loc[team, "was_on_pit"] == True):
             needed_indexes = df_statistic[
@@ -101,3 +103,51 @@ def check_is_team_on_pit(
         if df_last_lap_info.loc[team, "was_on_pit"] == False:
             df_last_lap_info.loc[team, "current_segment"] += 1
         df_last_lap_info.loc[team, "was_on_pit"] = True
+        
+def request_was_not_sucsessful_check(
+    server_request,
+    start_time_to_wait = time.perf_counter()
+):
+    while server_request.status_code != 200:
+        print(server_request.status_code)
+        end_time_to_wait = time.perf_counter()
+        if end_time_to_wait-start_time_to_wait > 1:
+            server_request = requests.get("https://nfs-stats.herokuapp.com/getmaininfo.json", timeout=10)
+            start_time_to_wait = time.perf_counter()
+    body_content = server_request.json()
+    return body_content
+
+def first_request(
+    server,
+    request_count,
+    start_time_to_wait = time.perf_counter()
+):
+    request_count +=1
+    server_request = requests.get(server, timeout=10)
+    body_content = request_was_not_sucsessful_check(server_request)
+    end_time_to_wait = time.perf_counter()
+    print(request_count, end_time_to_wait-start_time_to_wait)
+    return body_content
+
+def new_request (
+    start_time_to_wait,
+    request_count
+):
+    request_count +=1
+    end_time_to_wait = time.perf_counter()
+    if end_time_to_wait-start_time_to_wait < 1:
+        while end_time_to_wait-start_time_to_wait < 1:
+            end_time_to_wait = time.perf_counter()
+        server_request = requests.get(
+            "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+            timeout=10
+        )
+    else:
+        server_request = requests.get(
+            "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+            timeout=10
+        )
+           
+    body_content = request_was_not_sucsessful_check(server_request, start_time_to_wait)
+    print(request_count, end_time_to_wait-start_time_to_wait)
+    return body_content

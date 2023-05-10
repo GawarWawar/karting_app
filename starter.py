@@ -16,26 +16,29 @@ import pprint
 # TESTING TIMER
 start_of_the_programme = time.perf_counter()
 
-# Importing BeautifulSoup class from the bs4 module
-from bs4 import BeautifulSoup
+request_count = 0
 
-# Opening the html file
-with open("getmaininfo.json.html", "r") as HTMLFile:
-    # Reading the file
-    index = HTMLFile.read()
+# # Importing BeautifulSoup class from the bs4 module
+# from bs4 import BeautifulSoup
+
+# # Opening the html file
+# with open("getmaininfo.json.html", "r") as HTMLFile:
+#     # Reading the file
+#     index = HTMLFile.read()
   
-# Creating a BeautifulSoup object and specifying the parser
-S = BeautifulSoup(index, 'lxml')
+# # Creating a BeautifulSoup object and specifying the parser
+# S = BeautifulSoup(index, 'lxml')
 
-body_content = str(S.body.contents[0])
-body_content = json.loads(body_content)
+# body_content = str(S.body.contents[0])
+# body_content = json.loads(body_content)
 
-with open("html.json", "w") as JSONFile:
-    json.dump(body_content, JSONFile, indent=2)
+# with open("html.json", "w") as JSONFile:
+#     json.dump(body_content, JSONFile, indent=2)
 
 
-server_request = requests.get("https://nfs-stats.herokuapp.com/getmaininfo.json")
-body_content = server_request.json()
+body_content = main_functions(
+    "https://nfs-stats.herokuapp.com/getmaininfo.json"    
+)
 
 df_statistic = pd.read_csv("pilots_stats.csv")
 
@@ -49,14 +52,14 @@ race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimest
 race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
 
 # Testing variable
-only_one_cycle = 1
+only_one_cycle = -1
 
 # Variable to make team_stats calls shorter
 teams_stats = body_content["onTablo"]["teams2"]
 
-# Creating dict of teams with info and flags about their past state
+# Creating default dict of teams with info and flags about their past state
 last_lap_info = {}
-for team in teams_stats:
+for team in body_content["onTablo"]["karts"]:
     last_lap_info_update = {
         team: {
             "last_lap": 0, # info about number of team`s laps
@@ -77,10 +80,11 @@ prep_to_cycle_finished_time = time.perf_counter()
 while (
     # In the end of the race race_finished_timestamp will become bigger and cycle will end
     race_started_button_timestamp > race_finished_timestamp
-) \
-    and not (only_one_cycle == 0): # TESTING STUFF
+) and not (only_one_cycle == 0): # TESTING STUFF
+    start_time_to_wait = time.perf_counter()
     if initial_total_race_time != body_content["onTablo"]["totalRaceTime"]\
         or not (only_one_cycle == 0): # TESTING SUFF
+        
         for team in teams_stats:
             pilot_name = teams_stats[team]["pilotName"]
                 
@@ -114,7 +118,7 @@ while (
                     # + renew team`s lap count
                 # no -> pass  
             lap_count = teams_stats[team]["lapCount"]
-            if lap_count !=0 or (int(lap_count) > int(
+            if lap_count !=0 and (int(lap_count) > int(
                     df_last_lap_info.loc[team].at["last_lap"])):
                 
                 add_row.add_a_row(
@@ -132,6 +136,7 @@ while (
                         true_kart, # Flag to check if kart is true or still 0
                     ]
                 )
+                print("Row_added for team:", team)
                 
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
                    
@@ -148,12 +153,6 @@ while (
             # REDUNDENT INFO, NEED TO MAKE A DECISION ABOUT IT
             best_lap_on_segment = teams_stats[team]["bestLapOnSegment"]
             mid_lap = teams_stats[team]["midLap"]
-        
-    # Renew variables for the next cycle
-    race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
-    race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
-    
-    initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
     
     # TESTING STUFF
     only_one_cycle -= 1
@@ -161,7 +160,23 @@ while (
     # CHECK CYCLE TIMING. CYCLE SHOULD NOT BE LOWER THEN n_seconds; 
         # CREATE WAIT CYCLE IF IT NEEDS TO WAIT
     
+    df_statistic.to_csv("test_data.csv", index=False, index_label=False)
+    
     # MAKE NEW REQUEST HERE
+    body_content = main_functions.new_request(
+        start_time_to_wait,
+        request_count
+    )
+    
+    # Renew variables for the next cycle
+    race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
+    race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
+    
+    initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
+    teams_stats = body_content["onTablo"]["teams2"]
+
+    
+
 
 # TESTING TIMER
 end_of_cycle_time = time.perf_counter()
@@ -177,5 +192,4 @@ print(
     "Time to perform cycle to run:", (end_of_cycle_time-prep_to_cycle_finished_time), "\n",
     "Time for the whole programme to run:", end_of_programme-start_of_the_programme, "\n",
 )
-
 

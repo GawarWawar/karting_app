@@ -205,6 +205,7 @@ def make_request_after_some_time  (
     )
     body_content, request_count = request_was_not_sucsessful_check(
         server_request,
-        request_count
+        request_count,
+        logging_file
     )
     return body_content, request_count

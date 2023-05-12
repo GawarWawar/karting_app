@@ -6,7 +6,7 @@ import requests
 import datetime
 
 from utils import add_row
-from utils import main_functions
+from utils import recorder_functions
 from utils import tools as u_tools
 
 import time
@@ -35,7 +35,7 @@ df_statistic = pd.read_csv("pilots_stats_template.csv")
 
 # Making first request
 request_count = 0
-body_content, request_count = main_functions.make_request_after_some_time(
+body_content, request_count = recorder_functions.make_request_after_some_time(
     "https://nfs-stats.herokuapp.com/getmaininfo.json",
     request_count,
     path_to_logging_file,
@@ -100,7 +100,7 @@ while (
         # Check if team made 9 minutes on track after the pit or start:
             #yes -> change all names  before this point on the current segment to the current name
             #no -> set a flag to indicate vrong name 
-        true_name = main_functions.name_check_after_pit(
+        true_name = recorder_functions.name_check_after_pit(
             df_statistic,
             df_last_lap_info,
             team,
@@ -111,7 +111,7 @@ while (
             #yes -> changes all previous 0 kart records for this pilot to valid kart number
             #no -> make a flag, to indicate all non valid kard records
                 # + make a last team`s kart = 0
-        true_kart = main_functions.kart_check(
+        true_kart = recorder_functions.kart_check(
             df_statistic,
             df_last_lap_info,
             team,
@@ -122,7 +122,7 @@ while (
             #yes -> make a record about last_lap
                 # + renew team`s lap count
             # no -> pass  
-        main_functions.add_row_with_lap_check(
+        recorder_functions.add_row_with_lap_check(
             df_statistic,
             df_last_lap_info,
             teams_stats,
@@ -135,7 +135,7 @@ while (
         # Check if isOnPit flag is True:
             #yes -> change team`s flag was_on_pit to true
                 # + if it is 1st encounter -> add to segment and renew segment for the team  
-        main_functions.check_is_team_on_pit(
+        recorder_functions.check_is_team_on_pit(
             teams_stats[team]["isOnPit"],
             df_last_lap_info,
             team
@@ -148,7 +148,7 @@ while (
         index_label=False)
     
     # New request
-    body_content, request_count = main_functions.make_request_after_some_time(
+    body_content, request_count = recorder_functions.make_request_after_some_time(
         "https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count,
         path_to_logging_file,

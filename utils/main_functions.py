@@ -16,6 +16,11 @@ add_row = importlib.util.module_from_spec(spec)
 sys.modules["add_row"] = add_row
 spec.loader.exec_module(add_row)
 
+spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
+u_tools = importlib.util.module_from_spec(spec)
+sys.modules["add_row"] = u_tools
+spec.loader.exec_module(u_tools)
+
 def kart_check (
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
@@ -162,37 +167,26 @@ def request_was_not_sucsessful_check(
             print(request_count, end_time_to_wait-start_time_to_wait, server_request.status_code)
             start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
-    return body_content
+    return body_content, request_count
 
-def first_request(
+def make_request_after_some_time  (
     server: str,
     request_count: int,
-    start_time_to_wait = time.perf_counter()
-) -> dict:
-    request_count +=1
-    server_request = requests.get(server, timeout=10)
-    end_time_to_wait = time.perf_counter()
-    print(request_count, end_time_to_wait-start_time_to_wait)
-    body_content = request_was_not_sucsessful_check(
-        server_request,
-        request_count
-    )
-    return body_content
-
-def new_request  (
     start_time_to_wait,
-    request_count: int,
     time_to_wait: int = 1
 ) -> dict:
-    request_count +=1
+    request_count = request_count + 1
     end_time_to_wait = time.perf_counter()
     if end_time_to_wait-start_time_to_wait < time_to_wait:
         while end_time_to_wait-start_time_to_wait < time_to_wait:
             end_time_to_wait = time.perf_counter()
     server_request = requests.get(
-        "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+        server, 
         timeout=10
     ) 
     print(request_count, end_time_to_wait-start_time_to_wait)
-    body_content = request_was_not_sucsessful_check(server_request, start_time_to_wait)
-    return body_content
+    body_content, request_count = request_was_not_sucsessful_check(
+        server_request,
+        request_count
+    )
+    return body_content, request_count

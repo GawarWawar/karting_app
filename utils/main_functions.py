@@ -11,15 +11,20 @@ import importlib.util
 #SCRIPT_DIR = dirname(abspath(__file__))
 #path = sys.path.append(dirname(SCRIPT_DIR))
 
-spec = importlib.util.spec_from_file_location("add_row", "utils/add_row.py")
-add_row = importlib.util.module_from_spec(spec)
-sys.modules["add_row"] = add_row
-spec.loader.exec_module(add_row)
+if __name__ == "__main__":
+    import add_row
+    import tools as u_tools
+else:
+    spec = importlib.util.spec_from_file_location("add_row", "utils/add_row.py")
+    add_row = importlib.util.module_from_spec(spec)
+    sys.modules["add_row"] = add_row
+    spec.loader.exec_module(add_row)
 
-spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
-u_tools = importlib.util.module_from_spec(spec)
-sys.modules["add_row"] = u_tools
-spec.loader.exec_module(u_tools)
+    spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
+    u_tools = importlib.util.module_from_spec(spec)
+    sys.modules["add_row"] = u_tools
+    spec.loader.exec_module(u_tools)
+
 
 def kart_check (
     df_statistic: pd.DataFrame,
@@ -127,7 +132,8 @@ def add_row_with_lap_check(
     teams_stats: dict,
     team: str,
     true_name: bool,
-    true_kart: bool
+    true_kart: bool,
+    logging_file: str
 ) -> None:
     lap_count = teams_stats[team]["lapCount"]
     if lap_count !=0 and (int(lap_count) > int(
@@ -148,12 +154,17 @@ def add_row_with_lap_check(
                 true_kart, # Flag to check if kart is true or still 0
             ]
         )
+        u_tools.write_log_to_file(
+            logging_file,
+            f"For team {team} added row for lap {lap_count}"
+        )
         print("Row_added for team:", team)
         df_last_lap_info.loc[team, "last_lap"] = lap_count
         
 def request_was_not_sucsessful_check(
     server_request: requests.Response,
     request_count: int,
+    logging_file: str,
     start_time_to_wait = time.perf_counter()
 ) -> dict:
     while server_request.status_code != 200:
@@ -164,7 +175,10 @@ def request_was_not_sucsessful_check(
                 "https://nfs-stats.herokuapp.com/getmaininfo.json", 
                 timeout=10
             )
-            print(request_count, end_time_to_wait-start_time_to_wait, server_request.status_code)
+            u_tools.write_log_to_file(
+                logging_file,
+                f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get, after request {request_count-1} failed \n"
+            )
             start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
     return body_content, request_count
@@ -172,7 +186,8 @@ def request_was_not_sucsessful_check(
 def make_request_after_some_time  (
     server: str,
     request_count: int,
-    start_time_to_wait,
+    logging_file: str,
+    start_time_to_wait: float = time.perf_counter(),
     time_to_wait: int = 1
 ) -> dict:
     request_count = request_count + 1
@@ -184,7 +199,10 @@ def make_request_after_some_time  (
         server, 
         timeout=10
     ) 
-    print(request_count, end_time_to_wait-start_time_to_wait)
+    u_tools.write_log_to_file(
+        logging_file,
+        f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get \n"
+    )
     body_content, request_count = request_was_not_sucsessful_check(
         server_request,
         request_count

@@ -38,8 +38,8 @@ request_count = 0
 body_content, request_count = main_functions.make_request_after_some_time(
     "https://nfs-stats.herokuapp.com/getmaininfo.json",
     request_count,
-    0,
-    0
+    path_to_logging_file,
+    time_to_wait = 0
 )
 
 # Flag to check, if totalRaceTime is changing:
@@ -128,7 +128,8 @@ while (
             teams_stats,
             team,
             true_name,
-            true_kart
+            true_kart,
+            path_to_logging_file    
         )
                
         # Check if isOnPit flag is True:
@@ -150,6 +151,7 @@ while (
     body_content, request_count = main_functions.make_request_after_some_time(
         "https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count,
+        path_to_logging_file,
         start_time_to_wait,
     )
     
@@ -175,6 +177,6 @@ while (
 end_of_programme = time.perf_counter()
 u_tools.write_log_to_file(
         path_to_logging_file,
-        f"Amount of time programme took to run: {end_of_programme -start_of_the_programme} \n"
+        f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n"
     )
 

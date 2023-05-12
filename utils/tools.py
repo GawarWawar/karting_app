@@ -49,3 +49,16 @@ def create_body_content_file(
 ):
     with open(file_path, "w") as JSONFile:
         json.dump(body_content, JSONFile, indent=2)
+        
+def write_log_to_file(
+    logging_file_path,
+    log_to_add
+):
+    with open(logging_file_path, "a") as logging_file:
+        logging_file.write(log_to_add)
+
+def create_file(
+    path_to_file
+):
+    with open(path_to_file, "w") as file:
+        pass

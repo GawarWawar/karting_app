@@ -1,0 +1,1594 @@
+Request numder 1 took 0.0046150360140018165 time to get 
+Time of preparation: 0.7054001320502721 
+Request numder 2 took 1.0000000959844328 time to get 
+Time of cycle: 1.3875343939871527, after request 2 
+Request numder 3 took 1.000000053027179 time to get 
+Time of cycle: 1.278529197035823, after request 3 
+Request numder 4 took 1.000000016996637 time to get 
+Time of cycle: 1.3242966089746915, after request 4 
+Request numder 5 took 1.0000001289881766 time to get 
+Time of cycle: 1.2567252779845148, after request 5 
+Request numder 6 took 1.0012504989863373 time to get 
+Time of cycle: 1.2512997380108573, after request 6 
+Request numder 7 took 1.0000000389991328 time to get 
+Time of cycle: 1.2742443960160017, after request 7 
+Request numder 8 took 1.0000000610016286 time to get 
+Time of cycle: 1.2690506050130352, after request 8 
+Request numder 9 took 1.0000000559957698 time to get 
+Time of cycle: 1.3130452730110846, after request 9 
+Request numder 10 took 1.0000000610016286 time to get 
+Time of cycle: 1.2656722150277346, after request 10 
+Request numder 11 took 1.0000000289874151 time to get 
+Time of cycle: 1.3314038489479572, after request 11 
+Request numder 12 took 1.0000000259606168 time to get 
+Time of cycle: 1.2667205900070257, after request 12 
+Request numder 13 took 1.0000000040163286 time to get 
+Time of cycle: 1.2500272610341199, after request 13 
+Request numder 14 took 1.0000000599538907 time to get 
+Time of cycle: 1.3386485049850307, after request 14 
+Request numder 15 took 1.0000000559957698 time to get 
+Time of cycle: 1.2419044919661246, after request 15 
+Request numder 16 took 1.0000000550062396 time to get 
+Time of cycle: 1.5921765540260822, after request 16 
+Request numder 17 took 1.0000000900472514 time to get 
+Time of cycle: 1.2821293369634077, after request 17 
+Request numder 18 took 1.000000101979822 time to get 
+Time of cycle: 1.3067330259946175, after request 18 
+Request numder 19 took 1.0000000469735824 time to get 
+Time of cycle: 1.261929558007978, after request 19 
+Request numder 20 took 1.0000000309664756 time to get 
+Time of cycle: 1.2666531069553457, after request 20 
+Request numder 21 took 1.0000000819563866 time to get 
+Time of cycle: 1.26219985896023, after request 21 
+Request numder 22 took 1.0000000100117177 time to get 
+Time of cycle: 1.3345340539817698, after request 22 
+Request numder 23 took 1.0000000889995135 time to get 
+Time of cycle: 1.2632436669664457, after request 23 
+Request numder 24 took 1.000000027997885 time to get 
+Time of cycle: 1.2677830989705399, after request 24 
+Request numder 25 took 1.000000784988515 time to get 
+Time of cycle: 1.242446877004113, after request 25 
+Request numder 26 took 1.0000000760192052 time to get 
+Time of cycle: 1.27328561298782, after request 26 
+Request numder 27 took 1.0000000550062396 time to get 
+Time of cycle: 1.3571119590196759, after request 27 
+Request numder 28 took 1.0000000299769454 time to get 
+Time of cycle: 1.2513862929772586, after request 28 
+Request numder 29 took 1.0000000369618647 time to get 
+Time of cycle: 1.2581948839942925, after request 29 
+Request numder 30 took 1.0000000720028765 time to get 
+Time of cycle: 1.2543970940168947, after request 30 
+Request numder 31 took 1.0000000820145942 time to get 
+Time of cycle: 1.2462839080253616, after request 31 
+Request numder 32 took 1.0000000139698386 time to get 
+Time of cycle: 1.2683928289916366, after request 32 
+Request numder 33 took 1.0000000500003807 time to get 
+Time of cycle: 1.258942938002292, after request 33 
+Request numder 34 took 1.0000000249710865 time to get 
+Time of cycle: 1.4012702300096862, after request 34 
+Request numder 35 took 1.0000000869622454 time to get 
+Time of cycle: 1.6169423160026781, after request 35 
+Request numder 36 took 1.000000092026312 time to get 
+Time of cycle: 1.4723001680104062, after request 36 
+Request numder 37 took 1.000000003958121 time to get 
+Time of cycle: 1.3096652699750848, after request 37 
+Request numder 38 took 1.0000000899890438 time to get 
+Time of cycle: 1.3861210769973695, after request 38 
+Request numder 39 took 1.000000007043127 time to get 
+Time of cycle: 1.3881670970004052, after request 39 
+Request numder 40 took 1.0 time to get 
+Time of cycle: 1.3500998840318061, after request 40 
+Request numder 41 took 1.000000081025064 time to get 
+Time of cycle: 1.379914531018585, after request 41 
+Request numder 42 took 1.000000027997885 time to get 
+Time of cycle: 1.2668468620395288, after request 42 
+Request numder 43 took 1.0000000600120984 time to get 
+Time of cycle: 1.5579970859689638, after request 43 
+Request numder 44 took 1.0000000789877959 time to get 
+Time of cycle: 1.6934920589555986, after request 44 
+Request numder 45 took 1.000000027997885 time to get 
+Time of cycle: 1.6034118169918656, after request 45 
+Request numder 46 took 1.0000000930158421 time to get 
+Time of cycle: 2.209228941996116, after request 46 
+Request numder 47 took 1.0000000210129656 time to get 
+Time of cycle: 1.516054313047789, after request 47 
+Request numder 48 took 1.0000000440049917 time to get 
+Time of cycle: 1.5978771689697169, after request 48 
+Request numder 49 took 1.0000000189756975 time to get 
+Time of cycle: 1.6120353090227582, after request 49 
+Request numder 50 took 1.0000000590225682 time to get 
+Time of cycle: 1.304960299981758, after request 50 
+Request numder 51 took 1.0000000940053724 time to get 
+Time of cycle: 1.368316425010562, after request 51 
+Request numder 52 took 1.0000000960426405 time to get 
+Time of cycle: 1.4793006720137782, after request 52 
+Request numder 53 took 1.000000027997885 time to get 
+Time of cycle: 1.4959697729791515, after request 53 
+Request numder 54 took 1.000003004039172 time to get 
+Time of cycle: 1.4873038320220076, after request 54 
+Request numder 55 took 1.0000000220024958 time to get 
+Time of cycle: 1.3762883769813925, after request 55 
+Request numder 56 took 1.0000000179861672 time to get 
+Time of cycle: 1.5875176179688424, after request 56 
+Request numder 57 took 1.0000000889995135 time to get 
+Time of cycle: 1.3160639160196297, after request 57 
+Request numder 58 took 1.0000000309664756 time to get 
+Time of cycle: 1.6197576569975354, after request 58 
+Request numder 59 took 1.000000084983185 time to get 
+Time of cycle: 1.3789719869964756, after request 59 
+Request numder 60 took 1.0000000830041245 time to get 
+Time of cycle: 1.6380372260464355, after request 60 
+Request numder 61 took 1.0000000270083547 time to get 
+Time of cycle: 1.42907470400678, after request 61 
+Request numder 62 took 1.0000000119907781 time to get 
+Time of cycle: 1.6536931759910658, after request 62 
+Request numder 63 took 1.000000005995389 time to get 
+Time of cycle: 2.057158938026987, after request 63 
+Request numder 64 took 1.000000098021701 time to get 
+Time of cycle: 1.4058379460475408, after request 64 
+Request numder 65 took 1.000000033993274 time to get 
+Time of cycle: 1.5618322269874625, after request 65 
+Request numder 66 took 1.0000000880099833 time to get 
+Time of cycle: 1.6791992150247097, after request 66 
+Request numder 67 took 1.0000000570435077 time to get 
+Time of cycle: 1.6804539029835723, after request 67 
+Request numder 68 took 1.0000000829459168 time to get 
+Time of cycle: 1.564284217020031, after request 68 
+Request numder 69 took 1.000000036030542 time to get 
+Time of cycle: 1.6147479870123789, after request 69 
+Request numder 70 took 1.0000000020372681 time to get 
+Time of cycle: 1.4915793539839797, after request 70 
+Request numder 71 took 1.000000036030542 time to get 
+Time of cycle: 1.4236908319871873, after request 71 
+Request numder 72 took 1.000000036030542 time to get 
+Time of cycle: 1.3535089090000838, after request 72 
+Request numder 73 took 1.0000000789877959 time to get 
+Time of cycle: 1.3511756989755668, after request 73 
+Request numder 74 took 1.0000000020372681 time to get 
+Time of cycle: 1.3494908889988437, after request 74 
+Request numder 75 took 1.0000000610016286 time to get 
+Time of cycle: 2.2160402970039286, after request 75 
+Request numder 76 took 1.0000000789877959 time to get 
+Time of cycle: 1.485682892962359, after request 76 
+Request numder 77 took 1.000000090978574 time to get 
+Time of cycle: 1.3716013969969936, after request 77 
+Request numder 78 took 1.0000000830041245 time to get 
+Time of cycle: 1.2623143559903838, after request 78 
+Request numder 79 took 1.0000000660074875 time to get 
+Time of cycle: 1.361877583025489, after request 79 
+Request numder 80 took 1.0000168639817275 time to get 
+Time of cycle: 1.4669972260016948, after request 80 
+Request numder 81 took 1.0000001010484993 time to get 
+Time of cycle: 1.2740467619732954, after request 81 
+Request numder 82 took 1.0000000660074875 time to get 
+Time of cycle: 1.2451127279782668, after request 82 
+Request numder 83 took 1.0000000210129656 time to get 
+Time of cycle: 1.2665387020097114, after request 83 
+Request numder 84 took 1.0000001000007614 time to get 
+Time of cycle: 1.3516346100368537, after request 84 
+Request numder 85 took 1.0000000699656084 time to get 
+Time of cycle: 1.4095792759908363, after request 85 
+Request numder 86 took 1.0000000190339051 time to get 
+Time of cycle: 1.2626888840459287, after request 86 
+Request numder 87 took 1.0000000610016286 time to get 
+Time of cycle: 1.5785509219858795, after request 87 
+Request numder 88 took 1.0000000779982656 time to get 
+Time of cycle: 1.9047601809725165, after request 88 
+Request numder 89 took 1.0000000459840521 time to get 
+Time of cycle: 1.2987711299792863, after request 89 
+Request numder 90 took 1.0000000320142135 time to get 
+Time of cycle: 1.3359571589971893, after request 90 
+Request numder 91 took 1.0000001029693522 time to get 
+Time of cycle: 1.2500208870042115, after request 91 
+Request numder 92 took 1.0000000139698386 time to get 
+Time of cycle: 1.6744392340187915, after request 92 
+Request numder 93 took 1.0000000449945219 time to get 
+Time of cycle: 1.2548555909888819, after request 93 
+Request numder 94 took 1.0000000310246833 time to get 
+Time of cycle: 1.3092943240189925, after request 94 
+Request numder 95 took 1.0000000850413926 time to get 
+Time of cycle: 1.5167950940085575, after request 95 
+Request numder 96 took 1.000000005995389 time to get 
+Time of cycle: 2.0004873950383626, after request 96 
+Request numder 97 took 1.0000000979634933 time to get 
+Time of cycle: 3.460285136010498, after request 97 
+Request numder 98 took 1.0000000819563866 time to get 
+Time of cycle: 1.4404217890114523, after request 98 
+Request numder 99 took 1.0000028440263122 time to get 
+Time of cycle: 1.379047107999213, after request 99 
+Request numder 100 took 1.0000000369618647 time to get 
+Time of cycle: 1.2654188590240665, after request 100 
+Request numder 101 took 1.000000043946784 time to get 
+Time of cycle: 1.2798086849506944, after request 101 
+Request numder 102 took 1.0000000990112312 time to get 
+Time of cycle: 1.3602755819447339, after request 102 
+Request numder 103 took 1.0000000550062396 time to get 
+Time of cycle: 1.3714307629852556, after request 103 
+Request numder 104 took 1.000000039988663 time to get 
+Time of cycle: 1.2820839720079675, after request 104 
+Request numder 105 took 1.0000000950531103 time to get 
+Time of cycle: 1.487750058004167, after request 105 
+Request numder 106 took 1.000000030035153 time to get 
+Time of cycle: 1.4073977390071377, after request 106 
+Request numder 107 took 1.0000000220024958 time to get 
+Time of cycle: 1.515916061005555, after request 107 
+Request numder 108 took 1.000000053027179 time to get 
+Time of cycle: 1.3184044439694844, after request 108 
+Request numder 109 took 1.0000000899890438 time to get 
+Time of cycle: 1.2786117420182563, after request 109 
+Request numder 110 took 1.0000000690342858 time to get 
+Time of cycle: 1.2662539759767242, after request 110 
+Request numder 111 took 1.000000005995389 time to get 
+Time of cycle: 1.4768650259939022, after request 111 
+Request numder 112 took 1.0000000889995135 time to get 
+Time of cycle: 1.26818119303789, after request 112 
+Request numder 113 took 1.0000000930158421 time to get 
+Time of cycle: 1.4484333950094879, after request 113 
+Request numder 114 took 1.0000000179861672 time to get 
+Time of cycle: 1.4222011619713157, after request 114 
+Request numder 115 took 1.000000062980689 time to get 
+Time of cycle: 1.254371858027298, after request 115 
+Request numder 116 took 1.0000000119907781 time to get 
+Time of cycle: 5.429002965043765, after request 116 
+Request numder 117 took 1.0000000529689714 time to get 
+Time of cycle: 1.3121928089531139, after request 117 
+Request numder 118 took 1.0000000729924068 time to get 
+Time of cycle: 1.331844650034327, after request 118 
+Request numder 119 took 1.0000000740401447 time to get 
+Time of cycle: 1.321206434047781, after request 119 
+Request numder 120 took 1.0000000330037437 time to get 
+Time of cycle: 1.7342290590167977, after request 120 
+Request numder 121 took 1.0000000489526428 time to get 
+Time of cycle: 1.7815823670243844, after request 121 
+Request numder 122 took 1.000000070023816 time to get 
+Time of cycle: 1.7186853190069087, after request 122 
+Request numder 123 took 1.0000000889995135 time to get 
+Time of cycle: 1.4471082760137506, after request 123 
+Request numder 124 took 1.0000001009902917 time to get 
+Time of cycle: 2.8861568979918957, after request 124 
+Request numder 125 took 1.0000000579748303 time to get 
+Time of cycle: 2.049820984946564, after request 125 
+Request numder 126 took 1.000000036030542 time to get 
+Time of cycle: 1.3565483290003613, after request 126 
+Request numder 127 took 1.0000000079744495 time to get 
+Time of cycle: 1.7010444669867866, after request 127 
+Request numder 128 took 1.000000020954758 time to get 
+Time of cycle: 1.3725349880405702, after request 128 
+Request numder 129 took 1.000000084983185 time to get 
+Time of cycle: 1.347774103982374, after request 129 
+Request numder 130 took 1.0000000429572538 time to get 
+Time of cycle: 1.411572847981006, after request 130 
+Request numder 131 took 1.0000000540167093 time to get 
+Time of cycle: 1.4314006080385298, after request 131 
+Request numder 132 took 1.0000000539585017 time to get 
+Time of cycle: 1.3813761500059627, after request 132 
+Request numder 133 took 1.0000000309664756 time to get 
+Time of cycle: 1.4938630110118538, after request 133 
+Request numder 134 took 1.000000039988663 time to get 
+Time of cycle: 1.282183241972234, after request 134 
+Request numder 135 took 1.0000000759609975 time to get 
+Time of cycle: 1.3742445230018348, after request 135 
+Request numder 136 took 1.0000000459840521 time to get 
+Time of cycle: 1.4619529560441151, after request 136 
+Request numder 137 took 1.0000000910367817 time to get 
+Time of cycle: 1.5184952010167763, after request 137 
+Request numder 138 took 1.0000000579748303 time to get 
+Time of cycle: 1.3969423300004564, after request 138 
+Request numder 139 took 1.000000005995389 time to get 
+Time of cycle: 1.3610039739869535, after request 139 
+Request numder 140 took 1.0000000250292942 time to get 
+Time of cycle: 1.406878644018434, after request 140 
+Request numder 141 took 1.0000000650179572 time to get 
+Time of cycle: 1.470822682022117, after request 141 
+Request numder 142 took 1.0000000779982656 time to get 
+Time of cycle: 1.4278596009826288, after request 142 
+Request numder 143 took 1.0 time to get 
+Time of cycle: 1.5709390370175242, after request 143 
+Request numder 144 took 1.0000000119907781 time to get 
+Time of cycle: 1.5117574410396628, after request 144 
+Request numder 145 took 1.0000000440049917 time to get 
+Time of cycle: 1.500072369002737, after request 145 
+Request numder 146 took 1.000000050989911 time to get 
+Time of cycle: 1.8593555740080774, after request 146 
+Request numder 147 took 1.0000000420259312 time to get 
+Time of cycle: 1.3915437950054184, after request 147 
+Request numder 148 took 1.0000000869622454 time to get 
+Time of cycle: 1.3410562920034863, after request 148 
+Request numder 149 took 1.0000000270083547 time to get 
+Time of cycle: 1.2882467399467714, after request 149 
+Request numder 150 took 1.0000000289874151 time to get 
+Time of cycle: 1.4674625769839622, after request 150 
+Request numder 151 took 1.0000000350410119 time to get 
+Time of cycle: 1.9643626370234415, after request 151 
+Request numder 152 took 1.0000000100117177 time to get 
+Time of cycle: 1.470344896952156, after request 152 
+Request numder 153 took 1.0000000749714673 time to get 
+Time of cycle: 1.4084478489821777, after request 153 
+Request numder 154 took 1.0000000650179572 time to get 
+Time of cycle: 1.4019400700344704, after request 154 
+Request numder 155 took 1.0000000949949026 time to get 
+Time of cycle: 1.4036797999870032, after request 155 
+Request numder 156 took 1.0000000839936547 time to get 
+Time of cycle: 1.565184394014068, after request 156 
+Request numder 157 took 1.000000011001248 time to get 
+Time of cycle: 1.4462342400220223, after request 157 
+Request numder 158 took 1.0000000239815563 time to get 
+Time of cycle: 1.4230571819934994, after request 158 
+Request numder 159 took 1.000000005995389 time to get 
+Time of cycle: 1.4788655129959807, after request 159 
+Request numder 160 took 1.0000000960426405 time to get 
+Time of cycle: 1.431151855038479, after request 160 
+Request numder 161 took 1.0000000820145942 time to get 
+Time of cycle: 1.388887029956095, after request 161 
+Request numder 162 took 1.0000000090221874 time to get 
+Time of cycle: 1.3571454969933257, after request 162 
+Request numder 163 took 1.0000000720028765 time to get 
+Time of cycle: 1.4316740380018018, after request 163 
+Request numder 164 took 1.0000000289874151 time to get 
+Time of cycle: 1.4597151759662665, after request 164 
+Request numder 165 took 1.0000000769505277 time to get 
+Time of cycle: 1.9531635849853046, after request 165 
+Request numder 166 took 1.0000000090221874 time to get 
+Time of cycle: 4.6923795670154504, after request 166 
+Request numder 167 took 1.000000024039764 time to get 
+Time of cycle: 1.5984853059635498, after request 167 
+Request numder 168 took 1.000000096973963 time to get 
+Time of cycle: 1.3453966379747726, after request 168 
+Request numder 169 took 1.000000016996637 time to get 
+Time of cycle: 1.3296200620243326, after request 169 
+Request numder 170 took 1.0000000559957698 time to get 
+Time of cycle: 1.4846712239668705, after request 170 
+Request numder 171 took 1.0000000650179572 time to get 
+Time of cycle: 1.389416437014006, after request 171 
+Request numder 172 took 1.000000050989911 time to get 
+Time of cycle: 1.3421079450054094, after request 172 
+Request numder 173 took 1.000000053027179 time to get 
+Time of cycle: 1.4015271019889042, after request 173 
+Request numder 174 took 1.0000000889995135 time to get 
+Time of cycle: 1.378876447037328, after request 174 
+Request numder 175 took 1.0000000860309228 time to get 
+Time of cycle: 1.4235102719976567, after request 175 
+Request numder 176 took 1.0000000970321707 time to get 
+Time of cycle: 1.4514369999524206, after request 176 
+Request numder 177 took 1.0000000140280463 time to get 
+Time of cycle: 1.3779143880237825, after request 177 
+Request numder 178 took 1.000000022992026 time to get 
+Time of cycle: 1.9804999430198222, after request 178 
+Request numder 179 took 1.000000027997885 time to get 
+Time of cycle: 1.5567125299712643, after request 179 
+Request numder 180 took 1.0000000899890438 time to get 
+Time of cycle: 1.4221534979878925, after request 180 
+Request numder 181 took 1.0000000440049917 time to get 
+Time of cycle: 6.441541359003168, after request 181 
+Request numder 182 took 1.0000025590416044 time to get 
+Time of cycle: 1.3980846439953893, after request 182 
+Request numder 183 took 1.0000000650179572 time to get 
+Time of cycle: 1.3594519759644754, after request 183 
+Request numder 184 took 1.0000000669970177 time to get 
+Time of cycle: 1.2842179739964195, after request 184 
+Request numder 185 took 1.0000000770087354 time to get 
+Time of cycle: 1.295916220988147, after request 185 
+Request numder 186 took 1.0000000660074875 time to get 
+Time of cycle: 1.2967600819538347, after request 186 
+Request numder 187 took 1.0000000579748303 time to get 
+Time of cycle: 1.2801063929800875, after request 187 
+Request numder 188 took 1.000000001047738 time to get 
+Time of cycle: 1.3166232369840145, after request 188 
+Request numder 189 took 1.000000011001248 time to get 
+Time of cycle: 1.2543067070073448, after request 189 
+Request numder 190 took 1.0000000249710865 time to get 
+Time of cycle: 1.264195462979842, after request 190 
+Request numder 191 took 1.000000101979822 time to get 
+Time of cycle: 1.3475357170100324, after request 191 
+Request numder 192 took 1.0000000540167093 time to get 
+Time of cycle: 1.256153239053674, after request 192 
+Request numder 193 took 1.000000033993274 time to get 
+Time of cycle: 1.9421726849977858, after request 193 
+Request numder 194 took 1.0000000830041245 time to get 
+Time of cycle: 1.3400060560088605, after request 194 
+Request numder 195 took 1.0000000289874151 time to get 
+Time of cycle: 1.7576202640193515, after request 195 
+Request numder 196 took 1.0000000179861672 time to get 
+Time of cycle: 1.3794027660042048, after request 196 
+Request numder 197 took 1.0000000620493665 time to get 
+Time of cycle: 1.3568494390347041, after request 197 
+Request numder 198 took 1.0000000699656084 time to get 
+Time of cycle: 1.3958520700107329, after request 198 
+Request numder 199 took 1.0000000559957698 time to get 
+Time of cycle: 1.3731440019910224, after request 199 
+Request numder 200 took 1.0000000349828042 time to get 
+Time of cycle: 1.3897437970153987, after request 200 
+Request numder 201 took 1.0000000330037437 time to get 
+Time of cycle: 1.334378890984226, after request 201 
+Request numder 202 took 1.0000000370200723 time to get 
+Time of cycle: 1.3024089010432363, after request 202 
+Request numder 203 took 1.000000092026312 time to get 
+Time of cycle: 1.4614507669466548, after request 203 
+Request numder 204 took 1.0000000419677235 time to get 
+Time of cycle: 1.4337258560117334, after request 204 
+Request numder 205 took 1.0000000930158421 time to get 
+Time of cycle: 1.3140326639986597, after request 205 
+Request numder 206 took 1.000000016996637 time to get 
+Time of cycle: 1.418615932983812, after request 206 
+Request numder 207 took 1.0000000090221874 time to get 
+Time of cycle: 1.4119472639868036, after request 207 
+Request numder 208 took 1.0000000940053724 time to get 
+Time of cycle: 1.7912689229706302, after request 208 
+Request numder 209 took 1.0000000260188244 time to get 
+Time of cycle: 1.464383911981713, after request 209 
+Request numder 210 took 1.0000000749714673 time to get 
+Time of cycle: 1.4147763109649532, after request 210 
+Request numder 211 took 1.0000000619911589 time to get 
+Time of cycle: 1.3520958829903975, after request 211 
+Request numder 212 took 1.0000000500003807 time to get 
+Time of cycle: 1.390320824983064, after request 212 
+Request numder 213 took 1.0000000210129656 time to get 
+Time of cycle: 1.375237187021412, after request 213 
+Request numder 214 took 1.0000000030267984 time to get 
+Time of cycle: 1.3492196790175512, after request 214 
+Request numder 215 took 1.0000000579748303 time to get 
+Time of cycle: 1.795071423985064, after request 215 
+Request numder 216 took 1.0000000850413926 time to get 
+Time of cycle: 1.5808535040123388, after request 216 
+Request numder 217 took 1.000029310991522 time to get 
+Time of cycle: 1.465570482017938, after request 217 
+Request numder 218 took 1.0000000839936547 time to get 
+Time of cycle: 1.38971182302339, after request 218 
+Request numder 219 took 1.0000000239815563 time to get 
+Time of cycle: 1.730977453989908, after request 219 
+Request numder 220 took 1.0000001009902917 time to get 
+Time of cycle: 1.851654572004918, after request 220 
+Request numder 221 took 1.0000000729924068 time to get 
+Time of cycle: 2.2838585560093634, after request 221 
+Request numder 222 took 1.0000000069849193 time to get 
+Time of cycle: 1.8145076250075363, after request 222 
+Request numder 223 took 1.0000000210129656 time to get 
+Time of cycle: 1.7757891360088252, after request 223 
+Request numder 224 took 1.000000101979822 time to get 
+Time of cycle: 1.5652335930499248, after request 224 
+Request numder 225 took 1.000000005995389 time to get 
+Time of cycle: 1.6643245060113259, after request 225 
+Request numder 226 took 1.0000000869622454 time to get 
+Time of cycle: 1.6667276990483515, after request 226 
+Request numder 227 took 1.0000000389991328 time to get 
+Time of cycle: 1.3441893970011733, after request 227 
+Request numder 228 took 1.0000000789877959 time to get 
+Time of cycle: 1.5937702710507438, after request 228 
+Request numder 229 took 1.0000000189756975 time to get 
+Time of cycle: 1.4224130010115914, after request 229 
+Request numder 230 took 1.0000000140280463 time to get 
+Time of cycle: 1.6296819380368106, after request 230 
+Request numder 231 took 1.0000000490108505 time to get 
+Time of cycle: 1.5223186669754796, after request 231 
+Request numder 232 took 1.0000000880099833 time to get 
+Time of cycle: 2.2592270099557936, after request 232 
+Request numder 233 took 1.000000033993274 time to get 
+Time of cycle: 1.4354546240065247, after request 233 
+Request numder 234 took 1.0000114839640446 time to get 
+Time of cycle: 1.3559797129710205, after request 234 
+Request numder 235 took 1.0000000889995135 time to get 
+Time of cycle: 1.4410560469841585, after request 235 
+Request numder 236 took 1.0000000309664756 time to get 
+Time of cycle: 1.7423351000179537, after request 236 
+Request numder 237 took 1.0000000720028765 time to get 
+Time of cycle: 1.5457257509697229, after request 237 
+Request numder 238 took 1.000000050989911 time to get 
+Time of cycle: 1.3732668139855377, after request 238 
+Request numder 239 took 1.0000000029685907 time to get 
+Time of cycle: 1.5481886449852027, after request 239 
+Request numder 240 took 1.0000000220024958 time to get 
+Time of cycle: 1.3382362080155872, after request 240 
+Request numder 241 took 1.0000000009895302 time to get 
+Time of cycle: 1.484466714959126, after request 241 
+Request numder 242 took 1.0000000179861672 time to get 
+Time of cycle: 1.4101505650323816, after request 242 
+Request numder 243 took 1.000000075029675 time to get 
+Time of cycle: 1.4057425599894486, after request 243 
+Request numder 244 took 1.0000000060535967 time to get 
+Time of cycle: 1.8414800639729947, after request 244 
+Request numder 245 took 1.0000001009902917 time to get 
+Time of cycle: 1.3588939720066264, after request 245 
+Request numder 246 took 1.0000000610016286 time to get 
+Time of cycle: 1.3874081259709783, after request 246 
+Request numder 247 took 1.000000053027179 time to get 
+Time of cycle: 1.7209382979781367, after request 247 
+Request numder 248 took 1.000000098021701 time to get 
+Time of cycle: 1.387811127002351, after request 248 
+Request numder 249 took 1.0000000210129656 time to get 
+Time of cycle: 1.314786956005264, after request 249 
+Request numder 250 took 1.0000000350410119 time to get 
+Time of cycle: 1.5509262379491702, after request 250 
+Request numder 251 took 1.0000000520376489 time to get 
+Time of cycle: 1.5342604159959592, after request 251 
+Request numder 252 took 1.000000037951395 time to get 
+Time of cycle: 1.4706003210158087, after request 252 
+Request numder 253 took 1.0000106040388346 time to get 
+Time of cycle: 1.623802980990149, after request 253 
+Request numder 254 took 1.0000000459840521 time to get 
+Time of cycle: 1.5684348429786041, after request 254 
+Request numder 255 took 1.0000000860309228 time to get 
+Time of cycle: 1.3560336860246025, after request 255 
+Request numder 256 took 1.000000098021701 time to get 
+Time of cycle: 1.436008169024717, after request 256 
+Request numder 257 took 1.000000050989911 time to get 
+Time of cycle: 1.338056547974702, after request 257 
+Request numder 258 took 1.000000107975211 time to get 
+Time of cycle: 1.458730534010101, after request 258 
+Request numder 259 took 1.0000000940053724 time to get 
+Time of cycle: 1.361568577005528, after request 259 
+Request numder 260 took 1.000000005995389 time to get 
+Time of cycle: 1.380015350994654, after request 260 
+Request numder 261 took 1.000000073981937 time to get 
+Time of cycle: 1.5748840940068476, after request 261 
+Request numder 262 took 1.0000000170548446 time to get 
+Time of cycle: 1.7198725380003452, after request 262 
+Request numder 263 took 1.0000000179861672 time to get 
+Time of cycle: 1.395560592005495, after request 263 
+Request numder 264 took 1.0000000730506144 time to get 
+Time of cycle: 1.7104043560102582, after request 264 
+Request numder 265 took 1.0000000139698386 time to get 
+Time of cycle: 1.7933791169780307, after request 265 
+Request numder 266 took 1.0000000740401447 time to get 
+Time of cycle: 2.1790723509620875, after request 266 
+Request numder 267 took 1.000000030035153 time to get 
+Time of cycle: 1.8746823969995603, after request 267 
+Request numder 268 took 1.0000000710133463 time to get 
+Time of cycle: 1.3495922650326975, after request 268 
+Request numder 269 took 1.000000036030542 time to get 
+Time of cycle: 1.5897853309870698, after request 269 
+Request numder 270 took 1.000000087020453 time to get 
+Time of cycle: 1.4059195150039159, after request 270 
+Request numder 271 took 1.0000001370208338 time to get 
+Time of cycle: 1.2708707120036706, after request 271 
+Request numder 272 took 1.000000081025064 time to get 
+Time of cycle: 1.293902970966883, after request 272 
+Request numder 273 took 1.0000002369633876 time to get 
+Time of cycle: 1.3250868099858053, after request 273 
+Request numder 274 took 1.0000001289881766 time to get 
+Time of cycle: 2.036229877034202, after request 274 
+Request numder 275 took 1.0000000260188244 time to get 
+Time of cycle: 1.790019993961323, after request 275 
+Request numder 276 took 1.0000000160071068 time to get 
+Time of cycle: 1.5296704270294867, after request 276 
+Request numder 277 took 1.0000000069849193 time to get 
+Time of cycle: 1.3543532160110772, after request 277 
+Request numder 278 took 1.0000000760192052 time to get 
+Time of cycle: 1.4035516030271538, after request 278 
+Request numder 279 took 1.0000000919681042 time to get 
+Time of cycle: 1.2983084850129671, after request 279 
+Request numder 280 took 1.0000001000007614 time to get 
+Time of cycle: 1.2552696880302392, after request 280 
+Request numder 281 took 1.0000000669970177 time to get 
+Time of cycle: 1.3077050509746186, after request 281 
+Request numder 282 took 1.0 time to get 
+Time of cycle: 1.4561155950068496, after request 282 
+Request numder 283 took 1.0000000239815563 time to get 
+Time of cycle: 1.350324907049071, after request 283 
+Request numder 284 took 1.0000000940053724 time to get 
+Time of cycle: 1.570029410009738, after request 284 
+Request numder 285 took 1.0000000459840521 time to get 
+Time of cycle: 1.340429966978263, after request 285 
+Request numder 286 took 1.0000000710133463 time to get 
+Time of cycle: 1.344675287953578, after request 286 
+Request numder 287 took 1.0000001279986463 time to get 
+Time of cycle: 1.4208888940047473, after request 287 
+Request numder 288 took 1.000000039988663 time to get 
+Time of cycle: 1.706803740002215, after request 288 
+Request numder 289 took 1.0000000100117177 time to get 
+Time of cycle: 1.3129593739868142, after request 289 
+Request numder 290 took 1.0000000710133463 time to get 
+Time of cycle: 1.5081753559643403, after request 290 
+Request numder 291 took 1.0000000449945219 time to get 
+Time of cycle: 1.360174306028057, after request 291 
+Request numder 292 took 1.0000000789877959 time to get 
+Time of cycle: 1.503957036009524, after request 292 
+Request numder 293 took 1.0000000190339051 time to get 
+Time of cycle: 1.4947855650098063, after request 293 
+Request numder 294 took 1.0000000370200723 time to get 
+Time of cycle: 1.3869034620001912, after request 294 
+Request numder 295 took 1.0000000090221874 time to get 
+Time of cycle: 1.350289570982568, after request 295 
+Request numder 296 took 1.0000000369618647 time to get 
+Time of cycle: 1.424313612980768, after request 296 
+Request numder 297 took 1.0000000370200723 time to get 
+Time of cycle: 1.4627431540284306, after request 297 
+Request numder 298 took 1.000000027997885 time to get 
+Time of cycle: 1.3589893429889344, after request 298 
+Request numder 299 took 1.000000081025064 time to get 
+Time of cycle: 1.458227755036205, after request 299 
+Request numder 300 took 1.0000000380096026 time to get 
+Time of cycle: 1.3982677139574662, after request 300 
+Request numder 301 took 1.0000000760192052 time to get 
+Time of cycle: 1.2589102599886246, after request 301 
+Request numder 302 took 1.0000000349828042 time to get 
+Time of cycle: 1.4643950029858388, after request 302 
+Request numder 303 took 1.000000087020453 time to get 
+Time of cycle: 1.298257252026815, after request 303 
+Request numder 304 took 1.00000010401709 time to get 
+Time of cycle: 1.3384484989801422, after request 304 
+Request numder 305 took 1.0000000830041245 time to get 
+Time of cycle: 1.779866796976421, after request 305 
+Request numder 306 took 1.0000000069849193 time to get 
+Time of cycle: 1.5443950729677454, after request 306 
+Request numder 307 took 1.0000001059961505 time to get 
+Time of cycle: 1.2823854330345057, after request 307 
+Request numder 308 took 1.000000016996637 time to get 
+Time of cycle: 1.3214003309840336, after request 308 
+Request numder 309 took 1.0000000370200723 time to get 
+Time of cycle: 1.669358434039168, after request 309 
+Request numder 310 took 1.000000075029675 time to get 
+Time of cycle: 1.2726916159735993, after request 310 
+Request numder 311 took 1.0000000889995135 time to get 
+Time of cycle: 1.3998402180150151, after request 311 
+Request numder 312 took 1.0000000250292942 time to get 
+Time of cycle: 1.8536408279906027, after request 312 
+Request numder 313 took 1.0000000299769454 time to get 
+Time of cycle: 1.8073479669983499, after request 313 
+Request numder 314 took 1.0000000050058588 time to get 
+Time of cycle: 1.4160327489953488, after request 314 
+Request numder 315 took 1.0000000880099833 time to get 
+Time of cycle: 1.4540281239897013, after request 315 
+Request numder 316 took 1.0000000610016286 time to get 
+Time of cycle: 1.4491500239819288, after request 316 
+Request numder 317 took 1.0000000809668563 time to get 
+Time of cycle: 1.400423403014429, after request 317 
+Request numder 318 took 1.0000000189756975 time to get 
+Time of cycle: 1.5532268739771098, after request 318 
+Request numder 319 took 1.0000000820145942 time to get 
+Time of cycle: 1.4421016559936106, after request 319 
+Request numder 320 took 1.0000000729924068 time to get 
+Time of cycle: 1.419784250028897, after request 320 
+Request numder 321 took 1.0000000500003807 time to get 
+Time of cycle: 1.4133774720248766, after request 321 
+Request numder 322 took 1.0000000569853 time to get 
+Time of cycle: 1.3742980629904196, after request 322 
+Request numder 323 took 1.0000000480213203 time to get 
+Time of cycle: 1.3520105589996092, after request 323 
+Request numder 324 took 1.0000000330037437 time to get 
+Time of cycle: 1.3730940280365758, after request 324 
+Request numder 325 took 1.0000000430154614 time to get 
+Time of cycle: 1.3687843040097505, after request 325 
+Request numder 326 took 1.0000000669970177 time to get 
+Time of cycle: 1.5683262739912607, after request 326 
+Request numder 327 took 1.0000000429572538 time to get 
+Time of cycle: 1.3900144409853965, after request 327 
+Request numder 328 took 1.0000000359723344 time to get 
+Time of cycle: 1.6243205899954773, after request 328 
+Request numder 329 took 1.0000000050058588 time to get 
+Time of cycle: 1.3873684760183096, after request 329 
+Request numder 330 took 1.0000000430154614 time to get 
+Time of cycle: 1.5717341620475054, after request 330 
+Request numder 331 took 1.000000067986548 time to get 
+Time of cycle: 1.5356967740226537, after request 331 
+Request numder 332 took 1.0000000309664756 time to get 
+Time of cycle: 1.666933802946005, after request 332 
+Request numder 333 took 1.0000000820145942 time to get 
+Time of cycle: 1.5914203600259498, after request 333 
+Request numder 334 took 1.0000000239815563 time to get 
+Time of cycle: 1.536373918002937, after request 334 
+Request numder 335 took 1.0000000389991328 time to get 
+Time of cycle: 1.4486099570058286, after request 335 
+Request numder 336 took 1.000000067986548 time to get 
+Time of cycle: 1.4196476839715615, after request 336 
+Request numder 337 took 1.0000000859727152 time to get 
+Time of cycle: 1.5373389069573022, after request 337 
+Request numder 338 took 1.0000000020372681 time to get 
+Time of cycle: 1.5177319920039736, after request 338 
+Request numder 339 took 1.0000042709871195 time to get 
+Time of cycle: 1.3765826289891265, after request 339 
+Request numder 340 took 1.0000019820290618 time to get 
+Time of cycle: 1.3296920110005885, after request 340 
+Request numder 341 took 1.0000000319560058 time to get 
+Time of cycle: 1.4435948260361329, after request 341 
+Request numder 342 took 1.0000000990112312 time to get 
+Time of cycle: 1.8875259589985944, after request 342 
+Request numder 343 took 1.0000000350410119 time to get 
+Time of cycle: 1.5991805880330503, after request 343 
+Request numder 344 took 1.000000022992026 time to get 
+Time of cycle: 1.575084313051775, after request 344 
+Request numder 345 took 1.0000000250292942 time to get 
+Time of cycle: 1.3946712969918735, after request 345 
+Request numder 346 took 1.0000000480213203 time to get 
+Time of cycle: 1.3897084139753133, after request 346 
+Request numder 347 took 1.000000050989911 time to get 
+Time of cycle: 1.3619238309911452, after request 347 
+Request numder 348 took 1.0000000250292942 time to get 
+Time of cycle: 1.9999924409785308, after request 348 
+Request numder 349 took 1.0000000419677235 time to get 
+Time of cycle: 1.6574987710337155, after request 349 
+Request numder 350 took 1.0000000510481186 time to get 
+Time of cycle: 1.4764350859913975, after request 350 
+Request numder 351 took 1.0000000770087354 time to get 
+Time of cycle: 1.4055343699874356, after request 351 
+Request numder 352 took 1.0000000199652277 time to get 
+Time of cycle: 1.543437339947559, after request 352 
+Request numder 353 took 1.0000000459840521 time to get 
+Time of cycle: 1.437120524002239, after request 353 
+Request numder 354 took 1.000000027997885 time to get 
+Time of cycle: 1.7682847320102155, after request 354 
+Request numder 355 took 1.0 time to get 
+Time of cycle: 1.426129649975337, after request 355 
+Request numder 356 took 1.0000000089639798 time to get 
+Time of cycle: 1.5628117179730907, after request 356 
+Request numder 357 took 1.0000000709551387 time to get 
+Time of cycle: 2.339951583999209, after request 357 
+Request numder 358 took 1.0000000210129656 time to get 
+Time of cycle: 2.677526676969137, after request 358 
+Request numder 359 took 1.0000000830041245 time to get 
+Time of cycle: 1.4127249909797683, after request 359 
+Request numder 360 took 1.0000000720028765 time to get 
+Time of cycle: 1.7038666420266964, after request 360 
+Request numder 361 took 1.0000000359723344 time to get 
+Time of cycle: 1.4730177279561758, after request 361 
+Request numder 362 took 1.0000000770087354 time to get 
+Time of cycle: 1.4043218569713645, after request 362 
+Request numder 363 took 1.0000000310246833 time to get 
+Time of cycle: 1.446995415026322, after request 363 
+Request numder 364 took 1.0000000940053724 time to get 
+Time of cycle: 1.4310241990024224, after request 364 
+Request numder 365 took 1.0000000140280463 time to get 
+Time of cycle: 1.4348546490073204, after request 365 
+Request numder 366 took 1.0000000830041245 time to get 
+Time of cycle: 1.4376956810010597, after request 366 
+Request numder 367 took 1.0000000570435077 time to get 
+Time of cycle: 1.4162577359820716, after request 367 
+Request numder 368 took 1.000000050989911 time to get 
+Time of cycle: 1.4464515240397304, after request 368 
+Request numder 369 took 1.0000000990112312 time to get 
+Time of cycle: 1.4016845930018462, after request 369 
+Request numder 370 took 1.0000000330037437 time to get 
+Time of cycle: 1.5686451800283976, after request 370 
+Request numder 371 took 1.0000000440049917 time to get 
+Time of cycle: 1.4361239509889856, after request 371 
+Request numder 372 took 1.0000000160071068 time to get 
+Time of cycle: 1.2999006699537858, after request 372 
+Request numder 373 took 1.0000000649597496 time to get 
+Time of cycle: 1.3284006569883786, after request 373 
+Request numder 374 took 1.0000000249710865 time to get 
+Time of cycle: 1.4967592799803242, after request 374 
+Request numder 375 took 1.0000000239815563 time to get 
+Time of cycle: 1.7843487030477263, after request 375 
+Request numder 376 took 1.000000058033038 time to get 
+Time of cycle: 1.7971860870020464, after request 376 
+Request numder 377 took 1.0000000649597496 time to get 
+Time of cycle: 1.5329782260232605, after request 377 
+Request numder 378 took 1.0000000860309228 time to get 
+Time of cycle: 1.6174908119719476, after request 378 
+Request numder 379 took 1.000000081025064 time to get 
+Time of cycle: 1.8467810450238176, after request 379 
+Request numder 380 took 1.0000000519794412 time to get 
+Time of cycle: 1.7440166660235263, after request 380 
+Request numder 381 took 1.0000000940053724 time to get 
+Time of cycle: 1.4546205390361138, after request 381 
+Request numder 382 took 1.0000000090221874 time to get 
+Time of cycle: 1.375838928972371, after request 382 
+Request numder 383 took 1.0000001130392775 time to get 
+Time of cycle: 1.3447299279505387, after request 383 
+Request numder 384 took 1.0000000340514816 time to get 
+Time of cycle: 1.429216270975303, after request 384 
+Request numder 385 took 1.0000000819563866 time to get 
+Time of cycle: 1.8345782490214333, after request 385 
+Request numder 386 took 1.000000024039764 time to get 
+Time of cycle: 2.7352883639978245, after request 386 
+Request numder 387 took 1.0000001030275598 time to get 
+Time of cycle: 2.1140269360039383, after request 387 
+Request numder 388 took 1.000000058033038 time to get 
+Time of cycle: 1.4483785270131193, after request 388 
+Request numder 389 took 1.00000004703179 time to get 
+Time of cycle: 1.2775177580188029, after request 389 
+Request numder 390 took 1.0000000359723344 time to get 
+Time of cycle: 1.326476787973661, after request 390 
+Request numder 391 took 1.0000000259606168 time to get 
+Time of cycle: 1.2853074799641035, after request 391 
+Request numder 392 took 1.0000001059961505 time to get 
+Time of cycle: 1.2741120590362698, after request 392 
+Request numder 393 took 1.0000000120489858 time to get 
+Time of cycle: 1.5840440230094828, after request 393 
+Request numder 394 took 1.0000000459840521 time to get 
+Time of cycle: 1.2572924959822558, after request 394 
+Request numder 395 took 1.000000050989911 time to get 
+Time of cycle: 1.271032941993326, after request 395 
+Request numder 396 took 1.0000000729924068 time to get 
+Time of cycle: 1.2576860000262968, after request 396 
+Request numder 397 took 1.0000000309664756 time to get 
+Time of cycle: 1.2884347580256872, after request 397 
+Request numder 398 took 1.000000005995389 time to get 
+Time of cycle: 1.2746175340143964, after request 398 
+Request numder 399 took 1.0000000009895302 time to get 
+Time of cycle: 1.2665342499967664, after request 399 
+Request numder 400 took 1.0000000519794412 time to get 
+Time of cycle: 1.384842847008258, after request 400 
+Request numder 401 took 1.0000000020372681 time to get 
+Time of cycle: 1.3784445649944246, after request 401 
+Request numder 402 took 1.0000000289874151 time to get 
+Time of cycle: 1.3186486380291171, after request 402 
+Request numder 403 took 1.0000000350410119 time to get 
+Time of cycle: 1.2663090819842182, after request 403 
+Request numder 404 took 1.0000000840518624 time to get 
+Time of cycle: 1.4533758760080673, after request 404 
+Request numder 405 took 1.0000000599538907 time to get 
+Time of cycle: 1.7003111689700745, after request 405 
+Request numder 406 took 1.0000000210129656 time to get 
+Time of cycle: 1.290625308000017, after request 406 
+Request numder 407 took 1.0000000389991328 time to get 
+Time of cycle: 1.2556227410095744, after request 407 
+Request numder 408 took 1.000000073981937 time to get 
+Time of cycle: 1.2582948349881917, after request 408 
+Request numder 409 took 1.0000000819563866 time to get 
+Time of cycle: 1.268439409963321, after request 409 
+Request numder 410 took 1.0000000519794412 time to get 
+Time of cycle: 1.2779181679943576, after request 410 
+Request numder 411 took 1.0000000120489858 time to get 
+Time of cycle: 1.3323682339978404, after request 411 
+Request numder 412 took 1.0000000770087354 time to get 
+Time of cycle: 1.8432162929675542, after request 412 
+Request numder 413 took 1.0000000239815563 time to get 
+Time of cycle: 1.2522413010010496, after request 413 
+Request numder 414 took 1.0000000500003807 time to get 
+Time of cycle: 1.7182747829938307, after request 414 
+For team 9 added row for lap 1For team 6 added row for lap 1For team 13 added row for lap 1Request numder 415 took 1.0000000309664756 time to get 
+Time of cycle: 1.261276334989816, after request 415 
+For team 20 added row for lap 1For team 19 added row for lap 1For team 18 added row for lap 1For team 15 added row for lap 1Request numder 416 took 1.000000064028427 time to get 
+Time of cycle: 1.2388408289989457, after request 416 
+For team 8 added row for lap 1For team 1 added row for lap 1For team 10 added row for lap 1Request numder 417 took 1.0000000020372681 time to get 
+Time of cycle: 1.386742090980988, after request 417 
+For team 7 added row for lap 1For team 4 added row for lap 1Request numder 418 took 1.000000090978574 time to get 
+Time of cycle: 1.315813880006317, after request 418 
+For team 5 added row for lap 1For team 3 added row for lap 1For team 17 added row for lap 1For team 14 added row for lap 1Request numder 419 took 1.0000000720028765 time to get 
+Time of cycle: 1.2870026400196366, after request 419 
+For team 2 added row for lap 1For team 12 added row for lap 1Request numder 420 took 1.0000001050066203 time to get 
+Time of cycle: 1.342924990982283, after request 420 
+For team 11 added row for lap 1Request numder 421 took 1.000000041036401 time to get 
+Time of cycle: 1.2976214899681509, after request 421 
+Request numder 422 took 1.000000050989911 time to get 
+Time of cycle: 1.3248807970085181, after request 422 
+Request numder 423 took 1.0000001000007614 time to get 
+Time of cycle: 1.382954086002428, after request 423 
+Request numder 424 took 1.0000000079744495 time to get 
+Time of cycle: 1.2492014109739102, after request 424 
+Request numder 425 took 1.0000000009895302 time to get 
+Time of cycle: 1.38527270097984, after request 425 
+Request numder 426 took 1.0000000359723344 time to get 
+Time of cycle: 1.2772791249444708, after request 426 
+Request numder 427 took 1.0000000220024958 time to get 
+Time of cycle: 1.506105047010351, after request 427 
+Request numder 428 took 1.000000101979822 time to get 
+Time of cycle: 1.2707276179571636, after request 428 
+Request numder 429 took 1.0000000860309228 time to get 
+Time of cycle: 1.2619748080032878, after request 429 
+Request numder 430 took 1.000000039988663 time to get 
+Time of cycle: 1.2669125639949925, after request 430 
+Request numder 431 took 1.0000000479631126 time to get 
+Time of cycle: 1.2679133550263941, after request 431 
+Request numder 432 took 1.000000067986548 time to get 
+Time of cycle: 1.3086442709900439, after request 432 
+Request numder 433 took 1.000000075029675 time to get 
+Time of cycle: 1.2567553129629232, after request 433 
+Request numder 434 took 1.0000000940053724 time to get 
+Time of cycle: 1.4063818140421063, after request 434 
+Request numder 435 took 1.0000000260188244 time to get 
+Time of cycle: 1.2737988940207288, after request 435 
+Request numder 436 took 1.0000000590225682 time to get 
+Time of cycle: 1.382503395958338, after request 436 
+Request numder 437 took 1.0000000249710865 time to get 
+Time of cycle: 1.2552480399608612, after request 437 
+Request numder 438 took 1.0000000779982656 time to get 
+Time of cycle: 1.2551934639923275, after request 438 
+Request numder 439 took 1.0000000820145942 time to get 
+Time of cycle: 1.6283653840073384, after request 439 
+Request numder 440 took 1.0000000149593689 time to get 
+Time of cycle: 1.4082675850368105, after request 440 
+For team 16 added row for lap 1Request numder 441 took 1.0000000930158421 time to get 
+Time of cycle: 1.2592361430288292, after request 441 
+Request numder 442 took 1.0000000610016286 time to get 
+Time of cycle: 1.2848890799796209, after request 442 
+Request numder 443 took 1.0000000349828042 time to get 
+Time of cycle: 1.3289013130124658, after request 443 
+Request numder 444 took 1.0000000330037437 time to get 
+Time of cycle: 1.2786616979865357, after request 444 
+Request numder 445 took 1.0000000889995135 time to get 
+Time of cycle: 1.2878240590216592, after request 445 
+Request numder 446 took 1.0000000020372681 time to get 
+Time of cycle: 1.710787463991437, after request 446 
+Request numder 447 took 1.0000000540167093 time to get 
+Time of cycle: 1.3125104029895738, after request 447 
+For team 6 added row for lap 2For team 13 added row for lap 2Request numder 448 took 1.0000000189756975 time to get 
+Time of cycle: 1.2518398640095256, after request 448 
+For team 9 added row for lap 2Request numder 449 took 1.0000000760192052 time to get 
+Time of cycle: 1.2573485500179231, after request 449 
+Request numder 450 took 1.0000000029685907 time to get 
+Time of cycle: 1.4240878950222395, after request 450 
+For team 8 added row for lap 2For team 1 added row for lap 2For team 20 added row for lap 2For team 18 added row for lap 2For team 15 added row for lap 2For team 10 added row for lap 2Request numder 451 took 1.0000000989530236 time to get 
+Time of cycle: 1.2602303709718399, after request 451 
+Request numder 452 took 1.0000001110020094 time to get 
+Time of cycle: 1.2558385139564052, after request 452 
+For team 3 added row for lap 2For team 19 added row for lap 2For team 17 added row for lap 2For team 14 added row for lap 2Request numder 453 took 1.0000000699656084 time to get 
+Time of cycle: 1.2841116819763556, after request 453 
+For team 5 added row for lap 2For team 2 added row for lap 2For team 12 added row for lap 2Request numder 454 took 1.000000027997885 time to get 
+Time of cycle: 1.5028085520025343, after request 454 
+For team 11 added row for lap 2Request numder 455 took 1.0000000040163286 time to get 
+Time of cycle: 1.2683322450029664, after request 455 
+Request numder 456 took 1.0000000860309228 time to get 
+Time of cycle: 1.3021157080074772, after request 456 
+Request numder 457 took 1.0000001180451363 time to get 
+Time of cycle: 1.2443834629957564, after request 457 
+Request numder 458 took 1.0000000190339051 time to get 
+Time of cycle: 1.2536312160082161, after request 458 
+Request numder 459 took 1.0000000900472514 time to get 
+Time of cycle: 1.2682092869654298, after request 459 
+Request numder 460 took 1.0000000970321707 time to get 
+Time of cycle: 1.2601461219601333, after request 460 
+Request numder 461 took 1.0000146969687194 time to get 
+Time of cycle: 1.269945076026488, after request 461 
+Request numder 462 took 1.0000000660074875 time to get 
+Time of cycle: 1.6147799080354162, after request 462 
+Request numder 463 took 1.0000000859727152 time to get 
+Time of cycle: 1.3364238860085607, after request 463 
+Request numder 464 took 1.0000000859727152 time to get 
+Time of cycle: 1.477444032963831, after request 464 
+Request numder 465 took 1.0000000289874151 time to get 
+Time of cycle: 1.285809356952086, after request 465 
+Request numder 466 took 1.0000000959844328 time to get 
+Time of cycle: 1.4234653179883026, after request 466 
+Request numder 467 took 1.000000050989911 time to get 
+Time of cycle: 1.467222157982178, after request 467 
+Request numder 468 took 1.00000010401709 time to get 
+Time of cycle: 1.2460047499625944, after request 468 
+Request numder 469 took 1.0000000710133463 time to get 
+Time of cycle: 1.2792364789638668, after request 469 
+Request numder 470 took 1.0000000930158421 time to get 
+Time of cycle: 1.3003950089914724, after request 470 
+Request numder 471 took 1.0000000839936547 time to get 
+Time of cycle: 1.2663307550246827, after request 471 
+For team 7 added row for lap 2For team 4 added row for lap 2Request numder 472 took 1.0000000960426405 time to get 
+Time of cycle: 1.3371623490238562, after request 472 
+Request numder 473 took 1.0000000200234354 time to get 
+Time of cycle: 1.291021956014447, after request 473 
+Request numder 474 took 1.0000000660074875 time to get 
+Time of cycle: 1.3027359090046957, after request 474 
+Request numder 475 took 1.0000000299769454 time to get 
+Time of cycle: 1.2596978209912777, after request 475 
+Request numder 476 took 1.0000000349828042 time to get 
+Time of cycle: 1.3890928120235913, after request 476 
+Request numder 477 took 1.0000000589643605 time to get 
+Time of cycle: 1.3696605970035307, after request 477 
+Request numder 478 took 1.0000001270091161 time to get 
+Time of cycle: 1.2648612160119228, after request 478 
+Request numder 479 took 1.0000001119915396 time to get 
+Time of cycle: 1.2513538809726015, after request 479 
+For team 6 added row for lap 3Request numder 480 took 1.0000001000007614 time to get 
+Time of cycle: 1.2727067800005898, after request 480 
+For team 13 added row for lap 3Request numder 481 took 1.000000067986548 time to get 
+Time of cycle: 1.313308973039966, after request 481 
+For team 9 added row for lap 3For team 15 added row for lap 3Request numder 482 took 1.0000000079744495 time to get 
+Time of cycle: 1.264761168975383, after request 482 
+For team 20 added row for lap 3For team 18 added row for lap 3Request numder 483 took 1.0000000419677235 time to get 
+Time of cycle: 1.29303052398609, after request 483 
+For team 8 added row for lap 3For team 10 added row for lap 3Request numder 484 took 1.0000000069849193 time to get 
+Time of cycle: 1.2480270259547979, after request 484 
+For team 1 added row for lap 3Request numder 485 took 1.000000115018338 time to get 
+Time of cycle: 1.2765066950232722, after request 485 
+Request numder 486 took 1.000000050989911 time to get 
+Time of cycle: 1.2764918509637937, after request 486 
+For team 3 added row for lap 3For team 19 added row for lap 3Request numder 487 took 1.000000020954758 time to get 
+Time of cycle: 1.312504601024557, after request 487 
+For team 2 added row for lap 3For team 14 added row for lap 3Request numder 488 took 1.0000000680447556 time to get 
+Time of cycle: 1.2732601649477147, after request 488 
+Request numder 489 took 1.000000036030542 time to get 
+Time of cycle: 1.3412253079586662, after request 489 
+For team 5 added row for lap 3For team 17 added row for lap 3For team 12 added row for lap 3For team 11 added row for lap 3Request numder 490 took 1.0000000660074875 time to get 
+Time of cycle: 1.259004804014694, after request 490 
+Request numder 491 took 1.0000000270083547 time to get 
+Time of cycle: 1.2621054510236718, after request 491 
+Request numder 492 took 1.00000010401709 time to get 
+Time of cycle: 1.3960626059561037, after request 492 
+Request numder 493 took 1.0000000699656084 time to get 
+Time of cycle: 1.2939540200168267, after request 493 
+Request numder 494 took 1.0000000160071068 time to get 
+Time of cycle: 1.2723419409594499, after request 494 
+Request numder 495 took 1.0000000539585017 time to get 
+Time of cycle: 1.344110192032531, after request 495 
+Request numder 496 took 1.0000000839936547 time to get 
+Time of cycle: 1.2506970569957048, after request 496 
+Request numder 497 took 1.0000000239815563 time to get 
+Time of cycle: 1.3406060510315, after request 497 
+Request numder 498 took 1.0000000569853 time to get 
+Time of cycle: 1.295012942980975, after request 498 
+Request numder 499 took 1.0000000610016286 time to get 
+Time of cycle: 2.30759348499123, after request 499 
+Request numder 500 took 1.0000066540087573 time to get 
+Time of cycle: 1.2678681240067817, after request 500 
+Request numder 501 took 1.0000000899890438 time to get 
+Time of cycle: 1.3138335610274225, after request 501 
+Request numder 502 took 1.0000000610016286 time to get 
+Time of cycle: 1.281510333006736, after request 502 
+Request numder 503 took 1.0000000100117177 time to get 
+Time of cycle: 1.2973088020225987, after request 503 
+Request numder 504 took 1.0000000270083547 time to get 
+Time of cycle: 1.243313429004047, after request 504 
+Request numder 505 took 1.0000000210129656 time to get 
+Time of cycle: 1.2896898290491663, after request 505 
+For team 4 added row for lap 3Request numder 506 took 1.0000001029693522 time to get 
+Time of cycle: 1.336493261042051, after request 506 
+For team 7 added row for lap 3Request numder 507 took 1.0000000009895302 time to get 
+Time of cycle: 1.3345816950313747, after request 507 
+Request numder 508 took 1.0000000069849193 time to get 
+Time of cycle: 1.2691129869781435, after request 508 
+For team 16 added row for lap 2Request numder 509 took 1.0000000299769454 time to get 
+Time of cycle: 1.2476519419578835, after request 509 
+Request numder 510 took 1.000000067986548 time to get 
+Time of cycle: 1.2571866739890538, after request 510 
+Request numder 511 took 1.0000000389991328 time to get 
+Time of cycle: 1.3038086699671112, after request 511 
+Request numder 512 took 1.0000000529689714 time to get 
+Time of cycle: 1.4099611400160939, after request 512 
+For team 6 added row for lap 4Request numder 513 took 1.0000000669970177 time to get 
+Time of cycle: 1.2468245620257221, after request 513 
+For team 13 added row for lap 4Request numder 514 took 1.0000000619911589 time to get 
+Time of cycle: 1.2586582059739158, after request 514 
+For team 9 added row for lap 4For team 15 added row for lap 4Request numder 515 took 1.0000000460422598 time to get 
+Time of cycle: 1.25226154102711, after request 515 
+For team 20 added row for lap 4Request numder 516 took 1.0000000480213203 time to get 
+Time of cycle: 1.4530869599548168, after request 516 
+For team 18 added row for lap 4Request numder 517 took 1.0000000830041245 time to get 
+Time of cycle: 1.4405243109795265, after request 517 
+For team 8 added row for lap 4For team 1 added row for lap 4For team 10 added row for lap 4Request numder 518 took 1.0000000789877959 time to get 
+Time of cycle: 1.3106175019638613, after request 518 
+For team 19 added row for lap 4Request numder 519 took 1.000000081025064 time to get 
+Time of cycle: 1.2547272209776565, after request 519 
+For team 3 added row for lap 4For team 14 added row for lap 4Request numder 520 took 1.0000000819563866 time to get 
+Time of cycle: 1.261587604007218, after request 520 
+For team 2 added row for lap 4Request numder 521 took 1.0000000239815563 time to get 
+Time of cycle: 1.3522248759982176, after request 521 
+Request numder 522 took 1.0000000910367817 time to get 
+Time of cycle: 1.2572495100321248, after request 522 
+For team 5 added row for lap 4For team 17 added row for lap 4Request numder 523 took 1.0000001009902917 time to get 
+Time of cycle: 1.3973260409547947, after request 523 
+For team 12 added row for lap 4Request numder 524 took 1.0000000930158421 time to get 
+Time of cycle: 1.2557395119802095, after request 524 
+For team 11 added row for lap 4Request numder 525 took 1.000000107975211 time to get 
+Time of cycle: 1.2509394860244356, after request 525 
+Request numder 526 took 1.000000081025064 time to get 
+Time of cycle: 1.267848082992714, after request 526 
+Request numder 527 took 1.0000000839936547 time to get 
+Time of cycle: 1.259362670010887, after request 527 
+Request numder 528 took 1.0000000720028765 time to get 
+Time of cycle: 1.3688372100004926, after request 528 
+Request numder 529 took 1.0000000500003807 time to get 
+Time of cycle: 1.2494232300086878, after request 529 
+Request numder 530 took 1.000000011001248 time to get 
+Time of cycle: 1.463648623030167, after request 530 
+Request numder 531 took 1.000000101979822 time to get 
+Time of cycle: 1.2520998329855502, after request 531 
+Request numder 532 took 1.0000000709551387 time to get 
+Time of cycle: 1.3323538610129617, after request 532 
+Request numder 533 took 1.000000033993274 time to get 
+Time of cycle: 1.3044085110304877, after request 533 
+Request numder 534 took 1.0000000899890438 time to get 
+Time of cycle: 1.3344042440294288, after request 534 
+Request numder 535 took 1.0000000930158421 time to get 
+Time of cycle: 1.269568161049392, after request 535 
+Request numder 536 took 1.0000000359723344 time to get 
+Time of cycle: 1.2616766309947707, after request 536 
+Request numder 537 took 1.0000000190339051 time to get 
+Time of cycle: 1.3234913020278327, after request 537 
+Request numder 538 took 1.0000000710133463 time to get 
+Time of cycle: 1.2735322180087678, after request 538 
+Request numder 539 took 1.0000000149593689 time to get 
+Time of cycle: 1.4823868669918738, after request 539 
+For team 7 added row for lap 4For team 4 added row for lap 4Request numder 540 took 1.000000109022949 time to get 
+Time of cycle: 1.4391025030054152, after request 540 
+Request numder 541 took 1.0000000669970177 time to get 
+Time of cycle: 1.3838588240323588, after request 541 
+Request numder 542 took 1.000000030035153 time to get 
+Time of cycle: 1.3217960459878668, after request 542 
+For team 16 added row for lap 3Request numder 543 took 1.000000087020453 time to get 
+Time of cycle: 1.3858936879551038, after request 543 
+Request numder 544 took 1.0000000320142135 time to get 
+Time of cycle: 1.372011751984246, after request 544 
+Request numder 545 took 1.0000000149593689 time to get 
+Time of cycle: 1.2945446109515615, after request 545 
+For team 6 added row for lap 5For team 13 added row for lap 5Request numder 546 took 1.0000001069856808 time to get 
+Time of cycle: 1.431950644007884, after request 546 
+Request numder 547 took 1.0000000970321707 time to get 
+Time of cycle: 1.2943184520117939, after request 547 
+For team 9 added row for lap 5For team 20 added row for lap 5For team 15 added row for lap 5Request numder 548 took 1.0000001020380296 time to get 
+Time of cycle: 1.341988358006347, after request 548 
+For team 18 added row for lap 5Request numder 549 took 1.0000000830041245 time to get 
+Time of cycle: 1.3440324130351655, after request 549 
+For team 8 added row for lap 5For team 1 added row for lap 5For team 10 added row for lap 5Request numder 550 took 1.0000000490108505 time to get 
+Time of cycle: 1.7220910920295864, after request 550 
+Request numder 551 took 1.0000000820145942 time to get 
+Time of cycle: 1.4682137669879012, after request 551 
+For team 19 added row for lap 5Request numder 552 took 1.0000000320142135 time to get 
+Time of cycle: 1.5835874159820378, after request 552 
+For team 3 added row for lap 5For team 2 added row for lap 5For team 14 added row for lap 5Request numder 553 took 1.0000000389991328 time to get 
+Time of cycle: 1.3909650390269235, after request 553 
+Request numder 554 took 1.0000000699656084 time to get 
+Time of cycle: 1.2889363449648954, after request 554 
+For team 5 added row for lap 5For team 17 added row for lap 5Request numder 555 took 1.0000000869622454 time to get 
+Time of cycle: 1.3788017019978724, after request 555 
+Request numder 556 took 1.0000000660074875 time to get 
+Time of cycle: 1.3458967540063895, after request 556 
+Request numder 557 took 1.0000000669970177 time to get 
+Time of cycle: 1.296382709988393, after request 557 
+Request numder 558 took 1.000000084983185 time to get 
+Time of cycle: 1.6782882420229726, after request 558 
+For team 12 added row for lap 5For team 11 added row for lap 5Request numder 559 took 1.000000073981937 time to get 
+Time of cycle: 1.259742202993948, after request 559 
+Request numder 560 took 1.0000000880099833 time to get 
+Time of cycle: 1.3070330090122297, after request 560 
+Request numder 561 took 1.000000101979822 time to get 
+Time of cycle: 1.2903139349655248, after request 561 
+Request numder 562 took 1.000000050989911 time to get 
+Time of cycle: 1.2609353899606504, after request 562 
+Request numder 563 took 1.0000000830041245 time to get 
+Time of cycle: 1.3227936969487928, after request 563 
+Request numder 564 took 1.0000001050066203 time to get 
+Time of cycle: 1.2546585810487159, after request 564 
+Request numder 565 took 1.0000000830041245 time to get 
+Time of cycle: 1.289614648965653, after request 565 
+Request numder 566 took 1.0000000500003807 time to get 
+Time of cycle: 1.282985217985697, after request 566 
+Request numder 567 took 1.0000000579748303 time to get 
+Time of cycle: 1.2372169030131772, after request 567 
+Request numder 568 took 1.0000000139698386 time to get 
+Time of cycle: 1.3326474630157463, after request 568 
+Request numder 569 took 1.0000000500003807 time to get 
+Time of cycle: 1.2581518350052647, after request 569 
+Request numder 570 took 1.0000000690342858 time to get 
+Time of cycle: 1.2640025919536129, after request 570 
+Request numder 571 took 1.0000000009895302 time to get 
+Time of cycle: 1.2603548539918847, after request 571 
+For team 7 added row for lap 5For team 4 added row for lap 5Request numder 572 took 1.0000000459840521 time to get 
+Time of cycle: 1.250766393961385, after request 572 
+Request numder 573 took 1.000000053027179 time to get 
+Time of cycle: 1.2698258719756268, after request 573 
+Request numder 574 took 1.0000000449945219 time to get 
+Time of cycle: 1.2816175289917737, after request 574 
+Request numder 575 took 1.000000092026312 time to get 
+Time of cycle: 1.2525529990089126, after request 575 
+For team 16 added row for lap 4Request numder 576 took 1.0000000380096026 time to get 
+Time of cycle: 1.3388225780217908, after request 576 
+For team 6 added row for lap 6Request numder 577 took 1.0000000480213203 time to get 
+Time of cycle: 1.4471827640081756, after request 577 
+For team 13 added row for lap 6Request numder 578 took 1.0000000139698386 time to get 
+Time of cycle: 1.335267119051423, after request 578 
+Request numder 579 took 1.0000000149593689 time to get 
+Time of cycle: 1.3479044119594619, after request 579 
+For team 15 added row for lap 6Request numder 580 took 1.0000000859727152 time to get 
+Time of cycle: 1.331983448995743, after request 580 
+For team 9 added row for lap 6For team 20 added row for lap 6For team 18 added row for lap 6Request numder 581 took 1.0000000500003807 time to get 
+Time of cycle: 1.4128196410019882, after request 581 
+Request numder 582 took 1.0000000669970177 time to get 
+Time of cycle: 1.3667563030030578, after request 582 
+For team 8 added row for lap 6For team 1 added row for lap 6For team 10 added row for lap 6Request numder 583 took 1.0000000289874151 time to get 
+Time of cycle: 1.3276346049970016, after request 583 
+For team 19 added row for lap 6Request numder 584 took 1.0000000650179572 time to get 
+Time of cycle: 1.3302768120192923, after request 584 
+Request numder 585 took 1.000000118976459 time to get 
+Time of cycle: 1.294061093009077, after request 585 
+For team 2 added row for lap 6For team 14 added row for lap 6Request numder 586 took 1.0000000119907781 time to get 
+Time of cycle: 1.317648429016117, after request 586 
+For team 3 added row for lap 6Request numder 587 took 1.000000053027179 time to get 
+Time of cycle: 1.2566471730242483, after request 587 
+For team 17 added row for lap 6Request numder 588 took 1.0000000150175765 time to get 
+Time of cycle: 1.3992772279889323, after request 588 
+For team 5 added row for lap 6Request numder 589 took 1.0000000030267984 time to get 
+Time of cycle: 1.2571688289754093, after request 589 
+Request numder 590 took 1.0000000590225682 time to get 
+Time of cycle: 1.5164061120012775, after request 590 
+Request numder 591 took 1.000000073981937 time to get 
+Time of cycle: 1.4522644740063697, after request 591 
+Request numder 592 took 1.0000000830041245 time to get 
+Time of cycle: 1.3654315490275621, after request 592 
+For team 11 added row for lap 6Request numder 593 took 1.0000000080326572 time to get 
+Time of cycle: 1.3163967090076767, after request 593 
+For team 12 added row for lap 6Request numder 594 took 1.000000090978574 time to get 
+Time of cycle: 1.2618579089757986, after request 594 
+Request numder 595 took 1.0000000080326572 time to get 
+Time of cycle: 1.322289414005354, after request 595 
+Request numder 596 took 1.0000000019790605 time to get 
+Time of cycle: 1.2778633030247875, after request 596 
+Request numder 597 took 1.0000000600120984 time to get 
+Time of cycle: 1.2910072359954938, after request 597 
+Request numder 598 took 1.0000000779982656 time to get 
+Time of cycle: 1.2786481690127403, after request 598 
+Request numder 599 took 1.0000001000007614 time to get 
+Time of cycle: 1.4055283909547143, after request 599 
+Request numder 600 took 1.0000000570435077 time to get 
+Time of cycle: 1.274294089002069, after request 600 
+Request numder 601 took 1.000000073981937 time to get 
+Time of cycle: 1.2472742319805548, after request 601 
+Request numder 602 took 1.0000000940053724 time to get 
+Time of cycle: 1.2623499920009635, after request 602 
+Request numder 603 took 1.0000000239815563 time to get 
+Time of cycle: 1.2998078179662116, after request 603 
+For team 7 added row for lap 6For team 4 added row for lap 6Request numder 604 took 1.0000001000007614 time to get 
+Time of cycle: 1.2682939410442486, after request 604 
+Request numder 605 took 1.0000000880099833 time to get 
+Time of cycle: 1.2537149880081415, after request 605 
+Request numder 606 took 1.0000000820145942 time to get 
+Time of cycle: 1.2457757230149582, after request 606 
+Request numder 607 took 1.0000000979634933 time to get 
+Time of cycle: 1.277509181003552, after request 607 
+Request numder 608 took 1.0000000069849193 time to get 
+Time of cycle: 1.3408827929524705, after request 608 
+For team 16 added row for lap 5Request numder 609 took 1.0000000079744495 time to get 
+Time of cycle: 1.2623993019806221, after request 609 
+For team 6 added row for lap 7Request numder 610 took 1.000000005995389 time to get 
+Time of cycle: 1.5486863339901902, after request 610 
+For team 13 added row for lap 7Request numder 611 took 1.0000000100117177 time to get 
+Time of cycle: 1.2619231180287898, after request 611 
+Request numder 612 took 1.0000119149917737 time to get 
+Time of cycle: 1.3217795490054414, after request 612 
+For team 15 added row for lap 7Request numder 613 took 1.0000000450527295 time to get 
+Time of cycle: 1.2632399190333672, after request 613 
+For team 9 added row for lap 7For team 20 added row for lap 7For team 18 added row for lap 7Request numder 614 took 1.0000000299769454 time to get 
+Time of cycle: 1.2885805759578943, after request 614 
+Request numder 615 took 1.0000000440049917 time to get 
+Time of cycle: 1.8825636340188794, after request 615 
+For team 8 added row for lap 7For team 1 added row for lap 7For team 19 added row for lap 7For team 10 added row for lap 7Request numder 616 took 1.0000000579748303 time to get 
+Time of cycle: 1.239978417987004, after request 616 
+Request numder 617 took 1.000000098021701 time to get 
+Time of cycle: 1.262997503974475, after request 617 
+For team 2 added row for lap 7For team 14 added row for lap 7Request numder 618 took 1.0000001069856808 time to get 
+Time of cycle: 1.3317089600022882, after request 618 
+Request numder 619 took 1.0000000050058588 time to get 
+Time of cycle: 1.3017938829725608, after request 619 
+For team 3 added row for lap 7Request numder 620 took 1.0000000119907781 time to get 
+Time of cycle: 1.2559160680393688, after request 620 
+For team 17 added row for lap 7Request numder 621 took 1.0000001029693522 time to get 
+Time of cycle: 1.326926256006118, after request 621 
+For team 5 added row for lap 7Request numder 622 took 1.0000000060535967 time to get 
+Time of cycle: 1.3435968899866566, after request 622 
+Request numder 623 took 1.0000000839936547 time to get 
+Time of cycle: 1.4120129470247775, after request 623 
+Request numder 624 took 1.0000000500003807 time to get 
+Time of cycle: 1.2555915139964782, after request 624 
+Request numder 625 took 1.0000000959844328 time to get 
+Time of cycle: 1.3780964629841037, after request 625 
+Request numder 626 took 1.0000001220032573 time to get 
+Time of cycle: 1.4266920349909924, after request 626 
+Request numder 627 took 1.000000062980689 time to get 
+Time of cycle: 1.2634897899697535, after request 627 
+For team 11 added row for lap 7Request numder 628 took 1.0000000050058588 time to get 
+Time of cycle: 1.3647533530020155, after request 628 
+Request numder 629 took 1.0000000179861672 time to get 
+Time of cycle: 1.4050916719716042, after request 629 
+For team 12 added row for lap 7Request numder 630 took 1.000000070023816 time to get 
+Time of cycle: 1.2667314669815823, after request 630 
+Request numder 631 took 1.0000000610016286 time to get 
+Time of cycle: 1.2464031400159001, after request 631 
+Request numder 632 took 1.0000000349828042 time to get 
+Time of cycle: 1.309313467994798, after request 632 
+Request numder 633 took 1.0000254139886238 time to get 
+Time of cycle: 1.2852823529974557, after request 633 
+Request numder 634 took 1.000000036030542 time to get 
+Time of cycle: 1.3549114759662189, after request 634 
+Request numder 635 took 1.0000000189756975 time to get 
+Time of cycle: 1.274673111969605, after request 635 
+Request numder 636 took 1.0000000550062396 time to get 
+Time of cycle: 1.3027691589668393, after request 636 
+Request numder 637 took 1.0000000529689714 time to get 
+Time of cycle: 1.3692878399742767, after request 637 
+For team 7 added row for lap 7For team 4 added row for lap 7Request numder 638 took 1.000000011001248 time to get 
+Time of cycle: 1.35312216199236, after request 638 
+Request numder 639 took 1.0000000019790605 time to get 
+Time of cycle: 1.4686196810216643, after request 639 
+Request numder 640 took 1.0000000830041245 time to get 
+Time of cycle: 1.292003599985037, after request 640 
+For team 16 added row for lap 6Request numder 641 took 1.0000000290456228 time to get 
+Time of cycle: 1.3096343500074, after request 641 
+For team 6 added row for lap 8Request numder 642 took 1.0000000930158421 time to get 
+Time of cycle: 1.4056095239939168, after request 642 
+For team 13 added row for lap 8Request numder 643 took 1.0000000440049917 time to get 
+Time of cycle: 1.2535131519543938, after request 643 
+Request numder 644 took 1.0000000559957698 time to get 
+Time of cycle: 1.3347018649801612, after request 644 
+For team 15 added row for lap 8Request numder 645 took 1.0000001000007614 time to get 
+Time of cycle: 1.2693319160025567, after request 645 
+For team 20 added row for lap 8Request numder 646 took 1.000000011001248 time to get 
+Time of cycle: 1.3641320260358043, after request 646 
+For team 9 added row for lap 8Request numder 647 took 1.0000000710133463 time to get 
+Time of cycle: 1.4730468220077455, after request 647 
+For team 8 added row for lap 8For team 1 added row for lap 8For team 18 added row for lap 8For team 10 added row for lap 8Request numder 648 took 1.0000000809668563 time to get 
+Time of cycle: 1.473043525009416, after request 648 
+For team 19 added row for lap 8Request numder 649 took 1.0000000729924068 time to get 
+Time of cycle: 1.255120565998368, after request 649 
+Request numder 650 took 1.0000000899890438 time to get 
+Time of cycle: 1.282707764999941, after request 650 
+For team 2 added row for lap 8For team 14 added row for lap 8Request numder 651 took 1.000000016996637 time to get 
+Time of cycle: 1.4079640689888038, after request 651 
+Request numder 652 took 1.000000071944669 time to get 
+Time of cycle: 1.2702060189913027, after request 652 
+For team 3 added row for lap 8Request numder 653 took 1.0000000080326572 time to get 
+Time of cycle: 1.2531167269917205, after request 653 
+For team 17 added row for lap 8Request numder 654 took 1.0000000820145942 time to get 
+Time of cycle: 1.254083190986421, after request 654 
+For team 5 added row for lap 8Request numder 655 took 1.0000001179869287 time to get 
+Time of cycle: 1.3263278840458952, after request 655 
+Request numder 656 took 1.0000193770392798 time to get 
+Time of cycle: 1.2982588370214216, after request 656 
+Request numder 657 took 1.0000000230502337 time to get 
+Time of cycle: 1.3225924639846198, after request 657 
+Request numder 658 took 1.0000000789877959 time to get 
+Time of cycle: 1.3274229330127127, after request 658 
+Request numder 659 took 1.0000000310246833 time to get 
+Time of cycle: 1.7153333100141026, after request 659 
+Request numder 660 took 1.0000000489526428 time to get 
+Time of cycle: 1.3899038750096224, after request 660 
+For team 11 added row for lap 8Request numder 661 took 1.0000000210129656 time to get 
+Time of cycle: 1.312310305016581, after request 661 
+Request numder 662 took 1.0000000859727152 time to get 
+Time of cycle: 1.3780114200199023, after request 662 
+Request numder 663 took 1.0000000249710865 time to get 
+Time of cycle: 1.3970665269880556, after request 663 
+For team 12 added row for lap 8Request numder 664 took 1.0000000729924068 time to get 
+Time of cycle: 1.2517132490174845, after request 664 
+Request numder 665 took 1.0000000449945219 time to get 
+Time of cycle: 1.2542053909855895, after request 665 
+Request numder 666 took 1.0000000449945219 time to get 
+Time of cycle: 1.2701245499774814, after request 666 
+Request numder 667 took 1.0000000540167093 time to get 
+Time of cycle: 1.4531949480297044, after request 667 
+Request numder 668 took 1.0000000519794412 time to get 
+Time of cycle: 1.3479987609898672, after request 668 
+For team 4 added row for lap 8Request numder 669 took 1.0000000210129656 time to get 
+Time of cycle: 1.3424494590144604, after request 669 
+For team 7 added row for lap 8Request numder 670 took 1.0000000730506144 time to get 
+Time of cycle: 1.4624091029982083, after request 670 
+Request numder 671 took 1.0000000330037437 time to get 
+Time of cycle: 1.2605823299963959, after request 671 
+Request numder 672 took 1.000000101979822 time to get 
+Time of cycle: 1.4290718549746089, after request 672 
+Request numder 673 took 1.0000000839936547 time to get 
+Time of cycle: 1.2758969549904577, after request 673 
+For team 6 added row for lap 9For team 16 added row for lap 7Request numder 674 took 1.0000001069856808 time to get 
+Time of cycle: 1.5083193539758213, after request 674 
+For team 13 added row for lap 9Request numder 675 took 1.0000000009895302 time to get 
+Time of cycle: 1.4066424850025214, after request 675 
+For team 15 added row for lap 9Request numder 676 took 1.00000010401709 time to get 
+Time of cycle: 1.2590624800068326, after request 676 
+Request numder 677 took 1.0000001169973984 time to get 
+Time of cycle: 1.4283683859976009, after request 677 
+For team 20 added row for lap 9Request numder 678 took 1.0000000430154614 time to get 
+Time of cycle: 1.2841907580150291, after request 678 
+For team 9 added row for lap 9For team 18 added row for lap 9Request numder 679 took 1.000000062980689 time to get 
+Time of cycle: 1.661448439990636, after request 679 
+For team 8 added row for lap 9For team 1 added row for lap 9For team 19 added row for lap 9For team 10 added row for lap 9Request numder 680 took 1.0000000440049917 time to get 
+Time of cycle: 1.5575064279837534, after request 680 
+Request numder 681 took 1.0000000369618647 time to get 
+Time of cycle: 1.5483765190001577, after request 681 
+For team 14 added row for lap 9Request numder 682 took 1.0000001270091161 time to get 
+Time of cycle: 1.2756447559804656, after request 682 
+For team 2 added row for lap 9Request numder 683 took 1.0000000120489858 time to get 
+Time of cycle: 1.3570882320054807, after request 683 
+Request numder 684 took 1.0000000349828042 time to get 
+Time of cycle: 1.3580731080146506, after request 684 
+For team 3 added row for lap 9For team 17 added row for lap 9Request numder 685 took 1.0000000270083547 time to get 
+Time of cycle: 1.4129654849530198, after request 685 
+For team 5 added row for lap 9Request numder 686 took 1.000000073981937 time to get 
+Time of cycle: 2.1708462060196325, after request 686 
+Request numder 687 took 1.0000000839936547 time to get 
+Time of cycle: 1.36419754603412, after request 687 
+Request numder 688 took 1.00000010401709 time to get 
+Time of cycle: 1.3018643590039574, after request 688 
+Request numder 689 took 1.0000000319560058 time to get 
+Time of cycle: 1.5845895599923097, after request 689 
+Request numder 690 took 1.0000000839936547 time to get 
+Time of cycle: 1.636573470022995, after request 690 
+Request numder 691 took 1.0000000600120984 time to get 
+Time of cycle: 4.1242198690306395, after request 691 
+For team 11 added row for lap 9Request numder 692 took 1.0000000320142135 time to get 
+Time of cycle: 1.808165854017716, after request 692 
+Request numder 693 took 1.0000000749714673 time to get 
+Time of cycle: 1.407763861992862, after request 693 
+For team 12 added row for lap 9Request numder 694 took 1.0000000160071068 time to get 
+Time of cycle: 1.5761175280204043, after request 694 
+Request numder 695 took 1.0000000009895302 time to get 
+Time of cycle: 1.628950368030928, after request 695 
+Request numder 696 took 1.0000000770087354 time to get 
+Time of cycle: 1.3848165190429427, after request 696 
+For team 4 added row for lap 9Request numder 697 took 1.0000000569853 time to get 
+Time of cycle: 1.294228516984731, after request 697 
+For team 7 added row for lap 9Request numder 698 took 1.0000000420259312 time to get 
+Time of cycle: 1.6263218309613876, after request 698 
+Request numder 699 took 1.0000070359674282 time to get 
+Time of cycle: 1.2735182480537333, after request 699 
+Request numder 700 took 1.0000000119907781 time to get 
+Time of cycle: 1.3790875960257836, after request 700 
+For team 6 added row for lap 10For team 16 added row for lap 8Request numder 701 took 1.0000000290456228 time to get 
+Time of cycle: 1.2753012800239958, after request 701 
+For team 13 added row for lap 10Request numder 702 took 1.0000000389991328 time to get 
+Time of cycle: 1.3641627919860184, after request 702 
+Request numder 703 took 1.0000000459840521 time to get 
+Time of cycle: 1.5489052340271883, after request 703 
+For team 15 added row for lap 10Request numder 704 took 1.0000000789877959 time to get 
+Time of cycle: 1.8394882130087353, after request 704 
+For team 20 added row for lap 10Request numder 705 took 1.0000000610016286 time to get 
+Time of cycle: 2.1281293319771066, after request 705 
+For team 9 added row for lap 10For team 18 added row for lap 10Request numder 706 took 1.0000000889995135 time to get 
+Time of cycle: 2.1478368029929698, after request 706 
+For team 1 added row for lap 10For team 10 added row for lap 10Request numder 707 took 1.0000000940053724 time to get 
+Time of cycle: 1.6429240750148892, after request 707 
+For team 8 added row for lap 10For team 19 added row for lap 10Request numder 708 took 1.0000000189756975 time to get 
+Time of cycle: 1.6074565140297636, after request 708 
+For team 2 added row for lap 10For team 14 added row for lap 10Request numder 709 took 1.0000000889995135 time to get 
+Time of cycle: 2.0171074889949523, after request 709 
+Request numder 710 took 1.000000115018338 time to get 
+Time of cycle: 1.482066446042154, after request 710 
+For team 17 added row for lap 10Request numder 711 took 1.000000016996637 time to get 
+Time of cycle: 1.417809247970581, after request 711 
+For team 5 added row for lap 10For team 3 added row for lap 10Request numder 712 took 1.0000000749714673 time to get 
+Time of cycle: 1.5435687630088069, after request 712 
+Request numder 713 took 1.0000001290463842 time to get 
+Time of cycle: 1.929309391998686, after request 713 
+Request numder 714 took 1.0000000260188244 time to get 
+Time of cycle: 1.446575562004, after request 714 
+Request numder 715 took 1.000000058033038 time to get 
+Time of cycle: 2.6065104250446893, after request 715 
+Request numder 716 took 1.0000000009895302 time to get 
+Time of cycle: 1.2553161359974183, after request 716 
+Request numder 717 took 1.0000001179869287 time to get 
+Time of cycle: 1.3293611640110612, after request 717 
+Request numder 718 took 1.0000000699656084 time to get 
+Time of cycle: 1.2859512150171213, after request 718 
+For team 11 added row for lap 10Request numder 719 took 1.0000000519794412 time to get 
+Time of cycle: 1.4109112370060757, after request 719 
+Request numder 720 took 1.000000054948032 time to get 
+Time of cycle: 1.3420294200186618, after request 720 
+Request numder 721 took 1.0000000009895302 time to get 
+Time of cycle: 1.3110463269986212, after request 721 
+Request numder 722 took 1.0000000589643605 time to get 
+Time of cycle: 1.2516990409931168, after request 722 
+Request numder 723 took 1.0000000940053724 time to get 
+Time of cycle: 1.2855885989847593, after request 723 
+Request numder 724 took 1.0000000559957698 time to get 
+Time of cycle: 1.3235409199842252, after request 724 
+For team 4 added row for lap 10For team 12 added row for lap 10Request numder 725 took 1.0000000349828042 time to get 
+Time of cycle: 1.3430414400063455, after request 725 
+For team 7 added row for lap 10Request numder 726 took 1.0000000330037437 time to get 
+Time of cycle: 1.313676041958388, after request 726 
+Request numder 727 took 1.0000001339940354 time to get 
+Time of cycle: 1.3318151560379192, after request 727 
+Request numder 728 took 1.0000001129810698 time to get 
+Time of cycle: 1.2548727089888416, after request 728 
+For team 6 added row for lap 11Request numder 729 took 1.0000001459848136 time to get 
+Time of cycle: 2.136984854005277, after request 729 
+For team 16 added row for lap 9For team 13 added row for lap 11Request numder 730 took 1.00000010401709 time to get 
+Time of cycle: 1.5722969429916702, after request 730 
+For team 15 added row for lap 11Request numder 731 took 1.0000000519794412 time to get 
+Time of cycle: 3.0063683339976706, after request 731 
+For team 20 added row for lap 11Request numder 732 took 1.000000033993274 time to get 
+Time of cycle: 1.4063155020121485, after request 732 
+For team 9 added row for lap 11For team 18 added row for lap 11Request numder 733 took 1.0000000899890438 time to get 
+Time of cycle: 2.4774355409899727, after request 733 
+Request numder 734 took 1.000000115018338 time to get 
+Time of cycle: 3.0671127919922583, after request 734 
+For team 8 added row for lap 11For team 2 added row for lap 11For team 1 added row for lap 11For team 19 added row for lap 11For team 14 added row for lap 11For team 10 added row for lap 11Request numder 735 took 1.0000000009895302 time to get 
+Time of cycle: 1.3772720849956386, after request 735 
+Request numder 736 took 1.0000000789877959 time to get 
+Time of cycle: 1.4558544509927742, after request 736 
+Request numder 737 took 1.0000000860309228 time to get 
+Time of cycle: 1.4290518619818613, after request 737 
+For team 17 added row for lap 11Request numder 738 took 1.0000000080326572 time to get 
+Time of cycle: 1.341950571979396, after request 738 
+For team 5 added row for lap 11For team 3 added row for lap 11Request numder 739 took 1.0000000610016286 time to get 
+Time of cycle: 1.3058876029681414, after request 739 
+Request numder 740 took 1.0000000350410119 time to get 
+Time of cycle: 1.621885390020907, after request 740 
+Request numder 741 took 1.0000000569853 time to get 
+Time of cycle: 1.4593614090117626, after request 741 
+Request numder 742 took 1.000000070023816 time to get 
+Time of cycle: 1.7311108519788831, after request 742 
+Request numder 743 took 1.0000000289874151 time to get 
+Time of cycle: 1.9331660349853337, after request 743 
+Request numder 744 took 1.0000000579748303 time to get 
+Time of cycle: 1.2843827240285464, after request 744 
+Request numder 745 took 1.0000000050058588 time to get 
+Time of cycle: 1.3987473239540122, after request 745 
+Request numder 746 took 1.0000000619911589 time to get 
+Time of cycle: 1.2965121230226941, after request 746 
+Request numder 747 took 1.0000000139698386 time to get 
+Time of cycle: 3.282050348992925, after request 747 
+For team 11 added row for lap 11Request numder 748 took 1.0000001080334187 time to get 
+Time of cycle: 1.5504259289591573, after request 748 
+Request numder 749 took 1.00000010401709 time to get 
+Time of cycle: 1.431965430965647, after request 749 
+Request numder 750 took 1.0000000190339051 time to get 
+Time of cycle: 1.4619466400472447, after request 750 
+For team 4 added row for lap 11Request numder 751 took 1.0000000389991328 time to get 
+Time of cycle: 1.5152862900285982, after request 751 
+For team 7 added row for lap 11Request numder 752 took 1.000000041036401 time to get 
+Time of cycle: 1.442433998978231, after request 752 
+For team 12 added row for lap 11Request numder 753 took 1.000000107975211 time to get 
+Time of cycle: 1.6202398809837177, after request 753 
+For team 6 added row for lap 12Request numder 754 took 1.000000073981937 time to get 
+Time of cycle: 1.675159746024292, after request 754 
+For team 16 added row for lap 10For team 13 added row for lap 12Request numder 755 took 1.0000000919681042 time to get 
+Time of cycle: 1.5828537439811043, after request 755 
+Request numder 756 took 1.0000000220024958 time to get 
+Time of cycle: 1.357944265997503, after request 756 
+For team 15 added row for lap 12Request numder 757 took 1.0000001029693522 time to get 
+Time of cycle: 1.353286676981952, after request 757 
+For team 20 added row for lap 12Request numder 758 took 1.0000000079744495 time to get 
+Time of cycle: 1.6045524060027674, after request 758 
+For team 9 added row for lap 12For team 18 added row for lap 12Request numder 759 took 1.0000000889995135 time to get 
+Time of cycle: 2.124454570992384, after request 759 
+Request numder 760 took 1.0000001050066203 time to get 
+Time of cycle: 1.6845217839581892, after request 760 
+For team 1 added row for lap 12For team 19 added row for lap 12For team 10 added row for lap 12Request numder 761 took 1.0000000029685907 time to get 
+Time of cycle: 1.424539970990736, after request 761 
+For team 8 added row for lap 12For team 2 added row for lap 12For team 14 added row for lap 12Request numder 762 took 1.0000000569853 time to get 
+Time of cycle: 1.3510862889816053, after request 762 
+Request numder 763 took 1.0000000260188244 time to get 
+Time of cycle: 1.3901693919906393, after request 763 
+Request numder 764 took 1.0000000960426405 time to get 
+Time of cycle: 1.4474129879963584, after request 764 
+For team 17 added row for lap 12Request numder 765 took 1.0000000660074875 time to get 
+Time of cycle: 1.4425302309682593, after request 765 
+For team 3 added row for lap 12Request numder 766 took 1.0000000389991328 time to get 
+Time of cycle: 1.4336554679903202, after request 766 
+For team 5 added row for lap 12Request numder 767 took 1.0000000690342858 time to get 
+Time of cycle: 1.4123622719780542, after request 767 
+Request numder 768 took 1.000000015948899 time to get 
+Time of cycle: 2.7482169170398265, after request 768 
+Request numder 769 took 1.0000000639702193 time to get 
+Time of cycle: 1.3588734560180455, after request 769 
+Request numder 770 took 1.0000000639702193 time to get 
+Time of cycle: 1.456541471008677, after request 770 
+Request numder 771 took 1.0000000449945219 time to get 
+Time of cycle: 1.5646103689796291, after request 771 
+Request numder 772 took 1.0000014110119082 time to get 
+Time of cycle: 1.3908803249942139, after request 772 
+Request numder 773 took 1.0000000519794412 time to get 
+Time of cycle: 1.453210452978965, after request 773 
+Request numder 774 took 1.0000000380096026 time to get 
+Time of cycle: 1.4295542199979536, after request 774 
+For team 11 added row for lap 12Request numder 775 took 1.0000000430154614 time to get 
+Time of cycle: 2.3535586950019933, after request 775 
+Request numder 776 took 1.0000001039588824 time to get 
+Time of cycle: 1.780539494997356, after request 776 
+Request numder 777 took 1.0000001000007614 time to get 
+Time of cycle: 1.5943860080442391, after request 777 
+For team 4 added row for lap 12Request numder 778 took 1.0000000140280463 time to get 
+Time of cycle: 1.436933921999298, after request 778 
+For team 7 added row for lap 12Request numder 779 took 1.0000000480213203 time to get 
+Time of cycle: 1.4885119219543412, after request 779 
+Request numder 780 took 1.0000000149593689 time to get 
+Time of cycle: 1.5831027590320446, after request 780 
+For team 6 added row for lap 13Request numder 781 took 1.0000000839936547 time to get 
+Time of cycle: 1.402710996044334, after request 781 
+For team 16 added row for lap 11Request numder 782 took 1.0000000899890438 time to get 
+Time of cycle: 1.358066942950245, after request 782 
+For team 13 added row for lap 13Request numder 783 took 1.0000000669970177 time to get 
+Time of cycle: 1.2618593090446666, after request 783 
+For team 15 added row for lap 13For team 12 added row for lap 12Request numder 784 took 1.0000000019790605 time to get 
+Time of cycle: 1.2717542699538171, after request 784 
+For team 20 added row for lap 13Request numder 785 took 1.0000000380096026 time to get 
+Time of cycle: 1.2568774539977312, after request 785 
+Request numder 786 took 1.0000000720028765 time to get 
+Time of cycle: 1.781736742996145, after request 786 
+For team 9 added row for lap 13For team 18 added row for lap 13Request numder 787 took 1.000000005995389 time to get 
+Time of cycle: 1.3080069370334968, after request 787 
+Request numder 788 took 1.0000000710133463 time to get 
+Time of cycle: 1.3301444710232317, after request 788 
+For team 1 added row for lap 13For team 19 added row for lap 13Request numder 789 took 1.000000027997885 time to get 
+Time of cycle: 1.427392473036889, after request 789 
+For team 10 added row for lap 13Request numder 790 took 1.0000000119907781 time to get 
+Time of cycle: 1.2493919319822453, after request 790 
+For team 8 added row for lap 13For team 2 added row for lap 13For team 14 added row for lap 13Request numder 791 took 1.0000000559957698 time to get 
+Time of cycle: 1.4115206439746544, after request 791 
+Request numder 792 took 1.0000000320142135 time to get 
+Time of cycle: 1.4800653039710596, after request 792 
+Request numder 793 took 1.000000062980689 time to get 
+Time of cycle: 1.2889581969939172, after request 793 
+For team 17 added row for lap 13Request numder 794 took 1.0000000940053724 time to get 
+Time of cycle: 1.3140001140418462, after request 794 
+For team 3 added row for lap 13Request numder 795 took 1.0000000660074875 time to get 
+Time of cycle: 1.3963083449634723, after request 795 
+For team 5 added row for lap 13Request numder 796 took 1.0000000839936547 time to get 
+Time of cycle: 1.2572362839709967, after request 796 
+Request numder 797 took 1.0000001059961505 time to get 
+Time of cycle: 5.299953326000832, after request 797 

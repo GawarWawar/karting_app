@@ -176,6 +176,7 @@ def add_row_with_lap_check(
         
 def request_was_not_successful_check(
     server_request: requests.Response,
+    server: str,
     request_count: int,
     logging_file: str,
     start_time_to_wait:float = time.perf_counter()
@@ -187,6 +188,7 @@ def request_was_not_successful_check(
 
     Args:
         server_request (requests.Response): request we already made to make a check of it status.\n
+        server(str): Server, on which next requests will be send
         request_count (int): How many times we send request.\n
         logging_file (str): File to paste logging info.\n
         start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
@@ -202,7 +204,7 @@ def request_was_not_successful_check(
         if end_time_to_wait-start_time_to_wait > 1:
             request_count += 1
             server_request = requests.get(
-                "https://nfs-stats.herokuapp.com/getmaininfo.json", 
+                server, 
                 timeout=10
             )
             u_tools.write_log_to_file(
@@ -253,6 +255,7 @@ def make_request_after_some_time  (
     )
     body_content, request_count = request_was_not_successful_check(
         server_request,
+        server,
         request_count,
         logging_file
     )

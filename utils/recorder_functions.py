@@ -69,6 +69,7 @@ def name_check_after_pit(
     df_last_lap_info: pd.DataFrame,
     team: str,
     seconds_from_pit: int,
+    total_race_time: int,
     pilot_name: str,
     
     seconds_to_pass:int = 540
@@ -82,13 +83,15 @@ def name_check_after_pit(
         df_last_lap_info (pd.DataFrame): DataFrame with info about team last state
         team (str): Team that we are checking
         seconds_from_pit (int): Amount of seconds after last pit of the team
+        total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race
         pilot_name (str): Name of a pilot that we are changing 
         seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults to 540.
     
     Returns:
         bool: True, if set amout of seconds passed after the last pit
     """
-    if  seconds_from_pit >= seconds_to_pass:
+    if  seconds_from_pit >= seconds_to_pass and\
+        total_race_time >= seconds_to_pass:
         true_name = True
         if (df_last_lap_info.loc[team, "was_on_pit"] == True):
             needed_indexes = df_statistic[
@@ -156,9 +159,8 @@ def add_row_with_lap_check(
         )
         u_tools.write_log_to_file(
             logging_file,
-            f"For team {team} added row for lap {lap_count}"
+            f"For team {team} added row for lap {lap_count} \n"
         )
-        print("Row_added for team:", team)
         df_last_lap_info.loc[team, "last_lap"] = lap_count
         
 def request_was_not_sucsessful_check(

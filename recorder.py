@@ -4,6 +4,7 @@ import numpy as np
 import json
 import requests
 import datetime
+from dateutil import parser
 
 from utils import add_row
 from utils import recorder_functions
@@ -36,9 +37,9 @@ df_statistic = pd.read_csv("pilots_stats_template.csv")
 # Making first request
 request_count = 0
 body_content, request_count = recorder_functions.make_request_after_some_time(
-    "https://nfs-stats.herokuapp.com/getmaininfo.json",
-    request_count,
-    path_to_logging_file,
+    server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+    request_count=request_count,
+    path_to_logging_file=path_to_logging_file,
     time_to_wait = 0
 )
 
@@ -74,8 +75,8 @@ last_lap_info = None
 # End of preparation before main cycle
 preparation_ends = time.perf_counter()
 u_tools.write_log_to_file(
-    path_to_logging_file,
-    f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
+    path_to_logging_file=path_to_logging_file,
+    log_to_add=f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
 )
 
 # Main cycle
@@ -96,49 +97,52 @@ while (
     start_time_to_wait = time.perf_counter()
     for team in teams_stats:
         pilot_name = teams_stats[team]["pilotName"]
-            
+        
+        time_of_the_race = parser.isoparse("2001-04-07,"+body_content["onTablo"]["totalRaceTime"])
+        time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race
         # Check if team made 9 minutes on track after the pit or start:
             #yes -> change all names  before this point on the current segment to the current name
             #no -> set a flag to indicate vrong name 
         true_name = recorder_functions.name_check_after_pit(
-            df_statistic,
-            df_last_lap_info,
-            team,
-            int(teams_stats[team]["secondsFromPit"]),
-            pilot_name
+            df_statistic = df_statistic,
+            df_last_lap_info = df_last_lap_info,
+            team=team,
+            seconds_from_pit=int(teams_stats[team]["secondsFromPit"]),
+            total_race_time=time_of_the_race,
+            pilot_name=pilot_name
         )
         # Check if kart was changed on valid or it is still 0:
             #yes -> changes all previous 0 kart records for this pilot to valid kart number
             #no -> make a flag, to indicate all non valid kard records
                 # + make a last team`s kart = 0
         true_kart = recorder_functions.kart_check(
-            df_statistic,
-            df_last_lap_info,
-            team,
-            int(teams_stats[team]["kart"]),
-            pilot_name
+            df_statistic=df_statistic,
+            df_last_lap_info=df_last_lap_info,
+            team=team,
+            kart=int(teams_stats[team]["kart"]),
+            pilot_name=pilot_name
         )
         # Check is lap_count of the team > then 0 and did it changed:
             #yes -> make a record about last_lap
                 # + renew team`s lap count
             # no -> pass  
         recorder_functions.add_row_with_lap_check(
-            df_statistic,
-            df_last_lap_info,
-            teams_stats,
-            team,
-            true_name,
-            true_kart,
-            path_to_logging_file    
+            df_statistic=df_statistic,
+            df_last_lap_info=df_last_lap_info,
+            teams_stats=teams_stats,
+            team=team,
+            true_name=true_name,
+            true_kart=true_kart,
+            path_to_logging_file=path_to_logging_file    
         )
                
         # Check if isOnPit flag is True:
             #yes -> change team`s flag was_on_pit to true
                 # + if it is 1st encounter -> add to segment and renew segment for the team  
         recorder_functions.check_is_team_on_pit(
-            teams_stats[team]["isOnPit"],
-            df_last_lap_info,
-            team
+            is_on_pit=teams_stats[team]["isOnPit"],
+            df_last_lap_info=df_last_lap_info,
+            team=team
         )
     
     # Writing gazered statistic into the file
@@ -149,10 +153,10 @@ while (
     
     # New request
     body_content, request_count = recorder_functions.make_request_after_some_time(
-        "https://nfs-stats.herokuapp.com/getmaininfo.json",
-        request_count,
-        path_to_logging_file,
-        start_time_to_wait,
+        server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+        request_count=request_count,
+        path_to_logging_file=path_to_logging_file,
+        start_time_to_wait=start_time_to_wait,
     )
     
     # Renew variables for the next cycle
@@ -166,8 +170,8 @@ while (
     
     end_of_the_cycle = time.perf_counter()
     u_tools.write_log_to_file(
-        path_to_logging_file,
-        f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
+        path_to_logging_file=path_to_logging_file,
+        log_to_add=f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
     )
     
     # TESTING STUFF
@@ -176,7 +180,7 @@ while (
 # End of the programme
 end_of_programme = time.perf_counter()
 u_tools.write_log_to_file(
-        path_to_logging_file,
-        f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n"
-    )
+    path_to_logging_file=path_to_logging_file,
+    log_to_add=f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n",
+)
 

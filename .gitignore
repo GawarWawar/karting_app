@@ -2,6 +2,9 @@
 data/logs
 data/records
 
+# File to try stuff
+try.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

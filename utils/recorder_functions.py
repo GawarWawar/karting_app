@@ -34,19 +34,19 @@ def kart_check (
     pilot_name: str
 ) -> bool:
     """ Check if kart was changed on valid or it is still 0:
-            yes -> changes all previous 0 kart records for this pilot to valid kart number
-            no -> make a flag, to indicate all non valid kard records
-                 + make a last team`s kart = 0
+            yes -> changes all previous 0 kart records for this pilot to valid kart number;
+            no -> make a flag, to indicate all non valid kard records;
+                 + make a last team`s kart = 0.
     
     Args:
-        df_statistic (pd.DataFrame): DataFrame with all statistic of laps
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state
-        team (str): Team, which kart we are cheking
-        kart (int): Kart, which shown in the programme
-        pilot_name (str): Name of a pilot to look for
+        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        team (str): Team, which kart we are cheking.\n
+        kart (int): Kart, which shown in the programme.\n
+        pilot_name (str): Name of a pilot to look for.\n
 
     Returns:
-        bool: True, if it is valid kart number 
+        bool: True, if it is valid kart number.\n
     """
     if kart == 0:
         true_kart = False
@@ -75,20 +75,20 @@ def name_check_after_pit(
     seconds_to_pass:int = 540
 ) -> bool:
     """Check if team made set amount of time on track after the pit or start:
-            yes -> change all names  before this point on the current segment to the current name
-            no -> set a flag to indicate vrong name 
+            yes -> change all names  before this point on the current segment to the current name;
+            no -> set a flag to indicate vrong name.
 
     Args:
-        df_statistic (pd.DataFrame): DataFrame with all statistic of laps
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state
-        team (str): Team that we are checking
-        seconds_from_pit (int): Amount of seconds after last pit of the team
-        total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race
-        pilot_name (str): Name of a pilot that we are changing 
-        seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults to 540.
+        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        team (str): Team that we are checking.\n
+        seconds_from_pit (int): Amount of seconds after last pit of the team.\n
+        total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race.\n
+        pilot_name (str): Name of a pilot that we are changing.\n
+        seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults is set to 540.\n
     
     Returns:
-        bool: True, if set amout of seconds passed after the last pit
+        bool: True, if set amout of seconds passed after the last pit.
     """
     if  seconds_from_pit >= seconds_to_pass and\
         total_race_time >= seconds_to_pass:
@@ -116,13 +116,13 @@ def check_is_team_on_pit(
     team: str
 ) -> None:
     """Check if isOnPit flag is True:
-            yes -> change team`s flag was_on_pit to true
+            yes -> change team`s flag was_on_pit to true;
             + if it is 1st encounter -> add to segment and renew segment for the team  
 
     Args:
-        is_on_pit (bool): Flag, that indicate if team is on pit
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state
-        team (str): Team, for which we changing it state 
+        is_on_pit (bool): Flag, that indicate if team is on pit.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        team (str): Team, for which we changing it state.\n
     """
     if is_on_pit:
         if df_last_lap_info.loc[team, "was_on_pit"] == False:
@@ -138,6 +138,17 @@ def add_row_with_lap_check(
     true_kart: bool,
     logging_file: str
 ) -> None:
+    """Add a row to df_statistic with a lap info. Also update lap count for team and make a log about it.
+
+    Args:
+        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        teams_stats (dict): Dictionary with all teams statistic for the current lap.\n
+        team (str): Team we are making new record in df_statistic .\n
+        true_name (bool): Flag, that indicate if team has a true kart already or should it be changed.\n
+        true_kart (bool): Flag, that indicate if team has a true name already or should it be changed.\n
+        logging_file (str): File, where logs are written.\n
+    """
     lap_count = teams_stats[team]["lapCount"]
     if lap_count !=0 and (int(lap_count) > int(
             df_last_lap_info.loc[team].at["last_lap"])):
@@ -163,12 +174,29 @@ def add_row_with_lap_check(
         )
         df_last_lap_info.loc[team, "last_lap"] = lap_count
         
-def request_was_not_sucsessful_check(
+def request_was_not_successful_check(
     server_request: requests.Response,
     request_count: int,
     logging_file: str,
-    start_time_to_wait = time.perf_counter()
-) -> dict:
+    start_time_to_wait:float = time.perf_counter()
+) -> tuple:
+    """Check, if request was successfully:
+            yes -> return body of the response as a first variable;
+            no -> try to get valid response every second until valid response;
+        As second variable return amount of requests that were needed.
+
+    Args:
+        server_request (requests.Response): request we already made to make a check of it status.\n
+        request_count (int): How many times we send request.\n
+        logging_file (str): File to paste logging info.\n
+        start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
+
+    Returns:
+        tuple: (
+            dict: Body of the response received,
+            int: Count of requests
+        )
+    """
     while server_request.status_code != 200:
         end_time_to_wait = time.perf_counter()
         if end_time_to_wait-start_time_to_wait > 1:
@@ -189,9 +217,27 @@ def make_request_after_some_time  (
     server: str,
     request_count: int,
     logging_file: str,
-    start_time_to_wait: float = time.perf_counter(),
+    start_time_to_wait:float = time.perf_counter(),
     time_to_wait: int = 1
-) -> dict:
+) -> tuple:
+    """Check if set amount of time has passed after last request:
+            yes -> make new request
+            no -> wait for it to pass
+        Also make a log about it
+
+    Args:
+        server (str): Link, on which we send a request.\n
+        request_count (int): How many times we send request to the server.\n
+        logging_file (str): File to paste logging info.\n
+        start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
+        time_to_wait (int, optional): How much time do we need to wait before the next request. Defaults is set to 1 second.\n
+
+    Returns:
+        tuple: (
+            dict: Body of the response received,
+            int: Count of requests
+        )
+    """
     request_count = request_count + 1
     end_time_to_wait = time.perf_counter()
     if end_time_to_wait-start_time_to_wait < time_to_wait:
@@ -205,7 +251,7 @@ def make_request_after_some_time  (
         logging_file,
         f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get \n"
     )
-    body_content, request_count = request_was_not_sucsessful_check(
+    body_content, request_count = request_was_not_successful_check(
         server_request,
         request_count,
         logging_file

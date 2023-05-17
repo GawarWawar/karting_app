@@ -22,7 +22,7 @@ else:
 
     spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
     u_tools = importlib.util.module_from_spec(spec)
-    sys.modules["add_row"] = u_tools
+    sys.modules["u_tools"] = u_tools
     spec.loader.exec_module(u_tools)
 
 
@@ -31,7 +31,8 @@ def kart_check (
     df_last_lap_info: pd.DataFrame,
     team: str,
     kart: int,
-    pilot_name: str
+    pilot_name: str,
+    logging_file: str
 ) -> bool:
     """ Check if kart was changed on valid or it is still 0:
             yes -> changes all previous 0 kart records for this pilot to valid kart number;
@@ -55,79 +56,102 @@ def kart_check (
         true_kart = True
         if kart != df_last_lap_info.loc[team, "last_kart"]:
             needed_indexes = df_statistic[
-                (df_statistic.loc[:,"pilot"] == pilot_name) 
-                &(df_statistic.loc[:,"true_kart"] == False) 
-                &(df_statistic.loc[:,"kart"] == 0)
-            ].index
-            df_statistic.loc[needed_indexes, "true_kart"] = True
-            df_statistic.loc[needed_indexes, "kart"] = kart
-            df_last_lap_info.loc[team, "last_kart"] = kart
-    return true_kart
-
-def name_check_after_pit(
-    df_statistic: pd.DataFrame,
-    df_last_lap_info: pd.DataFrame,
-    team: str,
-    seconds_from_pit: int,
-    total_race_time: int,
-    pilot_name: str,
-    
-    seconds_to_pass:int = 540
-) -> bool:
-    """Check if team made set amount of time on track after the pit or start:
-            yes -> change all names  before this point on the current segment to the current name;
-            no -> set a flag to indicate vrong name.
-
-    Args:
-        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        team (str): Team that we are checking.\n
-        seconds_from_pit (int): Amount of seconds after last pit of the team.\n
-        total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race.\n
-        pilot_name (str): Name of a pilot that we are changing.\n
-        seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults is set to 540.\n
-    
-    Returns:
-        bool: True, if set amout of seconds passed after the last pit.
-    """
-    if  seconds_from_pit >= seconds_to_pass and\
-        total_race_time >= seconds_to_pass:
-        true_name = True
-        if (df_last_lap_info.loc[team, "was_on_pit"] == True):
-            needed_indexes = df_statistic[
                 (df_statistic.loc[:,"team"] == team) 
-                &(df_statistic.loc[:,"true_name"] == False) 
+                &(df_statistic.loc[:,"true_kart"] == False) 
                 &(
                     df_statistic.loc[:,"segment"] ==\
                         df_last_lap_info.loc[team, "current_segment"]
                 )
             ].index
-            df_statistic.loc[needed_indexes, "true_name"] = True
-            df_statistic.loc[needed_indexes, "pilot"] = pilot_name
-            df_last_lap_info.loc[team, "was_on_pit"] = False
+            df_statistic.loc[needed_indexes, "true_kart"] = True
+            df_statistic.loc[needed_indexes, "kart"] = kart
+            df_last_lap_info.loc[team, "last_kart"] = kart
+            u_tools.write_log_to_file(
+                logging_file_path=logging_file,
+                log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}\n"
+            )
+    return true_kart
+
+def set_name_flag_after_check_time_after_pit(
+    seconds_from_pit: int,
+    total_race_time: int,
+    seconds_to_pass:int = 540
+) -> bool:
+    """Check if team made set amount of time on track after the pit or start:\n
+            yes -> set name flag to True. It will represent, that name at this moment is true name;\n
+            no -> set name flag to False. It will represent, that name at this moment is false name.\n
+    Args:
+        seconds_from_pit (int): Amount of seconds after last pit of the team.\n
+        total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race.\n
+        seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults is set to 540.\n
+    
+    Returns:
+        bool: True, if set amout of seconds passed after the last pit.
+    """
+    #NEED TO CHECK IF TEAM IS STILL ON PIT
+    if  seconds_from_pit >= seconds_to_pass and\
+        total_race_time >= seconds_to_pass:
+        true_name = True
     else:
         true_name = False
     
     return true_name
+
+def change_name_to_true_name_after_the_pit (
+    df_statistic: pd.DataFrame,
+    df_last_lap_info: pd.DataFrame,
+    team: str,
+    pilot_name: str,
+    true_name: bool,
+    is_on_pit: bool
+) -> None:
+    """Change pilot name in all previous records of current segment if team left pit, on track set amount of seconds and this pocedure wasn't done after pit
+
+    Args:
+        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        team (str): Team that we are checking.\n
+        pilot_name (str): Name of a pilot that we are changing.\n
+        true_name (bool): Change name only if name is True already.\n
+        is_on_pit (bool): Dont proceed to change pilots name if team is still on pit.\n
+    """
+    if (
+        df_last_lap_info.loc[team, "was_on_pit"] == True
+        and
+        true_name
+        and not
+        is_on_pit
+    ):
+        needed_indexes = df_statistic[
+            (df_statistic.loc[:,"team"] == team) 
+            &(df_statistic.loc[:,"true_name"] == False) 
+            &(
+                df_statistic.loc[:,"segment"] ==\
+                    df_last_lap_info.loc[team, "current_segment"]
+            )
+        ].index
+        df_statistic.loc[needed_indexes, "true_name"] = True
+        df_statistic.loc[needed_indexes, "pilot"] = pilot_name
+        df_last_lap_info.loc[team, "was_on_pit"] = False
             
-def check_is_team_on_pit(
+def set_was_on_pit_and_current_segment(
     is_on_pit: bool,
     df_last_lap_info: pd.DataFrame,
-    team: str
+    team: str,
+    teams_segment_count: int
 ) -> None:
     """Check if isOnPit flag is True:
-            yes -> change team`s flag was_on_pit to true;
-            + if it is 1st encounter -> add to segment and renew segment for the team  
+            yes -> change team`s flag was_on_pit to true and renew segment for the team;
 
     Args:
         is_on_pit (bool): Flag, that indicate if team is on pit.\n
         df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
         team (str): Team, for which we changing it state.\n
+        teams_segment_count (int): Current number of segments of the team.\n
     """
     if is_on_pit:
-        if df_last_lap_info.loc[team, "was_on_pit"] == False:
-            df_last_lap_info.loc[team, "current_segment"] += 1
         df_last_lap_info.loc[team, "was_on_pit"] = True
+        df_last_lap_info.loc[team, "current_segment"] = teams_segment_count
         
 def add_row_with_lap_check(
     df_statistic: pd.DataFrame,
@@ -153,6 +177,8 @@ def add_row_with_lap_check(
     if lap_count !=0 and (int(lap_count) > int(
             df_last_lap_info.loc[team].at["last_lap"])):
         
+        #ADD TIME TRANSFORMATION TO FLOAT FOR LAP_TIME, S1 AND S2, TO NOT DO IT ON ANALYZER
+        
         add_row.add_a_row(
             df_statistic,
             [
@@ -170,7 +196,7 @@ def add_row_with_lap_check(
         )
         u_tools.write_log_to_file(
             logging_file,
-            f"For team {team} added row for lap {lap_count} \n"
+            f"For team {team} added row for lap {lap_count}\n"
         )
         df_last_lap_info.loc[team, "last_lap"] = lap_count
         

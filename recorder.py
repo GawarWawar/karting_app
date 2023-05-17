@@ -100,10 +100,7 @@ while (
         
         time_of_the_race = parser.isoparse("2001-04-07,"+body_content["onTablo"]["totalRaceTime"])
         time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race
-        # Check if team made 9 minutes on track after the pit or start:
-            #yes -> change all names  before this point on the current segment to the current name
-            #no -> set a flag to indicate vrong name 
-        true_name = recorder_functions.name_check_after_pit(
+        true_name = recorder_functions.set_name_flag_after_check_time_after_pit(
             df_statistic = df_statistic,
             df_last_lap_info = df_last_lap_info,
             team=team,
@@ -111,6 +108,24 @@ while (
             total_race_time=time_of_the_race,
             pilot_name=pilot_name
         )
+         
+        is_on_pit=teams_stats[team]["isOnPit"]
+        recorder_functions.set_was_on_pit_and_current_segment(
+            is_on_pit=is_on_pit,
+            df_last_lap_info=df_last_lap_info,
+            team=team,
+            teams_segment_count=len(teams_stats[team]["segments"])
+        )
+        
+        recorder_functions.change_name_to_true_name_after_the_pit(
+            df_statistic=df_statistic,
+            df_last_lap_info=df_last_lap_info,
+            team=team,
+            pilot_name=pilot_name,
+            true_name=true_name,
+            is_on_pit=is_on_pit
+        )
+        
         # Check if kart was changed on valid or it is still 0:
             #yes -> changes all previous 0 kart records for this pilot to valid kart number
             #no -> make a flag, to indicate all non valid kard records
@@ -120,7 +135,8 @@ while (
             df_last_lap_info=df_last_lap_info,
             team=team,
             kart=int(teams_stats[team]["kart"]),
-            pilot_name=pilot_name
+            pilot_name=pilot_name,
+            logging_file=path_to_logging_file
         )
         # Check is lap_count of the team > then 0 and did it changed:
             #yes -> make a record about last_lap
@@ -134,15 +150,6 @@ while (
             true_name=true_name,
             true_kart=true_kart,
             path_to_logging_file=path_to_logging_file    
-        )
-               
-        # Check if isOnPit flag is True:
-            #yes -> change team`s flag was_on_pit to true
-                # + if it is 1st encounter -> add to segment and renew segment for the team  
-        recorder_functions.check_is_team_on_pit(
-            is_on_pit=teams_stats[team]["isOnPit"],
-            df_last_lap_info=df_last_lap_info,
-            team=team
         )
     
     # Writing gazered statistic into the file

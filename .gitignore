@@ -2,6 +2,9 @@
 data/logs
 data/records
 
+# Regression evaluation origins
+regression_evaluation_origin.py
+
 # File to try stuff
 try.py
 

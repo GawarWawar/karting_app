@@ -61,24 +61,14 @@ for file in files_to_read:
     except pd.errors.EmptyDataError:
         pass
 
-for i in range(len(df_from_recorded_records.loc[:,"lap_time"])):
-    try:
-        df_from_recorded_records.loc[i, "lap_time"] = float(df_from_recorded_records.iloc[i].at["lap_time"])
-    except ValueError:
-        split_lap_time = df_from_recorded_records.iloc[i].at["lap_time"].split(":")
-        df_from_recorded_records.loc[i, "lap_time"] = float(split_lap_time[0])*60+float(split_lap_time[1])
-        
-    try:
-        df_from_recorded_records.loc[i, "s2"] = float(df_from_recorded_records.iloc[i].at["s2"])
-    except ValueError:
-        split_lap_time = df_from_recorded_records.iloc[i].at["s2"].split(":")
-        df_from_recorded_records.loc[i, "s2"] = float(split_lap_time[0])*60+float(split_lap_time[1])
-        
-    try:
-        df_from_recorded_records.loc[i, "s1"] = float(df_from_recorded_records.iloc[i].at["s1"])
-    except ValueError:
-        split_lap_time = df_from_recorded_records.iloc[i].at["s1"].split(":")
-        df_from_recorded_records.loc[i, "s1"] = float(split_lap_time[0])*60+float(split_lap_time[1])
+df_from_recorded_records = analyzer_functions.records_columns_to_numeric(
+    df_from_recorded_records,
+    columns_to_change=[
+        "lap_time",
+        "s1",
+        "s2",
+    ]
+)
 
 df_from_recorded_records["lap_time"]=pd.to_numeric(df_from_recorded_records["lap_time"])
 df_from_recorded_records["s2"]=pd.to_numeric(df_from_recorded_records["s2"])
@@ -115,6 +105,21 @@ for pilot in df_pilots.loc[:, "pilot"]:
         "pilot_fastest_lap"
     ] = all_pilot_records.loc[:, "lap_time"].min()
 
+df_karts = df_from_recorded_records.loc[
+    df_from_recorded_records.loc[:, "true_kart" ]== True,
+    category
+].drop_duplicates().T.to_frame()
+df_karts["kart_fastest_lap"] = 0
+for kart in range(len(df_karts.loc[:, category])):
+    all_karts_record = df_from_recorded_records.loc[
+        df_from_recorded_records.loc[:, "kart"]==kart,
+        :
+    ]
+    df_karts.loc[
+        df_karts.loc[:, "kart"] == kart,
+        "kart_fastest_lap"
+    ] = all_karts_record.loc[:, "lap_time"].min()
+
 df_karts_and_pilots["temp_with_pilot"] = 0
 df_karts_and_pilots["fastest_lap_with_pilot"] = 0
 
@@ -123,14 +128,11 @@ for pilot in df_karts_and_pilots.loc[:, "pilot"]:
         df_from_recorded_records.loc[:, "pilot"]==pilot,
         :
     ]
-    #CHANGE TEAM TO KART FOR THE RACE
     df_pilot_individual_karts = all_pilot_kart_records[category].\
         drop_duplicates(keep="first").copy().T.to_frame()
     df_pilot_individual_karts = df_pilot_individual_karts.reset_index(drop=False)
-    #CHANGE TEAM TO KART FOR THE RACE
     for kart in range(len(df_pilot_individual_karts)):
         kart_with_pilot = all_pilot_kart_records.loc[
-            #CHANGE TEAM TO KART FOR THE RACE
             df_from_recorded_records.loc[:, category] == df_pilot_individual_karts.loc[kart, category],
             :
         ]
@@ -143,32 +145,22 @@ for pilot in df_karts_and_pilots.loc[:, "pilot"]:
             "fastest_lap_with_pilot"
         ] = kart_with_pilot.loc[:, "lap_time"].min()
         
+
+
 df_stats = pd.DataFrame.merge(
     df_karts_and_pilots,
     df_pilots,
     on="pilot"
 )
 
+df_stats = pd.DataFrame.merge(
+    df_stats,
+    df_karts,
+    on=category
+)
+
 df_stats = df_stats.reset_index(drop=True)
 df_stats = df_stats.dropna()
-
-# df_temp = pd.DataFrame(
-#     {
-#         "pilot": df_stats["pilot"].copy(),
-#         "kart": df_stats["kart"].copy(),
-#         "pilot_temp": df_stats.pop("pilot_temp"),
-#         "temp_with_pilot": df_stats.pop("temp_with_pilot"),
-#     }
-# )
-
-# df_fastet_lap = pd.DataFrame(
-#     {
-#         "pilot": df_stats.pop("pilot"),
-#         "kart": df_stats.pop("kart"),
-#         "pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
-#         "fastest_lap_with_pilot": df_stats.pop("fastest_lap_with_pilot"),
-#     }
-# )
 
 list_of_names_to_delete = [
     "Карт 9",
@@ -204,20 +196,25 @@ df_stats = df_stats.drop(needed_indexes)
 
 df_to_analyze = pd.DataFrame(
     {
-        #"pilot": df_stats["pilot"].copy(),
+        "pilot": df_stats["pilot"].copy(),
         "kart": df_stats["kart"].copy(),
         "pilot_temp": df_stats.pop("pilot_temp"),
         "pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
-        "fastest_lap_with_pilot": df_stats.pop("fastest_lap_with_pilot"),
+        "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
         "temp_with_pilot": df_stats.pop("temp_with_pilot"),
     }
 )
 
 df_to_analyze.to_csv("test.csv", index=False, index_label=False)
 
+print("1.")
 analyzer_functions.regression_process(df_to_analyze)
 
-#print(df_fastet_lap.sort_values("pilot"))
+df_to_analyze.pop("temp_with_pilot")
+df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
+
+print("2.")
+analyzer_functions.regression_process(df_to_analyze)
     
 end = time.perf_counter()
 

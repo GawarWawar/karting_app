@@ -30,8 +30,31 @@ else:
     regres_eval = importlib.util.module_from_spec(spec)
     sys.modules["regres_eval"] = regres_eval
     spec.loader.exec_module(regres_eval)
+
+def str_lap_time_into_float_change(
+    lap_time: str
+):
+    try:
+        lap_time = float(lap_time)
+    except ValueError:
+        split_lap_time = lap_time.split(":")
+        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return lap_time
+
+def records_columns_to_numeric (
+    df_of_records: pd.DataFrame,
+    columns_to_change: list
+):
+    for column in columns_to_change:
+        try:
+            df_of_records[column]=pd.to_numeric(df_of_records[column])
+        except ValueError:
+            for i in range(len(df_of_records.loc[:, column])):
+                df_of_records.loc[i, column] = str_lap_time_into_float_change(df_of_records.loc[i, column])
+            df_of_records[column]=pd.to_numeric(df_of_records[column])
     
-    
+    return df_of_records
+ 
 def regression_process(
       df_to_analyze: pd.DataFrame,  
 ):
@@ -44,25 +67,14 @@ def regression_process(
     
     ohe = OneHotEncoder()
     ct = ColumnTransformer(
-        transformers=[("encoder", ohe, [0])],
+        transformers=[("encoder", ohe, [0,1])],
         remainder="passthrough"
     )
     x = ct.fit_transform(x).toarray()
-   
     
     # Splitting the dataset into the Training set and Test set
     from sklearn.model_selection import train_test_split
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
-    
-    ## Feature Scaling
-    #from sklearn.preprocessing import StandardScaler
-    #sc_x = StandardScaler()
-    #x_train[:, -3:] = sc_x.fit_transform(x_train[:, -3:])
-    ## We need to scale the Test_set on the same scale as Train_set
-    #x_test[:, -3:] = sc_x.transform(x_test[:, -3:])
-    #
-    #print(x[0, -3:])
-    #print(y[0])
     
     print_prediction = False
     

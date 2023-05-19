@@ -179,6 +179,16 @@ def add_row_with_lap_check(
         
         #ADD TIME TRANSFORMATION TO FLOAT FOR LAP_TIME, S1 AND S2, TO NOT DO IT ON ANALYZER
         
+        lap_time = u_tools.str_lap_time_into_float_change(
+            teams_stats[team]["lastLap"]
+        )
+        s1_time = u_tools.str_lap_time_into_float_change(
+            teams_stats[team]["lastLap"]
+        )
+        s2_time = u_tools.str_lap_time_into_float_change(
+            teams_stats[team]["lastLapS2"]
+        )
+        
         add_row.add_a_row(
             df_statistic,
             [
@@ -186,9 +196,9 @@ def add_row_with_lap_check(
                 teams_stats[team]["pilotName"], # pilot_name
                 int(teams_stats[team]["kart"]), # kart
                 lap_count, 
-                teams_stats[team]["lastLap"], # lap_time
-                teams_stats[team]["lastLapS1"], # s1
-                teams_stats[team]["lastLapS2"], # s2
+                lap_time, # lap_time
+                s1_time, # s1
+                s2_time, # s2
                 df_last_lap_info.loc[team, "current_segment"], #team_segment
                 true_name, # Flag to check if name is true and was changed after start or pit 
                 true_kart, # Flag to check if kart is true or still 0

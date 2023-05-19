@@ -33,7 +33,7 @@ def multiple_linear_regression(
     
     # Evaluating the Model Performance
     from sklearn.metrics import r2_score
-    print(r2_score(y_test, y_pred))
+    print(f"{r2_score(y_test, y_pred)} is R^2 score for multiple_linear_regression")
     
 def polinomial_regression(
     x_train,
@@ -66,7 +66,8 @@ def polinomial_regression(
     
     # Evaluating the Model Performance
     from sklearn.metrics import r2_score
-    print(r2_score(y_test, y_pred))
+    print(f"{r2_score(y_test, y_pred)} is R^2 score for polinomial_regression")
+
     
 def support_vector_regression(
     x_train,
@@ -110,7 +111,8 @@ def support_vector_regression(
 
     # Evaluating the Model Performance
     from sklearn.metrics import r2_score
-    print(r2_score(y_test, y_pred))
+    print(f"{r2_score(y_test, y_pred)} is R^2 score for support_vector_regression")
+
 
 def decision_tree_regression(
     x_train,
@@ -140,7 +142,7 @@ def decision_tree_regression(
     
     # Evaluating the Model Performance
     from sklearn.metrics import r2_score
-    print(r2_score(y_test, y_pred))
+    print(f"{r2_score(y_test, y_pred)} is R^2 score for decision_tree_regression")
     
 def random_forest_regression(
     x_train,
@@ -148,12 +150,13 @@ def random_forest_regression(
     x_test,
     y_test,
     print_prediction=False,
+    number_of_estimators=50
 ):
     # DOESNT NEED FEATURE SCALING
     
     # Training the Random Forest Regression model on the Training set
     from sklearn.ensemble import RandomForestRegressor
-    regressor = RandomForestRegressor(n_estimators=10,random_state=0)
+    regressor = RandomForestRegressor(n_estimators=number_of_estimators,random_state=0)
     regressor.fit(x_train, y_train)
 
     # Predicring a Test set result
@@ -170,4 +173,4 @@ def random_forest_regression(
     
     # Evaluating the Model Performance
     from sklearn.metrics import r2_score
-    print(r2_score(y_test, y_pred))
+    print(f"{r2_score(y_test, y_pred)} is R^2 score for random_forest_regression")

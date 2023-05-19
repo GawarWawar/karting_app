@@ -70,6 +70,9 @@ df_from_recorded_records = analyzer_functions.records_columns_to_numeric(
     ]
 )
 
+df_from_recorded_records.pop("segment")
+df_from_recorded_records.pop("lap")
+
 df_pilots = analyzer_functions.module_to_create_pilot_statistics(
     df_of_records=df_from_recorded_records
 )
@@ -79,40 +82,10 @@ df_karts = analyzer_functions.module_to_create_kart_statistics(
     category=category
 )
 
-df_pilot_on_karts = df_from_recorded_records.loc[
-    (df_from_recorded_records.loc[:, "true_name" ]== True),
-    ["pilot",category]
-].drop_duplicates(keep="first").copy()
-df_pilot_on_karts = df_pilot_on_karts.loc[ 
-    (df_from_recorded_records.loc[:, "true_kart" ]== True),
-    ["pilot",category]
-]
-df_pilot_on_karts["temp_with_pilot"] = 0
-df_pilot_on_karts["fastest_lap_with_pilot"] = 0
-
-for pilot in df_pilot_on_karts.loc[:, "pilot"]:
-    all_pilot_kart_records = df_from_recorded_records.loc[
-        df_from_recorded_records.loc[:, "pilot"]==pilot,
-        :
-    ]
-    df_pilot_individual_karts = all_pilot_kart_records[category].\
-        drop_duplicates(keep="first").copy().T.to_frame()
-    df_pilot_individual_karts = df_pilot_individual_karts.reset_index(drop=False)
-    for kart in range(len(df_pilot_individual_karts)):
-        kart_with_pilot = all_pilot_kart_records.loc[
-            df_from_recorded_records.loc[:, category] == df_pilot_individual_karts.loc[kart, category],
-            :
-        ]
-        df_pilot_on_karts.loc[
-            df_pilot_individual_karts.loc[kart, "index"],
-            "temp_with_pilot"
-        ] = kart_with_pilot.loc[:, "lap_time"].mean()
-        df_pilot_on_karts.loc[
-            df_pilot_individual_karts.loc[kart, "index"],
-            "fastest_lap_with_pilot"
-        ] = kart_with_pilot.loc[:, "lap_time"].min()
-        
-
+df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
+    df_of_records=df_from_recorded_records,
+    category=category
+)
 
 df_stats = pd.DataFrame.merge(
     df_pilot_on_karts,

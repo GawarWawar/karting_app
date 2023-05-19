@@ -15,7 +15,7 @@ def needed_rows(
             Note: programe will do criterias in order, so add them into criteries accordingly
 
     Returns:
-        (list): Returns list of needed indexes
+        (list): Returns list of needed rows
     """
     for criteria in range(len(criteries)):
         df_to_look_for_rows = df_to_look_for_rows[
@@ -62,3 +62,13 @@ def create_file(
 ):
     with open(path_to_file, "w") as file:
         pass
+    
+def str_lap_time_into_float_change(
+    lap_time: str
+):
+    try:
+        lap_time = float(lap_time)
+    except ValueError:
+        split_lap_time = lap_time.split(":")
+        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return lap_time

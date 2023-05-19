@@ -31,16 +31,6 @@ else:
     sys.modules["regres_eval"] = regres_eval
     spec.loader.exec_module(regres_eval)
 
-def str_lap_time_into_float_change(
-    lap_time: str
-):
-    try:
-        lap_time = float(lap_time)
-    except ValueError:
-        split_lap_time = lap_time.split(":")
-        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
-    return lap_time
-
 def records_columns_to_numeric (
     df_of_records: pd.DataFrame,
     columns_to_change: list
@@ -50,10 +40,92 @@ def records_columns_to_numeric (
             df_of_records[column]=pd.to_numeric(df_of_records[column])
         except ValueError:
             for i in range(len(df_of_records.loc[:, column])):
-                df_of_records.loc[i, column] = str_lap_time_into_float_change(df_of_records.loc[i, column])
+                df_of_records.loc[i, column] = u_tools.str_lap_time_into_float_change(df_of_records.loc[i, column])
             df_of_records[column]=pd.to_numeric(df_of_records[column])
     
     return df_of_records
+
+def module_to_create_df_with_statistic(
+    df_of_records: pd.DataFrame, 
+    
+    df_of_thing: pd.DataFrame,
+    column_to_look_for_thing: str,
+    
+    column_name_to_look_for_values_in: str,
+    
+    column_name_to_put_mean_value_in: str = None,
+    column_name_to_put_min_value_in: str = None,
+):
+    for thing in df_of_thing.loc[:, column_to_look_for_thing]:
+        all_thing_records = df_of_records.loc[
+                df_of_records.loc[:, column_to_look_for_thing] == thing,
+                :
+        ]
+        
+        if column_name_to_put_mean_value_in != None:
+            df_of_thing.loc[
+                df_of_thing.loc[:, column_to_look_for_thing] == thing,
+                column_name_to_put_mean_value_in
+            ] = all_thing_records.loc[:, column_name_to_look_for_values_in].mean()
+        
+        if column_name_to_put_min_value_in != None:
+            df_of_thing.loc[
+                df_of_thing.loc[:, column_to_look_for_thing] == thing,
+                column_name_to_put_min_value_in
+            ] = all_thing_records.loc[:, column_name_to_look_for_values_in].min()
+        
+    return df_of_thing
+        
+        
+
+def module_to_create_pilot_statistics (
+    df_of_records: pd.DataFrame,
+):
+    df_of_pilots = df_of_records.loc[
+        (df_of_records.loc[:, "true_name" ]== True), 
+        "pilot"
+    ].drop_duplicates().copy().T.to_frame()
+    df_of_pilots = df_of_pilots.reset_index(drop=True)
+    
+    df_of_pilots["pilot_temp"] = 0
+    df_of_pilots["pilot_fastest_lap"] = 0
+    
+    module_to_create_df_with_statistic(
+        df_of_records=df_of_records,
+        
+        df_of_thing=df_of_pilots,
+        column_to_look_for_thing="pilot",
+        
+        column_name_to_put_mean_value_in="pilot_temp",
+        column_name_to_put_min_value_in="pilot_fastest_lap",
+        column_name_to_look_for_values_in="lap_time",
+    )
+        
+    return df_of_pilots
+
+def module_to_create_kart_statistics (
+    df_of_records: pd.DataFrame,
+    category: str
+):
+    df_of_karts = df_of_records.loc[
+        df_of_records.loc[:, "true_kart" ]== True,
+        category
+    ].drop_duplicates().T.to_frame()
+    
+    df_of_karts["kart_fastest_lap"] = 0
+    
+    module_to_create_df_with_statistic(
+        df_of_records=df_of_records,
+        
+        df_of_thing=df_of_karts,
+        column_to_look_for_thing=category,
+        
+        #column_name_to_put_mean_value_in="kart_temp",
+        column_name_to_put_min_value_in="kart_fastest_lap",
+        column_name_to_look_for_values_in="lap_time",
+    )
+    
+    return df_of_karts
  
 def regression_process(
       df_to_analyze: pd.DataFrame,  

@@ -19,13 +19,16 @@ def generate_new_id(
     return(next_id)
 
 def add_a_row (
-    main_df: pd.DataFrame(), # df to add a row
-    list_with_info: list() # List with a contant for the row
+    main_df: pd.DataFrame, # df to add a row
+    list_with_info: list # List with a contant for the row
 ) -> None:
-    '''
-        Insert a new row into the end of the DataFrame with list_with_info content.
+    """ Insert a new row into the end of the DataFrame with list_with_info content.
         Note: the length of list_with_info needs to be exact as amount of columns into the main_df.
-    '''
+    
+
+    Args:
+        main_df (pd.DataFrame): DataFrame in which we should insert new row
+    """
     main_df.loc[len(main_df.index)]=list_with_info
 
 def add_a_row_with_exact_time (

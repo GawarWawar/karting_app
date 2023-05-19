@@ -126,10 +126,6 @@ while (
             is_on_pit=is_on_pit
         )
         
-        # Check if kart was changed on valid or it is still 0:
-            #yes -> changes all previous 0 kart records for this pilot to valid kart number
-            #no -> make a flag, to indicate all non valid kard records
-                # + make a last team`s kart = 0
         true_kart = recorder_functions.kart_check(
             df_statistic=df_statistic,
             df_last_lap_info=df_last_lap_info,
@@ -138,10 +134,7 @@ while (
             pilot_name=pilot_name,
             logging_file=path_to_logging_file
         )
-        # Check is lap_count of the team > then 0 and did it changed:
-            #yes -> make a record about last_lap
-                # + renew team`s lap count
-            # no -> pass  
+        
         recorder_functions.add_row_with_lap_check(
             df_statistic=df_statistic,
             df_last_lap_info=df_last_lap_info,

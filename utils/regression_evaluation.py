@@ -2,17 +2,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
+
+from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+
+from sklearn.metrics import r2_score
+from sklearn.utils.validation import column_or_1d 
+
+def print_r2_score(
+    r2_score_value :float,
+    regression_name_to_print: str
+):
+    print(f"{r2_score_value} is R^2 score for {regression_name_to_print}")
+    
+
 def multiple_linear_regression(
     x_train,
     y_train,
     x_test,
     y_test,
     print_prediction=False,
-):
-    # DOESNT NEED FEATURE SCALING
-    
+):  
     # Training the Mulltiple Linear Regression model on the Training set
-    from sklearn.linear_model import LinearRegression
     regressor = LinearRegression()
     regressor.fit(
         x_train,
@@ -32,8 +47,14 @@ def multiple_linear_regression(
         ))
     
     # Evaluating the Model Performance
-    from sklearn.metrics import r2_score
-    print(f"{r2_score(y_test, y_pred)} is R^2 score for multiple_linear_regression")
+    
+    r2_score_value = r2_score(y_test, y_pred)
+    print_r2_score(
+        r2_score_value=r2_score_value,
+        regression_name_to_print="multiple_linear_regression",
+    )
+    
+    return regressor, r2_score_value 
     
 def polinomial_regression(
     x_train,
@@ -41,16 +62,13 @@ def polinomial_regression(
     x_test,
     y_test,
     print_prediction=False,
-):
-    # DOESNT NEED FEATURE SCALING
-    
+):  
     # Training the Polynomial Regression model on the Training set
-    from sklearn.preprocessing import PolynomialFeatures
-    from sklearn.linear_model import LinearRegression
     poly_reg = PolynomialFeatures(degree = 4)
-    X_poly = poly_reg.fit_transform(x_train)
+    x_poly = poly_reg.fit_transform(x_train)
+    
     regressor = LinearRegression()
-    regressor.fit(X_poly, y_train)
+    regressor.fit(x_poly, y_train)
     
     # Predicting the Test set results
     y_pred = regressor.predict(poly_reg.transform(x_test))
@@ -65,8 +83,13 @@ def polinomial_regression(
         ))
     
     # Evaluating the Model Performance
-    from sklearn.metrics import r2_score
-    print(f"{r2_score(y_test, y_pred)} is R^2 score for polinomial_regression")
+    r2_score_value = r2_score(y_test, y_pred)
+    print_r2_score(
+        r2_score_value=r2_score_value,
+        regression_name_to_print="polinomial_regression",
+    )
+    
+    return regressor, r2_score_value
 
     
 def support_vector_regression(
@@ -76,10 +99,7 @@ def support_vector_regression(
     y_test,
     print_prediction=False,
 ):
-    # NEEDS FEATURE SCALING
-
     # Feature Scaling
-    from sklearn.preprocessing import StandardScaler
     sc_x = StandardScaler()
     sc_y = StandardScaler()
     x_train = sc_x.fit_transform(x_train)
@@ -87,9 +107,7 @@ def support_vector_regression(
     y_train = sc_y.fit_transform(y_train)
     
     # Training the SVR model on the Training set
-    from sklearn.svm import SVR
     regressor = SVR(kernel = 'rbf')
-    from sklearn.utils.validation import column_or_1d 
     y_train = column_or_1d(y_train)
     regressor.fit(x_train, y_train)
 
@@ -110,8 +128,13 @@ def support_vector_regression(
         ))
 
     # Evaluating the Model Performance
-    from sklearn.metrics import r2_score
-    print(f"{r2_score(y_test, y_pred)} is R^2 score for support_vector_regression")
+    r2_score_value = r2_score(y_test, y_pred)
+    print_r2_score(
+        r2_score_value=r2_score_value,
+        regression_name_to_print="support_vector_regression",
+    )
+    
+    return regressor, r2_score_value
 
 
 def decision_tree_regression(
@@ -121,10 +144,7 @@ def decision_tree_regression(
     y_test,
     print_prediction=False,
 ):
-    # DOESNT NEED FEATURE SCALING
-    
     # Training the Decision Tree Regression on the Training set
-    from sklearn.tree import DecisionTreeRegressor
     regressor = DecisionTreeRegressor(random_state = 0)
     regressor.fit(x_train, y_train)
     
@@ -141,8 +161,13 @@ def decision_tree_regression(
         ))
     
     # Evaluating the Model Performance
-    from sklearn.metrics import r2_score
-    print(f"{r2_score(y_test, y_pred)} is R^2 score for decision_tree_regression")
+    r2_score_value = r2_score(y_test, y_pred)
+    print_r2_score(
+        r2_score_value=r2_score_value,
+        regression_name_to_print="decision_tree_regression",
+    )
+    
+    return regressor, r2_score_value
     
 def random_forest_regression(
     x_train,
@@ -151,11 +176,8 @@ def random_forest_regression(
     y_test,
     print_prediction=False,
     number_of_estimators=50
-):
-    # DOESNT NEED FEATURE SCALING
-    
+):  
     # Training the Random Forest Regression model on the Training set
-    from sklearn.ensemble import RandomForestRegressor
     regressor = RandomForestRegressor(n_estimators=number_of_estimators,random_state=0)
     regressor.fit(x_train, y_train)
 
@@ -172,5 +194,10 @@ def random_forest_regression(
         ))
     
     # Evaluating the Model Performance
-    from sklearn.metrics import r2_score
-    print(f"{r2_score(y_test, y_pred)} is R^2 score for random_forest_regression")
+    r2_score_value = r2_score(y_test, y_pred)
+    print_r2_score(
+        r2_score_value=r2_score_value,
+        regression_name_to_print="random_forest_regression",
+    )
+    
+    return regressor, r2_score_value

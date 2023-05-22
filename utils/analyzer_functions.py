@@ -25,6 +25,53 @@ else:
     sys.modules["u_tools"] = u_tools
     spec.loader.exec_module(u_tools)
 
+
+def clear_df_to_analyze_before_analization_process(
+    df_to_clear: pd.DataFrame
+):
+    list_of_names_to_delete = [
+    "Карт 1",
+    "Карт 2",
+    "Карт 3",
+    "Карт 4",
+    "Карт 5",
+    "Карт 6",
+    "Карт 7",
+    "Карт 8",
+    "Карт 9",
+    "Карт 10",
+    "Карт 11",
+    "Карт 12",
+    "Карт 13",
+    "Карт 14",
+    "Карт 15",
+    "Карт 16",
+    "Карт 17",
+    "Карт 18",
+    "Карт 19",
+    "Карт 20",
+    "Карт 21",
+    "Карт 22",
+    "Карт 33",
+    "Карт 44",
+    "Карт 69",
+    "Карт 88",
+    ]
+
+    for name in list_of_names_to_delete:
+        needed_indexes = df_to_clear[
+            (df_to_clear.loc[:,"pilot"] == name)
+        ].index
+        df_to_clear = df_to_clear.drop(needed_indexes)
+
+    needed_indexes = df_to_clear[
+            (df_to_clear.loc[:,"kart"] == 0)
+        ].index    
+    df_to_clear = df_to_clear.drop(needed_indexes) 
+    
+    return df_to_clear
+
+
 def records_columns_to_numeric (
     df_of_records: pd.DataFrame,
     columns_to_change: list
@@ -173,3 +220,18 @@ def module_to_create_karts_statistics_for_every_pilot(
             [df_pilot_on_karts, karts_of_pilot_df]   
         )
     return df_pilot_on_karts
+
+def assemble_prediction (
+    pilot_name: str,
+    df_of_pilots: pd.DataFrame,
+    df_of_karts: pd.DataFrame,
+):
+    df_pilot_statistic = pd.DataFrame(
+        {
+            "pilot": pilot_name,
+            "kart": df_of_karts.loc[:, "kart"].drop_duplicates().copy(),
+        }
+    )
+    df_pilot_statistic["pilot_temp"] =  df_of_pilots.loc[df_of_pilots.loc[:, "pilot"] == pilot_name, "pilot_temp"].values[0]
+    df_pilot_statistic["pilot_fastest_lap"] = df_of_pilots.loc[df_of_pilots.loc[:, "pilot"] == pilot_name, "pilot_fastest_lap"].values[0]
+    print(df_pilot_statistic)

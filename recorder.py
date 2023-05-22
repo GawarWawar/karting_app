@@ -39,7 +39,7 @@ request_count = 0
 body_content, request_count = recorder_functions.make_request_after_some_time(
     server="https://nfs-stats.herokuapp.com/getmaininfo.json",
     request_count=request_count,
-    path_to_logging_file=path_to_logging_file,
+    logging_file=path_to_logging_file,
     time_to_wait = 0
 )
 
@@ -75,7 +75,7 @@ last_lap_info = None
 # End of preparation before main cycle
 preparation_ends = time.perf_counter()
 u_tools.write_log_to_file(
-    path_to_logging_file=path_to_logging_file,
+    logging_file_path=path_to_logging_file,
     log_to_add=f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
 )
 
@@ -99,14 +99,10 @@ while (
         pilot_name = teams_stats[team]["pilotName"]
         
         time_of_the_race = parser.isoparse("2001-04-07,"+body_content["onTablo"]["totalRaceTime"])
-        time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race
+        time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race.second
         true_name = recorder_functions.set_name_flag_after_check_time_after_pit(
-            df_statistic = df_statistic,
-            df_last_lap_info = df_last_lap_info,
-            team=team,
             seconds_from_pit=int(teams_stats[team]["secondsFromPit"]),
-            total_race_time=time_of_the_race,
-            pilot_name=pilot_name
+            total_race_time=time_of_the_race
         )
          
         is_on_pit=teams_stats[team]["isOnPit"]
@@ -142,7 +138,7 @@ while (
             team=team,
             true_name=true_name,
             true_kart=true_kart,
-            path_to_logging_file=path_to_logging_file    
+            logging_file=path_to_logging_file    
         )
     
     # Writing gazered statistic into the file
@@ -155,7 +151,7 @@ while (
     body_content, request_count = recorder_functions.make_request_after_some_time(
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
-        path_to_logging_file=path_to_logging_file,
+        logging_file=path_to_logging_file,
         start_time_to_wait=start_time_to_wait,
     )
     
@@ -170,7 +166,7 @@ while (
     
     end_of_the_cycle = time.perf_counter()
     u_tools.write_log_to_file(
-        path_to_logging_file=path_to_logging_file,
+        logging_file_path=path_to_logging_file,
         log_to_add=f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
     )
     
@@ -180,7 +176,7 @@ while (
 # End of the programme
 end_of_programme = time.perf_counter()
 u_tools.write_log_to_file(
-    path_to_logging_file=path_to_logging_file,
+    logging_file_path=path_to_logging_file,
     log_to_add=f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n",
 )
 

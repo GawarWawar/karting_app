@@ -96,12 +96,6 @@ df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_eve
     category=category
 )
 
-analyzer_functions.assemble_prediction(
-    "Ревчук Олексій",
-    df_of_pilots=df_pilots,
-    df_of_karts=df_karts
-)
-
 df_stats = pd.DataFrame.merge(
     df_pilot_on_karts,
     df_pilots,
@@ -135,14 +129,23 @@ df_to_analyze = pd.DataFrame(
 df_to_analyze.to_csv("test.csv", index=False, index_label=False)
 
 print("1.")
-regression_process.regression_process(df_to_analyze)
+df_with_prediction = analyzer_functions.assemble_prediction(
+    "Ревчук Олексій",
+    df_of_pilots=df_pilots,
+    df_of_karts=df_karts
+)
+list_of_dicts_with_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+
+prediction_df = pd.DataFrame.from_records(list_of_dicts_with_predictions)
+print(prediction_df)
+prediction_df.to_csv("predictions.csv", index=False, index_label=False )
 
 df_to_analyze.pop("temp_with_pilot")
 df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
 del df_stats
 
 print("2.")
-regression_process.regression_process(df_to_analyze)
+regression_process.regression_process(df_to_analyze, [df_with_prediction])
     
 end = time.perf_counter()
 

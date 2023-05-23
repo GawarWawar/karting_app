@@ -232,6 +232,17 @@ def assemble_prediction (
             "kart": df_of_karts.loc[:, "kart"].drop_duplicates().copy(),
         }
     )
-    df_pilot_statistic["pilot_temp"] =  df_of_pilots.loc[df_of_pilots.loc[:, "pilot"] == pilot_name, "pilot_temp"].values[0]
-    df_pilot_statistic["pilot_fastest_lap"] = df_of_pilots.loc[df_of_pilots.loc[:, "pilot"] == pilot_name, "pilot_fastest_lap"].values[0]
-    print(df_pilot_statistic)
+    df_pilot_statistic["pilot_temp"] =  df_of_pilots.loc[
+        df_of_pilots.loc[:, "pilot"] == pilot_name,
+        "pilot_temp"
+    ].values[0]
+    df_pilot_statistic["pilot_fastest_lap"] = df_of_pilots.loc[
+        df_of_pilots.loc[:, "pilot"] == pilot_name,
+        "pilot_fastest_lap"
+    ].values[0]
+    df_pilot_statistic = df_pilot_statistic.merge(
+        df_of_karts,
+        on="kart"
+    )
+
+    return df_pilot_statistic

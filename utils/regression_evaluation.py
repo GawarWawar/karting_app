@@ -54,7 +54,7 @@ def multiple_linear_regression(
         regression_name_to_print="multiple_linear_regression",
     )
     
-    return regressor, r2_score_value 
+    return regressor, r2_score_value
     
 def polinomial_regression(
     x_train,
@@ -89,7 +89,7 @@ def polinomial_regression(
         regression_name_to_print="polinomial_regression",
     )
     
-    return regressor, r2_score_value
+    return regressor, r2_score_value, poly_reg
 
     
 def support_vector_regression(
@@ -134,7 +134,7 @@ def support_vector_regression(
         regression_name_to_print="support_vector_regression",
     )
     
-    return regressor, r2_score_value
+    return regressor, r2_score_value, sc_x, sc_y
 
 
 def decision_tree_regression(

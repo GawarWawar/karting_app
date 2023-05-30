@@ -134,11 +134,18 @@ df_with_prediction = analyzer_functions.assemble_prediction(
     df_of_pilots=df_pilots,
     df_of_karts=df_karts
 )
-list_of_dicts_with_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
 
-prediction_df = pd.DataFrame.from_records(list_of_dicts_with_predictions)
-print(prediction_df)
-prediction_df.to_csv("predictions.csv", index=False, index_label=False )
+df_with_prediction_2 = analyzer_functions.assemble_prediction(
+    "Ревчук Олександр",
+    df_of_pilots=df_pilots,
+    df_of_karts=df_karts
+)
+list_of_dicts_with_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction, df_with_prediction_2])
+
+for i in range(len(list_of_dicts_with_predictions)):
+    prediction_df = pd.DataFrame(list_of_dicts_with_predictions[i])
+    prediction_df = prediction_df.round(4)
+    prediction_df.to_csv(f"predictions{i}.csv", index=False, index_label=False )
 
 df_to_analyze.pop("temp_with_pilot")
 df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")

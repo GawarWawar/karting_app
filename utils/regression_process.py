@@ -58,12 +58,13 @@ def add_prediction_to_return_dict(
     r2_score_value: float
 ):
     for prediction_count in range(len(predictions)):
+        prediction_to_add = predictions[prediction_count]
         list_of_dict_to_return[prediction_count].update(
             {
-                r2_score_value: predictions[prediction_count]
+                r2_score_value: prediction_to_add
             }
         )
-    
+        
     return list_of_dict_to_return
 
 def make_prediction_in_multiple_linear_regression(
@@ -145,7 +146,7 @@ def make_prediction_in_support_vector_regression(
     
     for i, prediction in enumerate(predictions):
         prediction = sc_y.inverse_transform([prediction])
-        predictions[i]=prediction 
+        predictions[i]=prediction[0] 
     
     return predictions, r2_score_value
     
@@ -216,6 +217,7 @@ def do_prediction_and_add_it_to_the_list(
     
     for i in range(len(predictions)):
         predictions[i] = predictions[i].tolist()
+    
     r2_score_value = f"{r2_score_value:.4f}"
     
     list_of_dict_to_return = add_prediction_to_return_dict(

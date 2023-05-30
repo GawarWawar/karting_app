@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import requests
+from urllib3 import exceptions
 
 import time
 
@@ -31,7 +32,6 @@ def kart_check (
     df_last_lap_info: pd.DataFrame,
     team: str,
     kart: int,
-    pilot_name: str,
     logging_file: str
 ) -> bool:
     """ Check if kart was changed on valid or it is still 0:
@@ -44,8 +44,7 @@ def kart_check (
         df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
         team (str): Team, which kart we are cheking.\n
         kart (int): Kart, which shown in the programme.\n
-        pilot_name (str): Name of a pilot to look for.\n
-
+        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
     Returns:
         bool: True, if it is valid kart number.\n
     """
@@ -88,7 +87,6 @@ def set_name_flag_after_check_time_after_pit(
     Returns:
         bool: True, if set amout of seconds passed after the last pit.
     """
-    #NEED TO CHECK IF TEAM IS STILL ON PIT
     if  seconds_from_pit >= seconds_to_pass and\
         total_race_time >= seconds_to_pass:
         true_name = True
@@ -102,6 +100,7 @@ def change_name_to_true_name_after_the_pit (
     df_last_lap_info: pd.DataFrame,
     team: str,
     pilot_name: str,
+    logging_file,
     true_name: bool,
     is_on_pit: bool
 ) -> None:
@@ -112,6 +111,7 @@ def change_name_to_true_name_after_the_pit (
         df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
         team (str): Team that we are checking.\n
         pilot_name (str): Name of a pilot that we are changing.\n
+        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
         true_name (bool): Change name only if name is True already.\n
         is_on_pit (bool): Dont proceed to change pilots name if team is still on pit.\n
     """
@@ -133,6 +133,10 @@ def change_name_to_true_name_after_the_pit (
         df_statistic.loc[needed_indexes, "true_name"] = True
         df_statistic.loc[needed_indexes, "pilot"] = pilot_name
         df_last_lap_info.loc[team, "was_on_pit"] = False
+        u_tools.write_log_to_file(
+            logging_file_path=logging_file,
+            log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}\n"
+        )
             
 def set_was_on_pit_and_current_segment(
     is_on_pit: bool,
@@ -239,10 +243,13 @@ def request_was_not_successful_check(
         end_time_to_wait = time.perf_counter()
         if end_time_to_wait-start_time_to_wait > 1:
             request_count += 1
-            server_request = requests.get(
-                server, 
-                timeout=10
-            )
+            try: 
+                server_request = requests.get(
+                    server, 
+                    timeout=10
+                )
+            except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
+                pass
             u_tools.write_log_to_file(
                 logging_file,
                 f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get, after request {request_count-1} failed \n"
@@ -281,10 +288,13 @@ def make_request_after_some_time  (
     if end_time_to_wait-start_time_to_wait < time_to_wait:
         while end_time_to_wait-start_time_to_wait < time_to_wait:
             end_time_to_wait = time.perf_counter()
-    server_request = requests.get(
-        server, 
-        timeout=10
-    ) 
+    try: 
+        server_request = requests.get(
+            server, 
+            timeout=10
+        )
+    except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
+        pass
     u_tools.write_log_to_file(
         logging_file,
         f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get \n"

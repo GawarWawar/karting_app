@@ -58,7 +58,9 @@ teams_stats = body_content["onTablo"]["teams2"]
 
 # Creating default dict of teams with info and flags about their past state
 last_lap_info = {}
-for team in body_content["onTablo"]["karts"]:
+teams = body_content["onTablo"]["karts"]
+teams.append(88)
+for team in teams:
     last_lap_info_update = {
         str(team): {
             "last_lap": 0, # info about number of team`s laps
@@ -68,6 +70,9 @@ for team in body_content["onTablo"]["karts"]:
         }
     }
     last_lap_info.update(last_lap_info_update)
+
+for team in teams_stats:
+    last_lap_info_update[team]["current_segment"] = len(teams_stats[team]["segments"])
     
 df_last_lap_info = pd.DataFrame.from_dict(last_lap_info, orient="index")
 last_lap_info = None
@@ -91,7 +96,6 @@ while (
         and not 
         race_started
     )
-    #NEED TO REDO CYCLE START. RN IT DOESNT WORK AS INTENDED
 ) and not (only_one_cycle == 0): # TESTING STUFF
     start_of_the_cycle = time.perf_counter()
     start_time_to_wait = time.perf_counter()
@@ -118,6 +122,7 @@ while (
             df_last_lap_info=df_last_lap_info,
             team=team,
             pilot_name=pilot_name,
+            logging_file=path_to_logging_file,
             true_name=true_name,
             is_on_pit=is_on_pit
         )

@@ -72,7 +72,7 @@ for team in teams:
     last_lap_info.update(last_lap_info_update)
 
 for team in teams_stats:
-    last_lap_info_update[team]["current_segment"] = len(teams_stats[team]["segments"])
+    last_lap_info[team]["current_segment"] = len(teams_stats[team]["segments"])
     
 df_last_lap_info = pd.DataFrame.from_dict(last_lap_info, orient="index")
 last_lap_info = None
@@ -132,7 +132,6 @@ while (
             df_last_lap_info=df_last_lap_info,
             team=team,
             kart=int(teams_stats[team]["kart"]),
-            pilot_name=pilot_name,
             logging_file=path_to_logging_file
         )
         

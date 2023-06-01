@@ -5,6 +5,8 @@ import time
 
 import os
 
+st_t = time.perf_counter()
+
 individual_pilot_statistic_df = pd.DataFrame(
     {
         "pilot": pd.Series(dtype=str)
@@ -76,3 +78,5 @@ for index in individual_pilot_statistic_df.loc[:, "pilot"].index:
 
 individual_pilot_statistic_df.to_csv("test.csv", index=False, index_label=False)
 
+en_t = time.perf_counter()
+print(en_t-st_t)

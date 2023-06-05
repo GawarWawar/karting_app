@@ -213,52 +213,8 @@ def add_row_with_lap_check(
             f"For team {team} added row for lap {lap_count}\n"
         )
         df_last_lap_info.loc[team, "last_lap"] = lap_count
-        
-def request_was_not_successful_check(
-    server_request: requests.Response,
-    server: str,
-    request_count: int,
-    logging_file: str,
-    start_time_to_wait:float = time.perf_counter()
-) -> tuple:
-    """Check, if request was successfully:
-            yes -> return body of the response as a first variable;
-            no -> try to get valid response every second until valid response;
-        As second variable return amount of requests that were needed.
 
-    Args:
-        server_request (requests.Response): request we already made to make a check of it status.\n
-        server(str): Server, on which next requests will be send
-        request_count (int): How many times we send request.\n
-        logging_file (str): File to paste logging info.\n
-        start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
-
-    Returns:
-        tuple: (
-            dict: Body of the response received,
-            int: Count of requests
-        )
-    """
-    while server_request.status_code != 200:
-        end_time_to_wait = time.perf_counter()
-        if end_time_to_wait-start_time_to_wait > 1:
-            request_count += 1
-            try: 
-                server_request = requests.get(
-                    server, 
-                    timeout=10
-                )
-            except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
-                pass
-            u_tools.write_log_to_file(
-                logging_file,
-                f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get, after request {request_count-1} failed \n"
-            )
-            start_time_to_wait = time.perf_counter()
-    body_content = server_request.json()
-    return body_content, request_count
-
-def make_request_after_some_time  (
+def make_request_after_some_time(
     server: str,
     request_count: int,
     logging_file: str,
@@ -272,18 +228,15 @@ def make_request_after_some_time  (
 
     Args:
         server (str): Link, on which we send a request.\n
-        request_count (int): How many times we send request to the server.\n
+        request_count (int): How many times we send request to the server. Needs to make a log about it.\n
         logging_file (str): File to paste logging info.\n
         start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
         time_to_wait (int, optional): How much time do we need to wait before the next request. Defaults is set to 1 second.\n
 
     Returns:
-        tuple: (
-            dict: Body of the response received,
-            int: Count of requests
-        )
+        requests.Response: response did not get an exeption and we are getting response from the server\n
+        None: we recieve one of the following exeptions: requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError
     """
-    request_count = request_count + 1
     end_time_to_wait = time.perf_counter()
     if end_time_to_wait-start_time_to_wait < time_to_wait:
         while end_time_to_wait-start_time_to_wait < time_to_wait:
@@ -293,16 +246,57 @@ def make_request_after_some_time  (
             server, 
             timeout=10
         )
+        end_time_to_wait = time.perf_counter()
+        u_tools.write_log_to_file(
+            logging_file,
+            f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get\n"
+        )
+        return server_request
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
-        pass
-    u_tools.write_log_to_file(
-        logging_file,
-        f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get \n"
-    )
-    body_content, request_count = request_was_not_successful_check(
-        server_request,
-        server,
-        request_count,
-        logging_file
-    )
+        end_time_to_wait = time.perf_counter()
+        u_tools.write_log_to_file(
+            logging_file,
+            f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception\n"
+        )
+        return None
+        
+def make_request_until_its_successful(
+    server: str,
+    request_count: int,
+    logging_file: str,
+    start_time_to_wait:float = time.perf_counter(),
+    time_to_wait:int = 1
+) -> tuple:
+    """Call make_request_after_some_time and check if it was successful:\n
+            yes -> return body of the response as a first variable;\n
+            no -> try to call make_request_after_some_tim until it gets valid response;\n
+        As second variable return amount of requests that were needed.
+
+    Args:
+        server(str): Server, on which requests will be send
+        request_count (int): How many times we sent requests already.\n
+        logging_file (str): File to paste logging info. It is needed into make_request_after_some_time.\n
+        start_time_to_wait (float, optional): Timestamp after the last request was done. It is needed into make_request_after_some_time. Defaults is set to time.perf_counter().\n
+        time_to_wait (int, optional): How much time do we need to wait before the next request. It is needed into make_request_after_some_time. Defaults is set to 1 second.\n
+    Returns:
+        tuple: (
+            dict: Body of the response received,
+            int: Count of requests
+        )
+    """
+    server_request_status_code = 0
+    while server_request_status_code != 200:
+        request_count += 1
+        try:
+            server_request = make_request_after_some_time(
+                server=server,
+                request_count=request_count,
+                logging_file=logging_file,
+                start_time_to_wait=start_time_to_wait,
+                time_to_wait=time_to_wait
+            )
+            server_request_status_code = server_request.status_code
+        except AttributeError:
+            pass
+    body_content = server_request.json()
     return body_content, request_count

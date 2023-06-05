@@ -1,12 +1,16 @@
 # Records and logs wont be included
 data/logs
 data/records
+data/past_records
 
 # Regression evaluation origins
 regression_evaluation_origin.py
 
 # File to try stuff
 try.py
+
+# Mac OS system files
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

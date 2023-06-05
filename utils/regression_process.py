@@ -269,15 +269,15 @@ def regression_process(
         list_of_dict_to_return=list_of_dict_to_return
     )
     
-    list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        type_of_prediction_to_do=make_prediction_in_polinomial_regression,
-        lists_of_values_to_predict=list_of_values_to_predict,
-        list_of_dict_to_return=list_of_dict_to_return
-    )
+    # list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
+    #     x_train,
+    #     y_train,
+    #     x_test,
+    #     y_test,
+    #     type_of_prediction_to_do=make_prediction_in_polinomial_regression,
+    #     lists_of_values_to_predict=list_of_values_to_predict,
+    #     list_of_dict_to_return=list_of_dict_to_return
+    # )
     
     list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
         x_train,

@@ -76,7 +76,13 @@ for index in individual_pilot_statistic_df.loc[:, "pilot"].index:
     average_pilot_coeficient = float(f"{average_pilot_coeficient:.4f}")
     individual_pilot_statistic_df.loc[index, "coeficient"] = average_pilot_coeficient
 
-individual_pilot_statistic_df.to_csv("test.csv", index=False, index_label=False)
+individual_pilot_statistic_df = pd.DataFrame(
+    {
+        "pilot": individual_pilot_statistic_df["pilot"],
+        "coeficient": individual_pilot_statistic_df["coeficient"]
+    }
+)
+individual_pilot_statistic_df.to_csv("data/pilot_rating.csv", index=False, index_label=False)
 
 en_t = time.perf_counter()
 print(en_t-st_t)

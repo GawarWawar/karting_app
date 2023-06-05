@@ -36,7 +36,7 @@ df_statistic = pd.read_csv("pilots_stats_template.csv")
 
 # Making first request
 request_count = 0
-body_content, request_count = recorder_functions.make_request_after_some_time(
+body_content, request_count = recorder_functions.make_request_until_its_successful(
     server="https://nfs-stats.herokuapp.com/getmaininfo.json",
     request_count=request_count,
     logging_file=path_to_logging_file,
@@ -152,7 +152,7 @@ while (
         index_label=False)
     
     # New request
-    body_content, request_count = recorder_functions.make_request_after_some_time(
+    body_content, request_count = recorder_functions.make_request_until_its_successful(
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
         logging_file=path_to_logging_file,

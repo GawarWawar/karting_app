@@ -10,6 +10,7 @@ import importlib.util
 
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing  import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 from sklearn.linear_model import LinearRegression
@@ -47,8 +48,8 @@ def make_some_predictions (
     lists_of_values_to_predict: list[list]
 ):
     list_of_predictions = []
-    for value in lists_of_values_to_predict:
-        prediction = regressor.predict(value)
+    for value_to_predict in lists_of_values_to_predict:
+        prediction = regressor.predict(value_to_predict)
         list_of_predictions.append(prediction)
     return list_of_predictions
 
@@ -252,6 +253,18 @@ def regression_process(
     
     # Splitting the dataset into the Training set and Test set
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
+    
+    sc_x = StandardScaler()
+    sc_y = StandardScaler()
+    x_train = sc_x.fit_transform(x_train)
+    y_train = y_train.reshape(len(y_train), 1)
+    y_train = sc_y.fit_transform(y_train)
+    y_train = np.ravel(y_train)
+    
+    x_test = sc_x.transform(x_test)
+    y_test = y_test.reshape(len(y_test), 1)
+    y_test = sc_y.fit_transform(y_test)
+    y_test = np.ravel(y_test)
     
     print_prediction = False
     

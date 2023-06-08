@@ -82,46 +82,6 @@ def train_the_model(
     
     return regressor
 
-def train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
-    x_train: list,
-    y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list],
-    list_of_dict_to_return: list[dict],
-    model_to_do_prediction_in: Callable[
-        [list, list], 
-        LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor]
-) -> list:
-    regressor = train_the_model(
-        x_train=x_train,
-        y_train=y_train,
-        model_to_train=model_to_do_prediction_in
-    )
-    
-    predictions = make_some_predictions(
-        regressor=regressor,
-        lists_of_values_to_predict=lists_of_values_to_predict
-    )
-    
-    for i in range(len(predictions)):
-        predictions[i] = predictions[i].tolist()
-    
-    r2_score_value = regres_eval.evaluate_model_perfomance(
-        regressor=regressor,
-        x_test=x_test,
-        y_test=y_test
-    )
-    
-    r2_score_value = f"{r2_score_value:.4f}"
-    
-    list_of_dict_to_return = add_prediction_to_return_dict(
-        list_of_dict_to_return,
-        predictions,
-        r2_score_value
-    )
-    return list_of_dict_to_return
-
 def regression_process(
       df_to_analyze: pd.DataFrame,  
       list_of_df_to_predict: list[pd.DataFrame]
@@ -129,10 +89,10 @@ def regression_process(
     x = df_to_analyze.iloc[:, :-1].values # Matrix of Features
     y = df_to_analyze.iloc[:, -1].values # Depending variable vector
     
-    list_of_values_to_predict = []
+    lists_of_values_to_predict = []
     for df in list_of_df_to_predict:
         values_to_predict = df.values
-        list_of_values_to_predict.append(values_to_predict)
+        lists_of_values_to_predict.append(values_to_predict)
     
     # Encoding the Independent Variable
     ct = ColumnTransformer(
@@ -141,67 +101,77 @@ def regression_process(
     )
     x = ct.fit_transform(x).toarray()
     
-    for i, item_to_transform in enumerate(list_of_values_to_predict):
-        values_to_predict = ct.transform(item_to_transform).toarray()
-        list_of_values_to_predict[i]=values_to_predict
-    
     # Splitting the dataset into the Training set and Test set
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
     
+    # Feature Scaling
     sc_x = StandardScaler()
-    sc_y = StandardScaler()
     x_train = sc_x.fit_transform(x_train)
-    y_train = y_train.reshape(len(y_train), 1)
-    y_train = sc_y.fit_transform(y_train)
-    y_train = np.ravel(y_train)
-    
     x_test = sc_x.transform(x_test)
-    y_test = y_test.reshape(len(y_test), 1)
-    y_test = sc_y.fit_transform(y_test)
-    y_test = np.ravel(y_test)
+    
+    sc_y = StandardScaler()
+    y_train = np.ravel(
+        sc_y.fit_transform(
+            y_train.reshape(len(y_train), 1)
+        )
+    )
+    y_test = np.ravel(
+        sc_y.fit_transform(
+            y_test.reshape(len(y_test), 1)
+        )
+    )
+    
+    # Transforming prediction with Encoder and Feature Scaling
+    for i, value_to_transform in enumerate(lists_of_values_to_predict):
+        values_to_predict = ct.transform(value_to_transform).toarray()
+        values_to_predict = sc_x.transform(values_to_predict)
+        lists_of_values_to_predict[i]=values_to_predict
 
     list_of_dict_to_return = []
     for df_count in range(len(list_of_df_to_predict)):
         list_of_dict_to_return.append({})
     
-    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        model_to_do_prediction_in=regres_eval.multiple_linear_regression,
-        lists_of_values_to_predict=list_of_values_to_predict,
-        list_of_dict_to_return=list_of_dict_to_return
-    )
+    list_of_regression_models = [
+        regres_eval.multiple_linear_regression,
+        regres_eval.support_vector_regression,
+        regres_eval.decision_tree_regression,
+        regres_eval.random_forest_regression
+    ]
     
-    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        model_to_do_prediction_in=regres_eval.support_vector_regression,
-        lists_of_values_to_predict=list_of_values_to_predict,
-        list_of_dict_to_return=list_of_dict_to_return
-    )
-    
-    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        model_to_do_prediction_in=regres_eval.decision_tree_regression,
-        lists_of_values_to_predict=list_of_values_to_predict,
-        list_of_dict_to_return=list_of_dict_to_return
-    )
-    
-    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        model_to_do_prediction_in=regres_eval.random_forest_regression,
-        lists_of_values_to_predict=list_of_values_to_predict,
-        list_of_dict_to_return=list_of_dict_to_return
-    )
-    
+    for model in list_of_regression_models:
+        regressor = train_the_model(
+            x_train=x_train,
+            y_train=y_train,
+            model_to_train=model
+        )
+
+        r2_score_value = regres_eval.evaluate_model_perfomance(
+            regressor=regressor,
+            x_test=x_test,
+            y_test=y_test
+        )
+
+        r2_score_value = float(f"{r2_score_value:.4f}")
+
+        predictions = []
+        predictions = make_some_predictions(
+            regressor=regressor,
+            lists_of_values_to_predict=lists_of_values_to_predict
+        )
+
+        # Inversing Feature Scaling for predictions
+        for i in range(len(predictions)):
+            predictions[i] = np.ravel(
+                sc_y.inverse_transform(
+                    [column_or_1d(predictions[i])]
+                )
+            )
+
+        if r2_score_value >= 0:
+            list_of_dict_to_return = add_prediction_to_return_dict(
+                list_of_dict_to_return,
+                predictions,
+                r2_score_value
+            )
+        
     return list_of_dict_to_return

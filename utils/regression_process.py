@@ -74,14 +74,12 @@ def make_prediction_in_multiple_linear_regression(
     x_test: list,
     y_test: list,
     lists_of_values_to_predict: list[list],
-    print_prediction = False,
 ):
     regressor, r2_score_value = regres_eval.multiple_linear_regression(
         x_train,
         y_train,
         x_test,
         y_test,
-        print_prediction,
     )
     
     predictions = make_some_predictions(
@@ -97,14 +95,12 @@ def make_prediction_in_polinomial_regression(
     x_test: list,
     y_test: list,
     lists_of_values_to_predict: list[list],
-    print_prediction = False,
 ):
     regressor, r2_score_value, poly_reg = regres_eval.polinomial_regression(
         x_train,
         y_train,
         x_test,
         y_test,
-        print_prediction
     )
     
     lists_of_values_to_predict_poly = lists_of_values_to_predict.copy()
@@ -125,15 +121,13 @@ def make_prediction_in_support_vector_regression(
     y_train: list,
     x_test: list,
     y_test: list,
-    lists_of_values_to_predict: list[list],
-    print_prediction = False,
+    lists_of_values_to_predict: list[list]
 ):
     regressor, r2_score_value, sc_x, sc_y = regres_eval.support_vector_regression(
         x_train,
         y_train,
         x_test,
-        y_test,
-        print_prediction
+        y_test
     )
     
     for i, value_to_predict in enumerate(lists_of_values_to_predict):
@@ -156,15 +150,13 @@ def make_prediction_in_decision_tree_regression(
     y_train: list,
     x_test: list,
     y_test: list,
-    lists_of_values_to_predict: list[list],
-    print_prediction = False,
+    lists_of_values_to_predict: list[list]
 ):
     regressor, r2_score_value = regres_eval.decision_tree_regression(
         x_train,
         y_train,
         x_test,
-        y_test,
-        print_prediction,
+        y_test
     )
     
     predictions = make_some_predictions(
@@ -179,15 +171,13 @@ def make_prediction_in_random_forest_regression(
     y_train: list,
     x_test: list,
     y_test: list,
-    lists_of_values_to_predict: list[list],
-    print_prediction = False,
+    lists_of_values_to_predict: list[list]
 ):
     regressor, r2_score_value = regres_eval.random_forest_regression(
         x_train,
         y_train,
         x_test,
-        y_test,
-        print_prediction,
+        y_test
     )
     
     predictions = make_some_predictions(
@@ -204,15 +194,13 @@ def do_prediction_and_add_it_to_the_list(
     y_test: list,
     lists_of_values_to_predict: list[list],
     list_of_dict_to_return: list[dict],
-    type_of_prediction_to_do: Callable[[list, list, list, list, bool], tuple],
-    print_prediction: bool = False,
+    type_of_prediction_to_do: Callable[[list, list, list, list, bool], tuple]
 ):
     predictions, r2_score_value = type_of_prediction_to_do(
         x_train,
         y_train,
         x_test,
         y_test,
-        print_prediction = print_prediction,
         lists_of_values_to_predict=lists_of_values_to_predict
     )
     
@@ -265,8 +253,7 @@ def regression_process(
     y_test = y_test.reshape(len(y_test), 1)
     y_test = sc_y.fit_transform(y_test)
     y_test = np.ravel(y_test)
-    
-    print_prediction = False
+
     
     list_of_dict_to_return = []
     for df_count in range(len(list_of_df_to_predict)):

@@ -1,6 +1,6 @@
 # Records and logs wont be included
-data/logs
-data/records
+data/logs/*
+data/records/*
 data/past_records
 
 # Regression evaluation origins

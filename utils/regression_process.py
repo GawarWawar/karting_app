@@ -46,7 +46,7 @@ else:
 def make_some_predictions (
     regressor: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,
     lists_of_values_to_predict: list[list]
-):
+) -> list:
     list_of_predictions = []
     for value_to_predict in lists_of_values_to_predict:
         prediction = regressor.predict(value_to_predict)
@@ -57,7 +57,7 @@ def add_prediction_to_return_dict(
     list_of_dict_to_return: list[dict],
     predictions: list[list],
     r2_score_value: float
-):
+) -> list:
     for prediction_count in range(len(predictions)):
         prediction_to_add = predictions[prediction_count]
         list_of_dict_to_return[prediction_count].update(
@@ -68,144 +68,50 @@ def add_prediction_to_return_dict(
         
     return list_of_dict_to_return
 
-def make_prediction_in_multiple_linear_regression(
+def train_the_model(
     x_train: list,
     y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list],
-):
-    regressor, r2_score_value = regres_eval.multiple_linear_regression(
+    model_to_train: Callable[
+        [list, list], 
+        LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor]
+) -> LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor:
+    regressor = model_to_train(
         x_train,
-        y_train,
-        x_test,
-        y_test,
+        y_train
     )
     
-    predictions = make_some_predictions(
-            regressor=regressor,
-            lists_of_values_to_predict=lists_of_values_to_predict
-    )
-    
-    return predictions, r2_score_value
+    return regressor
 
-def make_prediction_in_polinomial_regression(
-    x_train: list,
-    y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list],
-):
-    regressor, r2_score_value, poly_reg = regres_eval.polinomial_regression(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-    )
-    
-    lists_of_values_to_predict_poly = lists_of_values_to_predict.copy()
-    
-    for i, value_to_predict in enumerate(lists_of_values_to_predict_poly):
-        value_to_predict = poly_reg.transform(value_to_predict)
-        lists_of_values_to_predict_poly[i]=value_to_predict
-    
-    predictions = make_some_predictions(
-            regressor=regressor,
-            lists_of_values_to_predict=lists_of_values_to_predict_poly
-    )
-    
-    return predictions, r2_score_value
-
-def make_prediction_in_support_vector_regression(
-    x_train: list,
-    y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list]
-):
-    regressor, r2_score_value, sc_x, sc_y = regres_eval.support_vector_regression(
-        x_train,
-        y_train,
-        x_test,
-        y_test
-    )
-    
-    for i, value_to_predict in enumerate(lists_of_values_to_predict):
-        value_to_predict = sc_x.transform(value_to_predict)
-        lists_of_values_to_predict[i]=value_to_predict
-        
-    predictions = make_some_predictions(
-            regressor=regressor,
-            lists_of_values_to_predict=lists_of_values_to_predict
-    )
-    
-    for i, prediction in enumerate(predictions):
-        prediction = sc_y.inverse_transform([prediction])
-        predictions[i]=prediction[0] 
-    
-    return predictions, r2_score_value
-    
-def make_prediction_in_decision_tree_regression(
-    x_train: list,
-    y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list]
-):
-    regressor, r2_score_value = regres_eval.decision_tree_regression(
-        x_train,
-        y_train,
-        x_test,
-        y_test
-    )
-    
-    predictions = make_some_predictions(
-            regressor=regressor,
-            lists_of_values_to_predict=lists_of_values_to_predict
-    )
-    
-    return predictions, r2_score_value
-
-def make_prediction_in_random_forest_regression(
-    x_train: list,
-    y_train: list,
-    x_test: list,
-    y_test: list,
-    lists_of_values_to_predict: list[list]
-):
-    regressor, r2_score_value = regres_eval.random_forest_regression(
-        x_train,
-        y_train,
-        x_test,
-        y_test
-    )
-    
-    predictions = make_some_predictions(
-            regressor=regressor,
-            lists_of_values_to_predict=lists_of_values_to_predict
-    )
-    
-    return predictions, r2_score_value
-
-def do_prediction_and_add_it_to_the_list(
+def train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
     x_train: list,
     y_train: list,
     x_test: list,
     y_test: list,
     lists_of_values_to_predict: list[list],
     list_of_dict_to_return: list[dict],
-    type_of_prediction_to_do: Callable[[list, list, list, list, bool], tuple]
-):
-    predictions, r2_score_value = type_of_prediction_to_do(
-        x_train,
-        y_train,
-        x_test,
-        y_test,
+    model_to_do_prediction_in: Callable[
+        [list, list], 
+        LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor]
+) -> list:
+    regressor = train_the_model(
+        x_train=x_train,
+        y_train=y_train,
+        model_to_train=model_to_do_prediction_in
+    )
+    
+    predictions = make_some_predictions(
+        regressor=regressor,
         lists_of_values_to_predict=lists_of_values_to_predict
     )
     
     for i in range(len(predictions)):
         predictions[i] = predictions[i].tolist()
+    
+    r2_score_value = regres_eval.evaluate_model_perfomance(
+        regressor=regressor,
+        x_test=x_test,
+        y_test=y_test
+    )
     
     r2_score_value = f"{r2_score_value:.4f}"
     
@@ -254,57 +160,46 @@ def regression_process(
     y_test = sc_y.fit_transform(y_test)
     y_test = np.ravel(y_test)
 
-    
     list_of_dict_to_return = []
     for df_count in range(len(list_of_df_to_predict)):
         list_of_dict_to_return.append({})
     
-    list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
+    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
         x_train,
         y_train,
         x_test,
         y_test,
-        type_of_prediction_to_do=make_prediction_in_multiple_linear_regression,
+        model_to_do_prediction_in=regres_eval.multiple_linear_regression,
         lists_of_values_to_predict=list_of_values_to_predict,
         list_of_dict_to_return=list_of_dict_to_return
     )
     
-    # list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
-    #     x_train,
-    #     y_train,
-    #     x_test,
-    #     y_test,
-    #     type_of_prediction_to_do=make_prediction_in_polinomial_regression,
-    #     lists_of_values_to_predict=list_of_values_to_predict,
-    #     list_of_dict_to_return=list_of_dict_to_return
-    # )
-    
-    list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
+    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
         x_train,
         y_train,
         x_test,
         y_test,
-        type_of_prediction_to_do=make_prediction_in_support_vector_regression,
+        model_to_do_prediction_in=regres_eval.support_vector_regression,
         lists_of_values_to_predict=list_of_values_to_predict,
         list_of_dict_to_return=list_of_dict_to_return
     )
     
-    list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
+    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
         x_train,
         y_train,
         x_test,
         y_test,
-        type_of_prediction_to_do=make_prediction_in_decision_tree_regression,
+        model_to_do_prediction_in=regres_eval.decision_tree_regression,
         lists_of_values_to_predict=list_of_values_to_predict,
         list_of_dict_to_return=list_of_dict_to_return
     )
     
-    list_of_dict_to_return = do_prediction_and_add_it_to_the_list(
+    list_of_dict_to_return = train_model_do_predictions_evaluate_model_add_predictions_to_the_list(
         x_train,
         y_train,
         x_test,
         y_test,
-        type_of_prediction_to_do=make_prediction_in_random_forest_regression,
+        model_to_do_prediction_in=regres_eval.random_forest_regression,
         lists_of_values_to_predict=list_of_values_to_predict,
         list_of_dict_to_return=list_of_dict_to_return
     )

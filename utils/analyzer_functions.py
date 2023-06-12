@@ -228,12 +228,12 @@ def assemble_prediction (
         }
     )
     df_pilot_statistic = df_pilot_statistic.merge(
-        df_of_karts,
-        on="kart"
-    )
-    df_pilot_statistic = df_pilot_statistic.merge(
         df_of_pilots,
         on="pilot"
+    )
+    df_pilot_statistic = df_pilot_statistic.merge(
+        df_of_karts,
+        on="kart"
     )
 
     return df_pilot_statistic

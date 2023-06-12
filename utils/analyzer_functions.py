@@ -26,7 +26,7 @@ else:
     spec.loader.exec_module(u_tools)
 
 
-def clear_df_to_analyze_before_analization_process(
+def clear_df_from_unneeded_names(
     df_to_clear: pd.DataFrame
 ):
     list_of_names_to_delete = [
@@ -63,11 +63,6 @@ def clear_df_to_analyze_before_analization_process(
             (df_to_clear.loc[:,"pilot"] == name)
         ].index
         df_to_clear = df_to_clear.drop(needed_indexes)
-
-    needed_indexes = df_to_clear[
-            (df_to_clear.loc[:,"kart"] == 0)
-        ].index    
-    df_to_clear = df_to_clear.drop(needed_indexes) 
     
     return df_to_clear
 

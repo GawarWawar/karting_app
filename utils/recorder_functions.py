@@ -187,7 +187,7 @@ def add_row_with_lap_check(
             teams_stats[team]["lastLap"]
         )
         s1_time = u_tools.str_lap_time_into_float_change(
-            teams_stats[team]["lastLap"]
+            teams_stats[team]["lastLapS1"]
         )
         s2_time = u_tools.str_lap_time_into_float_change(
             teams_stats[team]["lastLapS2"]

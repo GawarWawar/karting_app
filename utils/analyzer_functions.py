@@ -162,7 +162,7 @@ def module_to_create_kart_statistics (
         df_with_features=df_of_karts,
         column_to_look_for_feature=category,
         
-        #column_name_to_put_mean_value_in="kart_temp",
+        column_name_to_put_mean_value_in="kart_temp",
         column_name_to_put_min_value_in="kart_fastest_lap",
         column_name_to_look_for_values_in="lap_time",
     )

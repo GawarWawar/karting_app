@@ -122,6 +122,7 @@ df_to_analyze = pd.DataFrame(
         "pilot_temp": df_stats.pop("pilot_temp"),
         "pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
         "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
+        "kart_temp": df_stats.pop("kart_temp"),
         "temp_with_pilot": df_stats.pop("temp_with_pilot"),
     }
 )

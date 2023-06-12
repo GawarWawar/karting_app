@@ -88,24 +88,19 @@ def regression_process(
 ):
     x = df_to_analyze.iloc[:, :-1].values # Matrix of Features
     y = df_to_analyze.iloc[:, -1].values # Depending variable vector
-    
-    lists_of_values_to_predict = []
-    for df in list_of_df_to_predict:
-        values_to_predict = df.values
-        lists_of_values_to_predict.append(values_to_predict)
-    
+
     # Encoding the Independent Variable
     ct = ColumnTransformer(
-        transformers=[("encoder", OneHotEncoder(), [0,1])],
+        transformers=[("encoder", OneHotEncoder(), [0])],
         remainder="passthrough"
     )
-    x = ct.fit_transform(x).toarray()
+    x = ct.fit_transform(x)
     
     # Splitting the dataset into the Training set and Test set
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
     
     # Feature Scaling
-    sc_x = StandardScaler()
+    sc_x = StandardScaler(with_mean=False)
     x_train = sc_x.fit_transform(x_train)
     x_test = sc_x.transform(x_test)
     
@@ -122,10 +117,13 @@ def regression_process(
     )
     
     # Transforming prediction with Encoder and Feature Scaling
-    for i, value_to_transform in enumerate(lists_of_values_to_predict):
-        values_to_predict = ct.transform(value_to_transform).toarray()
+    lists_of_values_to_predict = []
+    # for i, value_to_transform in enumerate(lists_of_values_to_predict):
+    for df in list_of_df_to_predict:
+        values_to_predict = df.values
+        values_to_predict = ct.transform(values_to_predict).toarray()
         values_to_predict = sc_x.transform(values_to_predict)
-        lists_of_values_to_predict[i]=values_to_predict
+        lists_of_values_to_predict.append(values_to_predict)
 
     list_of_dict_to_return = []
     for df_count in range(len(list_of_df_to_predict)):

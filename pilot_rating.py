@@ -5,6 +5,8 @@ import time
 
 import os
 
+from utils import coeficient_creation_functions as coef_func
+
 st_t = time.perf_counter()
 
 individual_pilot_statistic_df = pd.DataFrame(
@@ -60,16 +62,10 @@ for race_numbe_file_tuple in enumerate(files_to_read):
 
 for race_as_column in individual_pilot_statistic_df:
     if race_as_column != "pilot":
-        max_temp = individual_pilot_statistic_df.loc[:, race_as_column].max()
-        min_temp = individual_pilot_statistic_df.loc[:, race_as_column].min()
-        for temp in range(len(individual_pilot_statistic_df.loc[:, race_as_column])):
-            normilezed_temp =(
-                (individual_pilot_statistic_df.loc[temp, race_as_column]-min_temp)
-                /
-                (max_temp-min_temp)
+        individual_pilot_statistic_df[race_as_column] =\
+            coef_func.column_with_lap_time_to_coeficient(
+                individual_pilot_statistic_df.loc[:,race_as_column].copy()
             )
-            normilezed_temp = float(f"{normilezed_temp:.4f}")
-            individual_pilot_statistic_df.loc[temp, race_as_column] = normilezed_temp
 
 for index in individual_pilot_statistic_df.loc[:, "pilot"].index:
     average_pilot_coeficient = individual_pilot_statistic_df.iloc[index, 1:-1].mean()

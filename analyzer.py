@@ -64,6 +64,7 @@ for file in files_to_read:
         pass
 
 df_from_recorded_records["kart"] = "kart_" + df_from_recorded_records["kart"].astype(str)
+df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 
 df_from_recorded_records = analyzer_functions.records_columns_to_numeric(
     df_from_recorded_records,
@@ -101,10 +102,68 @@ df_coeficient = pd.read_csv(
         "coeficient": float
     }
 )
-df_pilots["temp_coeficient"] = coef_func.column_with_lap_time_to_coeficient(
+df_pilots["this_race_coeficient"] = coef_func.column_with_lap_time_to_coeficient(
                 df_pilots.loc[:,"pilot_temp"].copy()
             )
+#df_pilots["pilot_coeficient"] = 2
+#df_pilots["average_coeficient"] = 2
+#df_pilots["temp_from_average_coeficient"] = 2
 
+max_temp = df_pilots["pilot_temp"].max()
+min_temp = df_pilots["pilot_temp"].min()
+for pilot in df_pilots.loc[:, "pilot"]:
+    pilot_index_in_df_pilots = df_pilots.loc[
+            df_pilots.loc[:, "pilot"] == pilot,
+            "pilot"
+        ].index
+    coef = df_coeficient.loc[
+            df_coeficient.loc[:, "pilot"] == pilot,
+            "coeficient"
+        ]
+    if not coef.empty:
+        df_pilots.loc[
+            pilot_index_in_df_pilots,
+            "pilot_coeficient"
+        ] = coef.values
+    else:
+        coef = df_pilots.loc[
+            pilot_index_in_df_pilots,
+            "this_race_coeficient"
+        ]
+        df_pilots.loc[
+            pilot_index_in_df_pilots,
+            "pilot_coeficient"
+        ] = coef.values
+
+    df_pilots.loc[
+        pilot_index_in_df_pilots,
+        "average_coeficient"
+    ] = (
+            df_pilots.loc[pilot_index_in_df_pilots,"this_race_coeficient"]
+        +
+            df_pilots.loc[pilot_index_in_df_pilots,"pilot_coeficient"]
+        )/2 
+    
+    df_pilots.loc[
+        pilot_index_in_df_pilots,
+        "temp_from_average_coeficient"
+    ] = (
+            df_pilots.loc[pilot_index_in_df_pilots,"average_coeficient"]
+        *
+            (
+                max_temp
+            -
+                min_temp
+            )
+        ) + min_temp
+    
+#print(df_pilots.sort_values("pilot_temp", ignore_index=True, inplace=False))
+
+df_pilots.pop("pilot_temp")
+df_pilots.pop("this_race_coeficient")
+df_pilots.pop("pilot_coeficient")
+df_pilots.pop("average_coeficient")
+df_pilots.pop("pilot_fastest_lap")
 
 df_karts = analyzer_functions.module_to_create_kart_statistics(
     df_of_records=df_from_recorded_records,
@@ -135,9 +194,12 @@ df_to_analyze = pd.DataFrame(
     {
         #"pilot": df_stats["pilot"].copy(),
         "kart": df_stats["kart"].copy(),
-        "pilot_temp": df_stats.pop("pilot_temp"),
-        "pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
-        "temp_coeficient": df_stats.pop("temp_coeficient"),
+        #"pilot_temp": df_stats.pop("pilot_temp"),
+        #"pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
+        #"this_race_coeficient": df_stats.pop("this_race_coeficient"),
+        #"pilot_coeficient": df_stats.pop("pilot_coeficient"),
+        #"average_coeficient": df_stats.pop("average_coeficient"),
+        "temp_from_average_coeficient": df_stats.pop("temp_from_average_coeficient"),
         "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
         "kart_temp": df_stats.pop("kart_temp"),
         "temp_with_pilot": df_stats.pop("temp_with_pilot"),

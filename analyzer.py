@@ -109,56 +109,16 @@ df_pilots["this_race_coeficient"] = coef_func.column_with_lap_time_to_coeficient
 #df_pilots["average_coeficient"] = 2
 #df_pilots["temp_from_average_coeficient"] = 2
 
-max_temp = df_pilots["pilot_temp"].max()
-min_temp = df_pilots["pilot_temp"].min()
-for pilot in df_pilots.loc[:, "pilot"]:
-    pilot_index_in_df_pilots = df_pilots.loc[
-            df_pilots.loc[:, "pilot"] == pilot,
-            "pilot"
-        ].index
-    coef = df_coeficient.loc[
-            df_coeficient.loc[:, "pilot"] == pilot,
-            "coeficient"
-        ]
-    if not coef.empty:
-        df_pilots.loc[
-            pilot_index_in_df_pilots,
-            "pilot_coeficient"
-        ] = coef.values
-    else:
-        coef = df_pilots.loc[
-            pilot_index_in_df_pilots,
-            "this_race_coeficient"
-        ]
-        df_pilots.loc[
-            pilot_index_in_df_pilots,
-            "pilot_coeficient"
-        ] = coef.values
+df_pilots = analyzer_functions.coeficient_creation(
+    df_to_create_coeficients_into=df_pilots,
+    df_to_take_primary_coeficient_from=df_coeficient
+)
+del df_coeficient
 
-    df_pilots.loc[
-        pilot_index_in_df_pilots,
-        "average_coeficient"
-    ] = (
-            df_pilots.loc[pilot_index_in_df_pilots,"this_race_coeficient"]
-        +
-            df_pilots.loc[pilot_index_in_df_pilots,"pilot_coeficient"]
-        )/2 
-    
-    df_pilots.loc[
-        pilot_index_in_df_pilots,
-        "temp_from_average_coeficient"
-    ] = (
-            df_pilots.loc[pilot_index_in_df_pilots,"average_coeficient"]
-        *
-            (
-                max_temp
-            -
-                min_temp
-            )
-        ) + min_temp
-    
+# CHANGE INTO RETURNING TO THE PAGE, WHEN POSTING WILL BE READY    
 #print(df_pilots.sort_values("pilot_temp", ignore_index=True, inplace=False))
 
+# Deleting from df_pilots info, that won`t be used in regression process
 df_pilots.pop("pilot_temp")
 df_pilots.pop("this_race_coeficient")
 df_pilots.pop("pilot_coeficient")

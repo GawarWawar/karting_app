@@ -140,6 +140,7 @@ def module_to_create_pilot_statistics (
         
     return df_of_pilots
 
+
 def module_to_create_kart_statistics (
     df_of_records: pd.DataFrame,
     category: str
@@ -163,7 +164,8 @@ def module_to_create_kart_statistics (
     )
     
     return df_of_karts
- 
+
+
 def module_to_create_karts_statistics_for_every_pilot(
     df_of_records: pd.DataFrame,
     category: str
@@ -215,6 +217,64 @@ def module_to_create_karts_statistics_for_every_pilot(
             [df_pilot_on_karts, karts_of_pilot_df]   
         )
     return df_pilot_on_karts
+
+
+def coeficient_creation (
+    df_to_create_coeficients_into: pd.DataFrame,
+    df_to_take_primary_coeficient_from: pd.DataFrame
+):
+    max_temp = df_to_create_coeficients_into["pilot_temp"].max()
+    min_temp = df_to_create_coeficients_into["pilot_temp"].min()
+    
+    for pilot in df_to_create_coeficients_into.loc[:, "pilot"]:
+        pilot_index_in_df_pilots = df_to_create_coeficients_into.loc[
+                df_to_create_coeficients_into.loc[:, "pilot"] == pilot,
+                "pilot"
+            ].index
+        this_race_coeficient = df_to_take_primary_coeficient_from.loc[
+                df_to_take_primary_coeficient_from.loc[:, "pilot"] == pilot,
+                "coeficient"
+            ]
+        if not this_race_coeficient.empty:
+            df_to_create_coeficients_into.loc[
+                pilot_index_in_df_pilots,
+                "pilot_coeficient"
+            ] = this_race_coeficient.values
+        else:
+            this_race_coeficient = df_to_create_coeficients_into.loc[
+                pilot_index_in_df_pilots,
+                "this_race_coeficient"
+            ]
+            df_to_create_coeficients_into.loc[
+                pilot_index_in_df_pilots,
+                "pilot_coeficient"
+            ] = this_race_coeficient.values
+
+        df_to_create_coeficients_into.loc[
+            pilot_index_in_df_pilots,
+            "average_coeficient"
+        ] = (
+                df_to_create_coeficients_into.loc[pilot_index_in_df_pilots,"this_race_coeficient"]
+            +
+                df_to_create_coeficients_into.loc[pilot_index_in_df_pilots,"pilot_coeficient"]
+            )/2 
+
+        df_to_create_coeficients_into.loc[
+            pilot_index_in_df_pilots,
+            "temp_from_average_coeficient"
+        ] = (
+                df_to_create_coeficients_into.loc[pilot_index_in_df_pilots,"average_coeficient"]
+            *
+                (
+                    max_temp
+                -
+                    min_temp
+                )
+            ) + min_temp
+    
+    return df_to_create_coeficients_into
+
+
 
 def assemble_prediction (
     pilot_name: str,

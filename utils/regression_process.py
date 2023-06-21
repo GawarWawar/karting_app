@@ -97,7 +97,7 @@ def regression_process(
     x = ct.fit_transform(x)
     
     # Splitting the dataset into the Training set and Test set
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.15, random_state = 2)
     
     # Feature Scaling
     sc_x = StandardScaler(with_mean=False)

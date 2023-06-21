@@ -105,7 +105,7 @@ df_coeficient = pd.read_csv(
 
 df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
     df_to_create_coeficients_into=df_pilots,
-    df_to_take_primary_coeficient_from=df_coeficient
+    df_of_primary_coeficient=df_coeficient
 )
 
 del df_coeficient

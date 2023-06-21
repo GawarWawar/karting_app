@@ -1,7 +1,7 @@
 # Records and logs wont be included
 data/logs/*
 data/records/*
-data/past_records
+data/past_records/*
 
 # Regression evaluation origins
 regression_evaluation_origin.py

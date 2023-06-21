@@ -102,17 +102,12 @@ df_coeficient = pd.read_csv(
         "coeficient": float
     }
 )
-df_pilots["this_race_coeficient"] = coef_func.column_with_lap_time_to_coeficient(
-                df_pilots.loc[:,"pilot_temp"].copy()
-            )
-#df_pilots["pilot_coeficient"] = 2
-#df_pilots["average_coeficient"] = 2
-#df_pilots["temp_from_average_coeficient"] = 2
 
-df_pilots = analyzer_functions.coeficient_creation(
+df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
     df_to_create_coeficients_into=df_pilots,
     df_to_take_primary_coeficient_from=df_coeficient
 )
+
 del df_coeficient
 
 # CHANGE INTO RETURNING TO THE PAGE, WHEN POSTING WILL BE READY    

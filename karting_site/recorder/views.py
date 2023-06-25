@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 from celery.result import AsyncResult
 
@@ -9,8 +10,8 @@ from . import tasks
 
 # Create your views here.
 def index (request):
-    done = tasks.hello.delay()
-    return HttpResponse(done)
+    message = tasks.hello.delay()
+    return HttpResponseRedirect(f"/recorder/{message.id}")
 
 def view (request, celery_id):
     res = AsyncResult(celery_id,task_name=tasks.hello)

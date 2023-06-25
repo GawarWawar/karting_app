@@ -127,6 +127,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://localhost:5672/')
-CELERY_INCLUDE=('recorder.tasks')
-
+CELERY_BROKER_URL= os.environ.get('RABBITMQ_URL', 'amqp://localhost:5672/')
+CELERY_HOSTNAME = "localhost"
+CELERY_TASK_TRACK_STARTED = True
+include=('recorder.tasks')

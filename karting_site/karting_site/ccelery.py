@@ -7,7 +7,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'karting_site.settings')
 app = Celery(
     'karting_site', 
     backend='rpc://', 
-    broker='pyamqp://', 
 )
 
 app.config_from_object('django.conf:settings', namespace='CELERY')

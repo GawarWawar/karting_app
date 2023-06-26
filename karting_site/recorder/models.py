@@ -17,7 +17,7 @@ class RaceRecords(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     team_number = models.CharField("team", max_length=10)
     pilot_name = models.CharField("pilot_name", max_length=200)
-    kart = models.IntegerField("kart", default=0),
+    kart = models.IntegerField("kart", default=0)
     lap_count = models.IntegerField("lap_count")
     lap_time = models.FloatField("lap_time")
     s1_time = models.FloatField("s1_time")
@@ -25,4 +25,5 @@ class RaceRecords(models.Model):
     team_segment = models.IntegerField("team_segment")
     true_name = models.BooleanField("true_name")
     true_kart = models.BooleanField("true_kart")
+
     

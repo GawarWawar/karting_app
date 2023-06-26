@@ -4,7 +4,11 @@ from django.db import models
 
 class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)
-    publish_time = models.DateTimeField("publish_time")
+    publish_date = models.DateTimeField("publish_date")
+    is_recorded = models.BooleanField("is_recorded", default=False)
+    
+    def __str__(self):
+        return self.name_of_the_race
 
 class RaceRecords(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)

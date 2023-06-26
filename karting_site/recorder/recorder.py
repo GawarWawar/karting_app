@@ -138,6 +138,16 @@ def record_race ():
             lap_count = teams_stats[team]["lapCount"]
             if lap_count !=0 and (int(lap_count) > int(
                 df_last_lap_info.loc[team].at["last_lap"])):
+                teams_stats[team]["lastLap"] = u_tools.str_lap_time_into_float_change(
+                    teams_stats[team]["lastLap"]
+                )
+                teams_stats[team]["lastLapS1"] = u_tools.str_lap_time_into_float_change(
+                    teams_stats[team]["lastLapS1"]
+                )
+                teams_stats[team]["lastLapS2"] = u_tools.str_lap_time_into_float_change(
+                    teams_stats[team]["lastLapS2"]
+                )
+                
                 recorder_functions.add_lap_as_a_row(
                     df_statistic=df_statistic,
                     df_last_lap_info=df_last_lap_info,
@@ -146,7 +156,7 @@ def record_race ():
                     true_name=true_name,
                     true_kart=true_kart,
                 )
-                
+                                
                 u_tools.write_log_to_file(
                     path_to_logging_file,
                     f"For team {team} added row for lap {lap_count}\n"

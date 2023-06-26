@@ -6,6 +6,7 @@ class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)
     publish_date = models.DateTimeField("publish_date")
     is_recorded = models.BooleanField("is_recorded", default=False)
+    celery_recorder_id = models.CharField(max_length=64, default=0)
     
     def __str__(self):
         return self.name_of_the_race

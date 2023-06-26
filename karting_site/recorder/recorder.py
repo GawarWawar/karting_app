@@ -6,9 +6,9 @@ import requests
 import datetime
 from dateutil import parser
 
-from utils import add_row
-from utils import recorder_functions
-from utils import tools as u_tools
+from .utils import add_row
+from .utils import recorder_functions
+from .utils import tools as u_tools
 
 import time
 import pprint

@@ -135,15 +135,23 @@ def record_race ():
                 logging_file=path_to_logging_file
             )
             
-            recorder_functions.add_row_with_lap_check(
-                df_statistic=df_statistic,
-                df_last_lap_info=df_last_lap_info,
-                teams_stats=teams_stats,
-                team=team,
-                true_name=true_name,
-                true_kart=true_kart,
-                logging_file=path_to_logging_file    
-            )
+            lap_count = teams_stats[team]["lapCount"]
+            if lap_count !=0 and (int(lap_count) > int(
+                df_last_lap_info.loc[team].at["last_lap"])):
+                recorder_functions.add_lap_as_a_row(
+                    df_statistic=df_statistic,
+                    df_last_lap_info=df_last_lap_info,
+                    teams_stats=teams_stats,
+                    team=team,
+                    true_name=true_name,
+                    true_kart=true_kart,
+                )
+                
+                u_tools.write_log_to_file(
+                    path_to_logging_file,
+                    f"For team {team} added row for lap {lap_count}\n"
+                )
+                df_last_lap_info.loc[team, "last_lap"] = lap_count
         
         # Writing gazered statistic into the file
         df_statistic.to_csv(

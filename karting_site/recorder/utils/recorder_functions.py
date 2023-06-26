@@ -142,7 +142,7 @@ def set_was_on_pit_and_current_segment(
         df_last_lap_info.loc[team, "was_on_pit"] = True
         df_last_lap_info.loc[team, "current_segment"] = teams_segment_count
         
-def add_row_with_lap_check(
+def add_lap_as_a_row(
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
     teams_stats: dict,
@@ -161,43 +161,35 @@ def add_row_with_lap_check(
         true_name (bool): Flag, that indicate if team has a true kart already or should it be changed.\n
         true_kart (bool): Flag, that indicate if team has a true name already or should it be changed.\n
         logging_file (str): File, where logs are written.\n
-    """
-    lap_count = teams_stats[team]["lapCount"]
-    if lap_count !=0 and (int(lap_count) > int(
-            df_last_lap_info.loc[team].at["last_lap"])):
-        
+    """ 
         #ADD TIME TRANSFORMATION TO FLOAT FOR LAP_TIME, S1 AND S2, TO NOT DO IT ON ANALYZER
         
-        lap_time = u_tools.str_lap_time_into_float_change(
-            teams_stats[team]["lastLap"]
-        )
-        s1_time = u_tools.str_lap_time_into_float_change(
-            teams_stats[team]["lastLapS1"]
-        )
-        s2_time = u_tools.str_lap_time_into_float_change(
-            teams_stats[team]["lastLapS2"]
-        )
-        
-        add_row.add_a_row(
-            df_statistic,
-            [
-                team, #team number in str
-                teams_stats[team]["pilotName"], # pilot_name
-                int(teams_stats[team]["kart"]), # kart
-                lap_count, 
-                lap_time, # lap_time
-                s1_time, # s1
-                s2_time, # s2
-                df_last_lap_info.loc[team, "current_segment"], #team_segment
-                true_name, # Flag to check if name is true and was changed after start or pit 
-                true_kart, # Flag to check if kart is true or still 0
-            ]
-        )
-        u_tools.write_log_to_file(
-            logging_file,
-            f"For team {team} added row for lap {lap_count}\n"
-        )
-        df_last_lap_info.loc[team, "last_lap"] = lap_count
+    lap_time = u_tools.str_lap_time_into_float_change(
+        teams_stats[team]["lastLap"]
+    )
+    s1_time = u_tools.str_lap_time_into_float_change(
+        teams_stats[team]["lastLapS1"]
+    )
+    s2_time = u_tools.str_lap_time_into_float_change(
+        teams_stats[team]["lastLapS2"]
+    )
+    
+    add_row.add_a_row(
+        df_statistic,
+        [
+            team, #team number in str
+            teams_stats[team]["pilotName"], # pilot_name
+            int(teams_stats[team]["kart"]), # kart
+            teams_stats[team]["lapCount"], 
+            lap_time, # lap_time
+            s1_time, # s1
+            s2_time, # s2
+            df_last_lap_info.loc[team, "current_segment"], #team_segment
+            true_name, # Flag to check if name is true and was changed after start or pit 
+            true_kart, # Flag to check if kart is true or still 0
+        ]
+    )
+    
 
 def make_request_after_some_time(
     server: str,

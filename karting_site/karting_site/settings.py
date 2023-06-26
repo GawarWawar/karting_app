@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'recorder.apps.RecorderConfig',
     'celery',
+    'django_celery_beat',
+    'django_celery_results',
     #'kombu.transport.django',
+    
+    'recorder.apps.RecorderConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +131,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL= os.environ.get('RABBITMQ_URL', 'amqp://localhost:5672/')
+CELERY_BROKER_URL= 'redis://localhost:6379'
 CELERY_HOSTNAME = "localhost"
 CELERY_TASK_TRACK_STARTED = True
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_EXTENDED = True
 include=('recorder.tasks')

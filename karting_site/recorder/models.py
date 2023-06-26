@@ -1,10 +1,12 @@
 from django.db import models
 
+import datetime
 # Create your models here.
 
 class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)
-    publish_date = models.DateTimeField("publish_date")
+    publish_date = models.DateTimeField("publish_date", default=datetime.datetime.now)
+    date_record_started = models.DateField("date_record_started", default=datetime.datetime.now)
     is_recorded = models.BooleanField("is_recorded", default=False)
     celery_recorder_id = models.CharField(max_length=64, default=0)
     

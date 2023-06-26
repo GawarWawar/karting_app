@@ -9,9 +9,7 @@ from . import tasks
 # Register your models here.
 class RaceAdmin(admin.ModelAdmin):
     fields = [
-        "name_of_the_race", 
-        "publish_date", 
-        #"is_recorded"
+        "name_of_the_race",
     ]
     list_display = [
         "name_of_the_race", 
@@ -33,7 +31,6 @@ class RaceAdmin(admin.ModelAdmin):
                 obj.celery_recorder_id = recording_by_celery.id
                 message = f"Recording started. Process id is {recording_by_celery.id}"
             else:
-                #celery_object_that_started_recording = celery_object_that_started_recording.values()
                 message = f"Recording for this race has already started. Celery working on it {celery_object_that_started_recording.task_id} id"
 
             self.message_user(request, message)

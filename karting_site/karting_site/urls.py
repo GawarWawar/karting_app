@@ -21,3 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("recorder/", include("recorder.urls"))
 ]
+
+admin.site.site_header = "Karting App Admin"
+admin.site.site_title = "Karting App Admin Page"
+admin.site.index_title = "Welcome to Karting App admin"

@@ -13,23 +13,19 @@ from . import add_row
 from . import tools as u_tools
 
 def kart_check (
-    df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
     team: str,
     kart: int,
-    logging_file: str
 ) -> bool:
     """ Check if kart was changed on valid or it is still 0:
-            yes -> changes all previous 0 kart records for this pilot to valid kart number;
+            yes -> make flag indicate that kart is valid;
             no -> make a flag, to indicate all non valid kard records;
                  + make a last team`s kart = 0.
     
     Args:
-        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
         df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
         team (str): Team, which kart we are cheking.\n
         kart (int): Kart, which shown in the programme.\n
-        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
     Returns:
         bool: True, if it is valid kart number.\n
     """
@@ -38,7 +34,27 @@ def kart_check (
         df_last_lap_info.loc[team, "last_kart"] = kart
     else: 
         true_kart = True
-        if kart != df_last_lap_info.loc[team, "last_kart"]:
+    return true_kart
+
+def change_kart_on_true_value(
+    df_statistic: pd.DataFrame,
+    df_last_lap_info: pd.DataFrame,
+    team: str,
+    kart: int,
+    #logging_file: str
+):
+    """ Check if it is true_kart and we didnt change it yet:
+            changes all previous 0 kart records for this pilot to valid kart number;
+            make a log about it;
+    
+    Args:
+        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
+        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
+        team (str): Team, which kart we are cheking.\n
+        kart (int): Kart, which shown in the programme.\n
+        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
+    """
+    if kart != df_last_lap_info.loc[team, "last_kart"]:
             needed_indexes = df_statistic[
                 (df_statistic.loc[:,"team"] == team) 
                 &(df_statistic.loc[:,"true_kart"] == False) 
@@ -50,11 +66,10 @@ def kart_check (
             df_statistic.loc[needed_indexes, "true_kart"] = True
             df_statistic.loc[needed_indexes, "kart"] = kart
             df_last_lap_info.loc[team, "last_kart"] = kart
-            u_tools.write_log_to_file(
-                logging_file_path=logging_file,
-                log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}\n"
-            )
-    return true_kart
+            # u_tools.write_log_to_file(
+            #     logging_file_path=logging_file,
+            #     log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}\n"
+            # )
 
 def set_name_flag_after_check_time_after_pit(
     seconds_from_pit: int,
@@ -85,7 +100,7 @@ def change_name_to_true_name_after_the_pit (
     df_last_lap_info: pd.DataFrame,
     team: str,
     pilot_name: str,
-    logging_file,
+    #logging_file,
     true_name: bool,
     is_on_pit: bool
 ) -> None:
@@ -118,10 +133,10 @@ def change_name_to_true_name_after_the_pit (
         df_statistic.loc[needed_indexes, "true_name"] = True
         df_statistic.loc[needed_indexes, "pilot"] = pilot_name
         df_last_lap_info.loc[team, "was_on_pit"] = False
-        u_tools.write_log_to_file(
-            logging_file_path=logging_file,
-            log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}\n"
-        )
+        # u_tools.write_log_to_file(
+        #     logging_file_path=logging_file,
+        #     log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}\n"
+        # )
             
 def set_was_on_pit_and_current_segment(
     is_on_pit: bool,
@@ -149,7 +164,6 @@ def add_lap_as_a_row(
     team: str,
     true_name: bool,
     true_kart: bool,
-    logging_file: str
 ) -> None:
     """Add a row to df_statistic with a lap info. Also update lap count for team and make a log about it.
 
@@ -162,7 +176,6 @@ def add_lap_as_a_row(
         true_kart (bool): Flag, that indicate if team has a true name already or should it be changed.\n
         logging_file (str): File, where logs are written.\n
     """ 
-        #ADD TIME TRANSFORMATION TO FLOAT FOR LAP_TIME, S1 AND S2, TO NOT DO IT ON ANALYZER
     
     add_row.add_a_row(
         df_statistic,
@@ -184,7 +197,7 @@ def add_lap_as_a_row(
 def make_request_after_some_time(
     server: str,
     request_count: int,
-    logging_file: str,
+    #logging_file: str,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait: int = 1
 ) -> tuple:
@@ -214,23 +227,23 @@ def make_request_after_some_time(
             timeout=10
         )
         end_time_to_wait = time.perf_counter()
-        u_tools.write_log_to_file(
-            logging_file,
-            f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get\n"
-        )
+        # u_tools.write_log_to_file(
+        #     logging_file,
+        #     f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get\n"
+        # )
         return server_request
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
         end_time_to_wait = time.perf_counter()
-        u_tools.write_log_to_file(
-            logging_file,
-            f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception\n"
-        )
+        # u_tools.write_log_to_file(
+        #     logging_file,
+        #     f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception\n"
+        # )
         return None
         
 def make_request_until_its_successful(
     server: str,
     request_count: int,
-    logging_file: str,
+    #logging_file: str,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait:int = 1
 ) -> tuple:
@@ -258,7 +271,7 @@ def make_request_until_its_successful(
             server_request = make_request_after_some_time(
                 server=server,
                 request_count=request_count,
-                logging_file=logging_file,
+                #logging_file=logging_file,
                 start_time_to_wait=start_time_to_wait,
                 time_to_wait=time_to_wait
             )

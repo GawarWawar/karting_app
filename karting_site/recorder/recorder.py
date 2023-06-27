@@ -6,15 +6,19 @@ import requests
 import datetime
 from dateutil import parser
 
+
+from . import models
 from .utils import add_row
 from .utils import recorder_functions
 from .utils import tools as u_tools
 
 import time
 import pprint
+import os
+from pathlib import Path
 
 #needed link: https://nfs-stats.herokuapp.com/getmaininfo.json
-def record_race ():
+def record_race (race_id):
     # Testing variable
     only_one_cycle = -1
 
@@ -22,24 +26,40 @@ def record_race ():
     start_of_the_programme = time.perf_counter()
 
     # Adding file pathes and names to write our record and logs for this run
-    exact_date_and_time = str(datetime.datetime.now())
-    logging_file_name = exact_date_and_time + ".txt"
-    record_file_name = exact_date_and_time + ".csv"
-    path_to_logging_file = "data/logs/" + logging_file_name
-    path_to_records_file = "data/records/" + record_file_name
+    
+    # BASE_DIR = Path(__file__).resolve().parent
+    # print(BASE_DIR)
+    # exact_date_and_time = str(datetime.datetime.now())
+    # logging_file_name = exact_date_and_time + ".txt"
+    # record_file_name = exact_date_and_time + ".csv"
+    # path_to_logging_file = "data/logs/" + logging_file_name
+    # path_to_records_file = "data/records/" + record_file_name
 
-    u_tools.create_file(path_to_logging_file)
-    u_tools.create_file(path_to_records_file)
+    # u_tools.create_file(path_to_logging_file)
+    # u_tools.create_file(path_to_records_file)
 
     # Reseting main DataFrame: clearing data, leaving only structure with needed columns
-    df_statistic = pd.read_csv("utils/pilots_stats_template.csv")
+    df_statistic = pd.DataFrame(
+        {
+            "team": pd.Series(int),
+            "pilot": pd.Series(str),
+            "kart": pd.Series(int),
+            "lap": pd.Series(int),
+            "lap_time": pd.Series(float),
+            "s1": pd.Series(float),
+            "s2": pd.Series(float),
+            "segment": pd.Series(int),
+            "true_name": pd.Series(bool),
+            "true_kart": pd.Series(bool)
+        }
+    )
 
     # Making first request
     request_count = 0
     body_content, request_count = recorder_functions.make_request_until_its_successful(
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
-        logging_file=path_to_logging_file,
+        #logging_file=path_to_logging_file,
         time_to_wait = 0
     )
 
@@ -79,10 +99,10 @@ def record_race ():
 
     # End of preparation before main cycle
     preparation_ends = time.perf_counter()
-    u_tools.write_log_to_file(
-        logging_file_path=path_to_logging_file,
-        log_to_add=f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
-    )
+    # u_tools.write_log_to_file(
+    #     logging_file_path=path_to_logging_file,
+    #     log_to_add=f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
+    # )
 
     # Main cycle
     while (
@@ -122,17 +142,61 @@ def record_race ():
                 df_last_lap_info=df_last_lap_info,
                 team=team,
                 pilot_name=pilot_name,
-                logging_file=path_to_logging_file,
+                #logging_file=path_to_logging_file,
                 true_name=true_name,
                 is_on_pit=is_on_pit
             )
             
+            if (
+                df_last_lap_info.loc[team, "was_on_pit"] == True
+                and
+                true_name
+                and not
+                is_on_pit
+            ):
+                laps_to_change =  models.Race.objects.filter(
+                    race = race_id,
+                    team_number = int(team),
+                    true_name = False,
+                    team_segment = df_last_lap_info.loc[team, "current_segment"],
+                )
+                
+                if laps_to_change:
+                    laps_to_change.true_name = True
+                    laps_to_change.pilot_name = pilot_name
+                    laps_to_change.save()
+            
+            kart = int(teams_stats[team]["kart"])
             true_kart = recorder_functions.kart_check(
+                df_last_lap_info=df_last_lap_info,
+                team=team,
+                kart=kart,
+            )
+                
+            if (
+                true_kart
+                and
+                kart != df_last_lap_info.loc[team, "last_kart"]
+            ):
+                laps_to_change =  models.Race.objects.filter(
+                    race = race_id,
+                    team_number = int(team),
+                    true_kart = False,
+                    team_segment = df_last_lap_info.loc[team, "current_segment"],
+                )
+                
+                if laps_to_change:
+                    laps_to_change.true_kart = True
+                    laps_to_change.kart = kart
+                    laps_to_change.save()
+                    
+            
+            recorder_functions.change_kart_on_true_value(
                 df_statistic=df_statistic,
                 df_last_lap_info=df_last_lap_info,
                 team=team,
-                kart=int(teams_stats[team]["kart"]),
-                logging_file=path_to_logging_file
+                kart=kart,
+                #logging_file=path_to_logging_file
             )
             
             lap_count = teams_stats[team]["lapCount"]
@@ -156,24 +220,41 @@ def record_race ():
                     true_name=true_name,
                     true_kart=true_kart,
                 )
-                                
-                u_tools.write_log_to_file(
-                    path_to_logging_file,
-                    f"For team {team} added row for lap {lap_count}\n"
+                
+                race = models.Race.objects.get(pk=race_id)
+                lap_record = models.RaceRecords.objects.create(
+                    race = race,
+                    team_number = int(team),
+                    pilot_name = pilot_name,
+                    kart = int(teams_stats[team]["kart"]),
+                    lap_count = teams_stats[team]["lapCount"],
+                    lap_time = teams_stats[team]["lastLap"],
+                    s1_time = teams_stats[team]["lastLapS1"],
+                    s2_time = teams_stats[team]["lastLapS2"],
+                    team_segment = df_last_lap_info.loc[team, "current_segment"],
+                    true_name = true_name,
+                    true_kart = true_kart,
                 )
+                print(lap_record)
+                lap_record.save()
+                                
+                # u_tools.write_log_to_file(
+                #     path_to_logging_file,
+                #     f"For team {team} added row for lap {lap_count}\n"
+                # )
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
         
         # Writing gazered statistic into the file
-        df_statistic.to_csv(
-            path_to_records_file, 
-            index=False, 
-            index_label=False)
+        # df_statistic.to_csv(
+        #     path_to_records_file, 
+        #     index=False, 
+        #     index_label=False)
         
         # New request
         body_content, request_count = recorder_functions.make_request_until_its_successful(
             server="https://nfs-stats.herokuapp.com/getmaininfo.json",
             request_count=request_count,
-            logging_file=path_to_logging_file,
+            #logging_file=path_to_logging_file,
             start_time_to_wait=start_time_to_wait,
         )
         
@@ -187,20 +268,17 @@ def record_race ():
         race_started = True
         
         end_of_the_cycle = time.perf_counter()
-        u_tools.write_log_to_file(
-            logging_file_path=path_to_logging_file,
-            log_to_add=f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
-        )
+        # u_tools.write_log_to_file(
+        #     logging_file_path=path_to_logging_file,
+        #     log_to_add=f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
+        # )
         
         # TESTING STUFF
         only_one_cycle -= 1
 
     # End of the programme
     end_of_programme = time.perf_counter()
-    u_tools.write_log_to_file(
-        logging_file_path=path_to_logging_file,
-        log_to_add=f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n",
-    )
-
-if __name__ == "__main__":
-    record_race()
+    # u_tools.write_log_to_file(
+    #     logging_file_path=path_to_logging_file,
+    #     log_to_add=f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n",
+    # )

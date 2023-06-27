@@ -5,6 +5,8 @@ from django_celery_results.models import TaskResult
 
 from . import models
 from . import tasks
+from .utils import tools as u_tools
+from . import recorder
 
 # Register your models here.
 class RaceAdmin(admin.ModelAdmin):
@@ -23,11 +25,11 @@ class RaceAdmin(admin.ModelAdmin):
         if "_start_recording" in request.POST:
             obj = self.get_queryset(request).get(pk=obj.id)
             obj.is_recorded = True
-            task_to_do_name = tasks.hello.name
+            task_to_do_name = tasks.start_recorder.name
             try:
                 celery_object_that_started_recording = TaskResult.objects.get(task_id = obj.celery_recorder_id, status = "STARTED", task_name = task_to_do_name)
             except TaskResult.DoesNotExist:
-                recording_by_celery = tasks.hello.delay()
+                recording_by_celery = tasks.start_recorder.delay(obj.id)
                 obj.celery_recorder_id = recording_by_celery.id
                 message = f"Recording started. Process id is {recording_by_celery.id}"
             else:

@@ -8,6 +8,7 @@ import time
 import sys
 from os.path import dirname, abspath
 import importlib.util
+import logging
 
 from . import add_row
 from . import tools as u_tools
@@ -41,7 +42,7 @@ def change_kart_on_true_value(
     df_last_lap_info: pd.DataFrame,
     team: str,
     kart: int,
-    #logging_file: str
+    logger: logging.Logger
 ):
     """ Check if it is true_kart and we didnt change it yet:
             changes all previous 0 kart records for this pilot to valid kart number;
@@ -66,10 +67,8 @@ def change_kart_on_true_value(
             df_statistic.loc[needed_indexes, "true_kart"] = True
             df_statistic.loc[needed_indexes, "kart"] = kart
             df_last_lap_info.loc[team, "last_kart"] = kart
-            # u_tools.write_log_to_file(
-            #     logging_file_path=logging_file,
-            #     log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}\n"
-            # )
+            
+            logger.info(f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}")
 
 def set_name_flag_after_check_time_after_pit(
     seconds_from_pit: int,
@@ -100,7 +99,7 @@ def change_name_to_true_name_after_the_pit (
     df_last_lap_info: pd.DataFrame,
     team: str,
     pilot_name: str,
-    #logging_file,
+    logger: logging.Logger,
     true_name: bool,
     is_on_pit: bool
 ) -> None:
@@ -133,10 +132,9 @@ def change_name_to_true_name_after_the_pit (
         df_statistic.loc[needed_indexes, "true_name"] = True
         df_statistic.loc[needed_indexes, "pilot"] = pilot_name
         df_last_lap_info.loc[team, "was_on_pit"] = False
-        # u_tools.write_log_to_file(
-        #     logging_file_path=logging_file,
-        #     log_to_add=f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}\n"
-        # )
+        
+        logger.info(f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}")
+
             
 def set_was_on_pit_and_current_segment(
     is_on_pit: bool,
@@ -197,7 +195,7 @@ def add_lap_as_a_row(
 def make_request_after_some_time(
     server: str,
     request_count: int,
-    #logging_file: str,
+    logger: logging.Logger,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait: int = 1
 ) -> tuple:
@@ -227,23 +225,19 @@ def make_request_after_some_time(
             timeout=10
         )
         end_time_to_wait = time.perf_counter()
-        # u_tools.write_log_to_file(
-        #     logging_file,
-        #     f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get\n"
-        # )
+        logger.info(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
         return server_request
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
         end_time_to_wait = time.perf_counter()
-        # u_tools.write_log_to_file(
-        #     logging_file,
-        #     f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception\n"
-        # )
+        logger.info(
+            f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception"
+        )
         return None
         
 def make_request_until_its_successful(
     server: str,
     request_count: int,
-    #logging_file: str,
+    logger: logging.Logger,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait:int = 1
 ) -> tuple:
@@ -271,7 +265,7 @@ def make_request_until_its_successful(
             server_request = make_request_after_some_time(
                 server=server,
                 request_count=request_count,
-                #logging_file=logging_file,
+                logger = logger,
                 start_time_to_wait=start_time_to_wait,
                 time_to_wait=time_to_wait
             )

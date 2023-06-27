@@ -15,28 +15,19 @@ from .utils import tools as u_tools
 import time
 import pprint
 import os
+import logging
 from pathlib import Path
 
 #needed link: https://nfs-stats.herokuapp.com/getmaininfo.json
-def record_race (race_id):
+def record_race (
+    race_id: int,
+    logger: logging.Logger,
+):
     # Testing variable
     only_one_cycle = -1
 
     # Start of the program time
     start_of_the_programme = time.perf_counter()
-
-    # Adding file pathes and names to write our record and logs for this run
-    
-    # BASE_DIR = Path(__file__).resolve().parent
-    # print(BASE_DIR)
-    # exact_date_and_time = str(datetime.datetime.now())
-    # logging_file_name = exact_date_and_time + ".txt"
-    # record_file_name = exact_date_and_time + ".csv"
-    # path_to_logging_file = "data/logs/" + logging_file_name
-    # path_to_records_file = "data/records/" + record_file_name
-
-    # u_tools.create_file(path_to_logging_file)
-    # u_tools.create_file(path_to_records_file)
 
     # Reseting main DataFrame: clearing data, leaving only structure with needed columns
     df_statistic = pd.DataFrame(
@@ -59,7 +50,7 @@ def record_race (race_id):
     body_content, request_count = recorder_functions.make_request_until_its_successful(
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
-        #logging_file=path_to_logging_file,
+        logger=logger,
         time_to_wait = 0
     )
 
@@ -99,10 +90,7 @@ def record_race (race_id):
 
     # End of preparation before main cycle
     preparation_ends = time.perf_counter()
-    # u_tools.write_log_to_file(
-    #     logging_file_path=path_to_logging_file,
-    #     log_to_add=f"Time of preparation: {preparation_ends-start_of_the_programme} \n"
-    # )
+    logger.info(f"Time of preparation: {preparation_ends-start_of_the_programme}")
 
     # Main cycle
     while (
@@ -142,7 +130,7 @@ def record_race (race_id):
                 df_last_lap_info=df_last_lap_info,
                 team=team,
                 pilot_name=pilot_name,
-                #logging_file=path_to_logging_file,
+                logger=logger,
                 true_name=true_name,
                 is_on_pit=is_on_pit
             )
@@ -196,7 +184,7 @@ def record_race (race_id):
                 df_last_lap_info=df_last_lap_info,
                 team=team,
                 kart=kart,
-                #logging_file=path_to_logging_file
+                logger=logger
             )
             
             lap_count = teams_stats[team]["lapCount"]
@@ -235,26 +223,17 @@ def record_race (race_id):
                     true_name = true_name,
                     true_kart = true_kart,
                 )
-                print(lap_record)
+                logger.info(lap_record)
                 lap_record.save()
-                                
-                # u_tools.write_log_to_file(
-                #     path_to_logging_file,
-                #     f"For team {team} added row for lap {lap_count}\n"
-                # )
+                     
+                logger.info(f"For team {team} added row for lap {lap_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
-        
-        # Writing gazered statistic into the file
-        # df_statistic.to_csv(
-        #     path_to_records_file, 
-        #     index=False, 
-        #     index_label=False)
         
         # New request
         body_content, request_count = recorder_functions.make_request_until_its_successful(
             server="https://nfs-stats.herokuapp.com/getmaininfo.json",
             request_count=request_count,
-            #logging_file=path_to_logging_file,
+            logger=logger,
             start_time_to_wait=start_time_to_wait,
         )
         
@@ -268,17 +247,11 @@ def record_race (race_id):
         race_started = True
         
         end_of_the_cycle = time.perf_counter()
-        # u_tools.write_log_to_file(
-        #     logging_file_path=path_to_logging_file,
-        #     log_to_add=f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count} \n"
-        # )
+        logger.info(f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count}")
         
         # TESTING STUFF
         only_one_cycle -= 1
 
     # End of the programme
     end_of_programme = time.perf_counter()
-    # u_tools.write_log_to_file(
-    #     logging_file_path=path_to_logging_file,
-    #     log_to_add=f"Amount of time programme took to run: {end_of_programme-start_of_the_programme} \n",
-    # )
+    logger.info(f"Amount of time programme took to run: {end_of_programme-start_of_the_programme}")

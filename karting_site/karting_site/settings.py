@@ -136,6 +136,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL= 'redis://localhost:6379'
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+        'data_folder_in': './broker/out',
+        'data_folder_out': './broker/out',
+        'data_folder_processed': './broker/processed'
+}
 CELERY_HOSTNAME = "localhost"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_RESULT_BACKEND = "django-db"

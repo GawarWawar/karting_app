@@ -4,7 +4,11 @@ from django.contrib import admin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 
+import datetime
+
 from django_celery_results.models import TaskResult
+from celery.result import AsyncResult
+
 from . import models
 from . import tasks
 from .utils import tools as u_tools
@@ -61,6 +65,11 @@ class RaceRecordsAdmin(admin.ModelAdmin):
 class RaceAdmin(admin.ModelAdmin):
     fields = [
         "name_of_the_race",
+        "is_recorded"
+    ]
+    
+    readonly_fields = [
+        "is_recorded"
     ]
     
     list_display = [
@@ -75,19 +84,38 @@ class RaceAdmin(admin.ModelAdmin):
         if "_start_recording" in request.POST:
             obj = self.get_queryset(request).get(pk=obj.id)
             obj.is_recorded = True
-            task_to_do_name = tasks.start_recorder.name
+            obj.date_record_started = datetime.datetime.now()
+            task_to_do_name = recorder.record_race.name
             try:
                 celery_object_that_started_recording = TaskResult.objects.get(task_id = obj.celery_recorder_id, status = "STARTED", task_name = task_to_do_name)
             except TaskResult.DoesNotExist:
-                recording_by_celery = tasks.start_recorder.delay(obj.id)
+                recording_by_celery = recorder.record_race.delay(obj.id)
                 obj.celery_recorder_id = recording_by_celery.id
+                obj.save()
                 message = f"Recording started. Process id is {recording_by_celery.id}"
             else:
+                obj.save()
                 message = f"Recording for this race has already started. Celery working on it {celery_object_that_started_recording.task_id} id"
-
             self.message_user(request, message)
-            obj.save()
             return HttpResponseRedirect(".")
+        elif "_abort_recording" in request.POST:
+            obj = self.get_queryset(request).get(pk=obj.id)
+            task_to_abort_name = recorder.record_race.name
+            try:
+                celery_object_that_started_recording = TaskResult.objects.get(task_id = obj.celery_recorder_id, status = "STARTED", task_name = task_to_abort_name)
+            except TaskResult.DoesNotExist:
+                obj.save()
+                message = f"Recording for the race with {obj.id} id is not in progress!"
+            else:
+                #task_in_progress = AsyncResult(id = obj.celery_recorder_id, task_name=task_to_abort_name)
+                task_in_progress = recorder.record_race.AsyncResult(obj.celery_recorder_id)
+                task_in_progress.abort()
+                obj.celery_recorder_id = 0
+                obj.save()
+                message = f"Recording aborted, process id was {task_in_progress.id}"
+            self.message_user(request, message)
+            return HttpResponseRedirect(".")
+            
         return super().response_change(request, obj)
 
 admin.site.register(models.Race, RaceAdmin)

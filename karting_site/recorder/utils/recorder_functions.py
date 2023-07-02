@@ -238,6 +238,7 @@ def make_request_until_its_successful(
     server: str,
     request_count: int,
     logger: logging.Logger,
+    self,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait:int = 1
 ) -> tuple:
@@ -259,7 +260,11 @@ def make_request_until_its_successful(
         )
     """
     server_request_status_code = 0
-    while server_request_status_code != 200:
+    while (
+        server_request_status_code != 200
+    ):
+        if self.is_aborted():
+            return None, request_count
         request_count += 1
         try:
             server_request = make_request_after_some_time(

@@ -6,6 +6,8 @@ import requests
 import datetime
 from dateutil import parser
 
+from celery import current_app, Celery, shared_task
+from celery.contrib.abortable import AbortableTask
 
 from . import models
 from .utils import add_row
@@ -19,10 +21,26 @@ import logging
 from pathlib import Path
 
 #needed link: https://nfs-stats.herokuapp.com/getmaininfo.json
+@shared_task(
+    name = "recorder.record_race", 
+    bind = True,
+    base = AbortableTask
+)
 def record_race (
+    self,
     race_id: int,
-    logger: logging.Logger,
 ):
+    # Logger set up
+    logger_name_and_file_name = f"race_id_{race_id}_{datetime.datetime.now()}"
+    logger = logging.getLogger(logger_name_and_file_name)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    # FileHandler
+    fh = logging.FileHandler(f'recorder/data/logs/{logger_name_and_file_name}.log')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+    
+    
     # Testing variable
     only_one_cycle = -1
 
@@ -51,8 +69,12 @@ def record_race (
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
         logger=logger,
-        time_to_wait = 0
+        time_to_wait = 0,
+        self = self
     )
+    if body_content == None:
+            logger.info(f"Recording stopped at {datetime.datetime.now()}")
+            return
 
     # Flag to check, if totalRaceTime is changing:
         #yes -> starts main cycle functions
@@ -103,8 +125,12 @@ def record_race (
             initial_total_race_time == body_content["onTablo"]["totalRaceTime"] 
             and not 
             race_started
-        )
-    ) and not (only_one_cycle == 0): # TESTING STUFF
+        ) 
+    ) and not (
+        only_one_cycle == 0 # TESTING STUFF
+    ) and not (
+       self.is_abborted
+    ): 
         start_of_the_cycle = time.perf_counter()
         start_time_to_wait = time.perf_counter()
         for team in teams_stats:
@@ -235,7 +261,11 @@ def record_race (
             request_count=request_count,
             logger=logger,
             start_time_to_wait=start_time_to_wait,
+            self = self
         )
+        if body_content == None:
+            logger.info(f"Recording stopped at {datetime.datetime.now()}")
+            return
         
         # Renew variables for the next cycle
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']

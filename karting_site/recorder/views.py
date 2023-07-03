@@ -48,7 +48,6 @@ class ViewRaceRecords(generic.ListView):
     context_object_name = "all_races_records_list"
 
     def get(self, request, *args, **kwargs):
-        print(kwargs)
         self.race_id = kwargs['race_id']
         return super().get(request, *args, **kwargs)
 
@@ -62,6 +61,5 @@ class AllRacesPage(generic.ListView):
     
     def get_queryset(self):
         races = models.Race.objects.all().values()
-        print(races)
         return races
     

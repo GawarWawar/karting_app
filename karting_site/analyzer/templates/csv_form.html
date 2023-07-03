@@ -1,0 +1,16 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div>
+        <form action="." method="POST" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+        <label for="race_id">ID of the race:</label><br>
+            <input type="text" id="race_name" name="race_id"><br>
+            
+                <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+
+{% endblock %}

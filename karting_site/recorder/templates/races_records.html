@@ -11,9 +11,9 @@
     {%if race%}
         <h1>Race information</h1>
             <p>Name: {{race.name_of_the_race}}</p>
-            <p>Publish Date:{{race.publish_date}}</p>
+            <p>Publish Date: {{race.publish_date}}</p>
             <p>Date and time when record started: {{race.date_record_started}}</p>
-            <p>Date and time when record finished:{{race.date_record_finished}}</p>
+            <p>Date and time when record finished: {{race.date_record_finished}}</p>
             <p>Was race recorded: {{race.is_recorded}}</p>
             <p>Was process of recording complete: {{race.was_recorded_complete}}</p>
         <h2>Records of the race:</h2>
@@ -47,10 +47,10 @@
             {% endfor %}
         </table>
         {% else %}
-        <p>There are no records for this race :c</p>
+        <p>There are no records for this race </p>
         {% endif %}
     {%else%}
-    <p>There is no race on this id :c</p>
+    <p>There is no race on this id </p>
     {%endif%}
 </body>
 

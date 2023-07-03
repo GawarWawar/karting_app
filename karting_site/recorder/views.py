@@ -19,16 +19,16 @@ from . import models
 
 # Create your views here.
 def index (request):
-    task_to_do_name = tasks.hello.name
-    
-    tasks_that_already_started = TaskResult.objects.filter(status = "STARTED", task_name = task_to_do_name)
-    if not tasks_that_already_started:
-        message = tasks.hello.delay()
-        return HttpResponseRedirect(f"/recorder/{message.id}")
+    context ={}
+    try:
+        last_race = models.Race.objects.last()
+    except ObjectDoesNotExist:
+        pass
     else:
-        tasks_that_already_started = TaskResult.objects.filter(status = "STARTED", task_name = task_to_do_name).values()
-        print(tasks_that_already_started)
-        return HttpResponse(f"Task with {task_to_do_name} already started on {tasks_that_already_started[0]['task_id']} id")
+        context["last_race"] = last_race
+    records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
+    context["records_of_the_last_race"] = records_of_the_last_race
+    return render(request, "index.html", context) 
 
 def view_races_records (request, race_id):
     context = {}
@@ -40,7 +40,6 @@ def view_races_records (request, race_id):
         context["race"] = race
     records = models.RaceRecords.objects.filter(race = race_id).values()
     context["all_races_records"] = records 
-    print(records)
     return render(request, "races_records.html", context)
     
 class ViewRaceRecords(generic.ListView):     

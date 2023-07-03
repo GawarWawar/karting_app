@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     #'kombu.transport.django',
     
     'recorder.apps.RecorderConfig',
+    "analyzer.apps.AnalyzerConfig"
 ]
 
 MIDDLEWARE = [

@@ -23,7 +23,7 @@ def create_pilot_rating ():
     races = models.VelikiPeregoni.objects.all()
     
     for race in races:
-        race_query = models.PilotsInVP.objects.filter(race = race.id).values_list()
+        race_query = models.TempOfPilotsInVP.objects.filter(race = race.id).values_list()
         race_statistic_df = pd.DataFrame.from_records(
             race_query, 
             columns=[

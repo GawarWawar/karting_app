@@ -20,7 +20,7 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
         "date_of_race",
     ]
     
-class PilotsInVPAdmin (admin.ModelAdmin):
+class TempOfPilotsInVPAdmin (admin.ModelAdmin):
     change_list_template = "pilots_changelist.html"
     
     list_display = [
@@ -66,5 +66,5 @@ class TypeOfVPAdmin (admin.ModelAdmin):
     ]
     
 admin.site.register(models.VelikiPeregoni, VelikiPeregoniAdmin)
-admin.site.register(models.PilotsInVP, PilotsInVPAdmin)
+admin.site.register(models.TempOfPilotsInVP, TempOfPilotsInVPAdmin)
 admin.site.register(models.TypesOfVP, TypeOfVPAdmin)

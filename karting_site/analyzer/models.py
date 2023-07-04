@@ -17,7 +17,7 @@ class VelikiPeregoni (models.Model):
     def __str__(self):
         return self.name_of_the_race    
     
-class PilotsInVP (models.Model):  
+class TempOfPilotsInVP (models.Model):  
     race = models.ForeignKey(VelikiPeregoni, on_delete=models.CASCADE)
     pilot = models.CharField(("Pilot"), max_length=100)
     average_lap_time = models.FloatField(("Average Lap Time"), default=0)

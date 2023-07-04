@@ -16,8 +16,9 @@ import json
 
 from . import models
 from . import pilot_rating
+from . import analyzer
 
 # Create your views here.
 def index(request):
-    message = pilot_rating.create_pilot_rating()
-    return HttpResponse(message.to_json())
+    message = analyzer.analyze_race()
+    return HttpResponse(message)

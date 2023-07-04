@@ -11,20 +11,7 @@ import importlib.util
 #SCRIPT_DIR = dirname(abspath(__file__))
 #path = sys.path.append(dirname(SCRIPT_DIR))
 
-if __name__ == "__main__":
-    import add_row
-    import tools as u_tools
-else:
-    spec = importlib.util.spec_from_file_location("add_row", "utils/add_row.py")
-    add_row = importlib.util.module_from_spec(spec)
-    sys.modules["add_row"] = add_row
-    spec.loader.exec_module(add_row)
-
-    spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
-    u_tools = importlib.util.module_from_spec(spec)
-    sys.modules["u_tools"] = u_tools
-    spec.loader.exec_module(u_tools)
-
+from . import tools as u_tools
 
 def clear_df_from_unneeded_names(
     df_to_clear: pd.DataFrame
@@ -76,8 +63,11 @@ def records_columns_to_numeric (
             df_of_records[column]=pd.to_numeric(df_of_records[column])
         except ValueError:
             for i in range(len(df_of_records.loc[:, column])):
+                print("Here")
                 df_of_records.loc[i, column] = u_tools.str_lap_time_into_float_change(df_of_records.loc[i, column])
             df_of_records[column]=pd.to_numeric(df_of_records[column])
+        except TypeError:
+            print("WE FOUND IT")
     
     return df_of_records
 

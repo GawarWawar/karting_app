@@ -23,25 +23,10 @@ from sklearn.utils.validation import column_or_1d
 
 from collections.abc import Callable
 
-if __name__ == "__main__":
-    import add_row
-    import tools as u_tools
-    import regression_evaluation as regres_eval
-else:
-    spec = importlib.util.spec_from_file_location("add_row", "utils/add_row.py")
-    add_row = importlib.util.module_from_spec(spec)
-    sys.modules["add_row"] = add_row
-    spec.loader.exec_module(add_row)
 
-    spec = importlib.util.spec_from_file_location("u_tools", "utils/tools.py")
-    u_tools = importlib.util.module_from_spec(spec)
-    sys.modules["u_tools"] = u_tools
-    spec.loader.exec_module(u_tools)
-    
-    spec = importlib.util.spec_from_file_location("regres_eval", "utils/regression_evaluation.py")
-    regres_eval = importlib.util.module_from_spec(spec)
-    sys.modules["regres_eval"] = regres_eval
-    spec.loader.exec_module(regres_eval)
+from . import tools as u_tools
+from . import regression_evaluation as regres_eval
+
 
 def make_some_predictions (
     regressor: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,

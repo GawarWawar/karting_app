@@ -15,10 +15,6 @@ def create_pilot_rating ():
             "pilot": pd.Series(dtype=str)
         }
     )
-
-    path_to_records = "analyzer/data/temp_by_races"
-    files_to_read = os.listdir(path_to_records)
-    files_to_read.reverse()
     
     races = models.VelikiPeregoni.objects.all()
     
@@ -56,9 +52,8 @@ def create_pilot_rating ():
         )
         
         for pilot in race_statistic_df.loc[:, "pilot"]:
-            needed_index = race_statistic_df.loc[race_statistic_df.loc[:, "pilot"] == pilot, "pilot"].index
-            lap_time = race_statistic_df.at[
-                needed_index[0],
+            lap_time = race_statistic_df.loc[
+                race_statistic_df.loc[:, "pilot"] == pilot,
                 "average_lap_time"
             ]
             

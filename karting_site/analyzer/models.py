@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 import datetime
 # Create your models here.
@@ -11,7 +12,7 @@ class TypesOfVP (models.Model):
 class VelikiPeregoni (models.Model):
     name_of_the_race = models.CharField(("Race name"), max_length=50, default=None, null=True)
     race_class = models.ForeignKey(TypesOfVP, to_field="name_of_the_race_class", on_delete=models.CASCADE)
-    date_of_race = models.DateField(("Date of race"), auto_now=False, auto_now_add=False, default=datetime.datetime.now())
+    date_of_race = models.DateField(("Date of race"), auto_now=False, auto_now_add=False, default=timezone.now)
     
     def __str__(self):
         return self.name_of_the_race    

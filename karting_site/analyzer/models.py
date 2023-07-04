@@ -19,4 +19,8 @@ class VelikiPeregoni (models.Model):
 class PilotsInVP (models.Model):  
     race = models.ForeignKey(VelikiPeregoni, on_delete=models.CASCADE)
     pilot = models.CharField(("Pilot"), max_length=100)
-    avarage_lap_time = models.FloatField(("Avarage Lap Time"))
+    average_lap_time = models.FloatField(("Average Lap Time"), default=0)
+    
+class PilotsRating (models.Model):
+    pilot = models.CharField(("Pilot Name"), max_length=50)
+    rating = models.FloatField(("Pilot Rating"), default=0)

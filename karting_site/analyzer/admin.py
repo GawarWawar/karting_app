@@ -7,6 +7,10 @@ from django import forms
 import pandas as pd
 
 from . import models
+
+class CsvImportForm(forms.Form):
+    csv_file = forms.FileField()
+
 # Register your models here.
 class VelikiPeregoniAdmin(admin.ModelAdmin):
     list_display= [
@@ -16,16 +20,13 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
         "date_of_race",
     ]
     
-class CsvImportForm(forms.Form):
-    csv_file = forms.FileField()
-    
 class PilotsInVPAdmin (admin.ModelAdmin):
     change_list_template = "pilots_changelist.html"
     
     list_display = [
         "race",
         "pilot",
-        "avarage_lap_time",
+        "average_lap_time",
     ]
     
     def get_urls(self):
@@ -38,16 +39,16 @@ class PilotsInVPAdmin (admin.ModelAdmin):
     def import_csv(self, request):
         if request.method == "POST":
             race_id = request.POST["race_id"]
-            print(race_id)
             csv_file = request.FILES["csv_file"]
             csv_content = pd.read_csv(csv_file)
-            print(csv_content)
-            for pilot in csv_content.loc[:, "pilot"].index:
+            for pilot in list(csv_content.loc[:, "pilot"].index):
                 race = models.VelikiPeregoni.objects.get(pk=race_id)
+                pilot_name = csv_content.at[pilot, "pilot"]
+                average_lap_time = csv_content.at[pilot, "average_lap_time"]
                 pilot = models.PilotsInVP(
                     race = race,
-                    pilot = csv_content.at[pilot, "pilot"],
-                    avarage_lap_time = csv_content.at[pilot, "avarage_lap_time"]
+                    pilot = pilot_name,
+                    average_lap_time = average_lap_time
                 )
                 pilot.save()
             self.message_user(request, "Your csv file has been imported")
@@ -60,7 +61,8 @@ class PilotsInVPAdmin (admin.ModelAdmin):
     
 class TypeOfVPAdmin (admin.ModelAdmin):
     list_display = [
-        "name_of_the_race_class"
+        "name_of_the_race_class",
+        "id"
     ]
     
 admin.site.register(models.VelikiPeregoni, VelikiPeregoniAdmin)

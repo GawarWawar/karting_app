@@ -15,7 +15,9 @@ import time
 import json
 
 from . import models
+from . import pilot_rating
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello!")
+    message = pilot_rating.create_pilot_rating()
+    return HttpResponse(message.to_json())

@@ -30,6 +30,8 @@ def record_race (
     self,
     race_id: int,
 ):
+    self.race_id = race_id
+    
     # Logger set up
     logger_name_and_file_name = f"race_id_{race_id}_{datetime.datetime.now()}"
     logger = logging.getLogger(logger_name_and_file_name)
@@ -62,6 +64,7 @@ def record_race (
             "true_kart": pd.Series(bool)
         }
     )
+    df_statistic = df_statistic.drop(0)
 
     # Making first request
     request_count = 0

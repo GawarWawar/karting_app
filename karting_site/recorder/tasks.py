@@ -38,8 +38,7 @@ def task_success_handler(
 ):
    if sender.name == recorder.record_race.name:
         queryset = models.Race.objects.get(
-           id = sender.race_id, 
-           celery_recorder_id = task_id
+           pk = sender.race_id, 
         )
         queryset.date_record_finished = datetime.datetime.now()
         queryset.was_recorded_complete = True       

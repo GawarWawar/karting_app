@@ -74,6 +74,7 @@ class RaceAdmin(admin.ModelAdmin):
     
     list_display = [
         "name_of_the_race", 
+        "id",
         "publish_date", 
         "is_recorded"
     ]

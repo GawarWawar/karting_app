@@ -3,6 +3,13 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
+from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import redirect, render
+from django.urls import path
+from django import forms
+
+import pandas as pd
 
 import datetime
 
@@ -13,7 +20,11 @@ from . import models
 from . import tasks
 from .utils import tools as u_tools
 from . import recorder
-    
+   
+class CsvImportForm(forms.Form):
+    csv_file = forms.FileField()
+   
+ 
 class NamesInRaceFilter(admin.SimpleListFilter):
     title = 'Names in the race'
     parameter_name = 'name_of_a_pilot'
@@ -79,7 +90,14 @@ class RaceAdmin(admin.ModelAdmin):
         "is_recorded"
     ]
     
-    change_form_template = "change_form.html"
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import-csv/', self.import_csv),
+        ]
+        return my_urls + urls
+    
+    change_form_template = "race_admin_add_button_changeform.html"
     
     def response_change(self, request, obj):
         if "_start_recording" in request.POST:
@@ -118,6 +136,61 @@ class RaceAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(".")
             
         return super().response_change(request, obj)
+
+    change_list_template = "race_admin_changelist.html"    
+    def import_csv(self, request):
+        if request.method == "POST":
+            race_name = request.POST["race_name"]
+            try:
+                race = models.Race.objects.get(name_of_the_race = race_name)
+            except (IntegrityError, ObjectDoesNotExist):
+                race = models.Race(name_of_the_race = race_name)
+            
+            race.is_recorded = True
+            
+            if request.POST["was_recorded_complete"]:
+                race.was_recorded_complete = request.POST["was_recorded_complete"]
+            race.save()
+                
+            csv_file = request.FILES["csv_file"]
+            csv_content = pd.read_csv(csv_file)
+            for row in list(csv_content.loc[:, "team"].index):
+                team_number = csv_content.at[row, "team"]
+                pilot_name = csv_content.at[row, "pilot"]
+                kart = csv_content.at[row, "kart"]
+                lap_count = csv_content.at[row, "lap"]
+                lap_time = csv_content.at[row, "lap_time"]
+                s1_time = csv_content.at[row, "s1"]
+                s2_time = csv_content.at[row, "s2"]
+                team_segment = csv_content.at[row, "segment"]
+                true_name = csv_content.at[row, "true_name"]
+                true_kart = csv_content.at[row, "true_kart"]
+                
+                pilot = models.RaceRecords(
+                    race = race,
+                    team_number = team_number,
+                    pilot_name = pilot_name,
+                    kart = kart,
+                    lap_count = lap_count,
+                    lap_time = lap_time,
+                    s1_time = s1_time,
+                    s2_time = s2_time,
+                    team_segment = team_segment,
+                    true_name = true_name,
+                    true_kart = true_kart,
+                )
+                pilot.save()
+            self.message_user(request, "Your csv file has been imported")
+            return redirect("..")
+        form = CsvImportForm()
+        payload = {
+            "form": form,
+            "true_false": [True, False],
+        }
+        return render(
+            request, "csv_form_race_admin.html", payload
+        )
+    
 
 admin.site.register(models.Race, RaceAdmin)
 admin.site.register(models.RaceRecords, RaceRecordsAdmin)

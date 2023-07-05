@@ -210,23 +210,33 @@ def module_to_create_karts_statistics_for_every_pilot(
 
 
 def assemble_prediction (
-    pilot_name: str,
+    coeficient_for_prediction: float,
     df_of_pilots: pd.DataFrame,
     df_of_karts: pd.DataFrame,
 ):
-    df_pilot_statistic = pd.DataFrame(
+    df_with_prediction = pd.DataFrame(
         {
-            "pilot": pilot_name,
             "kart": df_of_karts.loc[:, "kart"].drop_duplicates().copy(),
         }
     )
-    df_pilot_statistic = df_pilot_statistic.merge(
-        df_of_pilots,
-        on="pilot"
-    )
-    df_pilot_statistic = df_pilot_statistic.merge(
+    
+    max_temp = df_of_pilots["pilot_temp"].max()
+    min_temp = df_of_pilots["pilot_temp"].min()
+    temp_from_average_coeficient = (
+                coeficient_for_prediction
+            *
+                (
+                    max_temp
+                -
+                    min_temp
+                )
+            ) + min_temp
+    
+    df_with_prediction["temp_from_average_coeficient"] = temp_from_average_coeficient
+    
+    df_with_prediction = df_with_prediction.merge(
         df_of_karts,
         on="kart"
     )
 
-    return df_pilot_statistic
+    return df_with_prediction

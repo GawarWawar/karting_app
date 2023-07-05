@@ -119,17 +119,24 @@ def analyze_race(race_id):
     # CHANGE INTO RETURNING TO THE PAGE, WHEN POSTING WILL BE READY    
     #print(df_pilots.sort_values("pilot_temp", ignore_index=True, inplace=False))
 
-    # Deleting from df_pilots info, that won`t be used in regression process
-    df_pilots.pop("pilot_temp")
-    df_pilots.pop("this_race_coeficient")
-    df_pilots.pop("pilot_coeficient")
-    df_pilots.pop("average_coeficient")
-    df_pilots.pop("pilot_fastest_lap")
-
     df_karts = analyzer_functions.module_to_create_kart_statistics(
         df_of_records=df_from_recorded_records,
         category=category
     )
+
+    df_with_prediction = analyzer_functions.assemble_prediction(
+        0,
+        df_of_pilots=df_pilots.copy(),
+        df_of_karts=df_karts.copy(),
+    )
+
+    # Deleting from df_pilots info, that won`t be used in regression process
+    # df_pilots.pop("pilot_temp")
+    # df_pilots.pop("this_race_coeficient")
+    # df_pilots.pop("pilot_coeficient")
+    # df_pilots.pop("average_coeficient")
+    # df_pilots.pop("pilot_fastest_lap")
+
 
     df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
@@ -167,12 +174,8 @@ def analyze_race(race_id):
         }
     )
 
-    df_with_prediction = analyzer_functions.assemble_prediction(
-        "Ревчук Олексій",
-        df_of_pilots=df_pilots.copy(),
-        df_of_karts=df_karts.copy(),
-    )
-    df_with_prediction.pop("pilot")
+
+    print(df_with_prediction)
 
     # df_with_prediction_2 = analyzer_functions.assemble_prediction(
     #     "Ревчук Олександр",

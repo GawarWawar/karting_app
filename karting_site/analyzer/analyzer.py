@@ -11,12 +11,13 @@ import os
 
 from recorder import models as recorder_models
 from . import pilot_rating
+from . import models
 
 from .utils import analyzer_functions
 from .utils import regression_process
 from .utils import coeficient_creation_functions as coef_func
 
-def analyze_race():
+def analyze_race(race_id):
 
     start = time.perf_counter()
 
@@ -43,28 +44,28 @@ def analyze_race():
     )
     df_from_recorded_records = df_from_recorded_records.drop(0)
 
-    path_to_records = "analyzer/data/records"
-    files_to_read = os.listdir(path_to_records)
-    for file in files_to_read:
-        try:
-            df_to_concate = pd.read_csv(
-                path_to_records+"/"+file,
-                dtype={
-                    "team": int,
-                    "pilot": str,
-                    "kart": int,
-                    "lap": int,
-                    "lap_time": float,
-                    "s1": float,
-                    "s2": float,
-                    "segment": int,
-                    "true_name": bool,
-                    "true_kart": bool,
-                }
-            )
-            df_from_recorded_records = pd.concat([df_from_recorded_records, df_to_concate], ignore_index=True)
-        except pd.errors.EmptyDataError:
-            pass
+    race = recorder_models.Race.objects.get(pk = race_id)
+    race_records = recorder_models.RaceRecords.objects.filter(race = race).values_list()
+    df_from_recorded_records = pd.DataFrame.from_records(
+        race_records,
+        columns=[
+            "id",
+            "race",
+            "team",
+            "pilot",
+            "kart",
+            "lap",
+            "lap_time",
+            "s1",
+            "s2",
+            "segment",
+            "true_name",
+            "true_kart",
+        ]
+    )
+    
+    df_from_recorded_records.pop("id")
+    df_from_recorded_records.pop("race")
 
     df_from_recorded_records["kart"] = "kart_" + df_from_recorded_records["kart"].astype(str)
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()

@@ -42,19 +42,19 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
     
     def import_csv(self, request):
         if request.method == "POST":
-            print(request.POST)
             race_name = request.POST["race_name"]
-            csv_file = request.FILES["csv_file"]
-            csv_content = pd.read_csv(csv_file)
             try:
                 race = models.VelikiPeregoni.objects.get(name_of_the_race = race_name)
             except (IntegrityError, ObjectDoesNotExist):
                 race = models.VelikiPeregoni(name_of_the_race = race_name)
             
             if request.POST["race_class_id"]:
-                print(request.POST["race_class_id"])
                 race_class = models.TypesOfVP.objects.get(pk = request.POST["race_class_id"])
                 race.race_class = race_class
+            race.save()
+            
+            csv_file = request.FILES["csv_file"]
+            csv_content = pd.read_csv(csv_file)
             for pilot in list(csv_content.loc[:, "pilot"].index):
                 pilot_name = csv_content.at[pilot, "pilot"]
                 average_lap_time = csv_content.at[pilot, "average_lap_time"]
@@ -71,7 +71,6 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
         payload = {
             "form": form,
             "types_of_races": types_of_races,
-            "abc": 123
         }
         return render(
             request, "csv_form_veliki_peregoni.html", payload

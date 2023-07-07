@@ -39,19 +39,19 @@ def make_some_predictions (
     return list_of_predictions
 
 def add_prediction_to_return_dict(
-    list_of_dict_to_return: list[dict],
+    list_of_predictions_dict: list[dict],
     predictions: list[list],
     model,
 ) -> list:
     for prediction_count in range(len(predictions)):
         prediction_to_add = predictions[prediction_count]
-        list_of_dict_to_return[prediction_count].update(
+        list_of_predictions_dict[prediction_count].update(
             {
                 model.__name__  : prediction_to_add
             }
         )
         
-    return list_of_dict_to_return
+    return list_of_predictions_dict
 
 def train_the_model(
     x_train: list,
@@ -105,14 +105,14 @@ def regression_process(
     
     # Transforming prediction with Encoder and Feature Scaling
     lists_of_values_to_predict = []
-    list_of_dict_to_return = []
+    list_of_predictions_dict = []
     # for i, value_to_transform in enumerate(lists_of_values_to_predict):
     for df in list_of_df_to_predict:
         values_to_predict = df.values
         values_to_predict = ct.transform(values_to_predict).toarray()
         values_to_predict = sc_x.transform(values_to_predict)
         lists_of_values_to_predict.append(values_to_predict)
-        list_of_dict_to_return.append({})
+        list_of_predictions_dict.append({})
     
     list_of_regression_models = [
         regres_eval.multiple_linear_regression,
@@ -121,6 +121,7 @@ def regression_process(
         regres_eval.random_forest_regression
     ]
     
+    r2_score_values_dict = {}
     for model in list_of_regression_models:
         regressor = train_the_model(
             x_train=x_train,
@@ -151,10 +152,20 @@ def regression_process(
             )
 
         if r2_score_value >= minimum_value_to_r2:
-            list_of_dict_to_return = add_prediction_to_return_dict(
-                list_of_dict_to_return,
+            list_of_predictions_dict = add_prediction_to_return_dict(
+                list_of_predictions_dict,
                 predictions,
                 model,
             )
+            r2_score_values_dict.update(
+                {
+                    model.__name__  : r2_score_value
+                }
+            )
         
-    return list_of_dict_to_return
+        dict_to_return = {
+            "predictions": list_of_predictions_dict,
+            "r2_score_values_dict": r2_score_values_dict
+        }
+        
+    return dict_to_return

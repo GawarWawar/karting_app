@@ -151,7 +151,7 @@ def analyze_race(race_id):
 
     df_stats = pd.DataFrame.merge(
         df_stats,
-        df_karts,
+        df_karts.copy(),
         on=category
     )
 
@@ -173,31 +173,39 @@ def analyze_race(race_id):
             "temp_with_pilot": df_stats.pop("temp_with_pilot"),
         }
     )
+    
 
 
-    print(df_with_prediction)
-
-    # df_with_prediction_2 = analyzer_functions.assemble_prediction(
-    #     "Ревчук Олександр",
-    #     df_of_pilots=df_pilots.copy(),
-    #     df_of_karts=df_karts.copy(),
-    # )
-    # df_with_prediction_2.pop("pilot")
+    return_dict = {
+        "temp_predictions": [],
+        "fastestlap_predictions": [],
+    } 
 
     print("1.")
-    list_of_dicts_with_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    dicts_with_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
 
-    # for i in range(len(list_of_dicts_with_predictions)):
-    #     prediction_df = pd.DataFrame(list_of_dicts_with_predictions[i])
-    #     prediction_df = prediction_df.round(4)
-    #     prediction_df.to_csv(f"predictions{i}.csv", index=False, index_label=False )
+    
+    series_of_karts = pd.Series(
+        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
+        name="kart",
+    )
+    for i in range(len(dicts_with_temp_predictions)):
+        prediction_df = pd.DataFrame(dicts_with_temp_predictions[i]["prediction"])
+        prediction_df = prediction_df.round(4)
+        prediction_df.insert(
+            0,
+            "kart",
+            series_of_karts,
+        )
+        # prediction_df.to_csv(f"predictions{i}.csv", index=False, index_label=False )
+
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
     del df_stats
 
     print("2.")
-    regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    list_of_dicts_with_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
 
     end = time.perf_counter()
 

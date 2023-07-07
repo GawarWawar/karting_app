@@ -41,13 +41,13 @@ def make_some_predictions (
 def add_prediction_to_return_dict(
     list_of_dict_to_return: list[dict],
     predictions: list[list],
-    r2_score_value: float
+    model,
 ) -> list:
     for prediction_count in range(len(predictions)):
         prediction_to_add = predictions[prediction_count]
         list_of_dict_to_return[prediction_count].update(
             {
-                r2_score_value: prediction_to_add
+                model.__name__  : prediction_to_add
             }
         )
         
@@ -69,7 +69,9 @@ def train_the_model(
 
 def regression_process(
       df_to_analyze: pd.DataFrame,  
-      list_of_df_to_predict: list[pd.DataFrame]
+      list_of_df_to_predict: list[pd.DataFrame],
+      
+      minimum_value_to_r2: float = 0
 ):
     x = df_to_analyze.iloc[:, :-1].values # Matrix of Features
     y = df_to_analyze.iloc[:, -1].values # Depending variable vector
@@ -103,15 +105,13 @@ def regression_process(
     
     # Transforming prediction with Encoder and Feature Scaling
     lists_of_values_to_predict = []
+    list_of_dict_to_return = []
     # for i, value_to_transform in enumerate(lists_of_values_to_predict):
     for df in list_of_df_to_predict:
         values_to_predict = df.values
         values_to_predict = ct.transform(values_to_predict).toarray()
         values_to_predict = sc_x.transform(values_to_predict)
         lists_of_values_to_predict.append(values_to_predict)
-
-    list_of_dict_to_return = []
-    for df_count in range(len(list_of_df_to_predict)):
         list_of_dict_to_return.append({})
     
     list_of_regression_models = [
@@ -150,11 +150,11 @@ def regression_process(
                 )
             )
 
-        if r2_score_value >= 0:
+        if r2_score_value >= minimum_value_to_r2:
             list_of_dict_to_return = add_prediction_to_return_dict(
                 list_of_dict_to_return,
                 predictions,
-                r2_score_value
+                model,
             )
         
     return list_of_dict_to_return

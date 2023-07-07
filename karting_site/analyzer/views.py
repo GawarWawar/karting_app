@@ -20,5 +20,5 @@ from . import analyzer
 
 # Create your views here.
 def index(request):
-    message = analyzer.analyze_race()
-    return HttpResponse(message)
+    message = analyzer.analyze_race(27)
+    return HttpResponse(json.dumps(message))

@@ -178,37 +178,60 @@ def analyze_race(race_id):
 
     return_dict = {
         "temp_predictions": [],
+        "temp_r2_scores": {},
         "fastestlap_predictions": [],
+        "fastestlap_r2_scores": {},
     } 
 
     print("1.")
-    dicts_with_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
 
-    
-    series_of_karts = pd.Series(
-        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
-        name="kart",
-    )
-    for i in range(len(dicts_with_temp_predictions)):
-        prediction_df = pd.DataFrame(dicts_with_temp_predictions[i]["prediction"])
-        prediction_df = prediction_df.round(4)
-        prediction_df.insert(
-            0,
-            "kart",
-            series_of_karts,
-        )
-        # prediction_df.to_csv(f"predictions{i}.csv", index=False, index_label=False )
-
+    return_dict["temp_r2_scores"] = dicts_from_temp_predictions["r2_score_values_dict"]
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
     del df_stats
 
     print("2.")
-    list_of_dicts_with_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
 
+    return_dict["fastestlap_r2_scores"] = dicts_from_fastestlap_predictions["r2_score_values_dict"]
+
+    series_of_karts = pd.Series(
+        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
+        name="kart",
+    )
+    for i in range(len(dicts_from_temp_predictions["predictions"])):
+        temp_prediction_df = pd.DataFrame(dicts_from_temp_predictions["predictions"][i])
+        temp_prediction_df = temp_prediction_df.round(4)
+        temp_prediction_df.insert(
+            0,
+            "kart",
+            series_of_karts,
+        )
+        dicts_from_temp_predictions["predictions"][i] = temp_prediction_df.to_dict(
+                orient="dict",
+                #indent=2
+            )
+        
+        fastestlap_prediction_df = pd.DataFrame(dicts_from_fastestlap_predictions["predictions"][i])
+        fastestlap_prediction_df = fastestlap_prediction_df.round(4)
+        fastestlap_prediction_df.insert(
+            0,
+            "kart",
+            series_of_karts,
+        )
+        dicts_from_fastestlap_predictions["predictions"][i] = fastestlap_prediction_df.to_dict(
+                orient="dict",
+                #indent=2
+            )
+        
+    return_dict["temp_predictions"] = dicts_from_temp_predictions["predictions"]
+    return_dict["fastestlap_predictions"] = dicts_from_fastestlap_predictions["predictions"]
+        
     end = time.perf_counter()
 
     print(end-start)
 
+    return return_dict
 

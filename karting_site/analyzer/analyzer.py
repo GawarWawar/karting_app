@@ -210,7 +210,7 @@ def analyze_race(race_id):
             series_of_karts,
         )
         dicts_from_temp_predictions["predictions"][i] = temp_prediction_df.to_dict(
-                orient="dict",
+                orient="records",
                 #indent=2
             )
         
@@ -222,7 +222,7 @@ def analyze_race(race_id):
             series_of_karts,
         )
         dicts_from_fastestlap_predictions["predictions"][i] = fastestlap_prediction_df.to_dict(
-                orient="dict",
+                orient="records",
                 #indent=2
             )
         

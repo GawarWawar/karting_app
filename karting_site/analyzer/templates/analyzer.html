@@ -1,0 +1,53 @@
+{% load analyzer_extras %}
+<html>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+  <head> </head>
+  <body>
+    <h1>Predictions of the karts` temp:</h1>
+    {%for table in temp_predictions%}
+    <table>
+      <tr>
+        {%for header in table.0%}
+        <th>
+          {{header}} {%if header != "kart"%}, score =
+          {{temp_r2_scores|lookup:header}}
+        </th>
+        {%endif%} {%endfor%}
+      </tr>
+      {%for row in table%}
+      <tr>
+        {%for item in row.items %}
+        <td>{{item.1}}</td>
+        {%endfor%}
+      </tr>
+      {%endfor%}
+    </table>
+    {%endfor%}  
+    <h1>Predictions of the karts` fastest lap:</h1>
+    {%for table in fastestlap_predictions%}
+    <table>
+      <tr>
+        {%for header in table.0%}
+        <th>
+          {{header}} {%if header != "kart"%}, score =
+          {{fastestlap_r2_scores|lookup:header}}
+        </th>
+        {%endif%} {%endfor%}
+      </tr>
+      {%for row in table%}
+      <tr>
+        {%for item in row.items %}
+        <td>{{item.1}}</td>
+        {%endfor%}
+      </tr>
+      {%endfor%}
+    </table>
+    {%endfor%} 
+  </body>
+</html>

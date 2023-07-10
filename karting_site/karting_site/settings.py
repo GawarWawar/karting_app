@@ -27,7 +27,12 @@ SECRET_KEY = 'django-insecure-y#dpp70yk^^xu!y=l3jt(+_818=l9=pih&s^4g(cfk36*+4+iv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+    '0.0.0.0.',
+    '0.0.0.0:8000',
+    '192.168.88.211',
+]
 
 
 # Application definition
@@ -77,9 +82,9 @@ TEMPLATES = [
     },
 ]
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
 
 WSGI_APPLICATION = 'karting_site.wsgi.application'
 
@@ -147,4 +152,5 @@ CELERY_HOSTNAME = "localhost"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 include=('recorder.tasks')

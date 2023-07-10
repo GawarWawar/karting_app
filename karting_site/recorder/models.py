@@ -1,13 +1,14 @@
 from django.db import models
+from django.utils import timezone
 
 import datetime
 # Create your models here.
 
 class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)
-    publish_date = models.DateTimeField("publish_date", default=datetime.datetime.now)
-    date_record_started = models.DateTimeField("date_record_started", default=datetime.datetime.now)
-    date_record_finished = models.DateTimeField("date_record_finished", default=datetime.datetime.now)
+    publish_date = models.DateTimeField("publish_date", default=timezone.now)
+    date_record_started = models.DateTimeField("date_record_started", default=timezone.now)
+    date_record_finished = models.DateTimeField("date_record_finished", default=timezone.now)
     was_recorded_complete = models.BooleanField("was_recorded_complete", default=False)
     is_recorded = models.BooleanField("is_recorded", default=False)
     celery_recorder_id = models.CharField(max_length=64, default=0)

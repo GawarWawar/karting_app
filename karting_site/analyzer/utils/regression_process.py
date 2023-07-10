@@ -109,10 +109,14 @@ def regression_process(
     # for i, value_to_transform in enumerate(lists_of_values_to_predict):
     for df in list_of_df_to_predict:
         values_to_predict = df.values
-        values_to_predict = ct.transform(values_to_predict).toarray()
-        values_to_predict = sc_x.transform(values_to_predict)
-        lists_of_values_to_predict.append(values_to_predict)
-        list_of_predictions_dict.append({})
+        try:
+            values_to_predict = ct.transform(values_to_predict).toarray()
+        except ValueError:
+            return None
+        else:
+            values_to_predict = sc_x.transform(values_to_predict)
+            lists_of_values_to_predict.append(values_to_predict)
+            list_of_predictions_dict.append({})
     
     list_of_regression_models = [
         regres_eval.multiple_linear_regression,

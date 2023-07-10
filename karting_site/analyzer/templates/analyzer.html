@@ -9,6 +9,7 @@
   </style>
   <head> </head>
   <body>
+    {%if temp_predictions%}
     <h1>Predictions of the karts` temp:</h1>
     {%for table in temp_predictions%}
     <table>
@@ -28,7 +29,7 @@
       </tr>
       {%endfor%}
     </table>
-    {%endfor%}  
+    {%endfor%}
     <h1>Predictions of the karts` fastest lap:</h1>
     {%for table in fastestlap_predictions%}
     <table>
@@ -48,6 +49,6 @@
       </tr>
       {%endfor%}
     </table>
-    {%endfor%} 
+    {%endfor%} {%else%} There are no viable records to analyze for this race. {%endif%}
   </body>
 </html>

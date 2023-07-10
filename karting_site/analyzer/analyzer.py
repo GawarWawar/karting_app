@@ -158,22 +158,24 @@ def analyze_race(race_id):
     df_stats = df_stats.reset_index(drop=True)
     df_stats = df_stats.dropna()   
 
-    df_to_analyze = pd.DataFrame(
-        {
-            #"pilot": df_stats["pilot"].copy(),
-            "kart": df_stats["kart"].copy(),
-            #"pilot_temp": df_stats.pop("pilot_temp"),
-            #"pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
-            #"this_race_coeficient": df_stats.pop("this_race_coeficient"),
-            #"pilot_coeficient": df_stats.pop("pilot_coeficient"),
-            #"average_coeficient": df_stats.pop("average_coeficient"),
-            "temp_from_average_coeficient": df_stats.pop("temp_from_average_coeficient"),
-            "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
-            "kart_temp": df_stats.pop("kart_temp"),
-            "temp_with_pilot": df_stats.pop("temp_with_pilot"),
-        }
-    )
-    
+    try:
+        df_to_analyze = pd.DataFrame(
+            {
+                #"pilot": df_stats["pilot"].copy(),
+                "kart": df_stats["kart"].copy(),
+                #"pilot_temp": df_stats.pop("pilot_temp"),
+                #"pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
+                #"this_race_coeficient": df_stats.pop("this_race_coeficient"),
+                #"pilot_coeficient": df_stats.pop("pilot_coeficient"),
+                #"average_coeficient": df_stats.pop("average_coeficient"),
+                "temp_from_average_coeficient": df_stats.pop("temp_from_average_coeficient"),
+                "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
+                "kart_temp": df_stats.pop("kart_temp"),
+                "temp_with_pilot": df_stats.pop("temp_with_pilot"),
+            }
+        )
+    except KeyError:
+        return None
 
 
     return_dict = {
@@ -185,6 +187,8 @@ def analyze_race(race_id):
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
+    if dicts_from_temp_predictions is None:
+        return None
 
     return_dict["temp_r2_scores"] = dicts_from_temp_predictions["r2_score_values_dict"]
 

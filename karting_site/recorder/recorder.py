@@ -131,8 +131,6 @@ def record_race (
         ) 
     ) and not (
         only_one_cycle == 0 # TESTING STUFF
-    ) and not (
-       self.is_abborted
     ): 
         start_of_the_cycle = time.perf_counter()
         start_time_to_wait = time.perf_counter()

@@ -19,8 +19,8 @@ from django.urls import include,path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("recorder/", include("recorder.urls")),
-    path("analyzer/", include("analyzer.urls"))
+    path("recorder/", include("recorder.urls", namespace="recorder")),
+    path("analyzer/", include("analyzer.urls", namespace="analyzer"))
 ]
 
 admin.site.site_header = "Karting App Admin"

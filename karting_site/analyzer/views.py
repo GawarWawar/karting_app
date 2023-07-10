@@ -19,6 +19,18 @@ from . import pilot_rating
 from . import analyzer
 
 # Create your views here.
-def index(request):
+def index_json(request):
     message = analyzer.analyze_race(27)
     return HttpResponse(json.dumps(message))
+
+def race_analyze(request, race_id):
+    message = analyzer.analyze_race(race_id)
+    try:
+        message.update(
+            {
+                "race_id": race_id
+            }
+        )
+    except AttributeError:
+        pass
+    return render(request, "analyzer.html", message)

@@ -4,5 +4,6 @@ from . import views
 
 app_name = "analyzer"
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("<race_id>", views.race_analyze, name="analyze_race"),
+    #path("json", views.index_json, name="index"),
 ]

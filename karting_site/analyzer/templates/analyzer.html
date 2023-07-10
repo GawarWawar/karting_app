@@ -9,6 +9,7 @@
   </style>
   <head> </head>
   <body>
+    <a href="{%url 'recorder:view' race_id %}">Go back to the records of the race</a>
     {%if temp_predictions%}
     <h1>Predictions of the karts` temp:</h1>
     {%for table in temp_predictions%}

@@ -32,5 +32,7 @@ def race_analyze(request, race_id):
             }
         )
     except AttributeError:
-        pass
+        message = {
+                "race_id": race_id
+            }
     return render(request, "analyzer.html", message)

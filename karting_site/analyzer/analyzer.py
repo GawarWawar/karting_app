@@ -125,7 +125,7 @@ def analyze_race(race_id):
     )
 
     df_with_prediction = analyzer_functions.assemble_prediction(
-        0,
+        0.0,
         df_of_pilots=df_pilots.copy(),
         df_of_karts=df_karts.copy(),
     )

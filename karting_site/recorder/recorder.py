@@ -179,7 +179,7 @@ def record_race (
                 if laps_to_change:
                     laps_to_change.true_name = True
                     laps_to_change.pilot_name = pilot_name
-                    laps_to_change.save()
+                    laps_to_change.update()
             
             kart = int(teams_stats[team]["kart"])
             true_kart = recorder_functions.kart_check(
@@ -193,8 +193,9 @@ def record_race (
                 and
                 kart != df_last_lap_info.loc[team, "last_kart"]
             ):
-                laps_to_change =  models.Race.objects.filter(
-                    race = race_id,
+                race = models.Race.objects.get(pk = race_id)
+                laps_to_change =  models.RaceRecords.objects.filter(
+                    race = race,
                     team_number = int(team),
                     true_kart = False,
                     team_segment = df_last_lap_info.loc[team, "current_segment"],
@@ -203,7 +204,7 @@ def record_race (
                 if laps_to_change:
                     laps_to_change.true_kart = True
                     laps_to_change.kart = kart
-                    laps_to_change.save()
+                    laps_to_change.update()
                     
             
             recorder_functions.change_kart_on_true_value(

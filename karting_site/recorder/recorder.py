@@ -48,23 +48,6 @@ def record_race (
     # Start of the program time
     start_of_the_programme = time.perf_counter()
 
-    # Reseting main DataFrame: clearing data, leaving only structure with needed columns
-    df_statistic = pd.DataFrame(
-        {
-            "team": pd.Series(int),
-            "pilot": pd.Series(str),
-            "kart": pd.Series(int),
-            "lap": pd.Series(int),
-            "lap_time": pd.Series(float),
-            "s1": pd.Series(float),
-            "s2": pd.Series(float),
-            "segment": pd.Series(int),
-            "true_name": pd.Series(bool),
-            "true_kart": pd.Series(bool)
-        }
-    )
-    df_statistic = df_statistic.drop(0)
-
     # Making first request
     request_count = 0
     body_content, request_count = recorder_functions.make_request_until_its_successful(
@@ -81,7 +64,7 @@ def record_race (
     # Flag to check, if totalRaceTime is changing:
         #yes -> starts main cycle functions
         #no -> continue to make requests
-    initial_total_race_time = body_content["onTablo"]["totalRaceTime"]
+    total_race_time = body_content["onTablo"]["totalRaceTime"]
     race_started = False
 
     # Variables to check if race is still going
@@ -124,7 +107,7 @@ def record_race (
         )
         or
         (
-            initial_total_race_time == body_content["onTablo"]["totalRaceTime"] 
+            total_race_time == body_content["onTablo"]["totalRaceTime"] 
             and not 
             race_started
         ) 
@@ -149,16 +132,7 @@ def record_race (
                 team=team,
                 teams_segment_count=len(teams_stats[team]["segments"])
             )
-            
-            recorder_functions.change_name_to_true_name_after_the_pit(
-                df_statistic=df_statistic,
-                df_last_lap_info=df_last_lap_info,
-                team=team,
-                pilot_name=pilot_name,
-                logger=logger,
-                true_name=true_name,
-                is_on_pit=is_on_pit
-            )
+        
             
             if (
                 df_last_lap_info.loc[team, "was_on_pit"] == True
@@ -167,8 +141,9 @@ def record_race (
                 and not
                 is_on_pit
             ):
-                laps_to_change =  models.Race.objects.filter(
-                    race = race_id,
+                race = models.Race.objects.get(pk = race_id)
+                laps_to_change =  models.RaceRecords.objects.filter(
+                    race = race,
                     team_number = int(team),
                     true_name = False,
                     team_segment = df_last_lap_info.loc[team, "current_segment"],
@@ -203,15 +178,7 @@ def record_race (
                     laps_to_change.true_kart = True
                     laps_to_change.kart = kart
                     laps_to_change.update()
-                    
             
-            recorder_functions.change_kart_on_true_value(
-                df_statistic=df_statistic,
-                df_last_lap_info=df_last_lap_info,
-                team=team,
-                kart=kart,
-                logger=logger
-            )
             
             lap_count = teams_stats[team]["lapCount"]
             if lap_count !=0 and (int(lap_count) > int(
@@ -224,15 +191,6 @@ def record_race (
                 )
                 teams_stats[team]["lastLapS2"] = recorder_functions.str_lap_time_into_float_change(
                     teams_stats[team]["lastLapS2"]
-                )
-                
-                recorder_functions.add_lap_as_a_row(
-                    df_statistic=df_statistic,
-                    df_last_lap_info=df_last_lap_info,
-                    teams_stats=teams_stats,
-                    team=team,
-                    true_name=true_name,
-                    true_kart=true_kart,
                 )
                 
                 race = models.Race.objects.get(pk=race_id)
@@ -271,7 +229,7 @@ def record_race (
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
         race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
         
-        initial_total_race_time == body_content["onTablo"]["totalRaceTime"]
+        total_race_time == body_content["onTablo"]["totalRaceTime"]
         teams_stats = body_content["onTablo"]["teams2"]
         
         race_started = True

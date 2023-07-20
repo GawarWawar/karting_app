@@ -53,6 +53,13 @@ def clear_df_from_unneeded_names(
     
     return df_to_clear
 
+def kart_column_into_str (kart):
+    if kart > 10:
+        kart = "kart_" + str(kart)
+    else:
+        kart = "kart_0" + str(kart)
+    return kart
+        
 
 def records_columns_to_numeric (
     df_of_records: pd.DataFrame,

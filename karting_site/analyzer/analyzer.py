@@ -67,7 +67,7 @@ def analyze_race(race_id):
     df_from_recorded_records.pop("id")
     df_from_recorded_records.pop("race")
 
-    df_from_recorded_records["kart"] = "kart_" + df_from_recorded_records["kart"].astype(str)
+    df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(analyzer_functions.kart_column_into_str)
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 
     df_from_recorded_records = analyzer_functions.records_columns_to_numeric(
@@ -213,6 +213,7 @@ def analyze_race(race_id):
             "kart",
             series_of_karts,
         )
+        temp_prediction_df = temp_prediction_df.sort_values("kart", ignore_index=True, inplace=False)
         dicts_from_temp_predictions["predictions"][i] = temp_prediction_df.to_dict(
                 orient="records",
                 #indent=2
@@ -225,6 +226,7 @@ def analyze_race(race_id):
             "kart",
             series_of_karts,
         )
+        fastestlap_prediction_df = fastestlap_prediction_df.sort_values("kart", ignore_index=True, inplace=False)
         dicts_from_fastestlap_predictions["predictions"][i] = fastestlap_prediction_df.to_dict(
                 orient="records",
                 #indent=2

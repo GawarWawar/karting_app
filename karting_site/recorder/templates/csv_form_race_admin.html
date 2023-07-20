@@ -1,0 +1,23 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <p>TEXT IS NEEDED</p>
+    <div>
+        <form action="." method="POST" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+        <label for="race_name">Name Of The Race:</label><br>
+            <input type="text" id="race_name" name="race_name"><br>
+        <label for="was_recorded_complete">Was record of race fully complered:</label><br>
+            <select name="was_recorded_complete" id="is_rwas_recorded_completeecorded">
+                {%for boolean_option in true_false%}
+                    <option value={{boolean_option}}> {{boolean_option}} </option>
+                {% endfor %}
+            </select><br>
+        
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+
+{% endblock %}

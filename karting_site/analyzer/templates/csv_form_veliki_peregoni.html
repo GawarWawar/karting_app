@@ -1,0 +1,22 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <p>To csv be valid, it should have "pilot" and "avarage_lap_time" in columns. ID Of The Race field is also necessary to fill</p>
+    <div>
+        <form action="." method="POST" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+        <label for="race_name">Name Of The Race:</label><br>
+            <input type="text" id="race_name" name="race_name"><br>
+        <label for="race_class">Race Class of this race:</label><br>
+            <select name="race_class_id" id="race_class_id">
+                {%for race_class in types_of_races%}
+                    <option value={{race_class.id}}> {{race_class.name_of_the_race_class}} </option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+
+{% endblock %}

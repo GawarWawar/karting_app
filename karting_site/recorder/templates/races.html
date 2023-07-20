@@ -1,0 +1,38 @@
+<html>
+
+
+<style>
+    table, th, td {
+      border:1px solid black;
+    }
+</style>
+<body>
+    <p><a href="{%url 'recorder:index' %}">Go to the records of lastest race</a></p>
+    {% if all_races_list %}
+        <table>
+            <tr>
+                <th>name_of_the_race</th>
+                <th>publish_date</th>
+                <th>date_record_started</th>
+                <th>date_record_finished</th>
+                <th>is_recorded</th>
+                <th>was_recorded_complete</th>
+            </tr>
+        {% for race in all_races_list %}
+        <tr>
+            <td><a href="{% url 'recorder:view' race.id %}">{{ race.name_of_the_race }}</a></td>
+            <td>{{race.publish_date}}</td>
+            <td>{{race.date_record_started}}</td>
+            <td>{{race.date_record_finished}}</td>
+            <td>{{race.is_recorded}} </td>
+            <td>{{race.was_recorded_complete}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No races are available.</p>
+    {% endif %}
+</body>
+
+
+</html>

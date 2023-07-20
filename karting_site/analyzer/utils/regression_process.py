@@ -23,8 +23,6 @@ from sklearn.utils.validation import column_or_1d
 
 from collections.abc import Callable
 
-
-from . import tools as u_tools
 from . import regression_evaluation as regres_eval
 
 

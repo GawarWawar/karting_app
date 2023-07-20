@@ -18,7 +18,6 @@ from celery.result import AsyncResult
 
 from . import models
 from . import tasks
-from .utils import tools as u_tools
 from . import recorder
    
 class CsvImportForm(forms.Form):

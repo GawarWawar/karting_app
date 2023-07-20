@@ -12,7 +12,6 @@ from celery.contrib.abortable import AbortableTask
 from . import models
 from .utils import add_row
 from .utils import recorder_functions
-from .utils import tools as u_tools
 
 import time
 import pprint
@@ -218,13 +217,13 @@ def record_race (
             lap_count = teams_stats[team]["lapCount"]
             if lap_count !=0 and (int(lap_count) > int(
                 df_last_lap_info.loc[team].at["last_lap"])):
-                teams_stats[team]["lastLap"] = u_tools.str_lap_time_into_float_change(
+                teams_stats[team]["lastLap"] = recorder_functions.str_lap_time_into_float_change(
                     teams_stats[team]["lastLap"]
                 )
-                teams_stats[team]["lastLapS1"] = u_tools.str_lap_time_into_float_change(
+                teams_stats[team]["lastLapS1"] = recorder_functions.str_lap_time_into_float_change(
                     teams_stats[team]["lastLapS1"]
                 )
-                teams_stats[team]["lastLapS2"] = u_tools.str_lap_time_into_float_change(
+                teams_stats[team]["lastLapS2"] = recorder_functions.str_lap_time_into_float_change(
                     teams_stats[team]["lastLapS2"]
                 )
                 

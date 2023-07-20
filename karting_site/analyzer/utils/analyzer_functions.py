@@ -8,10 +8,16 @@ import sys
 from os.path import dirname, abspath
 import importlib.util
 
-#SCRIPT_DIR = dirname(abspath(__file__))
-#path = sys.path.append(dirname(SCRIPT_DIR))
 
-from . import tools as u_tools
+def str_lap_time_into_float_change(
+    lap_time: str
+):
+    try:
+        lap_time = float(lap_time)
+    except ValueError:
+        split_lap_time = lap_time.split(":")
+        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return lap_time
 
 def clear_df_from_unneeded_names(
     df_to_clear: pd.DataFrame
@@ -71,7 +77,7 @@ def records_columns_to_numeric (
         except ValueError:
             for i in range(len(df_of_records.loc[:, column])):
                 print("Here")
-                df_of_records.loc[i, column] = u_tools.str_lap_time_into_float_change(df_of_records.loc[i, column])
+                df_of_records.loc[i, column] = str_lap_time_into_float_change(df_of_records.loc[i, column])
             df_of_records[column]=pd.to_numeric(df_of_records[column])
         except TypeError:
             print("WE FOUND IT")

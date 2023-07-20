@@ -11,7 +11,16 @@ import importlib.util
 import logging
 
 from . import add_row
-from . import tools as u_tools
+
+def str_lap_time_into_float_change(
+    lap_time: str
+):
+    try:
+        lap_time = float(lap_time)
+    except ValueError:
+        split_lap_time = lap_time.split(":")
+        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return lap_time
 
 def kart_check (
     df_last_lap_info: pd.DataFrame,

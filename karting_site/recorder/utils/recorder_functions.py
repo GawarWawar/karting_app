@@ -46,7 +46,7 @@ def kart_check (
         true_kart = True
     return true_kart
 
-def change_kart_on_true_value(
+def change_kart_on_true_value( # deprecated !!!
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
     team: str,
@@ -103,7 +103,7 @@ def set_name_flag_after_check_time_after_pit(
     
     return true_name
 
-def change_name_to_true_name_after_the_pit (
+def change_name_to_true_name_after_the_pit ( # deprecated !!!
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
     team: str,
@@ -164,7 +164,7 @@ def set_was_on_pit_and_current_segment(
         df_last_lap_info.loc[team, "was_on_pit"] = True
         df_last_lap_info.loc[team, "current_segment"] = teams_segment_count
         
-def add_lap_as_a_row(
+def add_lap_as_a_row( # deprecated !!!
     df_statistic: pd.DataFrame,
     df_last_lap_info: pd.DataFrame,
     teams_stats: dict,

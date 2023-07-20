@@ -30,9 +30,12 @@ def record_race (
     race_id: int,
 ):
     self.race_id = race_id
+    del race_id
+    race = models.Race.objects.get(pk = self.race_id)
+    
     
     # Logger set up
-    logger_name_and_file_name = f"race_id_{race_id}_{datetime.datetime.now()}"
+    logger_name_and_file_name = f"race_id_{self.race_id}_{datetime.datetime.now()}"
     logger = logging.getLogger(logger_name_and_file_name)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     
@@ -141,7 +144,6 @@ def record_race (
                 and not
                 is_on_pit
             ):
-                race = models.Race.objects.get(pk = race_id)
                 laps_to_change =  models.RaceRecords.objects.filter(
                     race = race,
                     team_number = int(team),
@@ -166,7 +168,6 @@ def record_race (
                 and
                 kart != df_last_lap_info.loc[team, "last_kart"]
             ):
-                race = models.Race.objects.get(pk = race_id)
                 laps_to_change =  models.RaceRecords.objects.filter(
                     race = race,
                     team_number = int(team),
@@ -193,7 +194,6 @@ def record_race (
                     teams_stats[team]["lastLapS2"]
                 )
                 
-                race = models.Race.objects.get(pk=race_id)
                 lap_record = models.RaceRecords.objects.create(
                     race = race,
                     team_number = int(team),

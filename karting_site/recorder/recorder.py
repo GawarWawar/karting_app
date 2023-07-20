@@ -131,8 +131,7 @@ def record_race (
     ) and not (
         only_one_cycle == 0 # TESTING STUFF
     ): 
-        start_of_the_cycle = time.perf_counter()
-        start_time_to_wait = time.perf_counter()
+        cycle_start_time = time.perf_counter()
         for team in teams_stats:
             pilot_name = teams_stats[team]["pilotName"]
             
@@ -261,7 +260,7 @@ def record_race (
             server="https://nfs-stats.herokuapp.com/getmaininfo.json",
             request_count=request_count,
             logger=logger,
-            start_time_to_wait=start_time_to_wait,
+            start_time_to_wait=cycle_start_time,
             self = self
         )
         if body_content == None:
@@ -278,7 +277,7 @@ def record_race (
         race_started = True
         
         end_of_the_cycle = time.perf_counter()
-        logger.info(f"Time of cycle: {end_of_the_cycle-start_of_the_cycle}, after request {request_count}")
+        logger.info(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
         
         # TESTING STUFF
         only_one_cycle -= 1

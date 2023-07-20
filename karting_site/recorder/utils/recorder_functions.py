@@ -233,15 +233,16 @@ def make_request_after_some_time(
             server, 
             timeout=10
         )
-        end_time_to_wait = time.perf_counter()
-        logger.info(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
-        return server_request
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
         end_time_to_wait = time.perf_counter()
         logger.info(
             f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception"
         )
         return None
+    else:
+        end_time_to_wait = time.perf_counter()
+        logger.info(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
+        return server_request
         
 def make_request_until_its_successful(
     server: str,
@@ -253,7 +254,7 @@ def make_request_until_its_successful(
 ) -> tuple:
     """Call make_request_after_some_time and check if it was successful:\n
             yes -> return body of the response as a first variable;\n
-            no -> try to call make_request_after_some_tim until it gets valid response;\n
+            no -> try to call make_request_after_some_time until it gets valid response;\n
         As second variable return amount of requests that were needed.
 
     Args:

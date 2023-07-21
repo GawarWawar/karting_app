@@ -68,24 +68,29 @@ def change_kart_to_true_value(
     )
     
     if laps_to_change:
+        changed_laps = []
+        for lap in laps_to_change.values('lap_count'):
+            changed_laps.append(lap["lap_count"])
+        logger.info(f"Records for laps: {changed_laps} was changed for team {team}'s {current_segment} segment to kart {kart}")
         laps_to_change.update(
-            true_kart =True,
+            true_kart = True,
             kart = kart
         )
-        logger.info(f"Objects with index: {laps_to_change.pk} was changed for team {team}'s {current_segment} segment to kart {kart}")
 
-def set_name_flag_after_check_time_after_pit(
+def check_name(
     seconds_from_pit: int,
     total_race_time: int,
+    pilot_name: str,
     seconds_to_pass:int = 540
 ) -> bool:
-    """ Name of the pilot is changed by hand, so programme needs to check if team made set amount of time on track after the pit or start, to be sure the name was changed:\n
+    """ Name of the pilot is changed by hand, so programme needs to check if name was changed. Checking if name is not empty and if team made set amount of time on track after the pit or start, to be sure the name was changed:\n
             yes -> set name flag to True. It will indicate name being valid;\n
             no -> set name flag to False. It will indicate that name is being not valid. This flag will mark all records with non valid name, so them could be changed in the future;
 
     Args:
         seconds_from_pit (int): Amount of seconds after last pit of the team.\n
         total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race.\n
+        pilot_name (str): name of the pilot that is now featured in the team`s info.\n
         seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults is set to 540.\n
     
     Returns:
@@ -97,6 +102,8 @@ def set_name_flag_after_check_time_after_pit(
         seconds_from_pit >= seconds_to_pass 
         and
         total_race_time >= seconds_to_pass
+        and not
+        pilot_name == ""
     ):
         return True
     else:
@@ -127,7 +134,10 @@ def change_name_to_true_value (
     )
     
     if laps_to_change:
-        logger.info(f"Objects with index: {laps_to_change.pk} was changed for team {team}'s {current_segment} segment to name {pilot_name}")
+        changed_laps = []
+        for lap in laps_to_change.values('lap_count'):
+            changed_laps.append(lap["lap_count"])
+        logger.info(f"Records for laps: {changed_laps} was changed for team {team}'s {current_segment} segment to name {pilot_name}")
         laps_to_change.update(
             true_name =True,
             pilot_name = pilot_name

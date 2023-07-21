@@ -124,9 +124,10 @@ def record_race (
             
             time_of_the_race = parser.isoparse("2001-04-07,"+body_content["onTablo"]["totalRaceTime"])
             time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race.second
-            true_name = recorder_functions.set_name_flag_after_check_time_after_pit(
+            true_name = recorder_functions.check_name(
                 seconds_from_pit=int(teams_stats[team]["secondsFromPit"]),
-                total_race_time=time_of_the_race
+                total_race_time=time_of_the_race,
+                pilot_name=pilot_name
             )
             
             is_on_pit=teams_stats[team]["isOnPit"]
@@ -150,8 +151,6 @@ def record_race (
                     team=team,
                     pilot_name=pilot_name,
                     logger=logger,
-                    was_on_pit=df_last_lap_info.loc[team, "was_on_pit"],
-                    is_on_pit=is_on_pit,
                 )
                 df_last_lap_info.loc[team, "was_on_pit"] = False
             

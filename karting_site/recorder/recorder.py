@@ -59,7 +59,7 @@ def record_race (
         request_count=request_count,
         logger=logger,
         time_to_wait = 0,
-        self = self
+        shared_task_instance = self
     )
     if body_content == None:
             logger.info(f"Recording stopped at {datetime.datetime.now()}")
@@ -157,11 +157,10 @@ def record_race (
             
             kart = int(teams_stats[team]["kart"])
             true_kart = recorder_functions.kart_check(
-                df_last_lap_info=df_last_lap_info,
-                team=team,
                 kart=kart,
             )
-                
+            
+            # Check if (kart is True after kart_check) and (kart changed from last lap) 
             if (
                 true_kart
                 and
@@ -174,13 +173,23 @@ def record_race (
                     kart=kart,
                     logger=logger
                 )    
-                df_last_lap_info.loc[team, "last_kart"] = kart
-                
+            # Renew last_kart after all kart checks and changes 
+            df_last_lap_info.loc[team, "last_kart"] = kart
+            
             
             
             lap_count = teams_stats[team]["lapCount"]
-            if lap_count !=0 and (int(lap_count) > int(
-                df_last_lap_info.loc[team].at["last_lap"])):
+            if (
+                lap_count !=0 
+                and 
+                (
+                    int(lap_count) 
+                    > 
+                    int(
+                        df_last_lap_info.loc[team].at["last_lap"]
+                    )
+                )
+            ):
                 teams_stats[team]["lastLap"] = recorder_functions.str_lap_time_into_float_change(
                     teams_stats[team]["lastLap"]
                 )
@@ -195,7 +204,7 @@ def record_race (
                     race = race,
                     team_number = int(team),
                     pilot_name = pilot_name,
-                    kart = int(teams_stats[team]["kart"]),
+                    kart = kart,
                     lap_count = teams_stats[team]["lapCount"],
                     lap_time = teams_stats[team]["lastLap"],
                     s1_time = teams_stats[team]["lastLapS1"],
@@ -215,7 +224,7 @@ def record_race (
             request_count=request_count,
             logger=logger,
             start_time_to_wait=cycle_start_time,
-            self = self
+            shared_task_instance = self
         )
         if body_content == None:
             logger.info(f"Recording stopped at {datetime.datetime.now()}")

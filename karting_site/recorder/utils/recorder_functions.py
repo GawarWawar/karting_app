@@ -24,28 +24,24 @@ def str_lap_time_into_float_change(
     return lap_time
 
 def kart_check (
-    df_last_lap_info: pd.DataFrame,
-    team: str,
     kart: int,
 ) -> bool:
-    """ Check if kart was changed on valid or it is still 0:
-            yes -> make flag indicate that kart is valid;
-            no -> make a flag, to indicate all non valid kard records;
-                 + make a last team`s kart = 0.
+    """ Karts are changes by hand, so programme needs to perform a check if kart was changed on valid or it is still 0, and create a flag that indicates this:\n
+            yes -> set kart flag to True. It will indicate kart being valid;\n
+            no -> set kart flag to False. It will indicate that kart is being not valid. This flag will mark all records with non valid kart, so them could be changed in the future.
     
     Args:
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        team (str): Team, which kart we are cheking.\n
         kart (int): Kart, which shown in the programme.\n
     Returns:
-        bool: True, if it is valid kart number.\n
+        bool: \n
+            True -> indicates kart being valid;\n
+            False -> indicates that kart is being not valid. This flag will mark all records with non valid kart, so them could be changed in the future.
     """
     if kart == 0:
-        true_kart = False
-        df_last_lap_info.loc[team, "last_kart"] = kart
+       return False
     else: 
-        true_kart = True
-    return true_kart
+       return True
+
 
 def change_kart_to_true_value(
     current_segment: int,
@@ -83,24 +79,28 @@ def set_name_flag_after_check_time_after_pit(
     total_race_time: int,
     seconds_to_pass:int = 540
 ) -> bool:
-    """Check if team made set amount of time on track after the pit or start:\n
-            yes -> set name flag to True. It will represent, that name at this moment is true name;\n
-            no -> set name flag to False. It will represent, that name at this moment is false name.\n
+    """ Name of the pilot is changed by hand, so programme needs to check if team made set amount of time on track after the pit or start, to be sure the name was changed:\n
+            yes -> set name flag to True. It will indicate name being valid;\n
+            no -> set name flag to False. It will indicate that name is being not valid. This flag will mark all records with non valid name, so them could be changed in the future;
+
     Args:
         seconds_from_pit (int): Amount of seconds after last pit of the team.\n
         total_race_time (int): Amount of seconds that indicate how many seconds has passed after start of the race.\n
         seconds_to_pass (int, optional): amount of seconds, that needs to pass after the start, for name to become valid. Defaults is set to 540.\n
     
     Returns:
-        bool: True, if set amout of seconds passed after the last pit.
+        bool: \n
+        True -> indicates name being valid;\n
+        False -> indicates that name is being not valid. This flag will mark all records with non valid name, so them could be changed in the future;
     """
-    if  seconds_from_pit >= seconds_to_pass and\
-        total_race_time >= seconds_to_pass:
-        true_name = True
+    if  (
+        seconds_from_pit >= seconds_to_pass 
+        and
+        total_race_time >= seconds_to_pass
+    ):
+        return True
     else:
-        true_name = False
-    
-    return true_name
+        return False
 
 def change_name_to_true_value (
     current_segment: int,
@@ -237,7 +237,7 @@ def make_request_until_its_successful(
     server: str,
     request_count: int,
     logger: logging.Logger,
-    self,
+    shared_task_instance,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait:int = 1
 ) -> tuple:
@@ -262,7 +262,7 @@ def make_request_until_its_successful(
     while (
         server_request_status_code != 200
     ):
-        if self.is_aborted():
+        if shared_task_instance.is_aborted():
             return None, request_count
         request_count += 1
         server_request = make_request_after_some_time(

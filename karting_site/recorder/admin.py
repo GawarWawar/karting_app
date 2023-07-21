@@ -51,6 +51,7 @@ class NamesInRaceFilter(admin.SimpleListFilter):
 # Register your models here.    
 class RaceRecordsAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "race",
         "team_number",
         "name_of_a_pilot",

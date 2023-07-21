@@ -29,6 +29,10 @@ def record_race (
     self,
     race_id: int,
 ):
+    # Start of the program time
+    start_of_the_programme = time.perf_counter()
+    
+    
     self.race_id = race_id
     del race_id
     race = models.Race.objects.get(pk = self.race_id)
@@ -47,9 +51,6 @@ def record_race (
     
     # Testing variable
     only_one_cycle = -1
-
-    # Start of the program time
-    start_of_the_programme = time.perf_counter()
 
     # Making first request
     request_count = 0
@@ -136,25 +137,23 @@ def record_race (
                 teams_segment_count=len(teams_stats[team]["segments"])
             )
         
-            
             if (
-                df_last_lap_info.loc[team, "was_on_pit"] == True
+                df_last_lap_info.loc[team, "was_on_pit"]
                 and
                 true_name
                 and not
                 is_on_pit
             ):
-                laps_to_change =  models.RaceRecords.objects.filter(
-                    race = race,
-                    team_number = int(team),
-                    true_name = False,
-                    team_segment = df_last_lap_info.loc[team, "current_segment"],
+                recorder_functions.change_name_to_true_value(
+                    current_segment=df_last_lap_info.loc[team, "current_segment"],
+                    race=race,
+                    team=team,
+                    pilot_name=pilot_name,
+                    logger=logger,
+                    was_on_pit=df_last_lap_info.loc[team, "was_on_pit"],
+                    is_on_pit=is_on_pit,
                 )
-                
-                if laps_to_change:
-                    laps_to_change.true_name = True
-                    laps_to_change.pilot_name = pilot_name
-                    laps_to_change.update()
+                df_last_lap_info.loc[team, "was_on_pit"] = False
             
             kart = int(teams_stats[team]["kart"])
             true_kart = recorder_functions.kart_check(
@@ -168,17 +167,15 @@ def record_race (
                 and
                 kart != df_last_lap_info.loc[team, "last_kart"]
             ):
-                laps_to_change =  models.RaceRecords.objects.filter(
-                    race = race,
-                    team_number = int(team),
-                    true_kart = False,
-                    team_segment = df_last_lap_info.loc[team, "current_segment"],
-                )
+                recorder_functions.change_kart_to_true_value(
+                    current_segment=df_last_lap_info.loc[team, "current_segment"],
+                    race=race,
+                    team=team,
+                    kart=kart,
+                    logger=logger
+                )    
+                df_last_lap_info.loc[team, "last_kart"] = kart
                 
-                if laps_to_change:
-                    laps_to_change.true_kart = True
-                    laps_to_change.kart = kart
-                    laps_to_change.update()
             
             
             lap_count = teams_stats[team]["lapCount"]
@@ -207,7 +204,6 @@ def record_race (
                     true_name = true_name,
                     true_kart = true_kart,
                 )
-                logger.info(lap_record)
                 lap_record.save()
                      
                 logger.info(f"For team {team} added row for lap {lap_count}")           

@@ -10,6 +10,7 @@ from os.path import dirname, abspath
 import importlib.util
 import logging
 
+from recorder import models
 from . import add_row
 
 def str_lap_time_into_float_change(
@@ -46,38 +47,36 @@ def kart_check (
         true_kart = True
     return true_kart
 
-def change_kart_on_true_value( # deprecated !!!
-    df_statistic: pd.DataFrame,
-    df_last_lap_info: pd.DataFrame,
+def change_kart_to_true_value(
+    current_segment: int,
+    race: models.Race,
     team: str,
     kart: int,
     logger: logging.Logger
-):
-    """ Check if it is true_kart and we didnt change it yet:
-            changes all previous 0 kart records for this pilot to valid kart number;
+) -> None:
+    """Changes all previous 0 kart records of current segment of the team to valid kart number and set True_kart flag to True in this records;
             make a log about it;
-    
+
     Args:
-        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        team (str): Team, which kart we are cheking.\n
-        kart (int): Kart, which shown in the programme.\n
-        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
+        current_segment (int): current segment of the team. Pit stops divide race on the segments, so current segment increases after team`s pit stops;\n
+        race (models.Race): instance of a recorder.models.Race, that indicate the race, which is going on;\n
+        team (str): team, that we are doing kart change for;\n
+        kart (int): true kart, that team is riding on the track right now;\n
+        logger (logging.Logger): instance for logger in which we are making logs.\n
     """
-    if kart != df_last_lap_info.loc[team, "last_kart"]:
-            needed_indexes = df_statistic[
-                (df_statistic.loc[:,"team"] == team) 
-                &(df_statistic.loc[:,"true_kart"] == False) 
-                &(
-                    df_statistic.loc[:,"segment"] ==\
-                        df_last_lap_info.loc[team, "current_segment"]
-                )
-            ].index
-            df_statistic.loc[needed_indexes, "true_kart"] = True
-            df_statistic.loc[needed_indexes, "kart"] = kart
-            df_last_lap_info.loc[team, "last_kart"] = kart
-            
-            logger.info(f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to kart {kart}")
+    laps_to_change =  models.RaceRecords.objects.filter(
+        race = race,
+        team_number = int(team),
+        true_kart = False,
+        team_segment = current_segment,
+    )
+    
+    if laps_to_change:
+        laps_to_change.update(
+            true_kart =True,
+            kart = kart
+        )
+        logger.info(f"Objects with index: {laps_to_change.pk} was changed for team {team}'s {current_segment} segment to kart {kart}")
 
 def set_name_flag_after_check_time_after_pit(
     seconds_from_pit: int,
@@ -103,46 +102,36 @@ def set_name_flag_after_check_time_after_pit(
     
     return true_name
 
-def change_name_to_true_name_after_the_pit ( # deprecated !!!
-    df_statistic: pd.DataFrame,
-    df_last_lap_info: pd.DataFrame,
+def change_name_to_true_value (
+    current_segment: int,
+    race: models.Race,
     team: str,
     pilot_name: str,
     logger: logging.Logger,
-    true_name: bool,
-    is_on_pit: bool
 ) -> None:
-    """Change pilot name in all previous records of current segment if team left pit, on track set amount of seconds and this pocedure wasn't done after pit
+    """Change pilot name in all previous records of current segment and set the True_name flag to True in them;
+            make a log about it;
 
     Args:
-        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        team (str): Team that we are checking.\n
-        pilot_name (str): Name of a pilot that we are changing.\n
-        logging_file (str): Path to file in which we making log note about in what rows was kart changed.\n
-        true_name (bool): Change name only if name is True already.\n
-        is_on_pit (bool): Dont proceed to change pilots name if team is still on pit.\n
+        current_segment (int): current segment of the team. Pit stops divide race on the segments, so current segment increases after team`s pit stops;\n
+        race (models.Race): instance of a recorder.models.Race, that indicate the race, which is going on;\n
+        team (str): team, that we are doing name change for;\n
+        pilot_name (str): true name of the pilot, who is riding on the track right now;\n
+        logger (logging.Logger): instance for logger in which we are making logs.\n
     """
-    if (
-        df_last_lap_info.loc[team, "was_on_pit"] == True
-        and
-        true_name
-        and not
-        is_on_pit
-    ):
-        needed_indexes = df_statistic[
-            (df_statistic.loc[:,"team"] == team) 
-            &(df_statistic.loc[:,"true_name"] == False) 
-            &(
-                df_statistic.loc[:,"segment"] ==\
-                    df_last_lap_info.loc[team, "current_segment"]
-            )
-        ].index
-        df_statistic.loc[needed_indexes, "true_name"] = True
-        df_statistic.loc[needed_indexes, "pilot"] = pilot_name
-        df_last_lap_info.loc[team, "was_on_pit"] = False
-        
-        logger.info(f"Rows with index: {needed_indexes} was changed for team {team} {df_last_lap_info.loc[team, 'current_segment']}'s segment to name {pilot_name}")
+    laps_to_change =  models.RaceRecords.objects.filter(
+        race = race,
+        team_number = int(team),
+        true_name = False,
+        team_segment = current_segment,
+    )
+    
+    if laps_to_change:
+        logger.info(f"Objects with index: {laps_to_change.pk} was changed for team {team}'s {current_segment} segment to name {pilot_name}")
+        laps_to_change.update(
+            true_name =True,
+            pilot_name = pilot_name
+        )
 
             
 def set_was_on_pit_and_current_segment(
@@ -276,16 +265,16 @@ def make_request_until_its_successful(
         if self.is_aborted():
             return None, request_count
         request_count += 1
+        server_request = make_request_after_some_time(
+            server=server,
+            request_count=request_count,
+            logger = logger,
+            start_time_to_wait=start_time_to_wait,
+            time_to_wait=time_to_wait
+        )
         try:
-            server_request = make_request_after_some_time(
-                server=server,
-                request_count=request_count,
-                logger = logger,
-                start_time_to_wait=start_time_to_wait,
-                time_to_wait=time_to_wait
-            )
             server_request_status_code = server_request.status_code
         except AttributeError:
-            pass
+            start_time_to_wait= time.perf_counter(),
     body_content = server_request.json()
     return body_content, request_count

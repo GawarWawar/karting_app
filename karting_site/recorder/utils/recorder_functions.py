@@ -224,9 +224,8 @@ def make_request_after_some_time(
         None: we recieve one of the following exeptions: requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError
     """
     end_time_to_wait = time.perf_counter()
-    if end_time_to_wait-start_time_to_wait < time_to_wait:
-        while end_time_to_wait-start_time_to_wait < time_to_wait:
-            end_time_to_wait = time.perf_counter()
+    while end_time_to_wait - start_time_to_wait < time_to_wait:
+        end_time_to_wait = time.perf_counter()
     try: 
         server_request = requests.get(
             server, 
@@ -285,6 +284,6 @@ def make_request_until_its_successful(
         try:
             server_request_status_code = server_request.status_code
         except AttributeError:
-            start_time_to_wait= time.perf_counter(),
+            start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
     return body_content, request_count

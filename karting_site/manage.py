@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+# To start server: python3 manage.py runserver 0.0.0.0:8000
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'karting_site.settings')

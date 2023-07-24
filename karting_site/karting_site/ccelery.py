@@ -3,6 +3,7 @@ from celery import Celery
 import os
 from decouple import config
 
+# To turn on Celery: celery -A karting_site worker --loglevel=INFO -O fair
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'karting_site.settings')
 
 app = Celery(

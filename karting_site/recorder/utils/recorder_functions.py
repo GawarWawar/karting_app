@@ -13,9 +13,17 @@ import logging
 from recorder import models
 from . import add_row
 
-def str_lap_time_into_float_change(
+def str_lap_or_segment_time_into_float_change(
     lap_time: str
-):
+) -> float:
+    """Time in data is string and we need to have float. Also, if it is greater then 1 minute, it has format mm:ss:miliseconds, so we are transforming it to seconds.
+
+    Args:
+        lap_time (str): Time in format ss.miliseconds or mm:ss:miliseconds as string
+
+    Returns:
+        float: Time in seconds as float
+    """
     try:
         lap_time = float(lap_time)
     except ValueError:
@@ -144,7 +152,7 @@ def change_name_to_true_value (
         )
 
             
-def set_was_on_pit_and_current_segment(
+def set_was_on_pit_and_current_segment( # deprecated !!!
     is_on_pit: bool,
     df_last_lap_info: pd.DataFrame,
     team: str,

@@ -29,30 +29,29 @@ def record_race (
     self,
     race_id: int,
 ):
-    # Start of the program time
     start_of_the_programme = time.perf_counter()
     
-    
+    # Giving race_id outside of the Celery Task
     self.race_id = race_id
     del race_id
+    
+    # Looking for and writing into variable recorder.models.Race object to 
+    # create and change recorder.models.RaceRecords in future steps
     race = models.Race.objects.get(pk = self.race_id)
     
-    
     # Logger set up
-    logger_name_and_file_name = f"race_id_{self.race_id}_{datetime.datetime.now()}"
+    logger_name_and_file_name = f"race_id_{self.race_id}"
     logger = logging.getLogger(logger_name_and_file_name)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
-    # FileHandler
+    # FileHandler change for logger, to change logger location
     fh = logging.FileHandler(f'recorder/data/logs/{logger_name_and_file_name}.log')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     
-    
     # Testing variable
     only_one_cycle = -1
 
-    # Making first request
+    # Making first request to retrieve data to start main cycle
     request_count = 0
     body_content, request_count = recorder_functions.make_request_until_its_successful(
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
@@ -61,38 +60,46 @@ def record_race (
         time_to_wait = 0,
         shared_task_instance = self
     )
+    # Method to abort recording
     if body_content == None:
-            logger.info(f"Recording stopped at {datetime.datetime.now()}")
+            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
             return
-
-    # Flag to check, if totalRaceTime is changing:
-        #yes -> starts main cycle functions
-        #no -> continue to make requests
-    total_race_time = body_content["onTablo"]["totalRaceTime"]
-    race_started = False
 
     # Variables to check if race is still going
     race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
     race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
 
-    # Variable to make team_stats calls shorter
+    # Gazeting usefull information of the all teams in one variable
+    # It will make call of teams` info shorter
     teams_stats = body_content["onTablo"]["teams2"]
 
-    # Creating default dict of teams with info and flags about their past state
+    # Creating default dict of teams with info and flags about their past state.
+    # Dict is created to fit all possible teams, even if they are not in the race.
+    # Most possible teams number are listed under body_content["onTablo"]["karts"].
+    # In sircumstances of the rent karting, team number indicates just a kart number,
+    # however duting Big races this indicates team number and karts are managed by hands.
+    # That is why body_content["onTablo"]["karts"] has all possible team numbers
     last_lap_info = {}
     teams = body_content["onTablo"]["karts"]
     teams.append(88)
     for team in teams:
         last_lap_info_update = {
             str(team): {
-                "last_lap": 0, # info about number of team`s laps
-                "last_kart": 0, # info about last team`s kart
-                "current_segment": 1, # segment that team is doing
-                "was_on_pit" : True # flag to separate segments and make sure the right pilot name is adding
+                # info about number of team`s laps
+                "last_lap": 0, 
+                # info about last team`s kart
+                "last_kart": 0, 
+                # segment that team is doing. It will be renewd
+                "current_segment": 1,
+                # flag to separate segments and make sure the right pilot name is adding 
+                "was_on_pit" : True 
             }
         }
         last_lap_info.update(last_lap_info_update)
+    del teams
 
+    # If recorder was reopened mid race,
+    # current_segment should be set accrate to each team`s current segment 
     for team in teams_stats:
         last_lap_info[team]["current_segment"] = len(teams_stats[team]["segments"])
         
@@ -103,20 +110,33 @@ def record_race (
     preparation_ends = time.perf_counter()
     logger.info(f"Time of preparation: {preparation_ends-start_of_the_programme}")
 
+    # Cycle to check, if totalRaceTime is changing:
+        #no -> make new requests
+        #yes -> Finish making requestss and proceed with main cycle
+    total_race_time = body_content["onTablo"]["totalRaceTime"]
+
+    while (
+            total_race_time == body_content["onTablo"]["totalRaceTime"] 
+    ):
+        body_content, request_count = recorder_functions.make_request_until_its_successful(
+            server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+            request_count=request_count,
+            logger=logger,
+            start_time_to_wait=cycle_start_time,
+            shared_task_instance = self
+        )
+        if body_content == None:
+            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
+            return
+
     # Main cycle
     while (
         # In the end of the race race_finished_timestamp will become bigger and cycle will end
         (
             race_started_button_timestamp > race_finished_timestamp
         )
-        or
-        (
-            total_race_time == body_content["onTablo"]["totalRaceTime"] 
-            and not 
-            race_started
-        ) 
     ) and not (
-        only_one_cycle == 0 # TESTING STUFF
+        only_one_cycle == 0 # Check used while testing
     ): 
         cycle_start_time = time.perf_counter()
         for team in teams_stats:
@@ -130,14 +150,14 @@ def record_race (
                 pilot_name=pilot_name
             )
             
+            # Check if team is on PitStip:
+            #   yes -> change team`s flag was_on_pit to true and renew segment for the team;
             is_on_pit=teams_stats[team]["isOnPit"]
-            recorder_functions.set_was_on_pit_and_current_segment(
-                is_on_pit=is_on_pit,
-                df_last_lap_info=df_last_lap_info,
-                team=team,
-                teams_segment_count=len(teams_stats[team]["segments"])
-            )
+            if is_on_pit:
+                df_last_lap_info.loc[team, "was_on_pit"] = True
+                df_last_lap_info.loc[team, "current_segment"] = len(teams_stats[team]["segments"])
         
+            # Check that initiates name change
             if (
                 df_last_lap_info.loc[team, "was_on_pit"]
                 and
@@ -159,7 +179,7 @@ def record_race (
                 kart=kart,
             )
             
-            # Check if (kart is True after kart_check) and (kart changed from last lap) 
+            # Check that initiates kart change
             if (
                 true_kart
                 and
@@ -171,12 +191,12 @@ def record_race (
                     team=team,
                     kart=kart,
                     logger=logger
-                )    
+                )
+                    
             # Renew last_kart after all kart checks and changes 
             df_last_lap_info.loc[team, "last_kart"] = kart
             
-            
-            
+            # Check if team made a new lap that initiates creation of lap record 
             lap_count = teams_stats[team]["lapCount"]
             if (
                 lap_count !=0 
@@ -189,31 +209,35 @@ def record_race (
                     )
                 )
             ):
-                teams_stats[team]["lastLap"] = recorder_functions.str_lap_time_into_float_change(
+                teams_stats[team]["lastLap"] = recorder_functions.str_lap_or_segment_time_into_float_change(
                     teams_stats[team]["lastLap"]
                 )
-                teams_stats[team]["lastLapS1"] = recorder_functions.str_lap_time_into_float_change(
+                teams_stats[team]["lastLapS1"] = recorder_functions.str_lap_or_segment_time_into_float_change(
                     teams_stats[team]["lastLapS1"]
                 )
-                teams_stats[team]["lastLapS2"] = recorder_functions.str_lap_time_into_float_change(
+                teams_stats[team]["lastLapS2"] = recorder_functions.str_lap_or_segment_time_into_float_change(
                     teams_stats[team]["lastLapS2"]
                 )
-                
+
                 lap_record = models.RaceRecords.objects.create(
+                    # Using race object created earlier
                     race = race,
                     team_number = int(team),
                     pilot_name = pilot_name,
                     kart = kart,
+                    # Times are in float format after the change
                     lap_count = teams_stats[team]["lapCount"],
                     lap_time = teams_stats[team]["lastLap"],
                     s1_time = teams_stats[team]["lastLapS1"],
                     s2_time = teams_stats[team]["lastLapS2"],
+                    
                     team_segment = df_last_lap_info.loc[team, "current_segment"],
+                    
                     true_name = true_name,
                     true_kart = true_kart,
                 )
                 lap_record.save()
-                     
+                
                 logger.info(f"For team {team} added row for lap {lap_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
         
@@ -226,21 +250,18 @@ def record_race (
             shared_task_instance = self
         )
         if body_content == None:
-            logger.info(f"Recording stopped at {datetime.datetime.now()}")
+            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
             return
         
         # Renew variables for the next cycle
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
         race_finished_timestamp = body_content["onTablo"]['raceFinishedTimestamp']
-        
-        total_race_time == body_content["onTablo"]["totalRaceTime"]
+        total_race_time = body_content["onTablo"]["totalRaceTime"]
         teams_stats = body_content["onTablo"]["teams2"]
-        
-        race_started = True
         
         end_of_the_cycle = time.perf_counter()
         logger.info(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
-        
+
         # TESTING STUFF
         only_one_cycle -= 1
 

@@ -122,11 +122,11 @@ def record_race (
         for team in teams_stats:
             pilot_name = teams_stats[team]["pilotName"]
             
-            time_of_the_race = parser.isoparse("2001-04-07,"+body_content["onTablo"]["totalRaceTime"])
-            time_of_the_race = time_of_the_race.hour*3600+time_of_the_race.minute*60+time_of_the_race.second
+            float_total_time_of_the_race = parser.isoparse("2001-04-07," + total_race_time)
+            float_total_time_of_the_race = float_total_time_of_the_race.hour*3600+float_total_time_of_the_race.minute*60+float_total_time_of_the_race.second
             true_name = recorder_functions.check_name(
                 seconds_from_pit=int(teams_stats[team]["secondsFromPit"]),
-                total_race_time=time_of_the_race,
+                total_race_time=float_total_time_of_the_race,
                 pilot_name=pilot_name
             )
             

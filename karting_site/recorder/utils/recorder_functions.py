@@ -11,7 +11,6 @@ import importlib.util
 import logging
 
 from recorder import models
-from . import add_row
 
 def str_lap_or_segment_time_into_float_change(
     lap_time: str

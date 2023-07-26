@@ -10,7 +10,6 @@ from celery import current_app, Celery, shared_task
 from celery.contrib.abortable import AbortableTask
 
 from . import models
-from .utils import add_row
 from .utils import recorder_functions
 
 import time

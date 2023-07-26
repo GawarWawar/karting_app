@@ -159,21 +159,18 @@ def make_request_after_some_time(
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait: int = 1
 ) -> tuple:
-    """Check if set amount of time has passed after last request:
-            yes -> make new request
-            no -> wait for it to pass
-        Also make a log about it
+    """Make request after timer extends over time_to_wait. Returns either requests.Response or None. Make a log about it`s result.
 
     Args:
         server (str): Link, on which we send a request.\n
-        request_count (int): How many times we send request to the server. Needs to make a log about it.\n
-        logging_file (str): File to paste logging info.\n
+        request_count (int): How many times we send request to the server. Need it to include into a log about request result.\n
+        logging_file (str): File to write logging info.\n
         start_time_to_wait (float, optional): Timestamp after the last request was done. Defaults is set to time.perf_counter().\n
         time_to_wait (int, optional): How much time do we need to wait before the next request. Defaults is set to 1 second.\n
 
     Returns:
-        requests.Response: response did not get an exeption and we are getting response from the server\n
-        None: we recieve one of the following exeptions: requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError
+        requests.Response: response was successful, request.Response will be transferred\n
+        None: one of the following exeptions was raised: requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError
     """
     end_time_to_wait = time.perf_counter()
     while end_time_to_wait - start_time_to_wait < time_to_wait:
@@ -183,6 +180,8 @@ def make_request_after_some_time(
             server, 
             timeout=10
         )
+    # If we recieve exeption that indicates that connection wasn`t aquired,
+    # we return None to indicate it  
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
         end_time_to_wait = time.perf_counter()
         logger.info(
@@ -210,7 +209,7 @@ def make_request_until_its_successful(
     Args:
         server(str): Server, on which requests will be send
         request_count (int): How many times we sent requests already.\n
-        logging_file (str): File to paste logging info. It is needed into make_request_after_some_time.\n
+        logging_file (str): File to write logging info. It is needed into make_request_after_some_time.\n
         start_time_to_wait (float, optional): Timestamp after the last request was done. It is needed into make_request_after_some_time. Defaults is set to time.perf_counter().\n
         time_to_wait (int, optional): How much time do we need to wait before the next request. It is needed into make_request_after_some_time. Defaults is set to 1 second.\n
     Returns:
@@ -219,6 +218,7 @@ def make_request_until_its_successful(
             int: Count of requests
         )
     """
+    # We need server_request_status_code to start up cycle
     server_request_status_code = 0
     while (
         server_request_status_code != 200
@@ -233,6 +233,9 @@ def make_request_until_its_successful(
             start_time_to_wait=start_time_to_wait,
             time_to_wait=time_to_wait
         )
+        # After make_request_after_some_time returns requests.Response,
+        # we can read its status_code and if it indicates about successful response, programme proceed
+        # othervie exeption is catched and cycle starts again
         try:
             server_request_status_code = server_request.status_code
         except AttributeError:

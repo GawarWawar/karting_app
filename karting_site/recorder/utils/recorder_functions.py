@@ -151,63 +151,7 @@ def change_name_to_true_value (
             pilot_name = pilot_name
         )
 
-            
-def set_was_on_pit_and_current_segment( # deprecated !!!
-    is_on_pit: bool,
-    df_last_lap_info: pd.DataFrame,
-    team: str,
-    teams_segment_count: int
-) -> None:
-    """Check if isOnPit flag is True:
-            yes -> change team`s flag was_on_pit to true and renew segment for the team;
-
-    Args:
-        is_on_pit (bool): Flag, that indicate if team is on pit.\n
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        team (str): Team, for which we changing it state.\n
-        teams_segment_count (int): Current number of segments of the team.\n
-    """
-    if is_on_pit:
-        df_last_lap_info.loc[team, "was_on_pit"] = True
-        df_last_lap_info.loc[team, "current_segment"] = teams_segment_count
-        
-def add_lap_as_a_row( # deprecated !!!
-    df_statistic: pd.DataFrame,
-    df_last_lap_info: pd.DataFrame,
-    teams_stats: dict,
-    team: str,
-    true_name: bool,
-    true_kart: bool,
-) -> None:
-    """Add a row to df_statistic with a lap info. Also update lap count for team and make a log about it.
-
-    Args:
-        df_statistic (pd.DataFrame): DataFrame with records of laps` statistic.\n
-        df_last_lap_info (pd.DataFrame): DataFrame with info about team last state.\n
-        teams_stats (dict): Dictionary with all teams statistic for the current lap.\n
-        team (str): Team we are making new record in df_statistic .\n
-        true_name (bool): Flag, that indicate if team has a true kart already or should it be changed.\n
-        true_kart (bool): Flag, that indicate if team has a true name already or should it be changed.\n
-        logging_file (str): File, where logs are written.\n
-    """ 
     
-    add_row.add_a_row(
-        df_statistic,
-        [
-            team, #team number in str
-            teams_stats[team]["pilotName"], # pilot_name
-            int(teams_stats[team]["kart"]), # kart
-            teams_stats[team]["lapCount"], 
-            teams_stats[team]["lastLap"], # lap_time
-            teams_stats[team]["lastLapS1"], # s1
-            teams_stats[team]["lastLapS2"], # s2
-            df_last_lap_info.loc[team, "current_segment"], #team_segment
-            true_name, # Flag to check if name is true and was changed after start or pit 
-            true_kart, # Flag to check if kart is true or still 0
-        ]
-    )
-    
-
 def make_request_after_some_time(
     server: str,
     request_count: int,

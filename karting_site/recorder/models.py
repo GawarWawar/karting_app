@@ -3,7 +3,7 @@ from django.utils import timezone
 
 import datetime
 # Create your models here.
-
+# Model for the races that contain RaceRecords
 class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)
     publish_date = models.DateTimeField("publish_date", default=timezone.now)
@@ -16,6 +16,7 @@ class Race(models.Model):
     def __str__(self):
         return self.name_of_the_race
 
+# Each of the RaceRecords contains info about 1 lap of 1 team into particular Race
 class RaceRecords(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     team_number = models.CharField("team", max_length=10)

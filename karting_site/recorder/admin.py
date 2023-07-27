@@ -23,7 +23,7 @@ from . import recorder
 class CsvImportForm(forms.Form):
     csv_file = forms.FileField()
    
- 
+# Filter for the names in the race. It selects names only present in the selected race
 class NamesInRaceFilter(admin.SimpleListFilter):
     title = 'Names in the race'
     parameter_name = 'name_of_a_pilot'
@@ -48,7 +48,7 @@ class NamesInRaceFilter(admin.SimpleListFilter):
             pass
         return queryset    
 
-# Register your models here.    
+# Admin models creation
 class RaceRecordsAdmin(admin.ModelAdmin):
     list_display = [
         "id",
@@ -97,9 +97,11 @@ class RaceAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
     
+    # Adding 2 buttons into the Race editing process
+    # Template to add buttons to the page
     change_form_template = "race_admin_add_button_changeform.html"
-    
     def response_change(self, request, obj):
+        # Button to start race recording
         if "_start_recording" in request.POST:
             obj = self.get_queryset(request).get(pk=obj.id)
             obj.is_recorded = True
@@ -117,6 +119,7 @@ class RaceAdmin(admin.ModelAdmin):
                 message = f"Recording for this race has already started. Celery working on it {celery_object_that_started_recording.task_id} id"
             self.message_user(request, message)
             return HttpResponseRedirect(".")
+        # Button to abort race recording
         elif "_abort_recording" in request.POST:
             obj = self.get_queryset(request).get(pk=obj.id)
             task_to_abort_name = recorder.record_race.name
@@ -126,7 +129,6 @@ class RaceAdmin(admin.ModelAdmin):
                 obj.save()
                 message = f"Recording for the race with {obj.id} id is not in progress!"
             else:
-                #task_in_progress = AsyncResult(id = obj.celery_recorder_id, task_name=task_to_abort_name)
                 task_in_progress = recorder.record_race.AsyncResult(obj.celery_recorder_id)
                 task_in_progress.abort()
                 obj.celery_recorder_id = 0
@@ -137,6 +139,8 @@ class RaceAdmin(admin.ModelAdmin):
             
         return super().response_change(request, obj)
 
+    # Add button to the main Race admin page, that convert csv to RaceRecords
+    # Template to add button to the page
     change_list_template = "race_admin_changelist.html"    
     def import_csv(self, request):
         if request.method == "POST":
@@ -191,7 +195,7 @@ class RaceAdmin(admin.ModelAdmin):
             request, "csv_form_race_admin.html", payload
         )
     
-
+# Registration of models 
 admin.site.register(models.Race, RaceAdmin)
 admin.site.register(models.RaceRecords, RaceRecordsAdmin)
 

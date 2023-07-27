@@ -27,7 +27,13 @@ from pathlib import Path
 def record_race (
     self,
     race_id: int,
-):
+) -> None:
+    """Creates models.RaceRecords for Race with race_id, that passed as a parametre. Makes requests to https://nfs-stats.herokuapp.com/getmaininfo.json for the needed info and parses it, to genarate models.RaceRecords.
+    This is used by Celery, so its marked as @shared_task(name = "recorder.record_race", bind = True, base = AbortableTask)
+
+    Args:
+        race_id (int): Id of the race, that models.RaceRecords should be created for
+    """
     start_of_the_programme = time.perf_counter()
     
     # Giving race_id outside of the Celery Task

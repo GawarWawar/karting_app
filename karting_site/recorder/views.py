@@ -18,7 +18,8 @@ from . import tasks
 from . import models
 
 # Create your views here.
-def index (request):
+# List of all records of the last Race, acts lice a starting page for the recorder
+def recorder_starting_page (request):
     context ={}
     try:
         last_race = models.Race.objects.last()
@@ -30,7 +31,8 @@ def index (request):
     context["records_of_the_last_race"] = records_of_the_last_race
     return render(request, "index.html", context) 
 
-def view_races_records (request, race_id):
+# List of all Records of given Race
+def view_race_records_by_id (request, race_id):
     context = {}
     try:
         race = models.Race.objects.get(pk = race_id)
@@ -38,23 +40,11 @@ def view_races_records (request, race_id):
         pass
     else:
         context["race"] = race
-    records = models.RaceRecords.objects.filter(race = race_id).values()
+    records = models.RaceRecords.objects.filter(race = race_id).order_by("-pk").values()
     context["all_races_records"] = records 
     return render(request, "races_records.html", context)
-    
-class ViewRaceRecords(generic.ListView):     
-    model = models.RaceRecords
-    template_name = "races_records.html"
-    context_object_name = "all_races_records_list"
 
-    def get(self, request, *args, **kwargs):
-        self.race_id = kwargs['race_id']
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        records = self.model.objects.filter(race = self.race_id).values()
-        return records
-
+# List of all races
 class AllRacesPage(generic.ListView):
     template_name = "races.html"
     context_object_name = "all_races_list"

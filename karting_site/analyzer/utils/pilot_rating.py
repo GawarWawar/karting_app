@@ -4,8 +4,8 @@ import pandas as pd
 import time
 import os
 
-from .utils import coeficient_creation_functions as coef_func
-from . import models
+from . import coeficient_creation_functions as coef_func
+from analyzer import models
 
 def create_pilot_rating ():
     st_t = time.perf_counter()

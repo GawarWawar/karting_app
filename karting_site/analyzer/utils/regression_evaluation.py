@@ -17,7 +17,8 @@ def print_r2_score(
     r2_score_value :float,
     regression_name_to_print: str
 ):
-    print(f"{r2_score_value} is R^2 score for {regression_name_to_print}")
+    pass
+    #print(f"{r2_score_value} is R^2 score for {regression_name_to_print}")
     
 def evaluate_model_perfomance(
     regressor: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,

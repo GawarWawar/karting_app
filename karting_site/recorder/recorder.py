@@ -127,7 +127,6 @@ def record_race (
             server="https://nfs-stats.herokuapp.com/getmaininfo.json",
             request_count=request_count,
             logger=logger,
-            start_time_to_wait=cycle_start_time,
             shared_task_instance = self
         )
         if body_content == None:

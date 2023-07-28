@@ -28,6 +28,7 @@ def str_lap_or_segment_time_into_float_change(
     except ValueError:
         split_lap_time = lap_time.split(":")
         lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
+        lap_time = float(f"{lap_time:.2f}")
     return lap_time
 
 def kart_check (

@@ -20,13 +20,6 @@ from .utils import coeficient_creation_functions as coef_func
 def analyze_race(race_id):
 
     start = time.perf_counter()
-
-    competition = True
-
-    if competition:
-        category = "kart"
-    else:
-        category = "team"
     
     df_from_recorded_records = pd.DataFrame(
         {
@@ -63,6 +56,14 @@ def analyze_race(race_id):
             "true_kart",
         ]
     )
+    
+    true_kart_count = df_from_recorded_records["true_kart"].value_counts()
+    try:
+        true_kart_count = true_kart_count[True]
+        del  true_kart_count
+    except KeyError:
+        df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
+        df_from_recorded_records["true_kart"] = True
     
     df_from_recorded_records.pop("id")
     df_from_recorded_records.pop("race")
@@ -121,7 +122,6 @@ def analyze_race(race_id):
 
     df_karts = analyzer_functions.module_to_create_kart_statistics(
         df_of_records=df_from_recorded_records,
-        category=category
     )
 
     df_with_prediction = analyzer_functions.assemble_prediction(
@@ -140,7 +140,6 @@ def analyze_race(race_id):
 
     df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
-        category=category
     )
 
     df_stats = pd.DataFrame.merge(
@@ -151,8 +150,8 @@ def analyze_race(race_id):
 
     df_stats = pd.DataFrame.merge(
         df_stats,
-        df_karts.copy(),
-        on=category
+        df_karts,
+        on="kart"
     )
 
     df_stats = df_stats.reset_index(drop=True)

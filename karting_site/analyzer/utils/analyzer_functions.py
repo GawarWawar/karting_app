@@ -76,11 +76,8 @@ def records_columns_to_numeric (
             df_of_records[column]=pd.to_numeric(df_of_records[column])
         except ValueError:
             for i in range(len(df_of_records.loc[:, column])):
-                print("Here")
                 df_of_records.loc[i, column] = str_lap_time_into_float_change(df_of_records.loc[i, column])
             df_of_records[column]=pd.to_numeric(df_of_records[column])
-        except TypeError:
-            print("WE FOUND IT")
     
     return df_of_records
 
@@ -146,11 +143,10 @@ def module_to_create_pilot_statistics (
 
 def module_to_create_kart_statistics (
     df_of_records: pd.DataFrame,
-    category: str
 ):
     df_of_karts = df_of_records.loc[
         df_of_records.loc[:, "true_kart" ]== True,
-        category
+        "kart"
     ].drop_duplicates().T.to_frame()
     
     df_of_karts["kart_fastest_lap"] = 0
@@ -159,7 +155,7 @@ def module_to_create_kart_statistics (
         df_of_records=df_of_records,
         
         df_with_features=df_of_karts,
-        column_to_look_for_feature=category,
+        column_to_look_for_feature="kart",
         
         column_name_to_put_mean_value_in="kart_temp",
         column_name_to_put_min_value_in="kart_fastest_lap",
@@ -171,7 +167,6 @@ def module_to_create_kart_statistics (
 
 def module_to_create_karts_statistics_for_every_pilot(
     df_of_records: pd.DataFrame,
-    category: str
 ):
     df_pilot_on_karts = pd.DataFrame(
         {
@@ -202,8 +197,8 @@ def module_to_create_karts_statistics_for_every_pilot(
         karts_of_pilot_df = module_to_create_df_with_statistic(
             df_of_records=all_pilot_kart_records,
 
-            df_with_features=all_pilot_kart_records.drop_duplicates(category),
-            column_to_look_for_feature=category,
+            df_with_features=all_pilot_kart_records.drop_duplicates("kart"),
+            column_to_look_for_feature="kart",
 
             column_name_to_put_mean_value_in="temp_with_pilot",
             column_name_to_put_min_value_in="fastest_lap_with_pilot",

@@ -18,6 +18,13 @@ def create_pilot_rating ():
     
     races = models.VelikiPeregoni.objects.all()
     
+    individual_pilot_statistic_df = pd.DataFrame(
+        {
+            "pilot": pd.Series(str)
+        }
+    )
+    individual_pilot_statistic_df = individual_pilot_statistic_df.drop(0)
+    
     for race in races:
         race_query = models.TempOfPilotsInVP.objects.filter(race = race.id).values_list()
         race_statistic_df = pd.DataFrame.from_records(
@@ -30,38 +37,31 @@ def create_pilot_rating ():
             ]
         )
        
-        
         race_statistic_df.pop("id")
         race_statistic_df.pop("race_id")
-
-        df_pilots_to_concate = pd.DataFrame(
-            {
-                "pilot": race_statistic_df["pilot"].copy()
-            }
-        )
         
-        individual_pilot_statistic_df = pd.concat(
-            [
-                individual_pilot_statistic_df,
-                df_pilots_to_concate
-            ]
-        )
-        
-        individual_pilot_statistic_df = individual_pilot_statistic_df.drop_duplicates(
-            "pilot",ignore_index=True, keep="first"
-        )
+        column_name = f"race_{race.id}"
         
         for pilot in race_statistic_df.loc[:, "pilot"]:
             lap_time = race_statistic_df.loc[
                 race_statistic_df.loc[:, "pilot"] == pilot,
                 "average_lap_time"
-            ]
-            
-            individual_pilot_statistic_df.loc[
-                individual_pilot_statistic_df.loc[:, "pilot"] == pilot,
-                race.id
-            ] = lap_time
-
+            ].reset_index(drop=True)
+            needed_index = individual_pilot_statistic_df[
+                (individual_pilot_statistic_df.loc[:,"pilot"] == pilot)
+            ].index
+            if not needed_index.empty:
+                individual_pilot_statistic_df.loc[
+                    needed_index,
+                    column_name
+                ] = lap_time[0]
+            else:
+                individual_pilot_statistic_df.loc[len(individual_pilot_statistic_df.index), "pilot"]=pilot
+                individual_pilot_statistic_df.loc[
+                    individual_pilot_statistic_df.loc[:, "pilot"] == pilot,
+                    column_name
+                ] = lap_time[0]
+                
     for race_as_column in individual_pilot_statistic_df:
         if race_as_column != "pilot":
             individual_pilot_statistic_df[race_as_column] =\

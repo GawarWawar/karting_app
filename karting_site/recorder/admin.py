@@ -76,18 +76,21 @@ class RaceRecordsAdmin(admin.ModelAdmin):
 class RaceAdmin(admin.ModelAdmin):
     fields = [
         "name_of_the_race",
-        "is_recorded"
+        "is_recorded",
+        "was_recorded_complete"
     ]
     
     readonly_fields = [
-        "is_recorded"
+        "is_recorded",
+        "was_recorded_complete"
     ]
     
     list_display = [
         "name_of_the_race", 
         "id",
         "publish_date", 
-        "is_recorded"
+        "is_recorded",
+        "was_recorded_complete"
     ]
     
     def get_urls(self):

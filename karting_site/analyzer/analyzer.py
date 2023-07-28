@@ -204,32 +204,16 @@ def analyze_race(race_id):
         df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
         name="kart",
     )
-    for i in range(len(dicts_from_temp_predictions["predictions"])):
-        temp_prediction_df = pd.DataFrame(dicts_from_temp_predictions["predictions"][i])
-        temp_prediction_df = temp_prediction_df.round(4)
-        temp_prediction_df.insert(
-            0,
-            "kart",
-            series_of_karts,
-        )
-        temp_prediction_df = temp_prediction_df.sort_values("kart", ignore_index=True, inplace=False)
-        dicts_from_temp_predictions["predictions"][i] = temp_prediction_df.to_dict(
-                orient="records",
-                #indent=2
-            )
-        
-        fastestlap_prediction_df = pd.DataFrame(dicts_from_fastestlap_predictions["predictions"][i])
-        fastestlap_prediction_df = fastestlap_prediction_df.round(4)
-        fastestlap_prediction_df.insert(
-            0,
-            "kart",
-            series_of_karts,
-        )
-        fastestlap_prediction_df = fastestlap_prediction_df.sort_values("kart", ignore_index=True, inplace=False)
-        dicts_from_fastestlap_predictions["predictions"][i] = fastestlap_prediction_df.to_dict(
-                orient="records",
-                #indent=2
-            )
+    
+    dicts_from_temp_predictions = analyzer_functions.add_kart_column_into_return_dict(
+        dict_to_process=dicts_from_temp_predictions,
+        kart_column=series_of_karts 
+    )
+    
+    dicts_from_fastestlap_predictions = analyzer_functions.add_kart_column_into_return_dict(
+        dict_to_process=dicts_from_fastestlap_predictions,
+        kart_column=series_of_karts 
+    )
         
     return_dict["temp_predictions"] = dicts_from_temp_predictions["predictions"]
     return_dict["fastestlap_predictions"] = dicts_from_fastestlap_predictions["predictions"]

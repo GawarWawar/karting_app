@@ -248,3 +248,22 @@ def assemble_prediction (
     )
 
     return df_with_prediction
+
+def add_kart_column_into_return_dict(
+    dict_to_process: dict,
+    kart_column:pd.Series
+):
+    for prediction in range(len(dict_to_process["predictions"])):
+            dict_to_process_df = pd.DataFrame(dict_to_process["predictions"][prediction])
+            dict_to_process_df = dict_to_process_df.round(4)
+            dict_to_process_df.insert(
+                0,
+                "kart",
+                kart_column,
+            )
+            dict_to_process_df = dict_to_process_df.sort_values("kart", ignore_index=True, inplace=False)
+            dict_to_process["predictions"][prediction] = dict_to_process_df.to_dict(
+                    orient="records",
+                    #indent=2
+                )
+    return dict_to_process

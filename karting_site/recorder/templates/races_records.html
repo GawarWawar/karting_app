@@ -1,24 +1,24 @@
+{% load static %}
 <html>
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid black;
-    }
-  </style>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  </head>
   <body>
-    <a href="{%url 'recorder:races' %}">Go back to the list of races</a>&#160&#160<a href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
+    <a href="{%url 'recorder:races' %}">Go back to the list of races</a>
+    <a href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
     {%if race%}
     <h1>Race information</h1>
+    <div class="section">
     <p>Name: {{race.name_of_the_race}}</p>
     <p>Publish Date: {{race.publish_date}}</p>
     <p>Date and time when record started: {{race.date_record_started}}</p>
     <p>Date and time when record finished: {{race.date_record_finished}}</p>
     <p>Was race recorded: {{race.is_recorded}}</p>
     <p>Was process of recording complete: {{race.was_recorded_complete}}</p>
+    </div>
     <h2>Records of the race:</h2>
     {% if all_races_records %}
-    <table>
+    <table class="section">
       <tr>
         <th>team_number</th>
         <th>pilot_name</th>

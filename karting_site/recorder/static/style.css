@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(250, 248, 242);
+}
+  
+:root {
+  --border_color: rgba(120, 106, 148, 0.689);
+}
+
+h1 {
+  font-family: verdana;
+
+}
+  
+p {
+  font-family: verdana;
+}
+
+th, td  {
+  border: 1px solid;
+  border-color: var(--border_color);
+}
+
+table.full_width {
+  width: 100%;
+}
+
+div.white_back{
+  background-color: whitesmoke;
+  width: 100%
+}
+
+.section {
+  width: 100%;
+  margin: 10px;
+  padding-left: 3px;
+  border: 1px solid;
+  border-color: var(--border_color);
+}
+
+@media (min-width: 1080px) {
+  .section {
+    width: 75%;
+  }
+}

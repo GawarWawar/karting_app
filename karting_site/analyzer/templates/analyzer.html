@@ -1,13 +1,9 @@
 {% load analyzer_extras %}
+{% load static %}
 <html>
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid black;
-    }
-  </style>
-  <head> </head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  </head>
   <body>
     <a href="{%url 'recorder:view' race_id %}"
       >Go back to the records of the race</a
@@ -15,7 +11,7 @@
     {%if temp_predictions%}
     <h1>Predictions of the karts` temp:</h1>
     {%for table in temp_predictions%}
-    <table>
+    <table class="section">
       <tr>
         {%for header in table.0%}
         <th>
@@ -35,7 +31,7 @@
     {%endfor%}
     <h1>Predictions of the karts` fastest lap:</h1>
     {%for table in fastestlap_predictions%}
-    <table>
+    <table class="section">
       <tr>
         {%for header in table.0%}
         <th>

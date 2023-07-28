@@ -8,6 +8,9 @@ import sys
 from os.path import dirname, abspath
 import importlib.util
 
+from . import pilot_rating
+from . import coeficient_creation_functions as coef_func
+from recorder import models as recorder_models
 
 def str_lap_time_into_float_change(
     lap_time: str
@@ -267,3 +270,98 @@ def add_kart_column_into_return_dict(
                     #indent=2
                 )
     return dict_to_process
+
+def create_df_from_recorded_records(
+    race_id
+):    
+    df_from_recorded_records = pd.DataFrame(
+        {
+            "team": pd.Series(int),
+            "pilot": pd.Series(str),
+            "kart": pd.Series(int),
+            "lap": pd.Series(int),
+            "lap_time": pd.Series(float),
+            "s1": pd.Series(float),
+            "s2": pd.Series(float),
+            "segment": pd.Series(int),
+            "true_name": pd.Series(bool),
+            "true_kart": pd.Series(bool)
+        }
+    )
+    df_from_recorded_records = df_from_recorded_records.drop(0)
+
+    race = recorder_models.Race.objects.get(pk = race_id)
+    race_records = recorder_models.RaceRecords.objects.filter(race = race).values_list()
+    df_from_recorded_records = pd.DataFrame.from_records(
+        race_records,
+        columns=[
+            "id",
+            "race",
+            "team",
+            "pilot",
+            "kart",
+            "lap",
+            "lap_time",
+            "s1",
+            "s2",
+            "segment",
+            "true_name",
+            "true_kart",
+        ]
+    )
+    
+    true_kart_count = df_from_recorded_records["true_kart"].value_counts()
+    try:
+        true_kart_count = true_kart_count[True]
+        del  true_kart_count
+    except KeyError:
+        df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
+        df_from_recorded_records["true_kart"] = True
+    
+    df_from_recorded_records.pop("id")
+    df_from_recorded_records.pop("race")
+
+    df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(kart_column_into_str)
+    df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
+
+    df_from_recorded_records = records_columns_to_numeric(
+        df_from_recorded_records,
+        columns_to_change=[
+            "lap_time",
+            "s1",
+            "s2",
+        ]
+    )
+
+    mean_lap_time = df_from_recorded_records.loc[:, "lap_time"].mean()
+    margin_to_add_to_mean_time = 5
+    df_from_recorded_records["lap_time"] = df_from_recorded_records.loc[
+        df_from_recorded_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
+        "lap_time"
+    ]
+    del mean_lap_time, margin_to_add_to_mean_time
+
+    df_from_recorded_records.pop("segment")
+    df_from_recorded_records.pop("lap")
+
+    return df_from_recorded_records
+
+def create_df_stats(
+    df_pilot_on_karts: pd.DataFrame,
+    df_pilots: pd.DataFrame,
+    df_karts: pd.DataFrame
+):
+    df_stats = pd.DataFrame.merge(
+        df_pilot_on_karts,
+        df_pilots,
+        on="pilot"
+    )
+
+    df_stats = pd.DataFrame.merge(
+        df_stats,
+        df_karts,
+        on="kart"
+    )
+
+    df_stats = df_stats.reset_index(drop=True)
+    df_stats = df_stats.dropna()   

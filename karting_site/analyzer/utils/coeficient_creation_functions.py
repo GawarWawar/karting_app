@@ -20,10 +20,11 @@ def get_pilot_coeficient_from_df_of_primary_coeficient(
     df_to_create_coeficients_into: pd.DataFrame,
     df_of_primary_coeficient: pd.DataFrame,
     
-    pilot_index_in_df_to_create_coeficients_into: list
+    pilot_index_in_df_to_create_coeficients_into:list,
+    pilot: str
 ) -> list:
     this_race_coeficient = df_of_primary_coeficient.loc[
-                pilot_index_in_df_to_create_coeficients_into,
+                df_of_primary_coeficient.loc[:, "pilot"] == pilot,
                 "coeficient"
             ]
     if not this_race_coeficient.empty:
@@ -85,7 +86,9 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
         ] = get_pilot_coeficient_from_df_of_primary_coeficient(
             df_to_create_coeficients_into=df_to_create_coeficients_into,
             df_of_primary_coeficient=df_of_primary_coeficient,
-            pilot_index_in_df_to_create_coeficients_into=pilot_index_in_df_to_create_coeficients_into
+            
+            pilot_index_in_df_to_create_coeficients_into=pilot_index_in_df_to_create_coeficients_into,
+            pilot=pilot
         )
 
         df_to_create_coeficients_into.loc[

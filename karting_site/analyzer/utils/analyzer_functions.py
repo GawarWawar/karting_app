@@ -365,3 +365,5 @@ def create_df_stats(
 
     df_stats = df_stats.reset_index(drop=True)
     df_stats = df_stats.dropna()   
+    
+    return df_stats

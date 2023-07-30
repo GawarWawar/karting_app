@@ -15,24 +15,39 @@ import time
 import json
 
 from . import models
-from . import pilot_rating
+from .utils import pilot_rating
 from . import analyzer
 
 # Create your views here.
 def index_json(request):
-    message = analyzer.analyze_race(27)
-    return HttpResponse(json.dumps(message))
+    content = analyzer.analyze_race(39)
+    return HttpResponse(json.dumps(content))
 
 def race_analyze(request, race_id):
-    message = analyzer.analyze_race(race_id)
+    content = analyzer.analyze_race(race_id)
     try:
-        message.update(
+        content.update(
             {
                 "race_id": race_id
             }
         )
     except AttributeError:
-        message = {
+        content = {
                 "race_id": race_id
             }
-    return render(request, "analyzer.html", message)
+    return render(request, "analyzer.html", content)
+
+def race_kart_statistic (request, race_id):
+    content = analyzer.compute_kart_statistic(race_id)
+    try:
+        content.update(
+            {
+                "race_id": race_id
+            }
+        )
+    except AttributeError:
+        content = {
+                "race_id": race_id
+            }
+    #return render(request, "kart_statistic.html", content)
+    return HttpResponse(json.dumps(content))

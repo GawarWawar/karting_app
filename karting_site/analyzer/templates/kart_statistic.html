@@ -1,0 +1,12 @@
+{% load analyzer_extras %}
+{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <a href="{%url 'recorder:view' race_id %}"
+      >Go back to the records of the race</a>
+
+    {{kart_statistic}}
+</html>

@@ -17,6 +17,59 @@ from .utils import analyzer_functions
 from .utils import regression_process
 from .utils import coeficient_creation_functions as coef_func
 
+def compute_kart_statistic(race_id):
+
+    start = time.perf_counter()
+    
+    df_from_recorded_records = analyzer_functions.create_df_from_recorded_records(
+        race_id=race_id
+    )
+    
+    df_pilots = analyzer_functions.module_to_create_pilot_statistics(
+        df_of_records=df_from_recorded_records
+    )
+    df_pilots = analyzer_functions.clear_df_from_unneeded_names(
+        df_pilots
+    )
+    df_pilots = df_pilots.dropna()
+    df_pilots = df_pilots.reset_index(drop=True)
+
+    
+    df_coeficient = pilot_rating.create_pilot_rating()
+
+    df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
+        df_to_create_coeficients_into=df_pilots,
+        df_of_primary_coeficient=df_coeficient
+    )
+
+    del df_coeficient
+
+    df_karts = analyzer_functions.module_to_create_kart_statistics(
+        df_of_records=df_from_recorded_records,
+    )
+
+    df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
+        df_of_records=df_from_recorded_records,
+    )
+
+    df_stats = analyzer_functions.create_df_stats(
+        df_pilot_on_karts=df_pilot_on_karts,
+        df_pilots=df_pilots,
+        df_karts=df_karts,
+    )
+  
+
+    return_dict = {
+        "kart_statistic":  df_stats.to_dict(
+            orient="records"
+        )
+    } 
+    
+    end = time.perf_counter()
+    print(end-start)
+    return return_dict
+    
+
 def analyze_race(race_id):
 
     start = time.perf_counter()

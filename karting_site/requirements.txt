@@ -1,4 +1,4 @@
--U pip
+pip == 23.2.1
 celery==5.3.0
 Django==4.2.2
 django_celery_results==2.5.1

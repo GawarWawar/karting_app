@@ -20,7 +20,18 @@ from . import analyzer
 
 # Create your views here.
 def index_json(request):
-    content = analyzer.analyze_race(39)
+    race_id = 39
+    content = analyzer.analyze_race(race_id)
+    try:
+        content.update(
+            {
+                "race_id": race_id
+            }
+        )
+    except AttributeError:
+        content = {
+                "race_id": race_id
+            }
     return HttpResponse(json.dumps(content))
 
 def race_analyze(request, race_id):

@@ -1,0 +1,289 @@
+{
+  "temp_predictions": [
+    [
+      {
+        "kart": "kart_02",
+        "multiple_linear_regression": 42.2623,
+        "support_vector_regression": 42.9522,
+        "decision_tree_regression": 42.719,
+        "random_forest_regression": 42.6407
+      },
+      {
+        "kart": "kart_04",
+        "multiple_linear_regression": 42.1064,
+        "support_vector_regression": 42.9498,
+        "decision_tree_regression": 42.4863,
+        "random_forest_regression": 42.4519
+      },
+      {
+        "kart": "kart_06",
+        "multiple_linear_regression": 42.1773,
+        "support_vector_regression": 42.9496,
+        "decision_tree_regression": 42.54,
+        "random_forest_regression": 42.5602
+      },
+      {
+        "kart": "kart_07",
+        "multiple_linear_regression": 42.3645,
+        "support_vector_regression": 42.9572,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.7232
+      },
+      {
+        "kart": "kart_09",
+        "multiple_linear_regression": 42.0884,
+        "support_vector_regression": 42.9527,
+        "decision_tree_regression": 42.5405,
+        "random_forest_regression": 42.5864
+      },
+      {
+        "kart": "kart_10",
+        "multiple_linear_regression": 42.1813,
+        "support_vector_regression": 42.9513,
+        "decision_tree_regression": 42.5098,
+        "random_forest_regression": 42.5499
+      },
+      {
+        "kart": "kart_11",
+        "multiple_linear_regression": 42.5503,
+        "support_vector_regression": 42.9537,
+        "decision_tree_regression": 42.54,
+        "random_forest_regression": 42.6392
+      },
+      {
+        "kart": "kart_12",
+        "multiple_linear_regression": 42.1936,
+        "support_vector_regression": 42.9575,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.8045
+      },
+      {
+        "kart": "kart_13",
+        "multiple_linear_regression": 41.7902,
+        "support_vector_regression": 42.9503,
+        "decision_tree_regression": 42.5405,
+        "random_forest_regression": 42.5634
+      },
+      {
+        "kart": "kart_14",
+        "multiple_linear_regression": 42.1299,
+        "support_vector_regression": 42.9503,
+        "decision_tree_regression": 42.2791,
+        "random_forest_regression": 42.3648
+      },
+      {
+        "kart": "kart_15",
+        "multiple_linear_regression": 42.44,
+        "support_vector_regression": 42.9558,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.9016
+      },
+      {
+        "kart": "kart_16",
+        "multiple_linear_regression": 42.3792,
+        "support_vector_regression": 42.9523,
+        "decision_tree_regression": 42.5774,
+        "random_forest_regression": 42.6344
+      },
+      {
+        "kart": "kart_17",
+        "multiple_linear_regression": 42.9235,
+        "support_vector_regression": 42.9597,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 43.1002
+      },
+      {
+        "kart": "kart_19",
+        "multiple_linear_regression": 42.6775,
+        "support_vector_regression": 42.9595,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.9442
+      },
+      {
+        "kart": "kart_20",
+        "multiple_linear_regression": 42.5243,
+        "support_vector_regression": 42.9593,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.9765
+      },
+      {
+        "kart": "kart_21",
+        "multiple_linear_regression": 42.3833,
+        "support_vector_regression": 42.9553,
+        "decision_tree_regression": 43.1988,
+        "random_forest_regression": 42.7169
+      },
+      {
+        "kart": "kart_33",
+        "multiple_linear_regression": 42.5072,
+        "support_vector_regression": 42.9548,
+        "decision_tree_regression": 42.5774,
+        "random_forest_regression": 42.6386
+      },
+      {
+        "kart": "kart_44",
+        "multiple_linear_regression": 42.189,
+        "support_vector_regression": 42.9523,
+        "decision_tree_regression": 42.54,
+        "random_forest_regression": 42.5286
+      },
+      {
+        "kart": "kart_69",
+        "multiple_linear_regression": 42.0186,
+        "support_vector_regression": 42.9508,
+        "decision_tree_regression": 42.33,
+        "random_forest_regression": 42.3324
+      }
+    ]
+  ],
+  "temp_r2_scores": {
+    "multiple_linear_regression": 0.4887,
+    "support_vector_regression": 0.0017,
+    "decision_tree_regression": 0.2651,
+    "random_forest_regression": 0.5438
+  },
+  "fastestlap_predictions": [
+    [
+      {
+        "kart": "kart_02",
+        "multiple_linear_regression": 42.1327,
+        "support_vector_regression": 42.5706,
+        "decision_tree_regression": 42.3166,
+        "random_forest_regression": 42.3754
+      },
+      {
+        "kart": "kart_04",
+        "multiple_linear_regression": 42.0,
+        "support_vector_regression": 42.5691,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.1423
+      },
+      {
+        "kart": "kart_06",
+        "multiple_linear_regression": 41.9663,
+        "support_vector_regression": 42.5689,
+        "decision_tree_regression": 42.2328,
+        "random_forest_regression": 42.2236
+      },
+      {
+        "kart": "kart_07",
+        "multiple_linear_regression": 42.1114,
+        "support_vector_regression": 42.5748,
+        "decision_tree_regression": 42.6267,
+        "random_forest_regression": 42.4968
+      },
+      {
+        "kart": "kart_09",
+        "multiple_linear_regression": 41.9499,
+        "support_vector_regression": 42.5713,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.2983
+      },
+      {
+        "kart": "kart_10",
+        "multiple_linear_regression": 42.0592,
+        "support_vector_regression": 42.5703,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.2249
+      },
+      {
+        "kart": "kart_11",
+        "multiple_linear_regression": 42.3165,
+        "support_vector_regression": 42.5721,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.3884
+      },
+      {
+        "kart": "kart_12",
+        "multiple_linear_regression": 42.0361,
+        "support_vector_regression": 42.5745,
+        "decision_tree_regression": 42.6267,
+        "random_forest_regression": 42.5275
+      },
+      {
+        "kart": "kart_13",
+        "multiple_linear_regression": 41.7323,
+        "support_vector_regression": 42.5695,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.2303
+      },
+      {
+        "kart": "kart_14",
+        "multiple_linear_regression": 41.9615,
+        "support_vector_regression": 42.5695,
+        "decision_tree_regression": 41.8892,
+        "random_forest_regression": 42.02
+      },
+      {
+        "kart": "kart_15",
+        "multiple_linear_regression": 42.247,
+        "support_vector_regression": 42.5737,
+        "decision_tree_regression": 42.6267,
+        "random_forest_regression": 42.5776
+      },
+      {
+        "kart": "kart_16",
+        "multiple_linear_regression": 42.3021,
+        "support_vector_regression": 42.5715,
+        "decision_tree_regression": 42.3166,
+        "random_forest_regression": 42.3846
+      },
+      {
+        "kart": "kart_17",
+        "multiple_linear_regression": 42.6333,
+        "support_vector_regression": 42.5767,
+        "decision_tree_regression": 42.7272,
+        "random_forest_regression": 42.728
+      },
+      {
+        "kart": "kart_19",
+        "multiple_linear_regression": 42.4479,
+        "support_vector_regression": 42.5766,
+        "decision_tree_regression": 42.7272,
+        "random_forest_regression": 42.6751
+      },
+      {
+        "kart": "kart_20",
+        "multiple_linear_regression": 42.2305,
+        "support_vector_regression": 42.5768,
+        "decision_tree_regression": 42.6853,
+        "random_forest_regression": 42.6235
+      },
+      {
+        "kart": "kart_21",
+        "multiple_linear_regression": 42.2495,
+        "support_vector_regression": 42.5737,
+        "decision_tree_regression": 42.6267,
+        "random_forest_regression": 42.5031
+      },
+      {
+        "kart": "kart_33",
+        "multiple_linear_regression": 42.3374,
+        "support_vector_regression": 42.573,
+        "decision_tree_regression": 42.3166,
+        "random_forest_regression": 42.3699
+      },
+      {
+        "kart": "kart_44",
+        "multiple_linear_regression": 42.0878,
+        "support_vector_regression": 42.571,
+        "decision_tree_regression": 42.2663,
+        "random_forest_regression": 42.245
+      },
+      {
+        "kart": "kart_69",
+        "multiple_linear_regression": 41.8966,
+        "support_vector_regression": 42.5695,
+        "decision_tree_regression": 42.0401,
+        "random_forest_regression": 42.0743
+      }
+    ]
+  ],
+  "fastestlap_r2_scores": {
+    "multiple_linear_regression": 0.5891,
+    "support_vector_regression": 0.0084,
+    "decision_tree_regression": 0.6211,
+    "random_forest_regression": 0.7149
+  },
+  "race_id": 39
+}

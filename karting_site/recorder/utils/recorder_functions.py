@@ -239,6 +239,7 @@ def make_request_until_its_successful(
         try:
             server_request_status_code = server_request.status_code
         except AttributeError:
-            start_time_to_wait = time.perf_counter()
+            pass
+        start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
     return body_content, request_count

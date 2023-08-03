@@ -62,7 +62,7 @@ def record_race (
         server="https://nfs-stats.herokuapp.com/getmaininfo.json",
         request_count=request_count,
         logger=logger,
-        time_to_wait = 0,
+        time_to_wait = 1,
         shared_task_instance = self
     )
     # Method to abort recording

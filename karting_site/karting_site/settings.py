@@ -142,7 +142,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL= 'redis://f8r3VsXy1snO4gXoJzcmRrNC2OghjDpO@redis-15738.c135.eu-central-1-1.ec2.cloud.redislabs.com:15738/11802029'
+CELERY_BROKER_URL= 'redis://default:f8r3VsXy1snO4gXoJzcmRrNC2OghjDpO@redis-15738.c135.eu-central-1-1.ec2.cloud.redislabs.com:15738'
 CELERY_BROKER_TRANSPORT_OPTIONS = {
         'data_folder_in': './broker/out',
         'data_folder_out': './broker/out',

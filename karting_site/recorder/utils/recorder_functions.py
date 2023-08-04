@@ -244,4 +244,5 @@ def make_request_until_its_successful(
             logger.info(f"Request numder {request_count} returned {server_request_status_code} status_code ")
         start_time_to_wait = time.perf_counter()
     body_content = server_request.json()
+    del start_time_to_wait
     return body_content, request_count

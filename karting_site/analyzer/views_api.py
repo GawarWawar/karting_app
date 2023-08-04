@@ -18,8 +18,7 @@ from . import models
 from .utils import pilot_rating
 from . import analyzer
 
-# Create your views here.
-def race_analyze(request, race_id):
+def analyze_race_api(request, race_id):
     content = analyzer.analyze_race(race_id)
     try:
         content.update(
@@ -31,19 +30,4 @@ def race_analyze(request, race_id):
         content = {
                 "race_id": race_id
             }
-    return render(request, "analyzer.html", content)
-
-def race_kart_statistic (request, race_id):
-    content = analyzer.compute_kart_statistic(race_id)
-    try:
-        content.update(
-            {
-                "race_id": race_id
-            }
-        )
-    except AttributeError:
-        content = {
-                "race_id": race_id
-            }
-    #return render(request, "kart_statistic.html", content)
     return HttpResponse(json.dumps(content))

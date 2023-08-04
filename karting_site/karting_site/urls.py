@@ -21,8 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("recorder/", include("recorder.urls", namespace="recorder")),
     path("analyzer/", include("analyzer.urls", namespace="analyzer")),
-    path("api/recorder", include("recorder.urls_api", namespace="api_recorder")),
-    path("api/analyzer", include("analyzer.urls_api", namespace="api_analyzer"))
+    path("api/recorder/", include("recorder.urls_api", namespace="api_recorder")),
+    path("api/analyzer/", include("analyzer.urls_api", namespace="api_analyzer"))
     
 ]
 

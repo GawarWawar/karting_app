@@ -15,6 +15,18 @@ class Race(models.Model):
     
     def __str__(self):
         return self.name_of_the_race
+    
+    def to_dict (self):
+        race_dict = {
+            "name_of_the_race" : self.name_of_the_race,
+            "publish_date" : self.publish_date.strftime("%m/%d/%Y, %H:%M:%S"),
+            "date_record_started" : self.date_record_started.strftime("%m/%d/%Y, %H:%M:%S"),
+            "date_record_finished" : self.date_record_finished.strftime("%m/%d/%Y, %H:%M:%S"),
+            "was_recorded_complete" : self.was_recorded_complete,
+            "is_recorded" : self.is_recorded,
+            "celery_recorder_id" : self.celery_recorder_id,
+        }
+        return(race_dict)
 
 # Each of the RaceRecords contains info about 1 lap of 1 team into particular Race
 class RaceRecords(models.Model):

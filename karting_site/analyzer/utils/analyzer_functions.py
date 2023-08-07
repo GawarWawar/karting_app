@@ -136,9 +136,9 @@ def module_to_create_pilot_statistics (
         df_with_features=df_of_pilots,
         column_to_look_for_feature="pilot",
         
+        column_name_to_look_for_values_in="lap_time",
         column_name_to_put_mean_value_in="pilot_temp",
         column_name_to_put_min_value_in="pilot_fastest_lap",
-        column_name_to_look_for_values_in="lap_time",
     )
         
     return df_of_pilots
@@ -160,9 +160,9 @@ def module_to_create_kart_statistics (
         df_with_features=df_of_karts,
         column_to_look_for_feature="kart",
         
+        column_name_to_look_for_values_in="lap_time",
         column_name_to_put_mean_value_in="kart_temp",
         column_name_to_put_min_value_in="kart_fastest_lap",
-        column_name_to_look_for_values_in="lap_time",
     )
     
     return df_of_karts
@@ -203,9 +203,9 @@ def module_to_create_karts_statistics_for_every_pilot(
             df_with_features=all_pilot_kart_records.drop_duplicates("kart"),
             column_to_look_for_feature="kart",
 
+            column_name_to_look_for_values_in="lap_time",
             column_name_to_put_mean_value_in="temp_with_pilot",
             column_name_to_put_min_value_in="fastest_lap_with_pilot",
-            column_name_to_look_for_values_in="lap_time",
         )
 
         karts_of_pilot_df.pop("team")
@@ -341,7 +341,7 @@ def create_df_from_recorded_records(
     ]
     del mean_lap_time, margin_to_add_to_mean_time
 
-    df_from_recorded_records.pop("segment")
+    #df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")
 
     return df_from_recorded_records

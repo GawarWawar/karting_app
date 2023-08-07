@@ -1,0 +1,792 @@
+{
+  "data": [
+    {
+      "kart": "kart_01",
+      "kart_fastest_lap": 40.61,
+      "kart_temp": 41.19209039548023,
+      "pilots": [
+        {
+          "pilot": "\u0411\u0454\u0433\u0456\u0448\u0435\u0432 \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.01833333333334,
+          "fastest_lap_with_pilot": 40.86,
+          "pilot_temp": 41.29083969465649,
+          "pilot_fastest_lap": 40.62,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 41.1582338668681
+        },
+        {
+          "pilot": "\u0416\u0434\u0430\u043d-\u041f\u0443\u0448\u043a\u0456\u043d \u0410\u043d\u0442\u043e\u043d",
+          "temp_with_pilot": 40.800000000000004,
+          "fastest_lap_with_pilot": 40.61,
+          "pilot_temp": 40.75126984126984,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.8342401912473
+        },
+        {
+          "pilot": "\u041f\u0438\u0432\u043e\u0432\u0430\u0440\u0447\u0443\u043a \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.40848484848485,
+          "fastest_lap_with_pilot": 41.1,
+          "pilot_temp": 41.21063063063063,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 41.07124585435748
+        },
+        {
+          "pilot": "\u0424\u043e\u0440\u0442\u0443\u043d\u0430 \u0422\u0430\u043d\u044f",
+          "temp_with_pilot": 41.1912,
+          "fastest_lap_with_pilot": 40.78,
+          "pilot_temp": 41.40295238095239,
+          "pilot_fastest_lap": 40.78,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 41.163301129732794
+        },
+        {
+          "pilot": "\u041c\u0430\u043d\u0456\u043b\u043e \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 41.39270833333333,
+          "fastest_lap_with_pilot": 41.04,
+          "pilot_temp": 41.01252808988764,
+          "pilot_fastest_lap": 40.55,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.918427874280056
+        }
+      ]
+    },
+    {
+      "kart": "kart_02",
+      "kart_fastest_lap": 40.91,
+      "kart_temp": 41.35208,
+      "pilots": [
+        {
+          "pilot": "\u041a\u043e\u0437\u0430\u043a\u043e\u0432 \u0404\u0433\u043e\u0440",
+          "temp_with_pilot": 41.20421052631579,
+          "fastest_lap_with_pilot": 40.95,
+          "pilot_temp": 41.17269565217392,
+          "pilot_fastest_lap": 40.7,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 41.12396316802002
+        },
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 41.491052631578945,
+          "fastest_lap_with_pilot": 41.1,
+          "pilot_temp": 41.50067415730337,
+          "pilot_fastest_lap": 40.89,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 41.18832629633652
+        },
+        {
+          "pilot": "\u0425\u0430\u0440\u0447\u0435\u043d\u043a\u043e \u0410\u0440\u0442\u0435\u043c",
+          "temp_with_pilot": 41.388636363636365,
+          "fastest_lap_with_pilot": 41.15,
+          "pilot_temp": 41.16315789473684,
+          "pilot_fastest_lap": 40.51,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 41.00710497441224
+        },
+        {
+          "pilot": "\u0417\u0430\u043a\u0430\u043b\u044e\u043a \u0404\u0432\u0433\u0435\u043d\u0456\u0439",
+          "temp_with_pilot": 41.113684210526316,
+          "fastest_lap_with_pilot": 40.94,
+          "pilot_temp": 40.77015267175573,
+          "pilot_fastest_lap": 40.46,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.776722312765564
+        },
+        {
+          "pilot": "\u0420\u0435\u0437\u0430\u043d\u043a\u043e \u041e\u043b\u044c\u0433\u0430",
+          "temp_with_pilot": 41.39851851851853,
+          "fastest_lap_with_pilot": 40.91,
+          "pilot_temp": 41.106577181208046,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.937585683882546
+        }
+      ]
+    },
+    {
+      "kart": "kart_03",
+      "kart_fastest_lap": 40.48,
+      "kart_temp": 40.969197860962566,
+      "pilots": [
+        {
+          "pilot": "\u0414\u043e\u0440\u043e\u0445\u0456\u043d \u0410\u043d\u0442\u043e\u043d",
+          "temp_with_pilot": 40.97,
+          "fastest_lap_with_pilot": 40.91,
+          "pilot_temp": 40.904347826086955,
+          "pilot_fastest_lap": 40.68,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 40.98163531106601
+        },
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 40.72824561403508,
+          "fastest_lap_with_pilot": 40.48,
+          "pilot_temp": 40.8864596273292,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.864777117458225
+        },
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.95470588235294,
+          "fastest_lap_with_pilot": 40.64,
+          "pilot_temp": 41.14823529411764,
+          "pilot_fastest_lap": 40.64,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 41.14827713983571
+        },
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0430\u043d\u044f",
+          "temp_with_pilot": 41.23196428571429,
+          "fastest_lap_with_pilot": 40.86,
+          "pilot_temp": 41.10820689655173,
+          "pilot_fastest_lap": 40.74,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 41.10818353366066
+        }
+      ]
+    },
+    {
+      "kart": "kart_04",
+      "kart_fastest_lap": 40.43,
+      "kart_temp": 40.82,
+      "pilots": [
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 41.08904761904762,
+          "fastest_lap_with_pilot": 40.89,
+          "pilot_temp": 41.50067415730337,
+          "pilot_fastest_lap": 40.89,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 41.18832629633652
+        },
+        {
+          "pilot": "\u0428\u0435\u043d\u0434\u0440\u0438\u043a \u0412\u043b\u0430\u0434",
+          "temp_with_pilot": 40.711499999999994,
+          "fastest_lap_with_pilot": 40.43,
+          "pilot_temp": 41.025897435897434,
+          "pilot_fastest_lap": 40.43,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 41.02586273694647
+        },
+        {
+          "pilot": "\u0414\u043e\u0440\u043e\u0445\u0456\u043d \u0410\u043d\u0442\u043e\u043d",
+          "temp_with_pilot": 40.89809523809524,
+          "fastest_lap_with_pilot": 40.68,
+          "pilot_temp": 40.904347826086955,
+          "pilot_fastest_lap": 40.68,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.98163531106601
+        },
+        {
+          "pilot": "\u0412\u0430\u0441\u0438\u043b\u044c\u0447\u0443\u043a \u041d\u0430\u0437\u0430\u0440",
+          "temp_with_pilot": 40.63576923076924,
+          "fastest_lap_with_pilot": 40.47,
+          "pilot_temp": 40.67059701492538,
+          "pilot_fastest_lap": 40.27,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.72720537564914
+        },
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0430\u043d\u044f",
+          "temp_with_pilot": 41.02444444444444,
+          "fastest_lap_with_pilot": 40.87,
+          "pilot_temp": 41.10820689655173,
+          "pilot_fastest_lap": 40.74,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 41.10818353366066
+        }
+      ]
+    },
+    {
+      "kart": "kart_05",
+      "kart_fastest_lap": 40.92,
+      "kart_temp": 41.63766666666666,
+      "pilots": [
+        {
+          "pilot": "\u0412\u0430\u0441\u0438\u043b\u044c\u0447\u0443\u043a \u041d\u0430\u0437\u0430\u0440",
+          "temp_with_pilot": 41.34695652173913,
+          "fastest_lap_with_pilot": 41.02,
+          "pilot_temp": 40.67059701492538,
+          "pilot_fastest_lap": 40.27,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.72720537564914
+        },
+        {
+          "pilot": "\u0424\u043e\u0440\u0442\u0443\u043d\u0430 \u0422\u0430\u043d\u044f",
+          "temp_with_pilot": 41.9075,
+          "fastest_lap_with_pilot": 41.44,
+          "pilot_temp": 41.40295238095239,
+          "pilot_fastest_lap": 40.78,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 41.163301129732794
+        },
+        {
+          "pilot": "\u041b\u0438\u0445\u043e\u0448\u0435\u0440\u0441\u0442 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 41.30869565217391,
+          "fastest_lap_with_pilot": 40.92,
+          "pilot_temp": 41.01432989690722,
+          "pilot_fastest_lap": 40.54,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.93531875049571
+        },
+        {
+          "pilot": "\u0424\u0435\u0440\u0435\u043d\u0441 \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 41.7085,
+          "fastest_lap_with_pilot": 41.22,
+          "pilot_temp": 41.030243902439025,
+          "pilot_fastest_lap": 40.56,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.96892270423001
+        },
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 41.800999999999995,
+          "fastest_lap_with_pilot": 41.5,
+          "pilot_temp": 41.50067415730337,
+          "pilot_fastest_lap": 40.89,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 41.18832629633652
+        },
+        {
+          "pilot": "\u0411\u0454\u0433\u0456\u0448\u0435\u0432 \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.605909090909094,
+          "fastest_lap_with_pilot": 41.29,
+          "pilot_temp": 41.29083969465649,
+          "pilot_fastest_lap": 40.62,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 41.1582338668681
+        }
+      ]
+    },
+    {
+      "kart": "kart_08",
+      "kart_fastest_lap": 40.31,
+      "kart_temp": 41.0366985645933,
+      "pilots": [
+        {
+          "pilot": "\u041b\u0438\u0445\u043e\u0448\u0435\u0440\u0441\u0442 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 40.71300000000001,
+          "fastest_lap_with_pilot": 40.54,
+          "pilot_temp": 41.01432989690722,
+          "pilot_fastest_lap": 40.54,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.93531875049571
+        },
+        {
+          "pilot": "\u041c\u0456\u0444\u0442\u0430\u0445\u0443\u0442\u0434\u0456\u043d\u043e\u0432 \u0406\u043b\u044c\u044f\u0441",
+          "temp_with_pilot": 40.54857142857143,
+          "fastest_lap_with_pilot": 40.31,
+          "pilot_temp": 40.61168067226892,
+          "pilot_fastest_lap": 40.31,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.61168067226892
+        },
+        {
+          "pilot": "\u0411\u0454\u0433\u0456\u0448\u0435\u0432 \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.23941747572815,
+          "fastest_lap_with_pilot": 40.62,
+          "pilot_temp": 41.29083969465649,
+          "pilot_fastest_lap": 40.62,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 41.1582338668681
+        },
+        {
+          "pilot": "\u0428\u0435\u043d\u0434\u0440\u0438\u043a \u0412\u043b\u0430\u0434",
+          "temp_with_pilot": 41.46766666666667,
+          "fastest_lap_with_pilot": 40.81,
+          "pilot_temp": 41.025897435897434,
+          "pilot_fastest_lap": 40.43,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 41.02586273694647
+        }
+      ]
+    },
+    {
+      "kart": "kart_09",
+      "kart_fastest_lap": 40.53,
+      "kart_temp": 40.966010638297874,
+      "pilots": [
+        {
+          "pilot": "\u0417\u0430\u043a\u0430\u043b\u044e\u043a \u0404\u0432\u0433\u0435\u043d\u0456\u0439",
+          "temp_with_pilot": 40.817826086956515,
+          "fastest_lap_with_pilot": 40.53,
+          "pilot_temp": 40.77015267175573,
+          "pilot_fastest_lap": 40.46,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 40.776722312765564
+        },
+        {
+          "pilot": "\u041c\u0430\u043d\u0456\u043b\u043e \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.83842105263159,
+          "fastest_lap_with_pilot": 40.67,
+          "pilot_temp": 41.01252808988764,
+          "pilot_fastest_lap": 40.55,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.918427874280056
+        },
+        {
+          "pilot": "\u042f\u043a\u0443\u0441\u0438\u043a \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 41.02074074074075,
+          "fastest_lap_with_pilot": 40.81,
+          "pilot_temp": 40.93390977443608,
+          "pilot_fastest_lap": 40.6,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.85859861273724
+        },
+        {
+          "pilot": "\u041b\u0438\u0445\u043e\u0448\u0435\u0440\u0441\u0442 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 41.00055555555556,
+          "fastest_lap_with_pilot": 40.74,
+          "pilot_temp": 41.01432989690722,
+          "pilot_fastest_lap": 40.54,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.93531875049571
+        },
+        {
+          "pilot": "\u041f\u0438\u0432\u043e\u0432\u0430\u0440\u0447\u0443\u043a \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.23777777777778,
+          "fastest_lap_with_pilot": 40.92,
+          "pilot_temp": 41.21063063063063,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 41.07124585435748
+        }
+      ]
+    },
+    {
+      "kart": "kart_11",
+      "kart_fastest_lap": 40.53,
+      "kart_temp": 40.91337662337663,
+      "pilots": [
+        {
+          "pilot": "\u041f\u0438\u0432\u043e\u0432\u0430\u0440\u0447\u0443\u043a \u041c\u0430\u043a\u0441\u0438\u043c",
+          "temp_with_pilot": 41.06823529411764,
+          "fastest_lap_with_pilot": 40.75,
+          "pilot_temp": 41.21063063063063,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 41.07124585435748
+        },
+        {
+          "pilot": "\u041a\u043e\u0437\u0430\u043a\u043e\u0432 \u0404\u0433\u043e\u0440",
+          "temp_with_pilot": 41.06703703703703,
+          "fastest_lap_with_pilot": 40.7,
+          "pilot_temp": 41.17269565217392,
+          "pilot_fastest_lap": 40.7,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 41.12396316802002
+        },
+        {
+          "pilot": "\u0428\u0438\u043b\u0435\u043d\u043a\u043e \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 40.90190476190476,
+          "fastest_lap_with_pilot": 40.68,
+          "pilot_temp": 40.81463917525774,
+          "pilot_fastest_lap": 40.38,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.777477957227845
+        },
+        {
+          "pilot": "\u041c\u0456\u0444\u0442\u0430\u0445\u0443\u0442\u0434\u0456\u043d\u043e\u0432 \u0406\u043b\u044c\u044f\u0441",
+          "temp_with_pilot": 40.66777777777778,
+          "fastest_lap_with_pilot": 40.53,
+          "pilot_temp": 40.61168067226892,
+          "pilot_fastest_lap": 40.31,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.61168067226892
+        }
+      ]
+    },
+    {
+      "kart": "kart_13",
+      "kart_fastest_lap": 40.36,
+      "kart_temp": 40.79502512562814,
+      "pilots": [
+        {
+          "pilot": "\u0411\u0443\u0440\u0456\u043c \u0421\u0435\u0440\u0433\u0456\u0439",
+          "temp_with_pilot": 40.65904761904761,
+          "fastest_lap_with_pilot": 40.36,
+          "pilot_temp": 40.983333333333334,
+          "pilot_fastest_lap": 40.36,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.89278041223681
+        },
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0430\u043d\u044f",
+          "temp_with_pilot": 41.03290322580645,
+          "fastest_lap_with_pilot": 40.74,
+          "pilot_temp": 41.10820689655173,
+          "pilot_fastest_lap": 40.74,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 41.10818353366066
+        },
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 40.702096774193556,
+          "fastest_lap_with_pilot": 40.52,
+          "pilot_temp": 40.8864596273292,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.864777117458225
+        },
+        {
+          "pilot": "\u0428\u0438\u043b\u0435\u043d\u043a\u043e \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 40.645483870967745,
+          "fastest_lap_with_pilot": 40.43,
+          "pilot_temp": 40.81463917525774,
+          "pilot_fastest_lap": 40.38,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.777477957227845
+        },
+        {
+          "pilot": "\u041c\u0430\u043d\u0456\u043b\u043e \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.73,
+          "fastest_lap_with_pilot": 40.55,
+          "pilot_temp": 41.01252808988764,
+          "pilot_fastest_lap": 40.55,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.918427874280056
+        }
+      ]
+    },
+    {
+      "kart": "kart_14",
+      "kart_fastest_lap": 40.81,
+      "kart_temp": 41.13381578947369,
+      "pilots": [
+        {
+          "pilot": "\u041c\u0430\u043d\u0456\u043b\u043e \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.974736842105266,
+          "fastest_lap_with_pilot": 40.82,
+          "pilot_temp": 41.01252808988764,
+          "pilot_fastest_lap": 40.55,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.918427874280056
+        },
+        {
+          "pilot": "\u042f\u043a\u0443\u0441\u0438\u043a \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 41.1119512195122,
+          "fastest_lap_with_pilot": 40.86,
+          "pilot_temp": 40.93390977443608,
+          "pilot_fastest_lap": 40.6,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.85859861273724
+        },
+        {
+          "pilot": "\u041a\u043e\u0437\u0430\u043a\u043e\u0432 \u0404\u0433\u043e\u0440",
+          "temp_with_pilot": 41.294285714285714,
+          "fastest_lap_with_pilot": 41.03,
+          "pilot_temp": 41.17269565217392,
+          "pilot_fastest_lap": 40.7,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 41.12396316802002
+        },
+        {
+          "pilot": "\u0411\u0443\u0440\u0456\u043c \u0421\u0435\u0440\u0433\u0456\u0439",
+          "temp_with_pilot": 41.0774,
+          "fastest_lap_with_pilot": 40.81,
+          "pilot_temp": 40.983333333333334,
+          "pilot_fastest_lap": 40.36,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.89278041223681
+        }
+      ]
+    },
+    {
+      "kart": "kart_19",
+      "kart_fastest_lap": 40.38,
+      "kart_temp": 40.72679611650485,
+      "pilots": [
+        {
+          "pilot": "\u0428\u0438\u043b\u0435\u043d\u043a\u043e \u041e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440",
+          "temp_with_pilot": 40.730000000000004,
+          "fastest_lap_with_pilot": 40.38,
+          "pilot_temp": 40.81463917525774,
+          "pilot_fastest_lap": 40.38,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 40.777477957227845
+        },
+        {
+          "pilot": "\u0425\u0430\u0440\u0447\u0435\u043d\u043a\u043e \u0410\u0440\u0442\u0435\u043c",
+          "temp_with_pilot": 40.77693548387097,
+          "fastest_lap_with_pilot": 40.51,
+          "pilot_temp": 41.16315789473684,
+          "pilot_fastest_lap": 40.51,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 41.00710497441224
+        },
+        {
+          "pilot": "\u041d\u0443\u0436\u043d\u0438\u0439 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 40.740697674418605,
+          "fastest_lap_with_pilot": 40.57,
+          "pilot_temp": 40.918632478632475,
+          "pilot_fastest_lap": 40.57,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.884823920545756
+        },
+        {
+          "pilot": "\u042f\u043a\u0443\u0441\u0438\u043a \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 40.770681818181814,
+          "fastest_lap_with_pilot": 40.6,
+          "pilot_temp": 40.93390977443608,
+          "pilot_fastest_lap": 40.6,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.85859861273724
+        },
+        {
+          "pilot": "\u0417\u0430\u043a\u0430\u043b\u044e\u043a \u0404\u0432\u0433\u0435\u043d\u0456\u0439",
+          "temp_with_pilot": 40.62222222222223,
+          "fastest_lap_with_pilot": 40.46,
+          "pilot_temp": 40.77015267175573,
+          "pilot_fastest_lap": 40.46,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.776722312765564
+        }
+      ]
+    },
+    {
+      "kart": "kart_20",
+      "kart_fastest_lap": 40.69,
+      "kart_temp": 41.0446551724138,
+      "pilots": [
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.99666666666668,
+          "fastest_lap_with_pilot": 40.73,
+          "pilot_temp": 41.14823529411764,
+          "pilot_fastest_lap": 40.64,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 41.14827713983571
+        },
+        {
+          "pilot": "\u0411\u0443\u0440\u0456\u043c \u0421\u0435\u0440\u0433\u0456\u0439",
+          "temp_with_pilot": 41.03232558139535,
+          "fastest_lap_with_pilot": 40.69,
+          "pilot_temp": 40.983333333333334,
+          "pilot_fastest_lap": 40.36,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.89278041223681
+        },
+        {
+          "pilot": "\u0420\u0435\u0437\u0430\u043d\u043a\u043e \u041e\u043b\u044c\u0433\u0430",
+          "temp_with_pilot": 41.01863636363636,
+          "fastest_lap_with_pilot": 40.79,
+          "pilot_temp": 41.106577181208046,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.937585683882546
+        },
+        {
+          "pilot": "\u041d\u0443\u0436\u043d\u0438\u0439 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 41.11137254901961,
+          "fastest_lap_with_pilot": 40.8,
+          "pilot_temp": 40.918632478632475,
+          "pilot_fastest_lap": 40.57,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.884823920545756
+        }
+      ]
+    },
+    {
+      "kart": "kart_21",
+      "kart_fastest_lap": 40.27,
+      "kart_temp": 40.681617021276594,
+      "pilots": [
+        {
+          "pilot": "\u042f\u043a\u0443\u0441\u0438\u043a \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 40.81666666666666,
+          "fastest_lap_with_pilot": 40.6,
+          "pilot_temp": 40.93390977443608,
+          "pilot_fastest_lap": 40.6,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.85859861273724
+        },
+        {
+          "pilot": "\u0412\u0430\u0441\u0438\u043b\u044c\u0447\u0443\u043a \u041d\u0430\u0437\u0430\u0440",
+          "temp_with_pilot": 40.43762711864407,
+          "fastest_lap_with_pilot": 40.27,
+          "pilot_temp": 40.67059701492538,
+          "pilot_fastest_lap": 40.27,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.72720537564914
+        },
+        {
+          "pilot": "\u0416\u0434\u0430\u043d-\u041f\u0443\u0448\u043a\u0456\u043d \u0410\u043d\u0442\u043e\u043d",
+          "temp_with_pilot": 40.65507936507937,
+          "fastest_lap_with_pilot": 40.48,
+          "pilot_temp": 40.75126984126984,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 40.8342401912473
+        },
+        {
+          "pilot": "\u041c\u0430\u043d\u0456\u043b\u043e \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 40.97677419354839,
+          "fastest_lap_with_pilot": 40.79,
+          "pilot_temp": 41.01252808988764,
+          "pilot_fastest_lap": 40.55,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.918427874280056
+        },
+        {
+          "pilot": "\u0424\u0435\u0440\u0435\u043d\u0441 \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 40.74852459016393,
+          "fastest_lap_with_pilot": 40.56,
+          "pilot_temp": 41.030243902439025,
+          "pilot_fastest_lap": 40.56,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.96892270423001
+        }
+      ]
+    },
+    {
+      "kart": "kart_33",
+      "kart_fastest_lap": 40.98,
+      "kart_temp": 41.39283018867925,
+      "pilots": [
+        {
+          "pilot": "\u0420\u0435\u0437\u0430\u043d\u043a\u043e \u041e\u043b\u044c\u0433\u0430",
+          "temp_with_pilot": 41.2665,
+          "fastest_lap_with_pilot": 41.01,
+          "pilot_temp": 41.106577181208046,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 40.937585683882546
+        },
+        {
+          "pilot": "\u0424\u0435\u0440\u0435\u043d\u0441 \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 41.38857142857143,
+          "fastest_lap_with_pilot": 41.1,
+          "pilot_temp": 41.030243902439025,
+          "pilot_fastest_lap": 40.56,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.96892270423001
+        },
+        {
+          "pilot": "\u0428\u0435\u043d\u0434\u0440\u0438\u043a \u0412\u043b\u0430\u0434",
+          "temp_with_pilot": 41.2337037037037,
+          "fastest_lap_with_pilot": 40.98,
+          "pilot_temp": 41.025897435897434,
+          "pilot_fastest_lap": 40.43,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 41.02586273694647
+        },
+        {
+          "pilot": "\u0425\u0430\u0440\u0447\u0435\u043d\u043a\u043e \u0410\u0440\u0442\u0435\u043c",
+          "temp_with_pilot": 41.55061224489797,
+          "fastest_lap_with_pilot": 41.27,
+          "pilot_temp": 41.16315789473684,
+          "pilot_fastest_lap": 40.51,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 41.00710497441224
+        },
+        {
+          "pilot": "\u0420\u0435\u0432\u0447\u0443\u043a \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 41.37333333333334,
+          "fastest_lap_with_pilot": 41.11,
+          "pilot_temp": 40.8864596273292,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 40.864777117458225
+        }
+      ]
+    },
+    {
+      "kart": "kart_44",
+      "kart_fastest_lap": 40.6,
+      "kart_temp": 40.88847826086956,
+      "pilots": [
+        {
+          "pilot": "\u0424\u0435\u0440\u0435\u043d\u0441 \u0414\u043c\u0438\u0442\u0440\u043e",
+          "temp_with_pilot": 40.84428571428571,
+          "fastest_lap_with_pilot": 40.69,
+          "pilot_temp": 41.030243902439025,
+          "pilot_fastest_lap": 40.56,
+          "team_segment": 2.0,
+          "temp_from_average_coeficient": 40.96892270423001
+        },
+        {
+          "pilot": "\u0404\u043b\u043c\u0430\u043d\u043e\u0432 \u0421\u0435\u0440\u0433\u0456\u0439",
+          "temp_with_pilot": 40.947428571428574,
+          "fastest_lap_with_pilot": 40.63,
+          "pilot_temp": 41.01155555555555,
+          "pilot_fastest_lap": 40.63,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 41.018039594278164
+        },
+        {
+          "pilot": "\u0417\u0430\u043a\u0430\u043b\u044e\u043a \u0404\u0432\u0433\u0435\u043d\u0456\u0439",
+          "temp_with_pilot": 40.780571428571434,
+          "fastest_lap_with_pilot": 40.6,
+          "pilot_temp": 40.77015267175573,
+          "pilot_fastest_lap": 40.46,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.776722312765564
+        },
+        {
+          "pilot": "\u041d\u0443\u0436\u043d\u0438\u0439 \u041e\u043b\u0435\u043a\u0441\u0456\u0439",
+          "temp_with_pilot": 40.823913043478264,
+          "fastest_lap_with_pilot": 40.64,
+          "pilot_temp": 40.918632478632475,
+          "pilot_fastest_lap": 40.57,
+          "team_segment": 6.0,
+          "temp_from_average_coeficient": 40.884823920545756
+        }
+      ]
+    },
+    {
+      "kart": "kart_69",
+      "kart_fastest_lap": 40.7,
+      "kart_temp": 41.185956284153,
+      "pilots": [
+        {
+          "pilot": "\u0424\u043e\u0440\u0442\u0443\u043d\u0430 \u0422\u0430\u043d\u044f",
+          "temp_with_pilot": 41.16130434782609,
+          "fastest_lap_with_pilot": 40.96,
+          "pilot_temp": 41.40295238095239,
+          "pilot_fastest_lap": 40.78,
+          "team_segment": 3.0,
+          "temp_from_average_coeficient": 41.163301129732794
+        },
+        {
+          "pilot": "\u0420\u0435\u0437\u0430\u043d\u043a\u043e \u041e\u043b\u044c\u0433\u0430",
+          "temp_with_pilot": 40.98224137931034,
+          "fastest_lap_with_pilot": 40.75,
+          "pilot_temp": 41.106577181208046,
+          "pilot_fastest_lap": 40.75,
+          "team_segment": 4.0,
+          "temp_from_average_coeficient": 40.937585683882546
+        },
+        {
+          "pilot": "\u0404\u043b\u043c\u0430\u043d\u043e\u0432 \u0421\u0435\u0440\u0433\u0456\u0439",
+          "temp_with_pilot": 41.236,
+          "fastest_lap_with_pilot": 41.0,
+          "pilot_temp": 41.01155555555555,
+          "pilot_fastest_lap": 40.63,
+          "team_segment": 5.0,
+          "temp_from_average_coeficient": 41.018039594278164
+        },
+        {
+          "pilot": "\u0416\u0434\u0430\u043d-\u041f\u0443\u0448\u043a\u0456\u043d \u0410\u043d\u0442\u043e\u043d",
+          "temp_with_pilot": 40.93,
+          "fastest_lap_with_pilot": 40.7,
+          "pilot_temp": 40.75126984126984,
+          "pilot_fastest_lap": 40.48,
+          "team_segment": 7.0,
+          "temp_from_average_coeficient": 40.8342401912473
+        },
+        {
+          "pilot": "\u041b\u0438\u0441\u0435\u043d\u0441\u044c\u043a\u0438\u0439 \u0414\u0435\u043d\u0438\u0441",
+          "temp_with_pilot": 41.52816326530612,
+          "fastest_lap_with_pilot": 41.02,
+          "pilot_temp": 41.14823529411764,
+          "pilot_fastest_lap": 40.64,
+          "team_segment": 8.0,
+          "temp_from_average_coeficient": 41.14827713983571
+        }
+      ]
+    }
+  ],
+  "race_id": "41"
+}

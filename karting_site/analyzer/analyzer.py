@@ -56,13 +56,43 @@ def compute_kart_statistic(race_id):
         df_pilots=df_pilots,
         df_karts=df_karts,
     )
-  
-
     return_dict = {
-        "kart_statistic":  df_stats.to_dict(
-            orient="records"
+        "data": []
+    }
+    
+    df_stats = df_stats.sort_values(["kart", "segment"], inplace=False)
+    
+    for kart in df_stats.loc[:, "kart"].drop_duplicates():
+        kart_dict = {
+            "kart": kart, 
+        }
+        pilots_of_kart_index = df_stats.loc[
+            df_stats.loc[:, "kart"] == kart,
+            "pilot"
+        ].index
+        kart_dict.update(
+            {
+                "kart_fastest_lap": df_stats.loc[pilots_of_kart_index[0], "kart_fastest_lap"],
+                "kart_temp": df_stats.loc[pilots_of_kart_index[0], "kart_temp"],
+                "pilots": []
+            }
         )
-    } 
+        for index in pilots_of_kart_index:
+            kart_dict["pilots"].append(
+                    {
+                        "pilot": df_stats.loc[index, "pilot"],
+                        "temp_with_pilot" : df_stats.loc[index, "temp_with_pilot"],
+                        "fastest_lap_with_pilot" : df_stats.loc[index, "fastest_lap_with_pilot"],
+                        "pilot_temp" : df_stats.loc[index, "pilot_temp"],
+                        "pilot_fastest_lap" : df_stats.loc[index, "pilot_fastest_lap"],
+                        "team_segment": df_stats.loc[index, "segment"],
+                        #"this_race_coeficient" : df_stats.loc[index, "this_race_coeficient"],
+                        #"pilot_coeficient" : df_stats.loc[index, "pilot_coeficient"],
+                        #"average_coeficient" : df_stats.loc[index, "average_coeficient"],
+                        "temp_from_average_coeficient" : df_stats.loc[index, "temp_from_average_coeficient"],
+                    }
+            )
+        return_dict["data"].append(kart_dict)
     
     end = time.perf_counter()
     print(end-start)

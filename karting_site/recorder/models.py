@@ -18,6 +18,7 @@ class Race(models.Model):
     
     def to_dict (self):
         race_dict = {
+            "id" : self.pk,
             "name_of_the_race" : self.name_of_the_race,
             "publish_date" : self.publish_date.strftime("%m/%d/%Y, %H:%M:%S"),
             "date_record_started" : self.date_record_started.strftime("%m/%d/%Y, %H:%M:%S"),

@@ -32,7 +32,7 @@ def analyze_race_api(request, race_id):
             }
     return HttpResponse(json.dumps(content))
 
-def race_kart_statistic (request, race_id):
+def race_kart_statistic_api (request, race_id):
     content = analyzer.compute_kart_statistic(race_id)
     try:
         content.update(
@@ -44,5 +44,4 @@ def race_kart_statistic (request, race_id):
         content = {
                 "race_id": race_id
             }
-    #return render(request, "kart_statistic.html", content)
     return HttpResponse(json.dumps(content))

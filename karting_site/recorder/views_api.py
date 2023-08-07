@@ -37,3 +37,13 @@ def last_race_records_api (request):
         records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
         context["records_of_the_last_race"] = list(records_of_the_last_race)
     return HttpResponse(json.dumps(context)) 
+
+def list_of_all_races_page_api (request):
+    races = [race.to_dict() for race in models.Race.objects.all()]
+    return_dict = {
+        "data": {
+            "races":races
+        }
+            
+    }
+    return HttpResponse(json.dumps(return_dict))

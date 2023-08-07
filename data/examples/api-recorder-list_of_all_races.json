@@ -1,0 +1,346 @@
+{
+  "data": {
+    "races": [
+      {
+        "id": 8,
+        "name_of_the_race": "VP 1",
+        "publish_date": "06/26/2023, 12:41:26",
+        "date_record_started": "06/26/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "5b15f4b7-07cf-401c-9755-685cd6633507"
+      },
+      {
+        "id": 9,
+        "name_of_the_race": "VP 2",
+        "publish_date": "06/26/2023, 12:41:37",
+        "date_record_started": "06/26/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": false,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 10,
+        "name_of_the_race": "VP 3",
+        "publish_date": "06/26/2023, 12:41:43",
+        "date_record_started": "06/26/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 11,
+        "name_of_the_race": "VP 4",
+        "publish_date": "06/26/2023, 15:46:34",
+        "date_record_started": "06/26/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "bc813bad-691e-4f81-89fd-39414881d6e5"
+      },
+      {
+        "id": 12,
+        "name_of_the_race": "test race",
+        "publish_date": "06/26/2023, 17:55:46",
+        "date_record_started": "06/26/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "f27fc328-6e35-4b49-8bd8-c63d282bd3af"
+      },
+      {
+        "id": 13,
+        "name_of_the_race": "test race 2",
+        "publish_date": "06/27/2023, 10:49:02",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "0bdfbb2c-2378-449a-b1ff-0e0ee1b353cd"
+      },
+      {
+        "id": 14,
+        "name_of_the_race": "test_race_3",
+        "publish_date": "06/27/2023, 11:03:29",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "5773aa0f-0772-49ee-84d2-ec70a2728641"
+      },
+      {
+        "id": 15,
+        "name_of_the_race": "test_race_4",
+        "publish_date": "06/27/2023, 11:20:54",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "a406e1e3-8a11-4ed1-9750-6abd75fbb97f"
+      },
+      {
+        "id": 16,
+        "name_of_the_race": "test_race_5",
+        "publish_date": "06/27/2023, 11:43:27",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "f89e7b29-9850-4373-a291-953faf4f6f08"
+      },
+      {
+        "id": 17,
+        "name_of_the_race": "test_race_6",
+        "publish_date": "06/27/2023, 11:57:13",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "1c488d30-7067-4eff-ab14-b9325fdaf14f"
+      },
+      {
+        "id": 18,
+        "name_of_the_race": "test_race_7",
+        "publish_date": "06/27/2023, 11:58:15",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "8b9fd0fd-8363-48ae-9e28-e1162c482fc3"
+      },
+      {
+        "id": 19,
+        "name_of_the_race": "test_race_8",
+        "publish_date": "06/27/2023, 13:37:48",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "cd7f8587-c0eb-46ab-b759-6e9eed5f5a79"
+      },
+      {
+        "id": 20,
+        "name_of_the_race": "test_race_9",
+        "publish_date": "06/27/2023, 13:50:46",
+        "date_record_started": "07/01/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "9d039fcd-f99c-478c-a3ce-298e187347b4"
+      },
+      {
+        "id": 21,
+        "name_of_the_race": "test_race_10",
+        "publish_date": "06/27/2023, 17:32:58",
+        "date_record_started": "06/27/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": false,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 22,
+        "name_of_the_race": "wgwerg3thertbwrt",
+        "publish_date": "06/30/2023, 12:11:19",
+        "date_record_started": "06/30/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "32957e94-7ecb-46f4-8006-563956cc86b5"
+      },
+      {
+        "id": 23,
+        "name_of_the_race": "test_race_11",
+        "publish_date": "07/01/2023, 13:59:36",
+        "date_record_started": "07/01/2023, 00:00:00",
+        "date_record_finished": "07/01/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 24,
+        "name_of_the_race": "new_new_race",
+        "publish_date": "07/02/2023, 20:07:40",
+        "date_record_started": "07/02/2023, 00:00:00",
+        "date_record_finished": "07/02/2023, 00:00:00",
+        "was_recorded_complete": false,
+        "is_recorded": false,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 25,
+        "name_of_the_race": "new_new_race_)",
+        "publish_date": "07/02/2023, 20:18:10",
+        "date_record_started": "07/02/2023, 20:18:10",
+        "date_record_finished": "07/02/2023, 20:18:10",
+        "was_recorded_complete": false,
+        "is_recorded": false,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 26,
+        "name_of_the_race": "test_rrace",
+        "publish_date": "07/04/2023, 15:46:29",
+        "date_record_started": "07/04/2023, 16:06:15",
+        "date_record_finished": "07/04/2023, 16:06:18",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 27,
+        "name_of_the_race": "VP on 240622",
+        "publish_date": "07/04/2023, 19:45:17",
+        "date_record_started": "07/04/2023, 19:45:17",
+        "date_record_finished": "07/04/2023, 19:45:17",
+        "was_recorded_complete": false,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 28,
+        "name_of_the_race": "VP 6",
+        "publish_date": "07/10/2023, 13:36:43",
+        "date_record_started": "07/10/2023, 13:59:37",
+        "date_record_finished": "07/10/2023, 13:59:42",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 29,
+        "name_of_the_race": "minis on 15.08.23",
+        "publish_date": "07/15/2023, 06:58:29",
+        "date_record_started": "07/15/2023, 07:54:08",
+        "date_record_finished": "07/15/2023, 09:41:36",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "a5bccc67-f710-4da7-9533-1229e350c258"
+      },
+      {
+        "id": 30,
+        "name_of_the_race": "test",
+        "publish_date": "07/20/2023, 14:08:56",
+        "date_record_started": "07/20/2023, 17:54:29",
+        "date_record_finished": "07/20/2023, 18:17:06",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "6a734e63-9933-46da-85cf-d38242927ee3"
+      },
+      {
+        "id": 31,
+        "name_of_the_race": "test.2",
+        "publish_date": "07/20/2023, 18:17:33",
+        "date_record_started": "07/20/2023, 18:28:35",
+        "date_record_finished": "07/20/2023, 18:29:04",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "37982984-c33a-4c0e-8674-175804288b63"
+      },
+      {
+        "id": 32,
+        "name_of_the_race": "test.3",
+        "publish_date": "07/20/2023, 18:30:24",
+        "date_record_started": "07/20/2023, 18:30:26",
+        "date_record_finished": "07/20/2023, 18:39:54",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "4afd28f6-8015-4c02-9ba4-c93b2f2de539"
+      },
+      {
+        "id": 33,
+        "name_of_the_race": "test.4",
+        "publish_date": "07/20/2023, 18:49:20",
+        "date_record_started": "07/20/2023, 18:49:22",
+        "date_record_finished": "07/20/2023, 18:50:04",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 34,
+        "name_of_the_race": "test.5",
+        "publish_date": "07/20/2023, 18:50:31",
+        "date_record_started": "07/20/2023, 19:02:16",
+        "date_record_finished": "07/20/2023, 19:10:56",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "73d96385-85c0-48b6-989c-57e5d063b528"
+      },
+      {
+        "id": 35,
+        "name_of_the_race": "test.6",
+        "publish_date": "07/21/2023, 09:59:40",
+        "date_record_started": "07/21/2023, 11:46:17",
+        "date_record_finished": "07/21/2023, 11:47:36",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "0"
+      },
+      {
+        "id": 36,
+        "name_of_the_race": "test.7",
+        "publish_date": "07/21/2023, 11:47:45",
+        "date_record_started": "07/21/2023, 11:48:32",
+        "date_record_finished": "07/21/2023, 11:49:20",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "9b3708e5-2943-4391-b432-37a02bd572a1"
+      },
+      {
+        "id": 37,
+        "name_of_the_race": "test.8",
+        "publish_date": "07/21/2023, 11:50:17",
+        "date_record_started": "08/04/2023, 15:08:12",
+        "date_record_finished": "08/04/2023, 15:11:08",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "8e598947-f476-4a83-8f88-d4c38453e102"
+      },
+      {
+        "id": 38,
+        "name_of_the_race": "vp_9",
+        "publish_date": "07/22/2023, 07:31:21",
+        "date_record_started": "07/22/2023, 08:48:57",
+        "date_record_finished": "07/22/2023, 10:38:08",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "12d7667b-27f5-498c-b8d8-f37848441f2f"
+      },
+      {
+        "id": 39,
+        "name_of_the_race": "minis on 29.08.22",
+        "publish_date": "07/29/2023, 06:29:00",
+        "date_record_started": "07/29/2023, 07:23:40",
+        "date_record_finished": "07/29/2023, 09:39:48",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "76998f41-5116-4260-8706-2cb2a93816cc"
+      },
+      {
+        "id": 40,
+        "name_of_the_race": "procat",
+        "publish_date": "08/04/2023, 14:28:08",
+        "date_record_started": "08/04/2023, 14:30:45",
+        "date_record_finished": "08/04/2023, 14:44:08",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "276a983c-7935-4194-bcb1-1be9274432dd"
+      },
+      {
+        "id": 41,
+        "name_of_the_race": "vp on 05.08.23",
+        "publish_date": "08/05/2023, 05:36:10",
+        "date_record_started": "08/05/2023, 07:52:10",
+        "date_record_finished": "08/05/2023, 10:54:36",
+        "was_recorded_complete": true,
+        "is_recorded": true,
+        "celery_recorder_id": "85656a6f-794f-4750-8d59-057317ab3ff0"
+      }
+    ]
+  }
+}

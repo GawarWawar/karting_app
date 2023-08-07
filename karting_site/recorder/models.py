@@ -43,4 +43,16 @@ class RaceRecords(models.Model):
     true_name = models.BooleanField("true_name")
     true_kart = models.BooleanField("true_kart")
 
+    def only_race_data_to_dict (self):
+        race_record_dict = {
+            "team_number" : self.team_number,
+            "pilot_name" : self.pilot_name,
+            "kart" : self.kart,
+            "lap_count" : self.lap_count,
+            "lap_time" : self.lap_time,
+            "s1_time" : self.s1_time,
+            "s2_time" : self.s2_time,
+            "team_segment" : self.team_segment,
+        }
+        return(race_record_dict)
     

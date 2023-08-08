@@ -1,4 +1,6 @@
+gunicorn==21.2.0
 celery==5.3.1
+redis==4.6.0
 Django==4.2.2
 django_celery_results==2.5.1
 django-celery-beat==2.5.0

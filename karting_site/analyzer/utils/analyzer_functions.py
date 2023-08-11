@@ -310,6 +310,9 @@ def create_df_from_recorded_records(
         ]
     )
     
+    df_from_recorded_records.pop("id")
+    df_from_recorded_records.pop("race")
+    
     true_kart_count = df_from_recorded_records["true_kart"].value_counts()
     try:
         true_kart_count = true_kart_count[True]
@@ -318,9 +321,6 @@ def create_df_from_recorded_records(
         df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
         df_from_recorded_records["true_kart"] = True
     
-    df_from_recorded_records.pop("id")
-    df_from_recorded_records.pop("race")
-
     df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(kart_column_into_str)
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 

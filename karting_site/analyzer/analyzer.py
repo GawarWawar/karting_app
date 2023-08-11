@@ -185,18 +185,42 @@ def analyze_race(race_id):
 
 
     return_dict = {
-        "temp_predictions": [],
-        "temp_r2_scores": {},
-        "fastestlap_predictions": [],
-        "fastestlap_r2_scores": {},
+        #"temp_predictions": [],
+        #"temp_r2_scores": {},
+        #"fastestlap_predictions": [],
+        #"fastestlap_r2_scores": {},
     } 
+
+    series_of_karts = pd.Series(
+        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
+        name="kart",
+    )
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
-    if dicts_from_temp_predictions is None:
-        return None
+    if dicts_from_temp_predictions["error"]:
+        return_dict.update(
+            {
+                "temp_message": dicts_from_temp_predictions["message"]
+            }
+        )
+    else: 
+        return_dict.update(
+            {
+                "temp_r2_scores" : dicts_from_temp_predictions["r2_score_values_dict"]
+            }
+        )
 
-    return_dict["temp_r2_scores"] = dicts_from_temp_predictions["r2_score_values_dict"]
+        dicts_from_temp_predictions = analyzer_functions.add_kart_column_into_return_dict(
+            dict_to_process=dicts_from_temp_predictions,
+            kart_column=series_of_karts 
+        )
+
+        return_dict.update(
+            {
+                "temp_predictions": dicts_from_temp_predictions["predictions"]
+            }
+        )
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
@@ -204,27 +228,30 @@ def analyze_race(race_id):
 
     print("2.")
     dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    if dicts_from_fastestlap_predictions["error"]:
+        return_dict.update(
+            {
+                "fastestlap_message": dicts_from_temp_predictions["message"]
+            }
+        )
+    else:
+        return_dict.update(
+            {
+                "fastestlap_r2_scores" : dicts_from_fastestlap_predictions["r2_score_values_dict"]
+            }
+        )
 
-    return_dict["fastestlap_r2_scores"] = dicts_from_fastestlap_predictions["r2_score_values_dict"]
-
-    series_of_karts = pd.Series(
-        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
-        name="kart",
-    )
-    
-    dicts_from_temp_predictions = analyzer_functions.add_kart_column_into_return_dict(
-        dict_to_process=dicts_from_temp_predictions,
-        kart_column=series_of_karts 
-    )
-    
-    dicts_from_fastestlap_predictions = analyzer_functions.add_kart_column_into_return_dict(
-        dict_to_process=dicts_from_fastestlap_predictions,
-        kart_column=series_of_karts 
-    )
+        dicts_from_fastestlap_predictions = analyzer_functions.add_kart_column_into_return_dict(
+            dict_to_process=dicts_from_fastestlap_predictions,
+            kart_column=series_of_karts 
+        )
         
-    return_dict["temp_predictions"] = dicts_from_temp_predictions["predictions"]
-    return_dict["fastestlap_predictions"] = dicts_from_fastestlap_predictions["predictions"]
-        
+        return_dict.update(
+            {
+                "fastestlap_predictions": dicts_from_fastestlap_predictions["predictions"]
+            }
+        )
+    
     end = time.perf_counter()
 
     print(end-start)

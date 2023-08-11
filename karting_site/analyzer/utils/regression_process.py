@@ -101,20 +101,29 @@ def regression_process(
         )
     )
     
+    dict_to_return = {}
     # Transforming prediction with Encoder and Feature Scaling
     lists_of_values_to_predict = []
     list_of_predictions_dict = []
-    # for i, value_to_transform in enumerate(lists_of_values_to_predict):
     for df in list_of_df_to_predict:
         values_to_predict = df.values
         try:
-            values_to_predict = ct.transform(values_to_predict).toarray()
+            values_to_predict = ct.transform(values_to_predict)
         except ValueError:
-            return None
-        else:
-            values_to_predict = sc_x.transform(values_to_predict)
-            lists_of_values_to_predict.append(values_to_predict)
-            list_of_predictions_dict.append({})
+            dict_to_return.update(
+                {
+                    "error": True,
+                    "message": "ValueError appeared in prediction transformation process" 
+                }
+            )
+            return dict_to_return
+        try:
+            values_to_predict = values_to_predict.toarray()
+        except AttributeError:
+            pass
+        values_to_predict = sc_x.transform(values_to_predict)
+        lists_of_values_to_predict.append(values_to_predict)
+        list_of_predictions_dict.append({})
     
     list_of_regression_models = [
         regres_eval.multiple_linear_regression,
@@ -123,7 +132,11 @@ def regression_process(
         regres_eval.random_forest_regression
     ]
     
+    r2_score_less_norm_count = 0
     r2_score_values_dict = {}
+    dict_to_return = {
+        "error": False,
+    }
     for model in list_of_regression_models:
         regressor = train_the_model(
             x_train=x_train,
@@ -164,10 +177,21 @@ def regression_process(
                     model.__name__  : r2_score_value
                 }
             )
+        else:
+            r2_score_less_norm_count += 1
         
+    if r2_score_less_norm_count < len(list_of_regression_models):
         dict_to_return = {
             "predictions": list_of_predictions_dict,
             "r2_score_values_dict": r2_score_values_dict
         }
+    else:
+        dict_to_return.update(
+                {
+                    "error": True,
+                    "message": "There weren`t any statistically significant answers" 
+                }
+            )
+        return dict_to_return
         
     return dict_to_return

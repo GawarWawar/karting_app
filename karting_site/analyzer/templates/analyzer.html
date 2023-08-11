@@ -1,5 +1,4 @@
-{% load analyzer_extras %}
-{% load static %}
+{% load analyzer_extras %} {% load static %}
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
@@ -8,9 +7,10 @@
     <a href="{%url 'recorder:view' race_id %}"
       >Go back to the records of the race</a
     >
-    {%if temp_predictions%}
+    {%if temp_predictions or temp_message or fastestlap_predictions or fastestlap_message%} 
+    {%if temp_predictions or temp_message%}
     <h1>Predictions of the karts` temp:</h1>
-    {%for table in temp_predictions%}
+    {%if temp_predictions%} {%for table in temp_predictions%}
     <table class="section">
       <tr>
         {%for header in table.0%}
@@ -28,9 +28,11 @@
       </tr>
       {%endfor%}
     </table>
-    {%endfor%}
+    {%endfor%} {% else %}
+    <p>{{temp_message}}</p>
+    {%endif%} {%endif%} {%if astestlap_predictions or fastestlap_message%}
     <h1>Predictions of the karts` fastest lap:</h1>
-    {%for table in fastestlap_predictions%}
+    {%if fastestlap_predictions%} {%for table in fastestlap_predictions%}
     <table class="section">
       <tr>
         {%for header in table.0%}
@@ -48,7 +50,10 @@
       </tr>
       {%endfor%}
     </table>
-    {%endfor%} {%else%}
+    {%endfor%} {% else %}
+    <p>{{fastestlap_message}}</p>
+    {%endif%} {%endif%}
+    {% else %}
     <p>There are no viable records to analyze for this race.</p>
     {%endif%}
   </body>

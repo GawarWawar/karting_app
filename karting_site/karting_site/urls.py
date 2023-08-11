@@ -16,15 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("recorder/", include("recorder.urls", namespace="recorder")),
     path("analyzer/", include("analyzer.urls", namespace="analyzer")),
     path("api/recorder/", include("recorder.urls_api", namespace="api_recorder")),
-    path("api/analyzer/", include("analyzer.urls_api", namespace="api_analyzer"))
-    
-]
+    path("api/analyzer/", include("analyzer.urls_api", namespace="api_analyzer"))   
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 admin.site.site_header = "Karting App Admin"
 admin.site.site_title = "Karting App Admin Page"

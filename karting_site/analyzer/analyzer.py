@@ -198,13 +198,9 @@ def analyze_race(race_id):
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
-    if dicts_from_temp_predictions["error"]:
-        return_dict.update(
-            {
-                "temp_message": dicts_from_temp_predictions["message"]
-            }
-        )
-    else: 
+    try:
+        dicts_from_temp_predictions["error"]
+    except KeyError: 
         return_dict.update(
             {
                 "temp_r2_scores" : dicts_from_temp_predictions["r2_score_values_dict"]
@@ -221,6 +217,12 @@ def analyze_race(race_id):
                 "temp_predictions": dicts_from_temp_predictions["predictions"]
             }
         )
+    else:
+        return_dict.update(
+            {
+                "temp_message": dicts_from_temp_predictions["message"]
+            }
+        )
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
@@ -228,13 +230,9 @@ def analyze_race(race_id):
 
     print("2.")
     dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
-    if dicts_from_fastestlap_predictions["error"]:
-        return_dict.update(
-            {
-                "fastestlap_message": dicts_from_temp_predictions["message"]
-            }
-        )
-    else:
+    try:
+        dicts_from_fastestlap_predictions["error"]
+    except KeyError:
         return_dict.update(
             {
                 "fastestlap_r2_scores" : dicts_from_fastestlap_predictions["r2_score_values_dict"]
@@ -251,9 +249,14 @@ def analyze_race(race_id):
                 "fastestlap_predictions": dicts_from_fastestlap_predictions["predictions"]
             }
         )
+    else:
+        return_dict.update(
+            {
+                "fastestlap_message": dicts_from_temp_predictions["message"]
+            }
+        )
     
     end = time.perf_counter()
-
     print(end-start)
 
     return return_dict

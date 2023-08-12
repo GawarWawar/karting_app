@@ -30,7 +30,7 @@
     </table>
     {%endfor%} {% else %}
     <p>{{temp_message}}</p>
-    {%endif%} {%endif%} {%if astestlap_predictions or fastestlap_message%}
+    {%endif%} {%endif%} {%if fastestlap_predictions or fastestlap_message%}
     <h1>Predictions of the karts` fastest lap:</h1>
     {%if fastestlap_predictions%} {%for table in fastestlap_predictions%}
     <table class="section">

@@ -73,7 +73,10 @@ def random_forest_regression(
     number_of_estimators=50
 ):  
     # Training the Random Forest Regression model on the Training set
-    regressor = RandomForestRegressor(n_estimators=number_of_estimators,random_state=0)
+    regressor = RandomForestRegressor(
+        n_estimators=number_of_estimators,
+        random_state=0
+    )
     regressor.fit(x_train, y_train)
     
     return regressor

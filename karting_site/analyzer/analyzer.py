@@ -198,31 +198,12 @@ def analyze_race(race_id):
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
-    try:
-        dicts_from_temp_predictions["error"]
-    except KeyError: 
-        return_dict.update(
-            {
-                "temp_r2_scores" : dicts_from_temp_predictions["r2_score_values_dict"]
-            }
-        )
-
-        dicts_from_temp_predictions = analyzer_functions.add_kart_column_into_return_dict(
-            dict_to_process=dicts_from_temp_predictions,
-            kart_column=series_of_karts 
-        )
-
-        return_dict.update(
-            {
-                "temp_predictions": dicts_from_temp_predictions["predictions"]
-            }
-        )
-    else:
-        return_dict.update(
-            {
-                "temp_message": dicts_from_temp_predictions["message"]
-            }
-        )
+    return_dict = analyzer_functions.form_return_for__analyze_race__after_error_check(
+        dict_with_predictions=dicts_from_temp_predictions,
+        series_of_karts=series_of_karts,
+        word_to_name_predictions_type="temp",
+        return_dict=return_dict
+    )
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
@@ -230,31 +211,12 @@ def analyze_race(race_id):
 
     print("2.")
     dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
-    try:
-        dicts_from_fastestlap_predictions["error"]
-    except KeyError:
-        return_dict.update(
-            {
-                "fastestlap_r2_scores" : dicts_from_fastestlap_predictions["r2_score_values_dict"]
-            }
-        )
-
-        dicts_from_fastestlap_predictions = analyzer_functions.add_kart_column_into_return_dict(
-            dict_to_process=dicts_from_fastestlap_predictions,
-            kart_column=series_of_karts 
-        )
-        
-        return_dict.update(
-            {
-                "fastestlap_predictions": dicts_from_fastestlap_predictions["predictions"]
-            }
-        )
-    else:
-        return_dict.update(
-            {
-                "fastestlap_message": dicts_from_temp_predictions["message"]
-            }
-        )
+    return_dict = analyzer_functions.form_return_for__analyze_race__after_error_check(
+        dict_with_predictions=dicts_from_fastestlap_predictions,
+        series_of_karts=series_of_karts,
+        word_to_name_predictions_type="fastestlap",
+        return_dict=return_dict
+    )
     
     end = time.perf_counter()
     print(end-start)

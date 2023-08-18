@@ -320,7 +320,7 @@ def create_df_from_recorded_records(
     except KeyError:
         df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
         df_from_recorded_records["true_kart"] = True
-    
+
     df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(kart_column_into_str)
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 
@@ -367,3 +367,39 @@ def create_df_stats(
     df_stats = df_stats.dropna()   
     
     return df_stats
+
+def form_return_for__analyze_race__after_error_check (
+    dict_with_predictions:dict,
+    
+    series_of_karts:pd.Series,
+    word_to_name_predictions_type:str,
+    
+    return_dict:dict,
+):
+    try:
+        dict_with_predictions["error"]
+    except KeyError: 
+        return_dict.update(
+            {
+                f"{word_to_name_predictions_type}_r2_scores" : dict_with_predictions["r2_score_values_dict"]
+            }
+        )
+
+        dict_with_predictions = add_kart_column_into_return_dict(
+            dict_to_process=dict_with_predictions,
+            kart_column=series_of_karts 
+        )
+
+        return_dict.update(
+            {
+                f"{word_to_name_predictions_type}_predictions": dict_with_predictions["predictions"]
+            }
+        )
+    else:
+        return_dict.update(
+            {
+                f"{word_to_name_predictions_type}_message": dict_with_predictions["message"]
+            }
+        )
+
+    return return_dict

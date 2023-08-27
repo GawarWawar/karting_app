@@ -57,7 +57,7 @@ def compute_kart_statistic(race_id):
         df_karts=df_karts,
     )
     return_dict = {
-        "data": []
+        "data": {}
     }
     
     df_stats = df_stats.sort_values(["kart", "segment"], inplace=False)
@@ -92,7 +92,11 @@ def compute_kart_statistic(race_id):
                         "temp_from_average_coeficient" : df_stats.loc[index, "temp_from_average_coeficient"],
                     }
             )
-        return_dict["data"].append(kart_dict)
+        return_dict["data"].update(
+            {
+                "karts": kart_dict
+            }
+        )
     
     end = time.perf_counter()
     print(end-start)
@@ -185,10 +189,12 @@ def analyze_race(race_id):
 
 
     return_dict = {
-        #"temp_predictions": [],
-        #"temp_r2_scores": {},
-        #"fastestlap_predictions": [],
-        #"fastestlap_r2_scores": {},
+        "data": {    
+            #"temp_predictions": [],
+            #"temp_r2_scores": {},
+            #"fastestlap_predictions": [],
+            #"fastestlap_r2_scores": {},
+        }
     } 
 
     series_of_karts = pd.Series(
@@ -198,12 +204,12 @@ def analyze_race(race_id):
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
-    return_dict = analyzer_functions.form_return_for__analyze_race__after_error_check(
+    data = analyzer_functions.form_return_for__analyze_race__after_error_check(
         dict_with_predictions=dicts_from_temp_predictions,
         series_of_karts=series_of_karts,
         word_to_name_predictions_type="temp",
-        return_dict=return_dict
     )
+    return_dict["data"].update(data)
 
     df_to_analyze.pop("temp_with_pilot")
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
@@ -211,12 +217,12 @@ def analyze_race(race_id):
 
     print("2.")
     dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
-    return_dict = analyzer_functions.form_return_for__analyze_race__after_error_check(
+    data = analyzer_functions.form_return_for__analyze_race__after_error_check(
         dict_with_predictions=dicts_from_fastestlap_predictions,
         series_of_karts=series_of_karts,
         word_to_name_predictions_type="fastestlap",
-        return_dict=return_dict
     )
+    return_dict["data"].update(data)
     
     end = time.perf_counter()
     print(end-start)

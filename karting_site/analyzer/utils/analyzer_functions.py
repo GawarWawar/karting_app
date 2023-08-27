@@ -373,9 +373,8 @@ def form_return_for__analyze_race__after_error_check (
     
     series_of_karts:pd.Series,
     word_to_name_predictions_type:str,
-    
-    return_dict:dict,
 ):
+    return_dict = {}
     try:
         dict_with_predictions["error"]
     except KeyError: 

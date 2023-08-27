@@ -71,18 +71,14 @@ def kart_column_into_str (kart):
         
 
 def records_columns_to_numeric (
-    df_of_records: pd.DataFrame,
-    columns_to_change: list
+    column_to_change: pd.Series
 ):
-    for column in columns_to_change:
-        try:
-            df_of_records[column]=pd.to_numeric(df_of_records[column])
-        except ValueError:
-            for i in range(len(df_of_records.loc[:, column])):
-                df_of_records.loc[i, column] = str_lap_time_into_float_change(df_of_records.loc[i, column])
-            df_of_records[column]=pd.to_numeric(df_of_records[column])
-    
-    return df_of_records
+    try:
+        column_to_change=pd.to_numeric(column_to_change)
+    except ValueError:
+        column_to_change.apply(str_lap_time_into_float_change)
+        
+    return column_to_change
 
 
 def module_to_create_df_with_statistic(
@@ -341,14 +337,16 @@ def create_df_from_recorded_records(
     )
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 
-    df_from_recorded_records = records_columns_to_numeric(
-        df_from_recorded_records,
-        columns_to_change=[
+    columns_to_change=[
             "lap_time",
             "s1",
             "s2",
         ]
-    )
+    for column in columns_to_change:    
+        df_from_recorded_records[column]=records_columns_to_numeric(
+            column_to_change=df_from_recorded_records[column]
+        )
+    del columns_to_change
 
     df_from_recorded_records = clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records

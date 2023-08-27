@@ -271,25 +271,9 @@ def add_kart_column_into_return_dict(
                 )
     return dict_to_process
 
-def create_df_from_recorded_records(
+def collect_race_records_into_DataFrame (
     race_id
-):    
-    df_from_recorded_records = pd.DataFrame(
-        {
-            "team": pd.Series(int),
-            "pilot": pd.Series(str),
-            "kart": pd.Series(int),
-            "lap": pd.Series(int),
-            "lap_time": pd.Series(float),
-            "s1": pd.Series(float),
-            "s2": pd.Series(float),
-            "segment": pd.Series(int),
-            "true_name": pd.Series(bool),
-            "true_kart": pd.Series(bool)
-        }
-    )
-    df_from_recorded_records = df_from_recorded_records.drop(0)
-
+):
     race = recorder_models.Race.objects.get(pk = race_id)
     race_records = recorder_models.RaceRecords.objects.filter(race = race).values_list()
     df_from_recorded_records = pd.DataFrame.from_records(
@@ -309,19 +293,52 @@ def create_df_from_recorded_records(
             "true_kart",
         ]
     )
-    
+
     df_from_recorded_records.pop("id")
     df_from_recorded_records.pop("race")
     
-    true_kart_count = df_from_recorded_records["true_kart"].value_counts()
+    return df_from_recorded_records
+
+def does_race_has_true_karts(
+    df_with_race_records
+):
+    true_kart_count = df_with_race_records["true_kart"].value_counts()
     try:
         true_kart_count = true_kart_count[True]
-        del  true_kart_count
+        return True
     except KeyError:
+        return False
+
+def clear_outstanding_laps (
+    df_with_race_records: pd.DataFrame,
+    margin_to_add_to_mean_time: int = 5,
+):
+    mean_lap_time = df_with_race_records.loc[:, "lap_time"].mean()
+    df_with_race_records["lap_time"] = df_with_race_records.loc[
+        df_with_race_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
+        "lap_time"
+    ]
+    del mean_lap_time, margin_to_add_to_mean_time
+    
+    return df_with_race_records
+
+def create_df_from_recorded_records(
+    race_id
+):    
+    df_from_recorded_records = collect_race_records_into_DataFrame(
+        race_id=race_id
+    )
+    
+    if not does_race_has_true_karts(
+        df_with_race_records=df_from_recorded_records
+    ): 
         df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
         df_from_recorded_records["true_kart"] = True
+    
 
-    df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(kart_column_into_str)
+    df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(
+        kart_column_into_str
+    )
     df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
 
     df_from_recorded_records = records_columns_to_numeric(
@@ -333,13 +350,9 @@ def create_df_from_recorded_records(
         ]
     )
 
-    mean_lap_time = df_from_recorded_records.loc[:, "lap_time"].mean()
-    margin_to_add_to_mean_time = 5
-    df_from_recorded_records["lap_time"] = df_from_recorded_records.loc[
-        df_from_recorded_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
-        "lap_time"
-    ]
-    del mean_lap_time, margin_to_add_to_mean_time
+    df_from_recorded_records = clear_outstanding_laps(
+        df_with_race_records=df_from_recorded_records
+    )
 
     #df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")

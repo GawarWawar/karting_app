@@ -1,10 +1,10 @@
 # Records and logs wont be included
 */logs/*
 */records/*
-/past_records/logs/*
+/past_records/logs/race_id*
 /past_records/records/*
 
-*/*/*/logs/*
+*/*/*/logs/race_id*
 */*/*/records/*
 */*/*/past_records/logs/*
 */*/*/past_records/records/*

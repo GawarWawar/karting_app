@@ -1,0 +1,23 @@
+<html>
+<head></head>
+<body>
+<p>
+    This is starting page for Karting App project <br>
+    <a href="{%url 'admin:index' %}">To admin</a>
+</p>
+<p>
+    To receive information about last created race, navigate to or click the link: <a href="{%url 'recorder:index' %}">/recorder</a> #Recorder <br>
+    To receive the list of all races, navigate to or click the link: <a href="{%url 'recorder:races' %}">/recorder/races</a> #Recorder
+</p>
+<p>
+    Note: This section needs race_id for acess, and it could be acessed only with already existing ID <br>
+    Links to this resources could be found in the #Recorder part of the project
+</p>
+<ul>
+    <li>To receive records of the particular race, navigate to <b>/recorder/races/race_id/view</b> #Recorder</li>
+    <li>To receive analyze of karts in the particular race, navigate to <b>/analyzer/race_id</b> #Analyzer</li>
+    <li>To receive static of the particular race in JSON format, navigate to <b>/analyzer/statistic/race_id</b> #Analyzer</li>
+</ul>
+<p>To get navigation of the API section, navigate to or click the link: <a href="{%url 'api' %}">/api</a></p>
+</body>
+</html>

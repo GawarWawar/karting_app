@@ -29,7 +29,7 @@ def recorder_starting_page (request):
         context["last_race"] = last_race
     records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
     context["records_of_the_last_race"] = records_of_the_last_race
-    return render(request, "index.html", context) 
+    return render(request, "recorder_index.html", context) 
 
 # List of all Records of given Race
 def view_race_records_by_id (request, race_id):

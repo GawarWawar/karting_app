@@ -120,13 +120,6 @@ def analyze_race(race_id):
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
 
-    # df_coeficient = pd.read_csv(
-    #     "data/pilot_rating.csv",
-    #     dtype={
-    #         "pilot": str,
-    #         "coeficient": float
-    #     }
-    # )
     
     df_coeficient = pilot_rating.create_pilot_rating()
 
@@ -134,11 +127,7 @@ def analyze_race(race_id):
         df_to_create_coeficients_into=df_pilots,
         df_of_primary_coeficient=df_coeficient
     )
-
     del df_coeficient
-
-    # CHANGE INTO RETURNING TO THE PAGE, WHEN POSTING WILL BE READY    
-    #print(df_pilots.sort_values("pilot_temp", ignore_index=True, inplace=False))
 
     df_karts = analyzer_functions.module_to_create_kart_statistics(
         df_of_records=df_from_recorded_records,

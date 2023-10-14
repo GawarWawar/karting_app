@@ -23,7 +23,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path('admin/', admin.site.urls, namespace="admin"),
+    path('admin/', admin.site.urls, name="admin"),
     path("recorder/", include("recorder.urls", namespace="recorder")),
     path("analyzer/", include("analyzer.urls", namespace="analyzer")),
     path("api", views.api, name="api"),

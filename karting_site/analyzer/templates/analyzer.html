@@ -7,16 +7,16 @@
     <a href="{%url 'recorder:view' race_id %}"
       >Go back to the records of the race</a
     >
-    {%if temp_predictions or temp_message or fastestlap_predictions or fastestlap_message%} 
-    {%if temp_predictions or temp_message%}
+    {%if data|lookup:"temp_predictions" or data|lookup:"temp_message" or data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%} 
+    {%if data|lookup:"temp_predictions" or data|lookup:"temp_message"%}
     <h1>Predictions of the karts` temp:</h1>
-    {%if temp_predictions%} {%for table in temp_predictions%}
+    {%if data|lookup:"temp_predictions"%} {%for table in data|lookup:"temp_predictions"%}
     <table class="section">
       <tr>
         {%for header in table.0%}
         <th>
           {{header}} {%if header != "kart"%}, score =
-          {{temp_r2_scores|lookup:header}}
+          {{data|lookup:"temp_r2_scores"|lookup:header}}
         </th>
         {%endif%} {%endfor%}
       </tr>
@@ -30,15 +30,15 @@
     </table>
     {%endfor%} {% else %}
     <p>{{temp_message}}</p>
-    {%endif%} {%endif%} {%if fastestlap_predictions or fastestlap_message%}
+    {%endif%} {%endif%} {%if data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%}
     <h1>Predictions of the karts` fastest lap:</h1>
-    {%if fastestlap_predictions%} {%for table in fastestlap_predictions%}
+    {%if data|lookup:"fastestlap_predictions"%} {%for table in data|lookup:"fastestlap_predictions"%}
     <table class="section">
       <tr>
         {%for header in table.0%}
         <th>
           {{header}} {%if header != "kart"%}, score =
-          {{fastestlap_r2_scores|lookup:header}}
+          {{data|lookup:"fastestlap_r2_scores"|lookup:header}}
         </th>
         {%endif%} {%endfor%}
       </tr>
@@ -51,7 +51,7 @@
       {%endfor%}
     </table>
     {%endfor%} {% else %}
-    <p>{{fastestlap_message}}</p>
+    <p>{{data|lookup:"fastestlap_message"}}</p>
     {%endif%} {%endif%}
     {% else %}
     <p>There are no viable records to analyze for this race.</p>

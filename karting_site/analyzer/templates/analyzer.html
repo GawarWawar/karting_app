@@ -5,12 +5,12 @@
   </head>
   <body>
     <a href="{%url 'recorder:view' race_id %}"
-      >Go back to the records of the race</a
-    >
+      >Go back to the records of the race</a>
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message" or data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%} 
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message"%}
     <h1>Predictions of the karts` temp:</h1>
-    {%if data|lookup:"temp_predictions"%} {%for table in data|lookup:"temp_predictions"%}
+    {%if data|lookup:"temp_predictions"%} 
+    {%for table in data|lookup:"temp_predictions"%}
     <table class="section">
       <tr>
         {%for header in table.0%}
@@ -28,11 +28,14 @@
       </tr>
       {%endfor%}
     </table>
-    {%endfor%} {% else %}
-    <p>{{temp_message}}</p>
-    {%endif%} {%endif%} {%if data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%}
+    {%endfor%} 
+    {% else %}
+    <p>{{data|lookup:"temp_message"}}</p>
+    {%endif%} {%endif%} 
+    {%if data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%}
     <h1>Predictions of the karts` fastest lap:</h1>
-    {%if data|lookup:"fastestlap_predictions"%} {%for table in data|lookup:"fastestlap_predictions"%}
+    {%if data|lookup:"fastestlap_predictions"%} 
+    {%for table in data|lookup:"fastestlap_predictions"%}
     <table class="section">
       <tr>
         {%for header in table.0%}

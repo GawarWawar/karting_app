@@ -10,8 +10,9 @@ from django.urls import path
 from django import forms
 
 import pandas as pd
-
 import datetime
+import csv
+import zipfile
 
 from django_celery_results.models import TaskResult
 from celery.result import AsyncResult
@@ -19,6 +20,26 @@ from celery.result import AsyncResult
 from . import models
 from . import tasks
 from . import recorder
+from analyzer.utils.analyzer_functions import collect_race_records_into_DataFrame
+
+   
+class ExportCsvMixin:
+    def export_info_of_each_instance_as_one_csv__action(self, request, queryset):
+
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
+    
+    export_info_of_each_instance_as_one_csv__action.short_description = "Export info of selected into csv "
    
 class CsvImportForm(forms.Form):
     csv_file = forms.FileField()
@@ -49,7 +70,7 @@ class NamesInRaceFilter(admin.SimpleListFilter):
         return queryset    
 
 # Admin models creation
-class RaceRecordsAdmin(admin.ModelAdmin):
+class RaceRecordsAdmin(admin.ModelAdmin, ExportCsvMixin):
     list_display = [
         "id",
         "race",
@@ -70,10 +91,14 @@ class RaceRecordsAdmin(admin.ModelAdmin):
         NamesInRaceFilter
     )
     
+    actions = [
+        "export_info_of_each_instance_as_one_csv__action"
+        ]
+    
     def name_of_a_pilot(self, obj):
         return obj.pilot_name
         
-class RaceAdmin(admin.ModelAdmin):
+class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
     fields = [
         "name_of_the_race",
         "id",
@@ -101,6 +126,26 @@ class RaceAdmin(admin.ModelAdmin):
             path('import-csv/', self.import_csv),
         ]
         return my_urls + urls
+    
+    
+    def export_as_csvs__action(self, request, queryset):
+        response = HttpResponse(content_type='application/zip')
+        archive_name = "races_archive"
+        response['Content-Disposition'] = 'attachment; filename="{}".zip'.format(archive_name)
+        
+        with zipfile.ZipFile(response, 'w', zipfile.ZIP_DEFLATED) as archive:
+            for race_object in queryset:
+                race_records = collect_race_records_into_DataFrame(race_object.id)
+                race_name_as_file_name = race_object.name_of_the_race
+                archive.writestr(race_name_as_file_name,race_records.to_csv(None, index=False, index_label=False))
+               
+        return response
+    
+    actions = [
+        "export_as_csvs__action",
+        "export_info_of_each_instance_as_one_csv__action"
+        ]
+    export_as_csvs__action.short_description = "Export selected races` records into csv"
     
     # Adding 2 buttons into the Race editing process
     # Template to add buttons to the page
@@ -163,34 +208,24 @@ class RaceAdmin(admin.ModelAdmin):
                 
             csv_file = request.FILES["csv_file"]
             csv_content = pd.read_csv(csv_file)
-            for row in list(csv_content.loc[:, "team"].index):
-                team_number = csv_content.at[row, "team"]
-                pilot_name = csv_content.at[row, "pilot"]
-                kart = csv_content.at[row, "kart"]
-                lap_count = csv_content.at[row, "lap"]
-                lap_time = csv_content.at[row, "lap_time"]
-                s1_time = csv_content.at[row, "s1"]
-                s2_time = csv_content.at[row, "s2"]
-                team_segment = csv_content.at[row, "segment"]
-                true_name = csv_content.at[row, "true_name"]
-                true_kart = csv_content.at[row, "true_kart"]
-                
-                pilot = models.RaceRecords(
+            for row_index in list(csv_content.iloc[:, 0].index):
+                race_record = models.RaceRecords(
                     race = race,
-                    team_number = team_number,
-                    pilot_name = pilot_name,
-                    kart = kart,
-                    lap_count = lap_count,
-                    lap_time = lap_time,
-                    s1_time = s1_time,
-                    s2_time = s2_time,
-                    team_segment = team_segment,
-                    true_name = true_name,
-                    true_kart = true_kart,
+                    team_number = csv_content.at[row_index, "team"],
+                    pilot_name = csv_content.at[row_index, "pilot"],
+                    kart = csv_content.at[row_index, "kart"],
+                    lap_count = csv_content.at[row_index, "lap"],
+                    lap_time = csv_content.at[row_index, "lap_time"],
+                    s1_time = csv_content.at[row_index, "s1"],
+                    s2_time = csv_content.at[row_index, "s2"],
+                    team_segment = csv_content.at[row_index, "segment"],
+                    true_name = csv_content.at[row_index, "true_name"],
+                    true_kart = csv_content.at[row_index, "true_kart"],
                 )
-                pilot.save()
+                race_record.save()
             self.message_user(request, "Your csv file has been imported")
             return redirect("..")
+        
         form = CsvImportForm()
         payload = {
             "form": form,

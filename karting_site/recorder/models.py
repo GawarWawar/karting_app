@@ -53,6 +53,8 @@ class RaceRecords(models.Model):
             "s1_time" : self.s1_time,
             "s2_time" : self.s2_time,
             "team_segment" : self.team_segment,
+            "true_name": self.true_name,
+            "true_kart": self.true_kart,
         }
-        return(race_record_dict)
+        return race_record_dict
     

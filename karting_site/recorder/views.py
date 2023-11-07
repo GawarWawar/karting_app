@@ -18,17 +18,21 @@ from . import tasks
 from . import models
 
 # Create your views here.
-# List of all records of the last Race, acts lice a starting page for the recorder
+# List of all records of the last Race, acts like a starting page for the recorder
 def recorder_starting_page (request):
     context ={}
+    last_race = models.Race.objects.last()
+    context["last_race"] = last_race
     try:
-        last_race = models.Race.objects.last()
-    except ObjectDoesNotExist:
+        records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
+    except AttributeError:
+        # Dont need to do anything here
+        # Template will display all needed info with NoneType object given
+        # This will occure in the situations when no Races are created ->
+        # So dont need logs about it
         pass
     else:
-        context["last_race"] = last_race
-    records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
-    context["records_of_the_last_race"] = records_of_the_last_race
+        context["records_of_the_last_race"] = records_of_the_last_race
     return render(request, "recorder_index.html", context) 
 
 # List of all Records of given Race
@@ -37,11 +41,12 @@ def view_race_records_by_id (request, race_id):
     try:
         race = models.Race.objects.get(pk = race_id)
     except ObjectDoesNotExist:
+        # Same as AttributeError in recorder_starting_page () ->
         pass
     else:
         context["race"] = race
-    records = models.RaceRecords.objects.filter(race = race_id).order_by("-pk").values()
-    context["all_races_records"] = records 
+        records = models.RaceRecords.objects.filter(race = race_id).order_by("-pk").values()
+        context["all_races_records"] = records 
     return render(request, "races_records.html", context)
 
 # List of all races

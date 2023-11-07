@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(250, 248, 242);
+  background-color: rgb(250, 248, 242);
 }
   
 :root {
@@ -13,6 +13,10 @@ h1 {
   
 p {
   font-family: verdana;
+}
+
+a.padding {
+  padding-left: 3px;
 }
 
 th, td  {

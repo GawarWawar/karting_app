@@ -4,8 +4,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <a href="{%url 'recorder:races' %}">Go back to the list of races</a>
-    <a href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
+    <a class="padding" href="{%url 'recorder:races' %}">Go back to the list of races</a>
+    {%if race.id%}
+    <a class="padding" href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
+    {%endif%}
     {%if race%}
     <h1>Race information</h1>
     <div class="section">
@@ -49,7 +51,7 @@
     {% else %}
     <p>There are no records for this race</p>
     {% endif %} {%else%}
-    <p>There is no race on this id</p>
+    <p>Race with this ID doesnt exist!</p>
     {%endif%}
   </body>
 </html>

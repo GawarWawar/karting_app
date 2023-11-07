@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <a href="{%url 'recorder:view' race_id %}"
+    <a class="padding" href="{%url 'recorder:view' race_id %}"
       >Go back to the records of the race</a>
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message" or data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%} 
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message"%}

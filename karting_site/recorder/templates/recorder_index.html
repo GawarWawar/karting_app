@@ -4,8 +4,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <a href="{%url 'recorder:races' %}">Go to the list of all races</a>
-    <a href="{%url 'analyzer:analyze_race' last_race.id%}">Analyze this race</a>
+    <a class="padding" href="{%url 'index' %}">Go to the main page</a>
+    <a class="padding" href="{%url 'recorder:races' %}">Go to the list of all races</a>
+    {%if race.id%}
+    <a class="padding" href="{%url 'analyzer:analyze_race' last_race.id%}">Analyze this race</a>
+    {%endif%}
     <h1>Last race created information</h1>
     {%if last_race%}
     <p>This is the last race that was created and information about it:</p>

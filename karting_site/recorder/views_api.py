@@ -24,16 +24,16 @@ def last_race_records_api (request):
         "last_race" : {},
         "records_of_the_last_race" : []
     }
+    last_race = models.Race.objects.last()
     try:
-        last_race = models.Race.objects.last()
-    except ObjectDoesNotExist:
+        context["last_race"] = last_race.to_dict()
+    except AttributeError:
         context.update(
             {
                 "message" : "There is no race created"
             }
         )
     else:
-        context["last_race"] = last_race.to_dict()
         records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
         context["records_of_the_last_race"] = list(records_of_the_last_race)
     return HttpResponse(json.dumps(context)) 

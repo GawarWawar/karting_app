@@ -19,6 +19,14 @@ a.padding {
   padding-left: 3px;
 }
 
+a.in_p {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+ul.with_none {
+  list-style-type: none;
+}
+
 th, td  {
   border: 1px solid;
   border-color: var(--border_color);

@@ -1,0 +1,39 @@
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+</head>
+<body>
+<p>
+    This is api page for Karting App project <br>
+    <a class='in_p' href="{%url 'index' %}">Get back to main page</a>
+</p>
+<p>
+    Project has two api branches: 
+    <ul class='with_none'>
+        <li>
+            <details> 
+                <summary> recorder - this branch contains information about individual races and laps of the particular race </summary> 
+                    <ul>
+                        <li> <a href="{%url 'api_recorder:list_of_all_races_page_api' %}">/api/recorder/list_of_all_races</a> - this endpoint contains information about list of all races </li>
+                        <li> <a href="{%url 'api_recorder:last_race_records_api' %}">/api/recorder/race_records/last_race</a> - this endpoint contains information about last created race </li>
+                        <li> <b>/api/recorder/race_records/<race_id></b> - this endpoint contains information about list of all races </li>
+                    </ul>
+            </details>
+        </li>
+        <li>
+            <details> 
+                <summary> analyzer - this brach contains processed information about pilots, karts and predictions about karts` temp </summary> 
+                    <ul>
+                        <li> <b>/api/analyzer/analyze_race/<race_id>"</b> - this endpoint contains predictions for the karts that are taking part in the race </li>
+                        <li> <b>/api/recorder/race_statistic/<race_id>"</b> - this endpoint contains actual information about pilots, karts and their time  </li>
+                    </ul>
+            </details>
+        </li>
+    </ul>
+</p>
+<p>
+    <b>Note<b/>: All links marked with Bald, needs race_id for acess
+</p>
+</body>
+</html>

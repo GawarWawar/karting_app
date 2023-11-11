@@ -35,6 +35,7 @@ def record_race (
         race_id (int): Id of the race, that models.RaceRecords should be created for
     """
     start_of_the_programme = time.perf_counter()
+    server_link = "https://nfs-stats.herokuapp.com/getmaininfo.json"
     
     # Giving race_id outside of the Celery Task
     self.race_id = race_id
@@ -59,7 +60,7 @@ def record_race (
     # Making first request to retrieve data to start main cycle
     request_count = 0
     body_content, request_count = recorder_functions.make_request_until_its_successful(
-        server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+        server=server_link,
         request_count=request_count,
         logger=logger,
         time_to_wait = 1,
@@ -82,7 +83,7 @@ def record_race (
     # Dict is created to fit all possible teams, even if they are not in the race.
     # Most possible teams number are listed under body_content["onTablo"]["karts"].
     # In sircumstances of the rent karting, team number indicates just a kart number,
-    # however duting Big races this indicates team number and karts are managed by hands.
+    # however during Big races this indicates team number and karts are managed by hands.
     # That is why body_content["onTablo"]["karts"] has all possible team numbers
     last_lap_info = {}
     teams = body_content["onTablo"]["karts"]
@@ -124,7 +125,7 @@ def record_race (
             total_race_time == body_content["onTablo"]["totalRaceTime"] 
     ):
         body_content, request_count = recorder_functions.make_request_until_its_successful(
-            server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+            server=server_link,
             request_count=request_count,
             logger=logger,
             shared_task_instance = self
@@ -247,7 +248,7 @@ def record_race (
         
         # New request
         body_content, request_count = recorder_functions.make_request_until_its_successful(
-            server="https://nfs-stats.herokuapp.com/getmaininfo.json",
+            server=server_link,
             request_count=request_count,
             logger=logger,
             start_time_to_wait=cycle_start_time,
@@ -267,7 +268,7 @@ def record_race (
         logger.info(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
 
         # TESTING STUFF
-        only_one_cycle -= 1
+        only_one_cycle -= 0
 
     # End of the programme
     end_of_programme = time.perf_counter()

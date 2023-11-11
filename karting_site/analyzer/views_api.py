@@ -15,7 +15,6 @@ import time
 import json
 
 from . import models
-from .utils import pilot_rating
 from . import analyzer
 
 def analyze_race_api(request, race_id):

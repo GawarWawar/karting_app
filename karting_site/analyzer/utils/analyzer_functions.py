@@ -8,7 +8,6 @@ import sys
 from os.path import dirname, abspath
 import importlib.util
 
-from . import pilot_rating
 from . import coeficient_creation_functions as coef_func
 from recorder import models as recorder_models
 

@@ -15,7 +15,6 @@ import time
 import json
 
 from . import models
-from .utils import pilot_rating
 from . import analyzer
 
 # Create your views here.

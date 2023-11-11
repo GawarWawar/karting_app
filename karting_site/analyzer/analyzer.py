@@ -9,7 +9,6 @@ import sys
 import os
 
 from recorder import models as recorder_models
-from .utils import pilot_rating
 from . import models
 
 from .utils import analyzer_functions
@@ -34,8 +33,8 @@ def compute_kart_statistic(race_id):
     df_pilots = df_pilots.reset_index(drop=True)
 
     
-    df_coeficient = pilot_rating.create_pilot_rating()
-
+    df_coeficient = coef_func.create_primary_coeficient()
+    
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,
         df_of_primary_coeficient=df_coeficient
@@ -121,7 +120,7 @@ def analyze_race(race_id):
     df_pilots = df_pilots.reset_index(drop=True)
 
     
-    df_coeficient = pilot_rating.create_pilot_rating()
+    df_coeficient = coef_func.create_primary_coeficient()
 
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,

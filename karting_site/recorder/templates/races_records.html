@@ -11,12 +11,13 @@
     {%if race%}
     <h1>Race information</h1>
     <div class="section">
-    <p>Name: {{race.name_of_the_race}}</p>
-    <p>Publish Date: {{race.publish_date}}</p>
-    <p>Date and time when record started: {{race.date_record_started}}</p>
-    <p>Date and time when record finished: {{race.date_record_finished}}</p>
-    <p>Was race recorded: {{race.is_recorded}}</p>
-    <p>Was process of recording complete: {{race.was_recorded_complete}}</p>
+      <p>Id: {{race.id}}</p>
+      <p>Name: {{race.name_of_the_race}}</p>
+      <p>Publish Date: {{race.publish_date}}</p>
+      <p>Date and time when record started: {{race.date_record_started}}</p>
+      <p>Date and time when record finished: {{race.date_record_finished}}</p>
+      <p>Was race recorded: {{race.is_recorded}}</p>
+      <p>Was process of recording complete: {{race.was_recorded_complete}}</p>
     </div>
     <h2>Records of the race:</h2>
     {% if all_races_records %}

@@ -1,7 +1,7 @@
 # karting_app
 This project was created to set up tool, that could help in Go-kart competition in the Zhaha Shvydkosti Karting Centre.  
-First part of the project, Recorder gets info of laps done in the race and writes them into the Django model
-Second part of the project, Analyzer uses recorded info and gives new/additional info about what is happaning in the race.
+First part of the project, Recorder gets info of laps done in the race and writes them into the Django model.  
+Second part of the project, Analyzer uses recorded info and gives new/additional info about what is happaning in the race.  
 As a web application, this project has:
 - Admin set up which is used to create Races and start their record
 - Part with pages which has basic functionality to look on recorded info
@@ -10,7 +10,7 @@ As a web application, this project has:
 # Instalation and start process
 Project is being deployed on [karting-app-gawarsprojects.koyeb.app](https://karting-app-gawarsprojects.koyeb.app/)
 However, if there is a need to create separate entity of the project, here is information about it`s setup:
-This project has web application instance and worker for asynchronous tasks, that are needed to be started separetely  
+This project has web application instance and worker for asynchronous tasks, that are needed to be started separetely.  
 Home directory for all actions should be /karting_site
 
 To begin working on a project, install all needed packages from requirements.txt:
@@ -45,8 +45,8 @@ To access it from outside network too, use 0.0.0.0:8000 specificator:
 $ python3 manage.py runserver 0.0.0.0:8000
 ```
 
-The next step is to start Celery worker.
-This project uses Reddis server to communicate between web app and worker. 
+The next step is to start Celery worker.  
+This project uses Reddis server to communicate between web app and worker.  
 After configuration of Redis server, add to .env file next varialbes to connect Celery to Redis: REDIS_USER, REDIS_PASSWORD, REDIS_URL, REDIS_PORT
 There is 2 ways to start Celery:
 1. Run Celery on the separate console: 
@@ -63,13 +63,13 @@ If u decide to use deployed version:
 - Go to the [karting-app-gawarsprojects.koyeb.app](https://karting-app-gawarsprojects.koyeb.app/)
 - It will has all needed instruction of how to use various parts of the project. Contact admin to create and record races
 
-If u decide to deploy this project yourself:
+If u decide to deploy this project yourself:  
 Recorder section:
 - To create race - head to /admin/recorder/race/add/ and fill the form and Save the Race
 - To record created race - head to /admin/recored/race and get to the created race (can choose from the list of Races presented on the page) and press "Start Recording" button. Recording process can be aborted with "Abort Recording" button
 - In the Race records category recorded laps will be shown
 
-Analyzer section:
+Analyzer section:  
 To use analyzation process:
 - go to the main page of the site
 - select a race

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 import datetime
-# Create your models here.
+
 # Model for the races that contain RaceRecords
 class Race(models.Model):
     name_of_the_race = models.CharField(max_length=200)

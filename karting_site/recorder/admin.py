@@ -120,6 +120,7 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
         "was_recorded_complete"
     ]
     
+    # Add import-csv to list of urls
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -128,6 +129,7 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
         return my_urls + urls
     
     
+    # Action to export all races as CSVs in one archive
     def export_as_csvs__action(self, request, queryset):
         response = HttpResponse(content_type='application/zip')
         archive_name = "races_archive"
@@ -141,6 +143,7 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
                
         return response
     
+    # Add new actions to list of actions in the admin
     actions = [
         "export_as_csvs__action",
         "export_info_of_each_instance_as_one_csv__action"

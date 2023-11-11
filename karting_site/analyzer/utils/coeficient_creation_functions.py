@@ -13,7 +13,7 @@ def create_primary_coeficient ():
         }
     )
     
-    races = models.VelikiPeregoni.objects.all()
+    races = models.BigRace.objects.all()
     
     if not races:
         individual_pilot_statistic_df = pd.DataFrame(
@@ -33,7 +33,7 @@ def create_primary_coeficient ():
         )
     
     for race in races:
-        race_query = models.TempOfPilotsInVP.objects.filter(race = race.id).values_list()
+        race_query = models.TempOfPilotsInBR.objects.filter(race = race.id).values_list()
         race_statistic_df = pd.DataFrame.from_records(
             race_query, 
             columns=[

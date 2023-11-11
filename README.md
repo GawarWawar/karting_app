@@ -75,5 +75,5 @@ To use analyzation process:
 - select a race
 - click "Analyze this race"
 Next steps could be done to improve resaults of analyzation process: 
-- create "Types of vps" (comment: could be changed to Types of BRs). In the Karting Centre there are 2, 4, 7 and 10 hours BigRaces
-- import CSVs in the Veliki peregonis category (comment: could be changed to BigRaces) with races of the season or other desired period. In the CSV upload form will be stated colums, that are neede to be present in the file. Already created CSV files, that are ready to import, could be found in data/temp_by_races folder. This allow analyzer to process the race and compare pilots temp in this race and previous their appiarence
+- create "Types of BRs". In the Karting Centre there are 2, 4, 7 and 10 hours BigRaces
+- import CSVs in the "BigRaces" category with races of the season or other desired period. In the CSV upload form will be stated colums, that are neede to be present in the file. Already created CSV files, that are ready to import, could be found in data/temp_by_races folder. This allow analyzer to process the race and compare pilots temp in this race and previous their appiarence

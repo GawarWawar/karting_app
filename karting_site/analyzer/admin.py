@@ -14,12 +14,12 @@ class CsvImportForm(forms.Form):
     csv_file = forms.FileField()
 
 
-class TempOfPilotsInVPInline(admin.TabularInline):
-    model = models.TempOfPilotsInVP
+class TempOfPilotsInBRInline(admin.TabularInline):
+    model = models.TempOfPilotsInBR
     extra = 0
 
 # Register your models here.
-class VelikiPeregoniAdmin(admin.ModelAdmin):
+class BigRacesAdmin(admin.ModelAdmin):
     list_display= [
         "name_of_the_race",
         "id",
@@ -28,7 +28,7 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
     ]
     
     inlines = [
-        TempOfPilotsInVPInline
+        TempOfPilotsInBRInline
     ]
     
     change_list_template = "veliki_peregoni_changelist.html"    
@@ -44,12 +44,12 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
         if request.method == "POST":
             race_name = request.POST["race_name"]
             try:
-                race = models.VelikiPeregoni.objects.get(name_of_the_race = race_name)
+                race = models.BigRace.objects.get(name_of_the_race = race_name)
             except (IntegrityError, ObjectDoesNotExist):
-                race = models.VelikiPeregoni(name_of_the_race = race_name)
+                race = models.BigRace(name_of_the_race = race_name)
             
             if request.POST["race_class_id"]:
-                race_class = models.TypesOfVP.objects.get(pk = request.POST["race_class_id"])
+                race_class = models.TypesOfBR.objects.get(pk = request.POST["race_class_id"])
                 race.race_class = race_class
             race.save()
             
@@ -58,7 +58,7 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
             for pilot in list(csv_content.loc[:, "pilot"].index):
                 pilot_name = csv_content.at[pilot, "pilot"]
                 average_lap_time = csv_content.at[pilot, "average_lap_time"]
-                pilot = models.TempOfPilotsInVP(
+                pilot = models.TempOfPilotsInBR(
                     race = race,
                     pilot = pilot_name,
                     average_lap_time = average_lap_time
@@ -67,7 +67,7 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
             self.message_user(request, "Your csv file has been imported")
             return redirect("..")
         form = CsvImportForm()
-        types_of_races = models.TypesOfVP.objects.all().values()
+        types_of_races = models.TypesOfBR.objects.all().values()
         payload = {
             "form": form,
             "types_of_races": types_of_races,
@@ -76,19 +76,19 @@ class VelikiPeregoniAdmin(admin.ModelAdmin):
             request, "csv_form_veliki_peregoni.html", payload
         )
     
-class TempOfPilotsInVPAdmin (admin.ModelAdmin):
+class TempOfPilotsInBRAdmin (admin.ModelAdmin):
     list_display = [
         "race",
         "pilot",
         "average_lap_time",
     ]
     
-class TypeOfVPAdmin (admin.ModelAdmin):
+class TypeOfBRAdmin (admin.ModelAdmin):
     list_display = [
         "name_of_the_race_class",
         "id"
     ]
     
-admin.site.register(models.VelikiPeregoni, VelikiPeregoniAdmin)
-admin.site.register(models.TempOfPilotsInVP, TempOfPilotsInVPAdmin)
-admin.site.register(models.TypesOfVP, TypeOfVPAdmin)
+admin.site.register(models.BigRace, BigRacesAdmin)
+admin.site.register(models.TempOfPilotsInBR, TempOfPilotsInBRAdmin)
+admin.site.register(models.TypesOfBR, TypeOfBRAdmin)

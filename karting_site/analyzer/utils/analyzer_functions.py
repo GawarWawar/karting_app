@@ -11,18 +11,8 @@ import importlib.util
 from . import coeficient_creation_functions as coef_func
 from recorder import models as recorder_models
 
-def str_time_into_float_change(
-    time_in_str: str
-):
-    try:
-        time_in_str = float(time_in_str)
-    except ValueError:
-        split_lap_time = time_in_str.split(":")
-        time_in_str = float(split_lap_time[0])*60+float(split_lap_time[1])
-    return time_in_str
-
 def mark_rows_with_wrong_names(
-    row
+    row: pd.Series
 ):
     if "Карт " in row["pilot"]:
         return True
@@ -43,44 +33,15 @@ def clear_df_from_unneeded_names (
     
     return df_to_clear
 
-def clear_df_from_unneeded_names_old(
-    df_to_clear: pd.DataFrame
-):
-    list_of_names_to_delete = [
-        "Карт 1","Карт 2","Карт 3","Карт 4",
-        "Карт 5","Карт 6","Карт 7","Карт 8",
-        "Карт 9","Карт 10","Карт 11","Карт 12",
-        "Карт 13","Карт 14","Карт 15","Карт 16",
-        "Карт 17","Карт 18","Карт 19","Карт 20",
-        "Карт 21","Карт 22","Карт 33","Карт 44",
-        "Карт 69","Карт 88",
-    ]
-    
-    for name in list_of_names_to_delete:
-        needed_indexes = df_to_clear[
-            (df_to_clear.loc[:,"pilot"] == name)
-        ].index
-        df_to_clear = df_to_clear.drop(needed_indexes)
-    
-    return df_to_clear
-
-def kart_column_into_str (kart):
-    if kart > 9:
-        kart = "kart_" + str(kart)
-    else:
-        kart = "kart_0" + str(kart)
-    return kart
-        
-
-def records_columns_to_numeric (
-    column_to_change: pd.Series
+def str_time_into_float_change(
+    time_in_str: str
 ):
     try:
-        column_to_change=pd.to_numeric(column_to_change)
+        time_in_str = float(time_in_str)
     except ValueError:
-        column_to_change.apply(str_time_into_float_change)
-        
-    return column_to_change
+        split_lap_time = time_in_str.split(":")
+        time_in_str = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return time_in_str        
 
 
 def module_to_create_df_with_statistic(
@@ -250,30 +211,13 @@ def assemble_prediction (
 
     return df_with_prediction
 
-def add_kart_column_into_return_dict(
-    dict_to_process: dict,
-    kart_column:pd.Series
-):
-    for prediction in range(len(dict_to_process["predictions"])):
-            dict_to_process_df = pd.DataFrame(dict_to_process["predictions"][prediction])
-            dict_to_process_df = dict_to_process_df.round(4)
-            dict_to_process_df.insert(
-                0,
-                "kart",
-                kart_column,
-            )
-            dict_to_process_df = dict_to_process_df.sort_values("kart", ignore_index=True, inplace=False)
-            dict_to_process["predictions"][prediction] = dict_to_process_df.to_dict(
-                    orient="records",
-                    #indent=2
-                )
-    return dict_to_process
 
 def collect_race_records_into_DataFrame (
     race_id
 ):
     race = recorder_models.Race.objects.get(pk = race_id)
     race_records = recorder_models.RaceRecords.objects.filter(race = race).values_list()
+    del race
     df_from_recorded_records = pd.DataFrame.from_records(
         race_records,
         columns=[
@@ -291,7 +235,9 @@ def collect_race_records_into_DataFrame (
             "true_kart",
         ]
     )
+    del race_records
 
+    # Delete stuff from model, that is wont be used
     df_from_recorded_records.pop("id")
     df_from_recorded_records.pop("race")
     
@@ -307,19 +253,24 @@ def does_race_has_true_karts(
     except KeyError:
         return False
 
-def clear_outstanding_laps (
-    df_with_race_records: pd.DataFrame,
-    margin_to_add_to_mean_time: int = 5, # Time in seconds
+def kart_column_into_str (
+    kart: int
 ):
-    mean_lap_time = df_with_race_records.loc[:, "lap_time"].mean()
-    laps_to_delete = df_with_race_records.loc[
-        df_with_race_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
-        "lap_time"
-    ].index
-    df_with_race_records.drop(laps_to_delete)
-    del mean_lap_time, margin_to_add_to_mean_time
-    
-    return df_with_race_records
+    if kart > 9:
+        kart = "kart_" + str(kart)
+    else:
+        kart = "kart_0" + str(kart)
+    return kart
+
+def records_columns_to_numeric (
+    column_to_change: pd.Series
+):
+    try:
+        column_to_change=pd.to_numeric(column_to_change)
+    except ValueError:
+        column_to_change.apply(str_time_into_float_change)
+        
+    return column_to_change
 
 def create_df_from_recorded_records(
     race_id
@@ -353,6 +304,22 @@ def create_df_from_recorded_records(
 
     return df_from_recorded_records
 
+
+def clear_outstanding_laps (
+    df_with_race_records: pd.DataFrame,
+    margin_to_add_to_mean_time: int = 5, # Time in seconds
+):
+    mean_lap_time = df_with_race_records.loc[:, "lap_time"].mean()
+    laps_to_delete = df_with_race_records.loc[
+        df_with_race_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
+        "lap_time"
+    ].index
+    df_with_race_records.drop(laps_to_delete)
+    del mean_lap_time, margin_to_add_to_mean_time
+    
+    return df_with_race_records
+
+
 def create_df_stats(
     df_pilot_on_karts: pd.DataFrame,
     df_pilots: pd.DataFrame,
@@ -375,37 +342,58 @@ def create_df_stats(
     
     return df_stats
 
-def form_return_for__analyze_race__after_error_check (
+
+def add_kart_column_into_dict_to_return(
+    dict_to_process: dict,
+    kart_column:pd.Series
+):
+    for prediction in range(len(dict_to_process["predictions"])):
+            dict_to_process_df = pd.DataFrame(dict_to_process["predictions"][prediction])
+            dict_to_process_df = dict_to_process_df.round(4)
+            dict_to_process_df.insert(
+                0,
+                "kart",
+                kart_column,
+            )
+            dict_to_process_df = dict_to_process_df.sort_values("kart", ignore_index=True, inplace=False)
+            dict_to_process["predictions"][prediction] = dict_to_process_df.to_dict(
+                    orient="records",
+                    #indent=2
+                )
+    return dict_to_process
+
+# Used in analyze_race only, but twice
+def form_return_after_analyzation_with_error_check (
     dict_with_predictions:dict,
     
     series_of_karts:pd.Series,
     word_to_name_predictions_type:str,
 ):
-    return_dict = {}
+    dict_to_return = {}
     try:
         dict_with_predictions["error"]
     except KeyError: 
-        return_dict.update(
+        dict_to_return.update(
             {
                 f"{word_to_name_predictions_type}_r2_scores" : dict_with_predictions["r2_score_values_dict"]
             }
         )
 
-        dict_with_predictions = add_kart_column_into_return_dict(
+        dict_with_predictions = add_kart_column_into_dict_to_return(
             dict_to_process=dict_with_predictions,
             kart_column=series_of_karts 
         )
 
-        return_dict.update(
+        dict_to_return.update(
             {
                 f"{word_to_name_predictions_type}_predictions": dict_with_predictions["predictions"]
             }
         )
     else:
-        return_dict.update(
+        dict_to_return.update(
             {
                 f"{word_to_name_predictions_type}_message": dict_with_predictions["message"]
             }
         )
 
-    return return_dict
+    return dict_to_return

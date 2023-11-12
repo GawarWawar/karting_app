@@ -212,7 +212,7 @@ def analyze_race(race_id):
 
     print("1.")
     dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
-    data = analyzer_functions.form_return_for__analyze_race__after_error_check(
+    data = analyzer_functions.form_return_after_analyzation_with_error_check(
         dict_with_predictions=dicts_from_temp_predictions,
         series_of_karts=series_of_karts,
         word_to_name_predictions_type="temp",
@@ -225,7 +225,7 @@ def analyze_race(race_id):
 
     print("2.")
     dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
-    data = analyzer_functions.form_return_for__analyze_race__after_error_check(
+    data = analyzer_functions.form_return_after_analyzation_with_error_check(
         dict_with_predictions=dicts_from_fastestlap_predictions,
         series_of_karts=series_of_karts,
         word_to_name_predictions_type="fastestlap",

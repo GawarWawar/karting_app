@@ -290,10 +290,11 @@ def clear_outstanding_laps (
     margin_to_add_to_mean_time: int = 5,
 ):
     mean_lap_time = df_with_race_records.loc[:, "lap_time"].mean()
-    df_with_race_records["lap_time"] = df_with_race_records.loc[
+    laps_to_delete = df_with_race_records.loc[
         df_with_race_records.loc[:, "lap_time"] < mean_lap_time+margin_to_add_to_mean_time, 
         "lap_time"
-    ]
+    ].index
+    df_with_race_records.drop(laps_to_delete)
     del mean_lap_time, margin_to_add_to_mean_time
     
     return df_with_race_records
@@ -327,13 +328,6 @@ def create_df_from_recorded_records(
             column_to_change=df_from_recorded_records[column]
         )
     del columns_to_change
-
-    df_from_recorded_records = clear_outstanding_laps(
-        df_with_race_records=df_from_recorded_records
-    )
-
-    #df_from_recorded_records.pop("segment")
-    df_from_recorded_records.pop("lap")
 
     return df_from_recorded_records
 

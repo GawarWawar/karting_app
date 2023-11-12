@@ -23,6 +23,14 @@ def compute_kart_statistic(race_id):
         race_id=race_id
     )
     
+    
+    df_from_recorded_records = analyzer_functions.clear_outstanding_laps(
+        df_with_race_records=df_from_recorded_records
+    )
+
+    #df_from_recorded_records.pop("segment")
+    df_from_recorded_records.pop("lap")
+    
     df_pilots = analyzer_functions.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
@@ -109,6 +117,14 @@ def analyze_race(race_id):
     df_from_recorded_records = df_from_recorded_records = analyzer_functions.create_df_from_recorded_records(
         race_id=race_id
     )
+
+    
+    df_from_recorded_records = analyzer_functions.clear_outstanding_laps(
+        df_with_race_records=df_from_recorded_records
+    )
+
+    df_from_recorded_records.pop("segment")
+    df_from_recorded_records.pop("lap")
 
     df_pilots = analyzer_functions.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records

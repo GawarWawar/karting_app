@@ -109,11 +109,13 @@ def regression_process(
         values_to_predict = df.values
         try:
             values_to_predict = ct.transform(values_to_predict)
-        except ValueError:
+        except ValueError as VallErr:
+            print(f"An exception occurred: {str(VallErr)}")
+            message = "ValueError appeared in prediction transformation process. "
             dict_to_return.update(
                 {
                     "error": True,
-                    "message": "ValueError appeared in prediction transformation process" 
+                    "message": message + str(VallErr)+"." 
                 }
             )
             return dict_to_return

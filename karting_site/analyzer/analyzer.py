@@ -11,9 +11,9 @@ import os
 from recorder import models as recorder_models
 from . import models
 
-from .utils import analyzer_functions
-from .utils import regression_process
-from .utils import coeficient_creation_functions as coef_func
+from .utils.analyzation_process import analyzer_functions
+from .utils.prediction_process import regression_process
+from .utils.analyzation_process import coeficient_creation_functions as coef_func
 
 import warnings
 # Suppress FutureWarning messages

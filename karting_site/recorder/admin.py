@@ -20,7 +20,7 @@ from celery.result import AsyncResult
 from . import models
 from . import tasks
 from . import recorder
-from analyzer.utils.analyzer_functions import collect_race_records_into_DataFrame
+from karting_site.analyzer.utils.analyzation_process.analyzer_functions import collect_race_records_into_DataFrame
 
    
 class ExportCsvMixin:

@@ -15,6 +15,10 @@ from .utils import analyzer_functions
 from .utils import regression_process
 from .utils import coeficient_creation_functions as coef_func
 
+import warnings
+# Suppress FutureWarning messages
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 def compute_kart_statistic(race_id):
 
     start = time.perf_counter()

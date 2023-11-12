@@ -11,17 +11,39 @@ import importlib.util
 from . import coeficient_creation_functions as coef_func
 from recorder import models as recorder_models
 
-def str_lap_time_into_float_change(
-    lap_time: str
+def str_time_into_float_change(
+    time_in_str: str
 ):
     try:
-        lap_time = float(lap_time)
+        time_in_str = float(time_in_str)
     except ValueError:
-        split_lap_time = lap_time.split(":")
-        lap_time = float(split_lap_time[0])*60+float(split_lap_time[1])
-    return lap_time
+        split_lap_time = time_in_str.split(":")
+        time_in_str = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return time_in_str
 
-def clear_df_from_unneeded_names(
+def mark_rows_with_wrong_names(
+    row
+):
+    if "Карт " in row["pilot"]:
+        return True
+    else:
+        return False
+
+def clear_df_from_unneeded_names (
+    df_to_clear: pd.DataFrame
+):
+    # Use boolean indexing to filter rows to delete
+    delete_mask = df_to_clear.apply(
+        mark_rows_with_wrong_names,
+        axis=1
+    )
+    
+    # Invert delete_mask with ~ to keep rows with good names
+    df_to_clear = df_to_clear[~delete_mask]
+    
+    return df_to_clear
+
+def clear_df_from_unneeded_names_old(
     df_to_clear: pd.DataFrame
 ):
     list_of_names_to_delete = [
@@ -56,7 +78,7 @@ def records_columns_to_numeric (
     try:
         column_to_change=pd.to_numeric(column_to_change)
     except ValueError:
-        column_to_change.apply(str_lap_time_into_float_change)
+        column_to_change.apply(str_time_into_float_change)
         
     return column_to_change
 
@@ -287,7 +309,7 @@ def does_race_has_true_karts(
 
 def clear_outstanding_laps (
     df_with_race_records: pd.DataFrame,
-    margin_to_add_to_mean_time: int = 5,
+    margin_to_add_to_mean_time: int = 5, # Time in seconds
 ):
     mean_lap_time = df_with_race_records.loc[:, "lap_time"].mean()
     laps_to_delete = df_with_race_records.loc[
@@ -327,7 +349,7 @@ def create_df_from_recorded_records(
         df_from_recorded_records[column]=records_columns_to_numeric(
             column_to_change=df_from_recorded_records[column]
         )
-    del columns_to_change
+    del columns_to_change, race_id
 
     return df_from_recorded_records
 

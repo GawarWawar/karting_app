@@ -22,9 +22,9 @@ from . import models
 def recorder_starting_page (request):
     context ={}
     last_race = models.Race.objects.last()
-    context["last_race"] = last_race
+    context["race"] = last_race
     try:
-        records_of_the_last_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
+        records_of_the_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
     except AttributeError:
         # Dont need to do anything here
         # Template will display all needed info with NoneType object given
@@ -32,7 +32,7 @@ def recorder_starting_page (request):
         # So dont need logs about it
         pass
     else:
-        context["records_of_the_last_race"] = records_of_the_last_race
+        context["records_of_the_race"] = records_of_the_race
     return render(request, "recorder_index.html", context) 
 
 # List of all Records of given Race
@@ -45,13 +45,13 @@ def view_race_records_by_id (request, race_id):
         pass
     else:
         context["race"] = race
-        records = models.RaceRecords.objects.filter(race = race_id).order_by("-pk").values()
-        context["all_races_records"] = records 
-    return render(request, "races_records.html", context)
+        records_of_the_race = models.RaceRecords.objects.filter(race = race_id).order_by("-pk").values()
+        context["records_of_the_race"] = records_of_the_race 
+    return render(request, "individual_race_page.html", context)
 
 # List of all races
 class AllRacesPage(generic.ListView):
-    template_name = "races.html"
+    template_name = "list_of_all_races.html"
     context_object_name = "all_races_list"
     
     def get_queryset(self):

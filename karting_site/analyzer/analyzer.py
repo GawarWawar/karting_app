@@ -12,8 +12,12 @@ from recorder import models as recorder_models
 from . import models
 
 from .utils.analyzation_process import analyzer_functions
-from .utils.prediction_process import regression_process
+from .utils.analyzation_process import laps_frame_creation
+from .utils.analyzation_process import statistic_creation
 from .utils.analyzation_process import coeficient_creation_functions as coef_func
+from .utils.analyzation_process import laps_frame_modifications
+
+from .utils.prediction_process import regression_process
 
 import warnings
 # Suppress FutureWarning messages
@@ -23,22 +27,22 @@ def compute_kart_statistic(race_id):
 
     start = time.perf_counter()
     
-    df_from_recorded_records = analyzer_functions.create_df_from_recorded_records(
+    df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
     )
     
     
-    df_from_recorded_records = analyzer_functions.clear_outstanding_laps(
+    df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records
     )
 
     #df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")
     
-    df_pilots = analyzer_functions.module_to_create_pilot_statistics(
+    df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
-    df_pilots = analyzer_functions.clear_df_from_unneeded_names(
+    df_pilots = laps_frame_modifications.clear_df_from_unneeded_names(
         df_pilots
     )
     df_pilots = df_pilots.dropna()
@@ -54,15 +58,15 @@ def compute_kart_statistic(race_id):
 
     del df_coeficient
 
-    df_karts = analyzer_functions.module_to_create_kart_statistics(
+    df_karts = statistic_creation.module_to_create_kart_statistics(
         df_of_records=df_from_recorded_records,
     )
 
-    df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
+    df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
     )
 
-    df_stats = analyzer_functions.create_df_stats(
+    df_stats = statistic_creation.create_df_stats(
         df_pilot_on_karts=df_pilot_on_karts,
         df_pilots=df_pilots,
         df_karts=df_karts,
@@ -118,22 +122,22 @@ def analyze_race(race_id):
 
     start = time.perf_counter()
     
-    df_from_recorded_records = df_from_recorded_records = analyzer_functions.create_df_from_recorded_records(
+    df_from_recorded_records = df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
     )
 
     
-    df_from_recorded_records = analyzer_functions.clear_outstanding_laps(
+    df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records
     )
 
     df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")
 
-    df_pilots = analyzer_functions.module_to_create_pilot_statistics(
+    df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
-    df_pilots = analyzer_functions.clear_df_from_unneeded_names(
+    df_pilots = laps_frame_modifications.clear_df_from_unneeded_names(
         df_pilots
     )
     df_pilots = df_pilots.dropna()
@@ -148,7 +152,7 @@ def analyze_race(race_id):
     )
     del df_coeficient
 
-    df_karts = analyzer_functions.module_to_create_kart_statistics(
+    df_karts = statistic_creation.module_to_create_kart_statistics(
         df_of_records=df_from_recorded_records,
     )
 
@@ -166,11 +170,14 @@ def analyze_race(race_id):
     # df_pilots.pop("pilot_fastest_lap")
 
 
-    df_pilot_on_karts = analyzer_functions.module_to_create_karts_statistics_for_every_pilot(
+    df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
     )
+    df_pilot_on_karts = laps_frame_modifications.clear_df_from_unneeded_names(
+        df_pilot_on_karts
+    )
 
-    df_stats = analyzer_functions.create_df_stats(
+    df_stats = statistic_creation.create_df_stats(
         df_pilot_on_karts=df_pilot_on_karts,
         df_pilots=df_pilots,
         df_karts=df_karts,

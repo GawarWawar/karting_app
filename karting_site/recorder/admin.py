@@ -20,7 +20,7 @@ from celery.result import AsyncResult
 from . import models
 from . import tasks
 from . import recorder
-from analyzer.utils.analyzation_process.analyzer_functions import collect_race_records_into_DataFrame
+from analyzer.utils.analyzation_process.models_transmissions import collect_race_records_into_DataFrame
 
    
 class ExportCsvMixin:
@@ -139,7 +139,14 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
             for race_object in queryset:
                 race_records = collect_race_records_into_DataFrame(race_object.id)
                 race_name_as_file_name = race_object.name_of_the_race
-                archive.writestr(race_name_as_file_name,race_records.to_csv(None, index=False, index_label=False))
+                archive.writestr(
+                    race_name_as_file_name,
+                    race_records.to_csv(
+                        None, 
+                        index=False, 
+                        index_label=False
+                    )
+                )
                
         return response
     

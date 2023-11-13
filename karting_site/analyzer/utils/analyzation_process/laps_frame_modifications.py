@@ -4,21 +4,25 @@ import numpy as np
 import time
 
 
-def mark_rows_with_wrong_names(
-    row: pd.Series
+def mark_rows_with_wrong_string_in_column(
+    column_item: str,
+    wrong_string_to_look_for: str,
 ):
-    if "Карт " in row["pilot"]:
+    if wrong_string_to_look_for in column_item:
         return True
     else:
         return False
 
-def clear_df_from_unneeded_names (
-    df_to_clear: pd.DataFrame
+def clear_column_from_unneeded_strings (
+    df_to_clear: pd.DataFrame,
+    
+    column_to_look_into: str,
+    wrong_string_to_look_for: str
 ):
     # Use boolean indexing to filter rows to delete
-    delete_mask = df_to_clear.apply(
-        mark_rows_with_wrong_names,
-        axis=1
+    delete_mask = df_to_clear[column_to_look_into].apply(
+        mark_rows_with_wrong_string_in_column,
+        wrong_string_to_look_for = wrong_string_to_look_for,
     )
     
     # Invert delete_mask with ~ to keep rows with good names

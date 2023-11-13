@@ -42,8 +42,11 @@ def compute_kart_statistic(race_id):
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
-    df_pilots = laps_frame_modifications.clear_df_from_unneeded_names(
-        df_pilots
+    df_pilots = laps_frame_modifications.clear_column_from_unneeded_strings(
+        df_pilots,
+        
+        column_to_look_into="pilot",
+        wrong_string_to_look_for="Карт ",
     )
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
@@ -137,8 +140,12 @@ def analyze_race(race_id):
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
-    df_pilots = laps_frame_modifications.clear_df_from_unneeded_names(
-        df_pilots
+   
+    df_pilots = laps_frame_modifications.clear_column_from_unneeded_strings(
+        df_pilots,
+        
+        column_to_look_into="pilot",
+        wrong_string_to_look_for="Карт ",
     )
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
@@ -173,10 +180,12 @@ def analyze_race(race_id):
     df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
     )
-    df_pilot_on_karts = laps_frame_modifications.clear_df_from_unneeded_names(
-        df_pilot_on_karts
+    df_pilot_on_karts = laps_frame_modifications.clear_column_from_unneeded_strings(
+        df_pilot_on_karts,
+        
+        column_to_look_into="pilot",
+        wrong_string_to_look_for="Карт ",
     )
-
     df_stats = statistic_creation.create_df_stats(
         df_pilot_on_karts=df_pilot_on_karts,
         df_pilots=df_pilots,

@@ -31,17 +31,7 @@ def clear_df_from_unneeded_names (
     # Invert delete_mask with ~ to keep rows with good names
     df_to_clear = df_to_clear[~delete_mask]
     
-    return df_to_clear
-
-def str_time_into_float_change(
-    time_in_str: str
-):
-    try:
-        time_in_str = float(time_in_str)
-    except ValueError:
-        split_lap_time = time_in_str.split(":")
-        time_in_str = float(split_lap_time[0])*60+float(split_lap_time[1])
-    return time_in_str        
+    return df_to_clear     
 
 
 def module_to_create_df_with_statistic(
@@ -261,6 +251,16 @@ def kart_column_into_str (
     else:
         kart = "kart_0" + str(kart)
     return kart
+
+def str_time_into_float_change(
+    time_in_str: str
+):
+    try:
+        time_in_str = float(time_in_str)
+    except ValueError:
+        split_lap_time = time_in_str.split(":")
+        time_in_str = float(split_lap_time[0])*60+float(split_lap_time[1])
+    return time_in_str   
 
 def records_columns_to_numeric (
     column_to_change: pd.Series

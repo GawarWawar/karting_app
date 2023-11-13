@@ -7,28 +7,28 @@
     <a class="padding" href="{%url 'index' %}">Go to the main page</a>
     <a class="padding" href="{%url 'recorder:races' %}">Go to the list of all races</a>
     {%if race.id%}
-    <a class="padding" href="{%url 'analyzer:analyze_race' last_race.id%}">Analyze this race</a>
+    <a class="padding" href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
     {%endif%}
     <h1>Last race created information</h1>
-    {%if last_race%}
+    {%if race%}
     <p>This is the last race that was created and information about it:</p>
     <div class="section">
       <p>Id: {{race.id}}</p>
-      <p>Name: {{last_race.name_of_the_race}}</p>
-      <p>Publish Date: {{last_race.publish_date}}</p>
+      <p>Name: {{race.name_of_the_race}}</p>
+      <p>Publish Date: {{race.publish_date}}</p>
       <p>
-        Date and time when record started: {{last_race.date_record_started}}
+        Date and time when record started: {{race.date_record_started}}
       </p>
       <p>
-        Date and time when record finished: {{last_race.date_record_finished}}
+        Date and time when record finished: {{race.date_record_finished}}
       </p>
-      <p>Was race recorded: {{last_race.is_recorded}}</p>
+      <p>Was race recorded: {{race.is_recorded}}</p>
       <p>
-        Was process of recording complete: {{last_race.was_recorded_complete}}
+        Was process of recording complete: {{race.was_recorded_complete}}
       </p>
     </div>
     <h2>Records of the race:</h2>
-    {% if records_of_the_last_race %}
+    {% if records_of_the_race %}
     <table class="section">
       <tr>
         <th>team_number</th>
@@ -42,18 +42,18 @@
         <th>true_name</th>
         <th>true_kart</th>
       </tr>
-      {% for records_for_race in records_of_the_last_race %}
+      {% for record in records_of_the_race %}
       <tr>
-        <td>{{records_for_race.team_number}}</td>
-        <td>{{records_for_race.pilot_name}}</td>
-        <td>{{records_for_race.kart}}</td>
-        <td>{{records_for_race.lap_count}}</td>
-        <td>{{records_for_race.lap_time}}</td>
-        <td>{{records_for_race.s1_time}}</td>
-        <td>{{records_for_race.s2_time}}</td>
-        <td>{{records_for_race.team_segment}}</td>
-        <td>{{records_for_race.true_name}}</td>
-        <td>{{records_for_race.true_kart}}</td>
+        <td>{{record.team_number}}</td>
+        <td>{{record.pilot_name}}</td>
+        <td>{{record.kart}}</td>
+        <td>{{record.lap_count}}</td>
+        <td>{{record.lap_time}}</td>
+        <td>{{record.s1_time}}</td>
+        <td>{{record.s2_time}}</td>
+        <td>{{record.team_segment}}</td>
+        <td>{{record.true_name}}</td>
+        <td>{{record.true_kart}}</td>
       </tr>
       {% endfor %}
     </table>

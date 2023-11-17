@@ -37,7 +37,8 @@ def compute_kart_statistic(race_id):
         column_to_look_into="pilot",
         wrong_string_to_look_for="Карт ",
     )
-
+    df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_kart"]]
+    df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_name"]]
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records
@@ -138,7 +139,8 @@ def analyze_race(race_id):
         column_to_look_into="pilot",
         wrong_string_to_look_for="Карт ",
     )
-    
+    df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_kart"]]
+    df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_name"]]
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records

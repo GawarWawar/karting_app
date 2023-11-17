@@ -7,7 +7,8 @@ from recorder import models as recorder_models
 
 
 def collect_race_records_into_DataFrame (
-    race_id
+    race_id: int,
+    purge_models_technical_columns:bool = True
 ):
     race = recorder_models.Race.objects.get(pk = race_id)
     race_records = recorder_models.RaceRecords.objects.filter(race = race).values_list()
@@ -31,8 +32,9 @@ def collect_race_records_into_DataFrame (
     )
     del race_records
 
-    # Delete stuff from model, that is wont be used
-    df_from_recorded_records.pop("id")
-    df_from_recorded_records.pop("race")
+    if purge_models_technical_columns:
+        # Delete columns from model
+        df_from_recorded_records.pop("id")
+        df_from_recorded_records.pop("race")
     
     return df_from_recorded_records

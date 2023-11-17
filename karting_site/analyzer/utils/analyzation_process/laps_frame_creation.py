@@ -7,7 +7,7 @@ from . import models_transmissions
 
 
 def does_race_has_true_karts(
-    df_with_race_records
+    df_with_race_records: pd.DataFrame
 ):
     true_kart_count = df_with_race_records["true_kart"].value_counts()
     try:
@@ -45,7 +45,6 @@ def column_to_numeric_with_str_time (
         column_to_change.apply(str_time_into_float_change)
         
     return column_to_change
-
 
 
 def create_df_from_recorded_records(

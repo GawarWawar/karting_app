@@ -15,17 +15,17 @@ def module_to_create_df_with_statistic(
     column_name_to_put_min_value_in: str = None,
 ):
     df_with_features = df_with_features.copy()
-    groups = df_of_records.groupby([column_to_look_for_feature]).groups
-    for feature_group in groups:
+    groups = df_of_records.groupby(column_to_look_for_feature).groups
+    for feature_group_name in groups:
         if column_name_to_put_mean_value_in != None:
             df_with_features.loc[
                 df_with_features.loc[
                     :, 
                     column_to_look_for_feature
-                ] == feature_group,
+                ] == feature_group_name,
                 column_name_to_put_mean_value_in
             ] = df_of_records.loc[
-                groups[feature_group],
+                groups[feature_group_name],
                 column_name_to_look_for_values_in
             ].mean()
         
@@ -34,10 +34,10 @@ def module_to_create_df_with_statistic(
                 df_with_features.loc[
                     :, 
                     column_to_look_for_feature
-                ] == feature_group,
+                ] == feature_group_name,
                 column_name_to_put_min_value_in
             ] = df_of_records.loc[
-                groups[feature_group],
+                groups[feature_group_name],
                 column_name_to_look_for_values_in
             ].min()
 
@@ -93,6 +93,59 @@ def module_to_create_kart_statistics (
     return df_of_karts
 
 def module_to_create_karts_statistics_for_every_pilot(
+    df_of_records: pd.DataFrame,
+):
+    # WORKS ONLY IF df_of_records DOESNT HAVE:
+    # true_kart == False
+    # true_name == False (recomended, not mandatory)
+    df_of_records.pop("team")
+    
+    df_pilot_on_karts = pd.DataFrame(
+        {
+            "pilot": pd.Series(dtype=str),
+            "kart": pd.Series(dtype=str),
+            "temp_with_pilot": pd.Series(dtype=float),
+            "fastest_lap_with_pilot": pd.Series(dtype=float),   
+        }
+    )
+    
+    df_pilot_on_karts["temp_with_pilot"] = 0
+    df_pilot_on_karts["fastest_lap_with_pilot"] = 0
+
+    groups = df_of_records.groupby("pilot").groups
+    
+    for group in groups:
+        all_pilot_kart_records = df_of_records.loc[
+            df_of_records.loc[:,"pilot"] == group,
+            :
+        ]
+        all_pilot_kart_records.pop("true_name")
+        all_pilot_kart_records.pop("true_kart")
+        
+        karts_of_pilot_df = module_to_create_df_with_statistic(
+            df_of_records=all_pilot_kart_records,
+
+            df_with_features = all_pilot_kart_records.drop_duplicates("kart"),
+            column_to_look_for_feature="kart",
+
+            column_name_to_look_for_values_in="lap_time",
+            column_name_to_put_mean_value_in="temp_with_pilot",
+            column_name_to_put_min_value_in="fastest_lap_with_pilot",
+        )
+        
+        karts_of_pilot_df.pop("lap_time")
+        karts_of_pilot_df.pop("s1")
+        karts_of_pilot_df.pop("s2")
+
+        df_pilot_on_karts = pd.concat(
+            [df_pilot_on_karts, karts_of_pilot_df]   
+        )
+    
+    return df_pilot_on_karts
+
+
+
+def module_to_create_karts_statistics_for_every_pilot_old(
     df_of_records: pd.DataFrame,
 ):
     df_of_records.pop("team")

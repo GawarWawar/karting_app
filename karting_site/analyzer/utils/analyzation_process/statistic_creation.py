@@ -3,7 +3,6 @@ import numpy as np
 
 import time
 
-
 def module_to_create_df_with_statistic(
     df_of_records: pd.DataFrame, 
     
@@ -16,24 +15,32 @@ def module_to_create_df_with_statistic(
     column_name_to_put_min_value_in: str = None,
 ):
     df_with_features = df_with_features.copy()
-    for feature in df_with_features.loc[:, column_to_look_for_feature].drop_duplicates():
-        all_features_records = df_of_records.loc[
-                df_of_records.loc[:, column_to_look_for_feature] == feature,
-                :
-        ]
+    groups = df_of_records.groupby([column_to_look_for_feature]).groups
+    for feature_group in groups:
+        if column_name_to_put_mean_value_in != None:
+            df_with_features.loc[
+                df_with_features.loc[
+                    :, 
+                    column_to_look_for_feature
+                ] == feature_group,
+                column_name_to_put_mean_value_in
+            ] = df_of_records.loc[
+                groups[feature_group],
+                column_name_to_look_for_values_in
+            ].mean()
         
         if column_name_to_put_mean_value_in != None:
             df_with_features.loc[
-                df_with_features.loc[:, column_to_look_for_feature] == feature,
-                column_name_to_put_mean_value_in
-            ] = all_features_records.loc[:, column_name_to_look_for_values_in].mean()
-        
-        if column_name_to_put_min_value_in != None:
-            df_with_features.loc[
-                df_with_features.loc[:, column_to_look_for_feature] == feature,
+                df_with_features.loc[
+                    :, 
+                    column_to_look_for_feature
+                ] == feature_group,
                 column_name_to_put_min_value_in
-            ] = all_features_records.loc[:, column_name_to_look_for_values_in].min()
-        
+            ] = df_of_records.loc[
+                groups[feature_group],
+                column_name_to_look_for_values_in
+            ].min()
+
     return df_with_features
 
 def module_to_create_pilot_statistics (

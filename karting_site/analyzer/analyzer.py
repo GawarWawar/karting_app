@@ -203,8 +203,9 @@ def analyze_race(race_id):
                 #"pilot_coeficient": df_stats.pop("pilot_coeficient"),
                 #"average_coeficient": df_stats.pop("average_coeficient"),
                 "temp_from_average_coeficient": df_stats.pop("temp_from_average_coeficient"),
-                "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
                 "kart_temp": df_stats.pop("kart_temp"),
+                "kart_fastest_lap": df_stats.pop("kart_fastest_lap"),
+                
                 "temp_with_pilot": df_stats.pop("temp_with_pilot"),
             }
         )

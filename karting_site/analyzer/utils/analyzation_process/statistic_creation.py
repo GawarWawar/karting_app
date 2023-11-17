@@ -63,12 +63,13 @@ def module_to_create_pilot_statistics (
 
 def module_to_create_kart_statistics (
     df_of_records: pd.DataFrame,
-):
+):  
     df_of_karts = df_of_records.loc[
         df_of_records.loc[:, "true_kart" ]== True,
         "kart"
     ].drop_duplicates().T.to_frame()
     
+    df_of_karts["kart_temp"] = 0
     df_of_karts["kart_fastest_lap"] = 0
     
     df_of_karts = module_to_create_df_with_statistic(
@@ -87,6 +88,8 @@ def module_to_create_kart_statistics (
 def module_to_create_karts_statistics_for_every_pilot(
     df_of_records: pd.DataFrame,
 ):
+    df_of_records.pop("team")
+    
     df_pilot_on_karts = pd.DataFrame(
         {
             "pilot": pd.Series(dtype=str),
@@ -95,6 +98,9 @@ def module_to_create_karts_statistics_for_every_pilot(
             "fastest_lap_with_pilot": pd.Series(dtype=float),   
         }
     )
+    
+    df_pilot_on_karts["temp_with_pilot"] = 0
+    df_pilot_on_karts["fastest_lap_with_pilot"] = 0
     
     for pilot in df_of_records.loc[
         (df_of_records.loc[:, "true_name" ]== True),
@@ -124,7 +130,6 @@ def module_to_create_karts_statistics_for_every_pilot(
             column_name_to_put_min_value_in="fastest_lap_with_pilot",
         )
 
-        karts_of_pilot_df.pop("team")
         karts_of_pilot_df.pop("lap_time")
         karts_of_pilot_df.pop("s1")
         karts_of_pilot_df.pop("s2")

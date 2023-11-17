@@ -31,34 +31,35 @@ def compute_kart_statistic(race_id):
         race_id=race_id
     )
     
+    df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
+        df_from_recorded_records,
+        
+        column_to_look_into="pilot",
+        wrong_string_to_look_for="Карт ",
+    )
+
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records
     )
 
-    #df_from_recorded_records.pop("segment")
+    # df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")
-    
+
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
     )
-    df_pilots = laps_frame_modifications.clear_column_from_unneeded_strings(
-        df_pilots,
-        
-        column_to_look_into="pilot",
-        wrong_string_to_look_for="Карт ",
-    )
+   
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
 
     
     df_coeficient = coef_func.create_primary_coeficient()
-    
+
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,
         df_of_primary_coeficient=df_coeficient
     )
-
     del df_coeficient
 
     df_karts = statistic_creation.module_to_create_kart_statistics(
@@ -68,12 +69,14 @@ def compute_kart_statistic(race_id):
     df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
         df_of_records=df_from_recorded_records,
     )
-
+   
     df_stats = statistic_creation.create_df_stats(
         df_pilot_on_karts=df_pilot_on_karts,
         df_pilots=df_pilots,
         df_karts=df_karts,
     )
+    
+    
     return_dict = {
         "data": {}
     }
@@ -125,10 +128,17 @@ def analyze_race(race_id):
 
     start = time.perf_counter()
     
-    df_from_recorded_records = df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
+    df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
     )
-
+    
+    df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
+        df_from_recorded_records,
+        
+        column_to_look_into="pilot",
+        wrong_string_to_look_for="Карт ",
+    )
+    
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
         df_with_race_records=df_from_recorded_records
@@ -141,12 +151,6 @@ def analyze_race(race_id):
         df_of_records=df_from_recorded_records
     )
    
-    df_pilots = laps_frame_modifications.clear_column_from_unneeded_strings(
-        df_pilots,
-        
-        column_to_look_into="pilot",
-        wrong_string_to_look_for="Карт ",
-    )
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
 
@@ -163,6 +167,16 @@ def analyze_race(race_id):
         df_of_records=df_from_recorded_records,
     )
 
+    df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
+        df_of_records=df_from_recorded_records,
+    )
+   
+    df_stats = statistic_creation.create_df_stats(
+        df_pilot_on_karts=df_pilot_on_karts,
+        df_pilots=df_pilots,
+        df_karts=df_karts,
+    )
+    
     df_with_prediction = analyzer_functions.assemble_prediction(
         0.0,
         df_of_pilots=df_pilots.copy(),
@@ -175,22 +189,6 @@ def analyze_race(race_id):
     # df_pilots.pop("pilot_coeficient")
     # df_pilots.pop("average_coeficient")
     # df_pilots.pop("pilot_fastest_lap")
-
-
-    df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
-        df_of_records=df_from_recorded_records,
-    )
-    df_pilot_on_karts = laps_frame_modifications.clear_column_from_unneeded_strings(
-        df_pilot_on_karts,
-        
-        column_to_look_into="pilot",
-        wrong_string_to_look_for="Карт ",
-    )
-    df_stats = statistic_creation.create_df_stats(
-        df_pilot_on_karts=df_pilot_on_karts,
-        df_pilots=df_pilots,
-        df_karts=df_karts,
-    )
 
     try:
         df_to_analyze = pd.DataFrame(

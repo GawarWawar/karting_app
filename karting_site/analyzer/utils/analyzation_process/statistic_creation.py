@@ -17,7 +17,7 @@ def module_to_create_df_with_statistic(
     df_with_features = df_with_features.copy()
     groups = df_of_records.groupby(column_to_look_for_feature).groups
     for feature_group_name in groups:
-        if column_name_to_put_mean_value_in != None:
+        if column_name_to_put_mean_value_in is not None:
             df_with_features.loc[
                 df_with_features.loc[
                     :, 
@@ -29,7 +29,7 @@ def module_to_create_df_with_statistic(
                 column_name_to_look_for_values_in
             ].mean()
         
-        if column_name_to_put_mean_value_in != None:
+        if column_name_to_put_min_value_in is not None:
             df_with_features.loc[
                 df_with_features.loc[
                     :, 

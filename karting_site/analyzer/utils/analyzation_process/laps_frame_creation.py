@@ -36,7 +36,7 @@ def str_time_into_float_change(
     return time_in_str   
 
 
-def column_to_numeric_with_str_time (
+def column_with_str_time_into_float_time (
     column_to_change: pd.Series
 ):
     try:
@@ -72,7 +72,7 @@ def create_df_from_recorded_records(
             "s2",
         ]
     for column in columns_to_change:    
-        df_from_recorded_records[column]=column_to_numeric_with_str_time(
+        df_from_recorded_records[column]=column_with_str_time_into_float_time(
             column_to_change=df_from_recorded_records[column]
         )
     del columns_to_change, race_id

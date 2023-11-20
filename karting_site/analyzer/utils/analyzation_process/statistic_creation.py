@@ -7,39 +7,50 @@ def module_to_create_df_with_statistic(
     df_of_records: pd.DataFrame, 
     
     df_with_features: pd.DataFrame,
-    column_to_look_for_feature: str,
+    column_of_the_lable: str,
     
-    column_name_to_look_for_values_in: str,
+    column_to_look_for_value_of_the_lable: str,
     
     column_name_to_put_mean_value_in: str = None,
     column_name_to_put_min_value_in: str = None,
 ):
-    df_with_features = df_with_features.copy()
-    groups = df_of_records.groupby(column_to_look_for_feature).groups
-    for feature_group_name in groups:
-        if column_name_to_put_mean_value_in is not None:
-            df_with_features.loc[
-                df_with_features.loc[
-                    :, 
-                    column_to_look_for_feature
-                ] == feature_group_name,
-                column_name_to_put_mean_value_in
-            ] = df_of_records.loc[
-                groups[feature_group_name],
-                column_name_to_look_for_values_in
-            ].mean()
+    
+    # Group by the specified feature column
+    grouped_records = df_of_records.groupby(
+        column_of_the_lable
+    )
+
+    # Update the corresponding rows in df_with_features
+    if column_name_to_put_mean_value_in is not None:
+        mean_values = grouped_records[
+            column_to_look_for_value_of_the_lable
+        ].mean().T.to_frame()
+        mean_values = mean_values.rename(
+            columns={
+                column_to_look_for_value_of_the_lable:column_name_to_put_mean_value_in
+            },
+            inplace=False
+        )
         
-        if column_name_to_put_min_value_in is not None:
-            df_with_features.loc[
-                df_with_features.loc[
-                    :, 
-                    column_to_look_for_feature
-                ] == feature_group_name,
-                column_name_to_put_min_value_in
-            ] = df_of_records.loc[
-                groups[feature_group_name],
-                column_name_to_look_for_values_in
-            ].min()
+        df_with_features = df_with_features.merge(
+            mean_values, 
+            on=column_of_the_lable)
+
+    if column_name_to_put_min_value_in is not None:
+        min_values = grouped_records[
+            column_to_look_for_value_of_the_lable
+        ].min().T.to_frame()
+        min_values = min_values.rename(
+            columns={
+                column_to_look_for_value_of_the_lable:column_name_to_put_min_value_in
+            },
+            inplace=False
+        )
+        
+        df_with_features = df_with_features.merge(
+            min_values,  
+            on=column_of_the_lable)
+
 
     return df_with_features
 
@@ -52,16 +63,16 @@ def module_to_create_pilot_statistics (
     ].drop_duplicates().copy().T.to_frame()
     df_of_pilots = df_of_pilots.reset_index(drop=True)
     
-    df_of_pilots["pilot_temp"] = 0
-    df_of_pilots["pilot_fastest_lap"] = 0
+    # df_of_pilots["pilot_temp"] = 0
+    # df_of_pilots["pilot_fastest_lap"] = 0
     
     df_of_pilots = module_to_create_df_with_statistic(
         df_of_records=df_of_records,
         
         df_with_features=df_of_pilots,
-        column_to_look_for_feature="pilot",
+        column_of_the_lable="pilot",
         
-        column_name_to_look_for_values_in="lap_time",
+        column_to_look_for_value_of_the_lable="lap_time",
         column_name_to_put_mean_value_in="pilot_temp",
         column_name_to_put_min_value_in="pilot_fastest_lap",
     )
@@ -76,16 +87,16 @@ def module_to_create_kart_statistics (
         "kart"
     ].drop_duplicates().T.to_frame()
     
-    df_of_karts["kart_temp"] = 0
-    df_of_karts["kart_fastest_lap"] = 0
+    # df_of_karts["kart_temp"] = 0
+    # df_of_karts["kart_fastest_lap"] = 0
     
     df_of_karts = module_to_create_df_with_statistic(
         df_of_records=df_of_records,
         
         df_with_features=df_of_karts,
-        column_to_look_for_feature="kart",
+        column_of_the_lable="kart",
         
-        column_name_to_look_for_values_in="lap_time",
+        column_to_look_for_value_of_the_lable="lap_time",
         column_name_to_put_mean_value_in="kart_temp",
         column_name_to_put_min_value_in="kart_fastest_lap",
     )
@@ -126,9 +137,9 @@ def module_to_create_karts_statistics_for_every_pilot(
             df_of_records=all_pilot_kart_records,
 
             df_with_features = all_pilot_kart_records.drop_duplicates("kart"),
-            column_to_look_for_feature="kart",
+            column_of_the_lable="kart",
 
-            column_name_to_look_for_values_in="lap_time",
+            column_to_look_for_value_of_the_lable="lap_time",
             column_name_to_put_mean_value_in="temp_with_pilot",
             column_name_to_put_min_value_in="fastest_lap_with_pilot",
         )
@@ -183,9 +194,9 @@ def module_to_create_karts_statistics_for_every_pilot_old(
             df_of_records=all_pilot_kart_records,
 
             df_with_features=all_pilot_kart_records.drop_duplicates("kart"),
-            column_to_look_for_feature="kart",
+            column_of_the_lable="kart",
 
-            column_name_to_look_for_values_in="lap_time",
+            column_to_look_for_value_of_the_lable="lap_time",
             column_name_to_put_mean_value_in="temp_with_pilot",
             column_name_to_put_min_value_in="fastest_lap_with_pilot",
         )

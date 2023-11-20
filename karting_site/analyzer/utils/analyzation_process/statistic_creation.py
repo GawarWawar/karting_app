@@ -11,19 +11,32 @@ def module_to_create_df_with_statistic(
     
     column_to_look_for_value_of_the_lable: str,
     
-    column_name_to_put_mean_value_in: str = None,
-    column_name_to_put_min_value_in: str = None,
-):
+    **kwargs
+) -> pd.DataFrame:
+    """
+    Perform aggregation on a DataFrame based on a specified label column, 
+    and merge the aggregated values with another DataFrame.
+
+    Parameters:
+    - df_of_records (pd.DataFrame): DataFrame containing records to be aggregated.
+    - df_with_features (pd.DataFrame): DataFrame to be updated with aggregated statistics.
+    - column_of_the_lable (str): Column in df_of_records used to identify unique labels.
+    - column_to_look_for_value_of_the_lable (str): Column in df_of_records where values are used for aggregation.
+    - **kwargs: Keyword arguments specifying aggregation functions and corresponding new column names.
+      Example: mean='mean_column_name', min='min_column_name'
+
+    Returns:
+    pd.DataFrame: Updated DataFrame with aggregated statistics.
+    """
     
     # Group by the specified feature column
     grouped_records = df_of_records.groupby(
         column_of_the_lable
     )
 
-    for new_column, agg_func_to_perform in [
-        (column_name_to_put_mean_value_in, "mean"), 
-        (column_name_to_put_min_value_in, "min"),
-    ]:
+    for agg_func_to_perform in kwargs:
+        new_column = kwargs.get(agg_func_to_perform)
+        
         if new_column is not None:
             changed_values = grouped_records[
                 column_to_look_for_value_of_the_lable
@@ -62,8 +75,9 @@ def module_to_create_pilot_statistics (
         column_of_the_lable="pilot",
         
         column_to_look_for_value_of_the_lable="lap_time",
-        column_name_to_put_mean_value_in="pilot_temp",
-        column_name_to_put_min_value_in="pilot_fastest_lap",
+        
+        mean="pilot_temp",
+        min="pilot_fastest_lap",
     )
         
     return df_of_pilots
@@ -86,8 +100,9 @@ def module_to_create_kart_statistics (
         column_of_the_lable="kart",
         
         column_to_look_for_value_of_the_lable="lap_time",
-        column_name_to_put_mean_value_in="kart_temp",
-        column_name_to_put_min_value_in="kart_fastest_lap",
+        
+        mean="kart_temp",
+        min="kart_fastest_lap",
     )
     
     return df_of_karts
@@ -129,8 +144,9 @@ def module_to_create_karts_statistics_for_every_pilot(
             column_of_the_lable="kart",
 
             column_to_look_for_value_of_the_lable="lap_time",
-            column_name_to_put_mean_value_in="temp_with_pilot",
-            column_name_to_put_min_value_in="fastest_lap_with_pilot",
+            
+            mean="temp_with_pilot",
+            min="fastest_lap_with_pilot",
         )
         
         karts_of_pilot_df.pop("lap_time")

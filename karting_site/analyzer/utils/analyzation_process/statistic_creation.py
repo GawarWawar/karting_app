@@ -20,37 +20,26 @@ def module_to_create_df_with_statistic(
         column_of_the_lable
     )
 
-    # Update the corresponding rows in df_with_features
-    if column_name_to_put_mean_value_in is not None:
-        mean_values = grouped_records[
-            column_to_look_for_value_of_the_lable
-        ].mean().T.to_frame()
-        mean_values = mean_values.rename(
+    for new_column, agg_func_to_perform in [
+        (column_name_to_put_mean_value_in, "mean"), 
+        (column_name_to_put_min_value_in, "min"),
+    ]:
+        if new_column is not None:
+            changed_values = grouped_records[
+                column_to_look_for_value_of_the_lable
+            ].agg(agg_func_to_perform).T.to_frame()
+
+        
+        changed_values = changed_values.rename(
             columns={
-                column_to_look_for_value_of_the_lable:column_name_to_put_mean_value_in
+                column_to_look_for_value_of_the_lable : new_column
             },
             inplace=False
         )
         
         df_with_features = df_with_features.merge(
-            mean_values, 
+            changed_values,  
             on=column_of_the_lable)
-
-    if column_name_to_put_min_value_in is not None:
-        min_values = grouped_records[
-            column_to_look_for_value_of_the_lable
-        ].min().T.to_frame()
-        min_values = min_values.rename(
-            columns={
-                column_to_look_for_value_of_the_lable:column_name_to_put_min_value_in
-            },
-            inplace=False
-        )
-        
-        df_with_features = df_with_features.merge(
-            min_values,  
-            on=column_of_the_lable)
-
 
     return df_with_features
 

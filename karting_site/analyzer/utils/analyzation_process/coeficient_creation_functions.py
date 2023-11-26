@@ -7,20 +7,22 @@ from analyzer import models
 from . import statistic_creation
 from . import models_transmissions
 
-def column_with_lap_time_to_coeficient(
-    column_to_transform: pd.Series
+def normalize_temp(
+    pilot_temp: float,
+    
+    max_temp:float,
+    min_temp:float,
+    
+    how_many_digits_after_period_to_leave_in:int = 4
 ):
-    max_temp = column_to_transform.max()
-    min_temp = column_to_transform.min()
-    for temp in range(len(column_to_transform)):
-        normilezed_temp =(
-            (column_to_transform.loc[temp]-min_temp)
-            /
-            (max_temp-min_temp)
-        )
-        normilezed_temp = float(f"{normilezed_temp:.4f}")
-        column_to_transform.at[temp] = normilezed_temp
-    return column_to_transform
+    normilezed_temp =(
+        (pilot_temp-min_temp)
+        /
+        (max_temp-min_temp)
+    )
+    normilezed_temp = float(f"{normilezed_temp:.{how_many_digits_after_period_to_leave_in}f}")
+
+    return normilezed_temp
 
 def create_primary_coeficient ():
     st_t = time.perf_counter()
@@ -49,10 +51,15 @@ def create_primary_coeficient ():
             race_id=big_race.id,
         )
         
+        max_temp = this_race_statistic_df["average_lap_time"].max()
+        min_temp = this_race_statistic_df["average_lap_time"].min()
+        
         this_race_statistic_df["coeficient"] =\
-                column_with_lap_time_to_coeficient(
-                    this_race_statistic_df["average_lap_time"].copy()
-                )
+            this_race_statistic_df["average_lap_time"].apply(
+                normalize_temp,
+                max_temp = max_temp,
+                min_temp = min_temp
+            )
 
         individual_pilot_statistic_df = pd.concat(
             [individual_pilot_statistic_df, this_race_statistic_df]
@@ -132,9 +139,15 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
     df_to_create_coeficients_into: pd.DataFrame,
     df_of_primary_coeficient: pd.DataFrame
 ):
-    df_to_create_coeficients_into["this_race_coeficient"] = column_with_lap_time_to_coeficient(
-        df_to_create_coeficients_into.loc[:,"pilot_temp"].copy()
-    )
+    max_temp = df_to_create_coeficients_into["pilot_temp"].max()
+    min_temp = df_to_create_coeficients_into["pilot_temp"].min()
+    
+    df_to_create_coeficients_into["this_race_coeficient"] =\
+       df_to_create_coeficients_into["pilot_temp"].apply(
+                normalize_temp,
+                max_temp = max_temp,
+                min_temp = min_temp
+            )
     
     max_temp = df_to_create_coeficients_into["pilot_temp"].max()
     min_temp = df_to_create_coeficients_into["pilot_temp"].min()

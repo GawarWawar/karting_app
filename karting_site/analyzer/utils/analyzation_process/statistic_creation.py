@@ -113,8 +113,15 @@ def module_to_create_karts_statistics_for_every_pilot(
     # WORKS ONLY IF df_of_records DOESNT HAVE:
     # true_kart == False
     # true_name == False (recomended, not mandatory)
-    df_of_records.pop("team")
+    df_of_records = df_of_records.drop(
+            columns=[
+                "team", "true_name", "true_kart"
+            ],
+            inplace=False
+        ).copy()
     
+    # Could be changed to df_pilot_on_karts = pd.DataFrame()
+    # Will leave it here for now, to specify Dtypes
     df_pilot_on_karts = pd.DataFrame(
         {
             "pilot": pd.Series(dtype=str),
@@ -124,25 +131,19 @@ def module_to_create_karts_statistics_for_every_pilot(
         }
     )
     
-    df_pilot_on_karts["temp_with_pilot"] = 0
-    df_pilot_on_karts["fastest_lap_with_pilot"] = 0
-
-    groups = df_of_records.groupby("pilot").groups
-    
-    for group in groups:
-        all_pilot_kart_records = df_of_records.loc[
-            df_of_records.loc[:,"pilot"] == group,
-            :
-        ]
-        all_pilot_kart_records.pop("true_name")
-        all_pilot_kart_records.pop("true_kart")
+    for pilot_name, pilot_records in df_of_records.groupby("pilot"):
+        # df_of_records.groupby("pilot") returns tuple with:
+        # 1st - Element of the column by which rows were groupped by
+        # 2nd - pd.DataFrame or pd.Series with groupped rows
+        # SO: we dont need 1st element, but we dont want to use tuple ->
+        # we are doing unpacking inside of for
         
         karts_of_pilot_df = module_to_create_df_with_statistic(
-            df_of_records=all_pilot_kart_records,
+            df_of_records=pilot_records,
 
-            df_with_features = all_pilot_kart_records.drop_duplicates("kart"),
+            df_with_features=pilot_records.drop_duplicates("kart"),
             column_of_the_lable="kart",
-
+            
             column_to_look_for_value_of_the_lable="lap_time",
             
             mean="temp_with_pilot",

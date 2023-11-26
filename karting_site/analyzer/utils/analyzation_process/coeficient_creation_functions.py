@@ -4,6 +4,9 @@ import time
 
 from analyzer import models
 
+from . import statistic_creation
+from . import models_transmissions
+
 def column_with_lap_time_to_coeficient(
     column_to_transform: pd.Series
 ):
@@ -21,12 +24,6 @@ def column_with_lap_time_to_coeficient(
 
 def create_primary_coeficient ():
     st_t = time.perf_counter()
-
-    individual_pilot_statistic_df = pd.DataFrame(
-        {
-            "pilot": pd.Series(dtype=str)
-        }
-    )
     
     races = models.BigRace.objects.all()
     
@@ -47,59 +44,35 @@ def create_primary_coeficient ():
             }
         )
     
-    for race in races:
-        race_query = models.TempOfPilotsInBR.objects.filter(race = race.id).values_list()
-        race_statistic_df = pd.DataFrame.from_records(
-            race_query, 
-            columns=[
-                "id",
-                "race_id",
-                "pilot",
-                "average_lap_time"
-            ]
+    for big_race in races:
+        this_race_statistic_df = models_transmissions.collect_BR_temp_records_into_DataFrame(
+            race_id=big_race.id,
         )
-       
-        race_statistic_df.pop("id")
-        race_statistic_df.pop("race_id")
         
-        column_name = f"race_{race.id}"
-        
-        for pilot in race_statistic_df.loc[:, "pilot"]:
-            lap_time = race_statistic_df.loc[
-                race_statistic_df.loc[:, "pilot"] == pilot,
-                "average_lap_time"
-            ].reset_index(drop=True)
-            needed_index = individual_pilot_statistic_df[
-                (individual_pilot_statistic_df.loc[:,"pilot"] == pilot)
-            ].index
-            if not needed_index.empty:
-                individual_pilot_statistic_df.loc[
-                    needed_index,
-                    column_name
-                ] = lap_time[0]
-            else:
-                individual_pilot_statistic_df.loc[len(individual_pilot_statistic_df.index), "pilot"]=pilot
-                individual_pilot_statistic_df.loc[
-                    individual_pilot_statistic_df.loc[:, "pilot"] == pilot,
-                    column_name
-                ] = lap_time[0]
-                
-    for race_as_column in individual_pilot_statistic_df:
-        if race_as_column != "pilot":
-            individual_pilot_statistic_df[race_as_column] =\
+        this_race_statistic_df["coeficient"] =\
                 column_with_lap_time_to_coeficient(
-                    individual_pilot_statistic_df.loc[:,race_as_column].copy()
+                    this_race_statistic_df["average_lap_time"].copy()
                 )
 
-    for index in individual_pilot_statistic_df.loc[:, "pilot"].index:
-        average_pilot_coeficient = individual_pilot_statistic_df.iloc[index, 1:-1].mean()
-        average_pilot_coeficient = float(f"{average_pilot_coeficient:.4f}")
-        individual_pilot_statistic_df.loc[index, "coeficient"] = average_pilot_coeficient
+        individual_pilot_statistic_df = pd.concat(
+            [individual_pilot_statistic_df, this_race_statistic_df]
+        )
+
+    individual_pilot_statistic_df = statistic_creation.module_to_create_df_with_statistic(
+        df_of_records=individual_pilot_statistic_df,
+        
+        df_with_features=individual_pilot_statistic_df.drop_duplicates("pilot"),
+        column_of_the_lable="pilot",
+        
+        column_to_look_for_value_of_the_lable="coeficient",
+        
+        mean = "average_coeficient"
+    )
 
     individual_pilot_statistic_df = pd.DataFrame(
         {
             "pilot": individual_pilot_statistic_df["pilot"],
-            "coeficient": individual_pilot_statistic_df["coeficient"]
+            "coeficient": individual_pilot_statistic_df["average_coeficient"]
         }
     )
 

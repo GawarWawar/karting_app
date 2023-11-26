@@ -55,6 +55,8 @@ def module_to_create_df_with_statistic(
 
     return df_with_features
 
+
+# NEED SOME REVISION IN FUTURE TOGETHER WITH module_to_create_kart_statistics
 def module_to_create_pilot_statistics (
     df_of_records: pd.DataFrame,
 ):

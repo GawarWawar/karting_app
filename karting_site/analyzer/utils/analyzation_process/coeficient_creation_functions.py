@@ -4,6 +4,21 @@ import time
 
 from analyzer import models
 
+def column_with_lap_time_to_coeficient(
+    column_to_transform: pd.Series
+):
+    max_temp = column_to_transform.max()
+    min_temp = column_to_transform.min()
+    for temp in range(len(column_to_transform)):
+        normilezed_temp =(
+            (column_to_transform.loc[temp]-min_temp)
+            /
+            (max_temp-min_temp)
+        )
+        normilezed_temp = float(f"{normilezed_temp:.4f}")
+        column_to_transform.at[temp] = normilezed_temp
+    return column_to_transform
+
 def create_primary_coeficient ():
     st_t = time.perf_counter()
 
@@ -91,21 +106,6 @@ def create_primary_coeficient ():
     en_t = time.perf_counter()
     print(en_t-st_t)
     return individual_pilot_statistic_df
-
-def column_with_lap_time_to_coeficient(
-    column_to_transform: pd.Series
-):
-    max_temp = column_to_transform.max()
-    min_temp = column_to_transform.min()
-    for temp in range(len(column_to_transform)):
-        normilezed_temp =(
-            (column_to_transform.loc[temp]-min_temp)
-            /
-            (max_temp-min_temp)
-        )
-        normilezed_temp = float(f"{normilezed_temp:.4f}")
-        column_to_transform.at[temp] = normilezed_temp
-    return column_to_transform
 
 def get_pilot_coeficient_from_df_of_primary_coeficient(
     df_to_create_coeficients_into: pd.DataFrame,

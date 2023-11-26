@@ -37,10 +37,9 @@ def module_to_create_df_with_statistic(
     for agg_func_to_perform in kwargs:
         new_column = kwargs.get(agg_func_to_perform)
         
-        if new_column is not None:
-            changed_values = grouped_records[
-                column_to_look_for_value_of_the_lable
-            ].agg(agg_func_to_perform).T.to_frame()
+        changed_values = grouped_records[
+            column_to_look_for_value_of_the_lable
+        ].agg(agg_func_to_perform).T.to_frame()
 
         
         changed_values = changed_values.rename(

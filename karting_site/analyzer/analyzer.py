@@ -109,7 +109,7 @@ def compute_kart_statistic(race_id):
                         "pilot_fastest_lap" : df_stats.loc[index, "pilot_fastest_lap"],
                         "team_segment": df_stats.loc[index, "segment"],
                         #"this_race_coeficient" : df_stats.loc[index, "this_race_coeficient"],
-                        #"pilot_coeficient" : df_stats.loc[index, "pilot_coeficient"],
+                        #"pilot_coeficient" : df_stats.loc[index, "coeficient"],
                         #"average_coeficient" : df_stats.loc[index, "average_coeficient"],
                         "temp_from_average_coeficient" : df_stats.loc[index, "temp_from_average_coeficient"],
                     }
@@ -188,7 +188,7 @@ def analyze_race(race_id):
     # Deleting from df_pilots info, that won`t be used in regression process
     # df_pilots.pop("pilot_temp")
     # df_pilots.pop("this_race_coeficient")
-    # df_pilots.pop("pilot_coeficient")
+    # df_pilots.pop("coeficient")
     # df_pilots.pop("average_coeficient")
     # df_pilots.pop("pilot_fastest_lap")
 
@@ -200,7 +200,7 @@ def analyze_race(race_id):
                 #"pilot_temp": df_stats.pop("pilot_temp"),
                 #"pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),
                 #"this_race_coeficient": df_stats.pop("this_race_coeficient"),
-                #"pilot_coeficient": df_stats.pop("pilot_coeficient"),
+                #"pilot_coeficient": df_stats.pop("coeficient"),
                 #"average_coeficient": df_stats.pop("average_coeficient"),
                 "temp_from_average_coeficient": df_stats.pop("temp_from_average_coeficient"),
                 "kart_temp": df_stats.pop("kart_temp"),

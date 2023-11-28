@@ -23,7 +23,8 @@ from sklearn.utils.validation import column_or_1d
 
 from collections.abc import Callable
 
-from . import regression_evaluation as regres_eval
+from . import regression_evaluation
+from . import regression_models
 
 
 def make_some_predictions (
@@ -128,10 +129,10 @@ def regression_process(
         list_of_predictions_dict.append({})
     
     list_of_regression_models = [
-        regres_eval.multiple_linear_regression,
-        regres_eval.support_vector_regression,
-        regres_eval.decision_tree_regression,
-        regres_eval.random_forest_regression
+        regression_models.multiple_linear_regression,
+        regression_models.support_vector_regression,
+        regression_models.decision_tree_regression,
+        regression_models.random_forest_regression
     ]
     
     r2_score_less_norm_count = 0
@@ -146,8 +147,8 @@ def regression_process(
             model_to_train=model
         )
 
-        r2_score_value = regres_eval.evaluate_model_perfomance(
-            regressor=regressor,
+        r2_score_value = regression_evaluation.evaluate_model_perfomance(
+            model_regressor=regressor,
             x_test=x_test,
             y_test=y_test
         )

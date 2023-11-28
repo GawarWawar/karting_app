@@ -3,6 +3,7 @@ import pandas as pd
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
 
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
@@ -24,6 +25,22 @@ def multiple_linear_regression(
     )
     
     return regressor
+    
+def polinomial_regression(
+    x_train,
+    y_train,
+    
+    polynomial_degree:int = 2
+):  
+    # Create a pipeline that first applies polynomial features and then fits a linear regression model
+    regressor = make_pipeline(
+        PolynomialFeatures(polynomial_degree), LinearRegression()
+    )
+
+    # Fit the model to the training data
+    regressor.fit(x_train, y_train)
+    
+    return regressor 
     
 def support_vector_regression(
     x_train,

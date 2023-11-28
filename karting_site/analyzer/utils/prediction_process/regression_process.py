@@ -130,9 +130,10 @@ def regression_process(
     
     list_of_regression_models = [
         regression_models.multiple_linear_regression,
+        regression_models.polinomial_regression,
         regression_models.support_vector_regression,
         regression_models.decision_tree_regression,
-        regression_models.random_forest_regression
+        regression_models.random_forest_regression,
     ]
     
     r2_score_less_norm_count = 0

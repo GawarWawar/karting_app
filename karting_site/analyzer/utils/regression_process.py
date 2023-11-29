@@ -96,7 +96,7 @@ def regression_process(
         )
     )
     y_test = np.ravel(
-        sc_y.fit_transform(
+        sc_y.transform(
             y_test.reshape(len(y_test), 1)
         )
     )

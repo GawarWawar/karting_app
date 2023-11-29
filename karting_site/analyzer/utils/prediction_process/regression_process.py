@@ -48,33 +48,50 @@ def regression_process(
       
       minimum_value_to_r2: float = 0
 ):
-    x = df_to_analyze.iloc[:, :-1].values # Matrix of Features
-    y = df_to_analyze.iloc[:, -1].values # Depending variable vector
+    data_to_analyze = df_to_analyze.iloc[:, :-1].values # (x) Matrix of Features
+    answers_to_data = df_to_analyze.iloc[:, -1].values # (y) Depending variable vector
 
     # Encoding the Independent Variable
-    ct = ColumnTransformer(
+    column_transformer_instance = ColumnTransformer(
         transformers=[("encoder", OneHotEncoder(), [0])],
         remainder="passthrough"
     )
-    x = ct.fit_transform(x)
+    data_to_analyze_after = column_transformer_instance.fit_transform(data_to_analyze)
     
     # Splitting the dataset into the Training set and Test set
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.15, random_state = 2)
+    data_to_analyze_training_set,\
+    data_to_analyze_test_set,\
+    answers_to_data_training_set,\
+    answers_to_data_test_set = train_test_split(
+        data_to_analyze_after, 
+        answers_to_data, 
+        test_size = 0.15, 
+        random_state = 2)
     
     # Feature Scaling
-    sc_x = StandardScaler(with_mean=False)
-    x_train = sc_x.fit_transform(x_train)
-    x_test = sc_x.transform(x_test)
+    standard_scaler_for_data_to_analyze = StandardScaler(with_mean=False)
+    data_to_analyze_training_set = standard_scaler_for_data_to_analyze.fit_transform(
+        data_to_analyze_training_set
+    )
+    data_to_analyze_test_set = standard_scaler_for_data_to_analyze.transform(
+        data_to_analyze_test_set
+    )
     
-    sc_y = StandardScaler()
-    y_train = np.ravel(
-        sc_y.fit_transform(
-            y_train.reshape(len(y_train), 1)
+    standard_scaler_for_answers_to_data = StandardScaler()
+    answers_to_data_training_set = np.ravel(
+        standard_scaler_for_answers_to_data.fit_transform(
+            answers_to_data_training_set.reshape(
+                len(answers_to_data_training_set), 
+                1
+            )
         )
     )
-    y_test = np.ravel(
-        sc_y.fit_transform(
-            y_test.reshape(len(y_test), 1)
+    answers_to_data_test_set = np.ravel(
+        standard_scaler_for_answers_to_data.fit_transform(
+            answers_to_data_test_set.reshape(
+                len(answers_to_data_test_set), 
+                1
+            )
         )
     )
     
@@ -85,7 +102,7 @@ def regression_process(
     for df in list_of_df_to_predict:
         values_to_predict = df.values
         try:
-            values_to_predict = ct.transform(values_to_predict)
+            values_to_predict = column_transformer_instance.transform(values_to_predict)
         except ValueError as VallErr:
             print(f"An exception occurred: {str(VallErr)}")
             message = "ValueError appeared in prediction transformation process. "
@@ -100,7 +117,7 @@ def regression_process(
             values_to_predict = values_to_predict.toarray()
         except AttributeError:
             pass
-        values_to_predict = sc_x.transform(values_to_predict)
+        values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)
         lists_of_values_to_predict.append(values_to_predict)
         list_of_predictions_dict.append({})
     
@@ -119,15 +136,15 @@ def regression_process(
     }
     for model in list_of_regression_models:
         regressor = train_the_model(
-            x_train=x_train,
-            y_train=y_train,
+            x_train=data_to_analyze_training_set,
+            y_train=answers_to_data_training_set,
             model_to_train=model
         )
 
         r2_score_value = regression_evaluation.evaluate_model_perfomance(
             model_regressor=regressor,
-            x_test=x_test,
-            y_test=y_test
+            x_test=data_to_analyze_test_set,
+            y_test=answers_to_data_test_set
         )
 
         r2_score_value = float(f"{r2_score_value:.4f}")
@@ -141,7 +158,7 @@ def regression_process(
         # Inversing Feature Scaling for predictions
         for i in range(len(predictions)):
             predictions[i] = np.ravel(
-                sc_y.inverse_transform(
+                standard_scaler_for_answers_to_data.inverse_transform(
                     [column_or_1d(predictions[i])]
                 )
             )

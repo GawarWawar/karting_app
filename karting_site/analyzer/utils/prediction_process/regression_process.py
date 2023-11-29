@@ -42,6 +42,22 @@ def train_the_model(
     
     return regressor
 
+def transform_one_dimentional_data_set (
+    data_set_to_transform,
+    standard_scaler_instance: StandardScaler
+):
+    data_set_to_transform = data_set_to_transform.reshape(
+            len(data_set_to_transform), 
+            1
+        )
+    data_set_to_transform = np.ravel(
+        standard_scaler_instance.transform(
+            data_set_to_transform
+        )
+    )
+    
+    return data_set_to_transform
+
 def regression_process(
     df_with_whole_data_set: pd.DataFrame,  
     list_of_df_to_predict: list[pd.DataFrame],
@@ -86,50 +102,36 @@ def regression_process(
     )
     
     standard_scaler_for_answers_to_data = StandardScaler()
-    answers_to_data_training_set = answers_to_data_training_set.reshape(
+    standard_scaler_for_answers_to_data.fit(
+        answers_to_data_training_set.reshape(
             len(answers_to_data_training_set), 
             1
         )
-    
-    answers_to_data_training_set = np.ravel(
-        standard_scaler_for_answers_to_data.fit_transform(
-            answers_to_data_training_set
-        )
-    )
-    answers_to_data_test_set = np.ravel(
-        standard_scaler_for_answers_to_data.transform(
-            answers_to_data_test_set.reshape(
-                len(answers_to_data_test_set), 
-                1
-            )
-        )
     )
     
-    dict_to_return = {}
-    # Transforming prediction with Encoder and Feature Scaling
-    lists_of_values_to_predict = []
-    list_of_predictions_dict = []
-    for df in list_of_df_to_predict:
-        values_to_predict = df.values
-        try:
-            values_to_predict = column_transformer_instance.transform(values_to_predict)
-        except ValueError as error_text:
-            print(f"An exception occurred: {str(error_text)}")
-            message = "ValueError appeared in prediction transformation process. "
-            dict_to_return.update(
-                {
-                    "error": True,
-                    "message": message + str(error_text)+"." 
-                }
+    answers_to_data_training_set = transform_one_dimentional_data_set(
+        answers_to_data_training_set,
+        standard_scaler_for_answers_to_data
+    )
+    answers_to_data_test_set = transform_one_dimentional_data_set(
+        answers_to_data_test_set,
+        standard_scaler_for_answers_to_data
+    )
+    
+    operational_dict = prediction_processing.encode_and_scale_prediction_data(
+        list_of_df_with_predictions=list_of_df_to_predict,
+        column_transfoarmer_instance=column_transformer_instance,
+        standard_scaler_for_data_to_analyze=standard_scaler_for_data_to_analyze
+    )
+    
+    if operational_dict["error"]:
+        return operational_dict
+    else:
+        lists_of_values_to_predict = \
+            operational_dict.pop(
+                "lists_of_values_to_predict"
             )
-            return dict_to_return
-        try:
-            values_to_predict = values_to_predict.toarray()
-        except AttributeError:
-            pass
-        values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)
-        lists_of_values_to_predict.append(values_to_predict)
-        list_of_predictions_dict.append({})
+        
     
     del standard_scaler_for_data_to_analyze,\
         list_of_df_to_predict
@@ -142,10 +144,10 @@ def regression_process(
         regression_models.random_forest_regression,
     ]
     
-    r2_score_less_norm_count = 0
-    r2_score_values_dict = {}
-    dict_to_return = {
-        "error": False,
+    operational_dict = {
+        "list_of_predictions_dict": [],
+        "r2_score_values_dict": {},
+        "r2_score_less_norm_count": 0 
     }
     for model in list_of_regression_models:
         regressor = train_the_model(
@@ -176,21 +178,15 @@ def regression_process(
                 )
             )
 
-        if r2_score_value >= minimum_value_to_r2:
-            list_of_predictions_dict = prediction_processing.add_prediction_to_return_dict(
-                list_of_predictions_dict,
-                predictions,
-                model,
-            )
-            r2_score_values_dict.update(
-                {
-                    model.__name__  : r2_score_value
-                }
-            )
-        else:
-            r2_score_less_norm_count += 1
+        regression_evaluation.update_operational_dict_based_on_r2_score(
+            operational_dict=operational_dict,
+            current_r2_score=r2_score_value,
+            min_r2_threshold=minimum_value_to_r2,
+            predictions=predictions,
+            model=model
+        )
         
-        del r2_score_value,
+        del r2_score_value
     
     del standard_scaler_for_answers_to_data, \
         minimum_value_to_r2,\
@@ -199,24 +195,18 @@ def regression_process(
         answers_to_data_training_set,\
         data_to_analyze_test_set,\
         answers_to_data_test_set,\
-        
-    if r2_score_less_norm_count < len(list_of_regression_models):
+
+    if operational_dict["r2_score_less_norm_count"] < len(list_of_regression_models):
         dict_to_return = {
-            "predictions": list_of_predictions_dict,
-            "r2_score_values_dict": r2_score_values_dict
+            "predictions": operational_dict["list_of_predictions_dict"],
+            "r2_score_values_dict": operational_dict["r2_score_values_dict"]
         }
     else:
-        dict_to_return.update(
-                {
-                    "error": True,
-                    "message": "There weren`t any statistically significant answers" 
-                }
-            )
-        return dict_to_return
+        dict_to_return = {
+            "error": True,
+            "message": "There weren`t any statistically significant answers" 
+        }
     
-    del r2_score_less_norm_count,\
-        list_of_predictions_dict,\
-        list_of_regression_models,\
-        r2_score_values_dict,\
+    del list_of_regression_models, operational_dict
         
     return dict_to_return

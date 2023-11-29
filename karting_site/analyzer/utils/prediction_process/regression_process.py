@@ -43,33 +43,41 @@ def train_the_model(
     return regressor
 
 def regression_process(
-      df_to_analyze: pd.DataFrame,  
-      list_of_df_to_predict: list[pd.DataFrame],
-      
-      minimum_value_to_r2: float = 0
+    df_with_whole_data_set: pd.DataFrame,  
+    list_of_df_to_predict: list[pd.DataFrame],
+    
+    minimum_value_to_r2:float = 0,
+    
+    size_of_test_set:float = 0.15,
+    train_test_split_random_state:int = 2
 ):
-    data_to_analyze = df_to_analyze.iloc[:, :-1].values # (x) Matrix of Features
-    answers_to_data = df_to_analyze.iloc[:, -1].values # (y) Depending variable vector
+    data_to_analyze = df_with_whole_data_set.iloc[:, :-1].values # (x) Matrix of Features
+    answers_to_data = df_with_whole_data_set.iloc[:, -1].values # (y) Depending variable vector
+    
+    del df_with_whole_data_set
 
     # Encoding the Independent Variable
     column_transformer_instance = ColumnTransformer(
         transformers=[("encoder", OneHotEncoder(), [0])],
         remainder="passthrough"
     )
-    data_to_analyze_after = column_transformer_instance.fit_transform(data_to_analyze)
+    data_to_analyze = column_transformer_instance.fit_transform(data_to_analyze)
     
     # Splitting the dataset into the Training set and Test set
     data_to_analyze_training_set,\
     data_to_analyze_test_set,\
     answers_to_data_training_set,\
     answers_to_data_test_set = train_test_split(
-        data_to_analyze_after, 
+        data_to_analyze, 
         answers_to_data, 
-        test_size = 0.15, 
-        random_state = 2)
+        test_size = size_of_test_set, 
+        random_state = train_test_split_random_state)
+    
+    del data_to_analyze, answers_to_data
     
     # Feature Scaling
     standard_scaler_for_data_to_analyze = StandardScaler(with_mean=False)
+    
     data_to_analyze_training_set = standard_scaler_for_data_to_analyze.fit_transform(
         data_to_analyze_training_set
     )
@@ -78,12 +86,14 @@ def regression_process(
     )
     
     standard_scaler_for_answers_to_data = StandardScaler()
+    answers_to_data_training_set = answers_to_data_training_set.reshape(
+            len(answers_to_data_training_set), 
+            1
+        )
+    
     answers_to_data_training_set = np.ravel(
         standard_scaler_for_answers_to_data.fit_transform(
-            answers_to_data_training_set.reshape(
-                len(answers_to_data_training_set), 
-                1
-            )
+            answers_to_data_training_set
         )
     )
     answers_to_data_test_set = np.ravel(
@@ -103,13 +113,13 @@ def regression_process(
         values_to_predict = df.values
         try:
             values_to_predict = column_transformer_instance.transform(values_to_predict)
-        except ValueError as VallErr:
-            print(f"An exception occurred: {str(VallErr)}")
+        except ValueError as error_text:
+            print(f"An exception occurred: {str(error_text)}")
             message = "ValueError appeared in prediction transformation process. "
             dict_to_return.update(
                 {
                     "error": True,
-                    "message": message + str(VallErr)+"." 
+                    "message": message + str(error_text)+"." 
                 }
             )
             return dict_to_return
@@ -120,6 +130,9 @@ def regression_process(
         values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)
         lists_of_values_to_predict.append(values_to_predict)
         list_of_predictions_dict.append({})
+    
+    del standard_scaler_for_data_to_analyze,\
+        list_of_df_to_predict
     
     list_of_regression_models = [
         regression_models.multiple_linear_regression,
@@ -177,6 +190,16 @@ def regression_process(
         else:
             r2_score_less_norm_count += 1
         
+        del r2_score_value,
+    
+    del standard_scaler_for_answers_to_data, \
+        minimum_value_to_r2,\
+        lists_of_values_to_predict,\
+        data_to_analyze_training_set,\
+        answers_to_data_training_set,\
+        data_to_analyze_test_set,\
+        answers_to_data_test_set,\
+        
     if r2_score_less_norm_count < len(list_of_regression_models):
         dict_to_return = {
             "predictions": list_of_predictions_dict,
@@ -190,5 +213,10 @@ def regression_process(
                 }
             )
         return dict_to_return
+    
+    del r2_score_less_norm_count,\
+        list_of_predictions_dict,\
+        list_of_regression_models,\
+        r2_score_values_dict,\
         
     return dict_to_return

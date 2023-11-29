@@ -25,17 +25,8 @@ from collections.abc import Callable
 
 from . import regression_evaluation
 from . import regression_models
+from . import prediction_preparation
 
-
-def make_some_predictions (
-    regressor: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,
-    lists_of_values_to_predict: list[list]
-) -> list:
-    list_of_predictions = []
-    for value_to_predict in lists_of_values_to_predict:
-        prediction = regressor.predict(value_to_predict)
-        list_of_predictions.append(prediction)
-    return list_of_predictions
 
 def add_prediction_to_return_dict(
     list_of_predictions_dict: list[dict],
@@ -157,7 +148,7 @@ def regression_process(
         r2_score_value = float(f"{r2_score_value:.4f}")
 
         predictions = []
-        predictions = make_some_predictions(
+        predictions = prediction_preparation.make_some_predictions(
             regressor=regressor,
             lists_of_values_to_predict=lists_of_values_to_predict
         )

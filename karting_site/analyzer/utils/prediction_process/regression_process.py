@@ -87,7 +87,7 @@ def regression_process(
         )
     )
     answers_to_data_test_set = np.ravel(
-        standard_scaler_for_answers_to_data.fit_transform(
+        standard_scaler_for_answers_to_data.transform(
             answers_to_data_test_set.reshape(
                 len(answers_to_data_test_set), 
                 1

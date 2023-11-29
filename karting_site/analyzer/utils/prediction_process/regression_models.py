@@ -45,10 +45,14 @@ def polinomial_regression(
 def support_vector_regression(
     x_train,
     y_train,
+    
+    svr_kernel:str = "rbf"
 ):  
     # Training the SVR model on the Training set
-    regressor = SVR(kernel = 'rbf')
-    y_train = column_or_1d(y_train)
+    regressor = SVR(
+        kernel = svr_kernel,
+    )
+    
     regressor.fit(x_train, y_train)
     
     return regressor
@@ -56,9 +60,13 @@ def support_vector_regression(
 def decision_tree_regression(
     x_train,
     y_train,
+    
+    random_state:int = 0
 ):
     # Training the Decision Tree Regression on the Training set
-    regressor = DecisionTreeRegressor(random_state = 0)
+    regressor = DecisionTreeRegressor(
+        random_state = random_state
+    )
     regressor.fit(x_train, y_train)
 
     return regressor
@@ -66,12 +74,14 @@ def decision_tree_regression(
 def random_forest_regression(
     x_train,
     y_train,
-    number_of_estimators=50
+    
+    number_of_estimators:int = 50,
+    random_state:int = 0,
 ):  
     # Training the Random Forest Regression model on the Training set
     regressor = RandomForestRegressor(
         n_estimators=number_of_estimators,
-        random_state=0
+        random_state=random_state,
     )
     regressor.fit(x_train, y_train)
     

@@ -46,3 +46,18 @@ def make_some_predictions (
         prediction = regressor.predict(value_to_predict)
         list_of_predictions.append(prediction)
     return list_of_predictions
+
+def add_prediction_to_return_dict(
+    list_of_predictions_dict: list[dict],
+    predictions: list[list],
+    model,
+) -> list:
+    for prediction_count in range(len(predictions)):
+        prediction_to_add = predictions[prediction_count]
+        list_of_predictions_dict[prediction_count].update(
+            {
+                model.__name__  : prediction_to_add
+            }
+        )
+        
+    return list_of_predictions_dict

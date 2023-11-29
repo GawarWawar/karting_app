@@ -25,23 +25,8 @@ from collections.abc import Callable
 
 from . import regression_evaluation
 from . import regression_models
-from . import prediction_preparation
+from . import prediction_processing
 
-
-def add_prediction_to_return_dict(
-    list_of_predictions_dict: list[dict],
-    predictions: list[list],
-    model,
-) -> list:
-    for prediction_count in range(len(predictions)):
-        prediction_to_add = predictions[prediction_count]
-        list_of_predictions_dict[prediction_count].update(
-            {
-                model.__name__  : prediction_to_add
-            }
-        )
-        
-    return list_of_predictions_dict
 
 def train_the_model(
     x_train: list,
@@ -148,7 +133,7 @@ def regression_process(
         r2_score_value = float(f"{r2_score_value:.4f}")
 
         predictions = []
-        predictions = prediction_preparation.make_some_predictions(
+        predictions = prediction_processing.make_some_predictions(
             regressor=regressor,
             lists_of_values_to_predict=lists_of_values_to_predict
         )
@@ -162,7 +147,7 @@ def regression_process(
             )
 
         if r2_score_value >= minimum_value_to_r2:
-            list_of_predictions_dict = add_prediction_to_return_dict(
+            list_of_predictions_dict = prediction_processing.add_prediction_to_return_dict(
                 list_of_predictions_dict,
                 predictions,
                 model,

@@ -18,7 +18,7 @@ from .utils.analyzation_process import laps_frame_modifications
 from .utils.analyzation_process import functions_for_return
 
 from .utils.prediction_process import regression_process
-from .utils.prediction_process import prediction_preparation
+from .utils.prediction_process import prediction_processing
 
 import warnings
 # Suppress FutureWarning messages
@@ -180,7 +180,7 @@ def analyze_race(race_id):
         df_karts=df_karts,
     )
     
-    df_with_prediction = prediction_preparation.assemble_prediction(
+    df_with_prediction = prediction_processing.assemble_prediction(
         0.0,
         df_of_pilots=df_pilots.copy(),
         df_of_karts=df_karts.copy(),

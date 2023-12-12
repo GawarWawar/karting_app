@@ -133,7 +133,7 @@ def analyze_race(
     
     coeficients_for_predictions: list[float] = [0.0],
     
-    logg_level: str|None = "DEBUG",
+    logg_level: str|None = "WARNING",
     
     how_many_digits_after_period_to_leave_in: int = 4,
     

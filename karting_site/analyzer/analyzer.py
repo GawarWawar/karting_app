@@ -4,7 +4,8 @@ import pandas as pd
 from dateutil import parser
 
 import time
-import pprint
+import logging
+
 import sys
 import os
 
@@ -132,7 +133,7 @@ def analyze_race(
     
     coeficients_for_predictions: list[float] = [0.0],
     
-    logging_on: bool = True,
+    logg_level: str|None = "DEBUG",
     
     how_many_digits_after_period_to_leave_in: int = 4,
     
@@ -150,8 +151,29 @@ def analyze_race(
     train_test_split_random_state = 2,
     sequence_number_of_columns_to_OHE = [0]
 ):  
-    if logging_on:
-        print("START")
+    if logg_level is not None:
+        logger_set_up_start_timer = time.perf_counter()
+        
+        
+        # Create logger to make logs
+        logger_name_and_file_name = f"race_id_{race_id}"
+        race_logger = logging.getLogger(logger_name_and_file_name)
+        race_logger.setLevel(logg_level)
+                
+        
+        # FileHandler change for logger, to change logger location
+        file_handler = logging.FileHandler(
+            f'analyzer/data/logs/{logger_name_and_file_name}.log'
+        )
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        race_logger.addHandler(file_handler)
+        
+        logger_set_up_end_time = time.perf_counter()
+        
+        race_logger.debug(f"{logger_set_up_end_time-logger_set_up_start_timer} secons took logger to set up")
+        race_logger.debug("START")
+        
         start_timer = time.perf_counter()
     
     df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
@@ -185,15 +207,16 @@ def analyze_race(
 
     
     df_coeficient = coef_func.create_primary_coeficient(
-        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,
+        logger_instance=race_logger
     )
 
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,
         df_of_primary_coeficient=df_coeficient,
         
-        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
-        
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,
+        logger_instance=race_logger
     )
     del df_coeficient
 
@@ -257,10 +280,12 @@ def analyze_race(
         name="kart",
     )
 
-    if logging_on:
-        print("1. Temp")
+    if logg_level is not None:
+        race_logger.debug("1. Temp")
     dicts_from_temp_predictions = regression_process.regression_process(
         df_to_analyze, list_with_predictions,
+        
+        logger_instance=race_logger,
         
         regression_model_builder_functions=regression_model_builder_functions,
         minimum_value_to_r2=minimum_value_to_r2,
@@ -281,10 +306,12 @@ def analyze_race(
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
     del df_stats
 
-    if logging_on:
-        print("2. Fastest lap")
+    if logg_level is not None:
+        race_logger.debug("2. Fastest lap")
     dicts_from_fastestlap_predictions = regression_process.regression_process(
         df_to_analyze, list_with_predictions,
+        
+        logger_instance=race_logger,
         
         regression_model_builder_functions=regression_model_builder_functions,
         minimum_value_to_r2=minimum_value_to_r2,
@@ -301,9 +328,11 @@ def analyze_race(
     )
     return_dict["data"].update(data)
     
-    if logging_on:
+    if logg_level is not None:
         end_timer = time.perf_counter()
-        print(f"END:{end_timer-start_timer} seconds were used by whole analyzetion process before finishing")
+        race_logger.info(f"END:{end_timer-start_timer} seconds were used by whole analyzation process before finishing")
+        race_logger.removeHandler(file_handler)
+        
 
     return return_dict
 

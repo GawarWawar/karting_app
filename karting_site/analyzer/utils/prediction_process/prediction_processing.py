@@ -3,6 +3,7 @@ import numpy as np
 import requests
 
 import time
+import logging
 
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
@@ -67,7 +68,9 @@ def add_prediction_to_list_in_dict_form(
 def encode_and_scale_prediction_data(
     list_of_df_with_predictions: list[pd.DataFrame],
     column_transfoarmer_instance: ColumnTransformer,
-    standard_scaler_for_data_to_analyze: StandardScaler
+    standard_scaler_for_data_to_analyze: StandardScaler,
+    
+    logger_instance: logging.Logger|None = None
 ) -> dict:
     dict_to_return = {
         "error": False,
@@ -81,7 +84,8 @@ def encode_and_scale_prediction_data(
         try:
             values_to_predict = column_transfoarmer_instance.transform(values_to_predict)
         except ValueError as error_text:
-            print(f"An exception occurred: {str(error_text)}")
+            if logger_instance is not None:
+                logger_instance.warning(f"An exception occurred: {str(error_text)}")
             message = "ValueError appeared in prediction transformation process. "
             dict_to_return.update(
                 {

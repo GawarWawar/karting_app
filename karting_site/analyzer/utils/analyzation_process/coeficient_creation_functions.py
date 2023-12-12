@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
+
 import time
+import logging
 
 from analyzer import models
 
@@ -27,9 +29,9 @@ def normalize_temp(
 def create_primary_coeficient (
     
     how_many_digits_after_period_to_leave_in:int = 4,
-    loggin_on: bool = False,
+    logger_instance: logging.Logger|None = None,
 ):
-    if loggin_on:
+    if logger_instance is not None:
         start_timer = time.perf_counter()
     
     races = models.BigRace.objects.all()
@@ -41,9 +43,9 @@ def create_primary_coeficient (
                 "coeficient": pd.Series(dtype=float)
             }
         )
-        if loggin_on:
+        if logger_instance is not None:
             end_timer = time.perf_counter()
-            print(f"{end_timer-start_timer} seconds seconds were used by 'create_primary_coeficient' (no races were found)")
+            logger_instance.debug(f"{end_timer-start_timer} seconds seconds were used by 'create_primary_coeficient' (no races were found)")
         return individual_pilot_statistic_df
     else:
         individual_pilot_statistic_df = pd.DataFrame(
@@ -89,10 +91,10 @@ def create_primary_coeficient (
             "coeficient": individual_pilot_statistic_df["average_coeficient"]
         }
     )
-
-    if loggin_on:
+    
+    if logger_instance is not None:
         end_timer = time.perf_counter()
-        print(f"{end_timer-start_timer} seconds were used by 'create_primary_coeficient'")
+        logger_instance.debug(f"{end_timer-start_timer} seconds were used by 'create_primary_coeficient'")
     return individual_pilot_statistic_df
 
 def make_temp_from_average_coeficient(
@@ -116,8 +118,12 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
     df_to_create_coeficients_into: pd.DataFrame,
     df_of_primary_coeficient: pd.DataFrame,
     
-    how_many_digits_after_period_to_leave_in:int = 4
+    how_many_digits_after_period_to_leave_in:int = 4,
+    logger_instance: logging.Logger|None = None,
 ):
+    if logger_instance is not None:
+        start_timer = time.perf_counter()
+    
     max_temp = df_to_create_coeficients_into["pilot_temp"].max()
     min_temp = df_to_create_coeficients_into["pilot_temp"].min()
     
@@ -152,5 +158,9 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
             max_temp = max_temp,
             min_temp = min_temp
         )
+    
+    if logger_instance is not None:
+        end_timer = time.perf_counter()
+        logger_instance.debug(f"{end_timer-start_timer} seconds were used by 'add_coeficients_and_temp_from_average_coeficient_to_df'")
     
     return df_to_create_coeficients_into

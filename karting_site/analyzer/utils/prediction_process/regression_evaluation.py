@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 
+import time
+import logging
+
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -24,14 +27,15 @@ def evaluate_model_perfomance(
     x_test: list,
     y_test: list,
     
-    logging_on:bool = False,
+    logger_instance: logging.Logger|None = None,
+    log_r2_score: bool = False
 ):
     y_pred = model_regressor.predict(x_test)
     r2_score_value = r2_score(y_test, y_pred)
-    if logging_on:
-        regression_name_to_print = model_regressor.__class__.__name__
-        print(
-            f"{r2_score_value} is R^2 score for {regression_name_to_print}"
+    if logger_instance is not None and log_r2_score:
+        regression_name_to_log = model_regressor.__class__.__name__
+        logger_instance.info(
+            f"{r2_score_value} is R^2 score for {regression_name_to_log}"
         )
     return r2_score_value
 

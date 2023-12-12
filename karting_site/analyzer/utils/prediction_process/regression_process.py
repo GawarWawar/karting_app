@@ -93,7 +93,7 @@ def regression_process(
         regression_models.random_forest_regression,
     ],
     
-    logging_on: bool = False,
+    logger_instance: logging.Logger|None = None,
     
     minimum_value_to_r2: float = 0,
     
@@ -194,7 +194,7 @@ def regression_process(
             x_test=data_to_analyze_test_set,
             y_test=answers_to_data_test_set,
             
-            logging_on=logging_on
+            logger_instance=logger_instance
         )
 
         r2_score_value = float(f"{r2_score_value:.{how_many_digits_after_period_to_leave_in}f}")
@@ -245,7 +245,7 @@ def regression_process(
     
     del regression_model_builder_functions, operational_dict
         
-    if logging_on:
+    if logger_instance is not None:
         end_timer = time.perf_counter()    
-        print(f"Amount of time programme took to run: {end_timer-start_timer}")
+        logger_instance.debug(f"{end_timer-start_timer} seconds were taken by 'regression_process'")
     return dict_to_return

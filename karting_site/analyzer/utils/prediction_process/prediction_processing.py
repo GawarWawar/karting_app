@@ -71,8 +71,8 @@ def encode_and_scale_prediction_data(
 ) -> dict:
     dict_to_return = {
         "error": False,
-        "message": "", 
-        "lists_of_values_to_predict": list()
+        "message": None, 
+        "lists_of_values_to_predict": []
     }
     # Transforming prediction with Encoder and Feature Scaling
     lists_of_values_to_predict = []
@@ -95,10 +95,6 @@ def encode_and_scale_prediction_data(
         except AttributeError:
             pass
         values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)
-        lists_of_values_to_predict.append(values_to_predict)
-    
-    dict_to_return.update(
-        {"lists_of_values_to_predict": lists_of_values_to_predict}
-    )
+        dict_to_return["lists_of_values_to_predict"].append(values_to_predict)
     
     return dict_to_return

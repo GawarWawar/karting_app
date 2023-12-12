@@ -19,6 +19,7 @@ from .utils.analyzation_process import functions_for_return
 
 from .utils.prediction_process import regression_process
 from .utils.prediction_process import prediction_processing
+from .utils.prediction_process import regression_models
 
 import warnings
 # Suppress FutureWarning messages
@@ -126,9 +127,32 @@ def compute_kart_statistic(race_id):
     return return_dict
     
 
-def analyze_race(race_id):
-
-    start = time.perf_counter()
+def analyze_race(
+    race_id: int,
+    
+    coeficients_for_predictions: list[float] = [0.0],
+    
+    logging_on: bool = True,
+    
+    how_many_digits_after_period_to_leave_in: int = 4,
+    
+    margin_in_seconds_to_add_to_mean_time: int = 5,
+    
+    regression_model_builder_functions = [
+        regression_models.multiple_linear_regression,
+        regression_models.polinomial_regression,
+        regression_models.support_vector_regression,
+        regression_models.decision_tree_regression,
+        regression_models.random_forest_regression,
+    ],
+    minimum_value_to_r2 = 0,
+    size_of_test_set = 0.15,
+    train_test_split_random_state = 2,
+    sequence_number_of_columns_to_OHE = [0]
+):  
+    if logging_on:
+        print("START")
+        start_timer = time.perf_counter()
     
     df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
@@ -144,25 +168,32 @@ def analyze_race(race_id):
     df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_name"]]
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
-        df_with_race_records=df_from_recorded_records
+        df_with_race_records = df_from_recorded_records,
+        
+        margin_to_add_to_mean_time=margin_in_seconds_to_add_to_mean_time
     )
 
     df_from_recorded_records.pop("segment")
     df_from_recorded_records.pop("lap")
 
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
-        df_of_records=df_from_recorded_records
+        df_of_records = df_from_recorded_records
     )
    
     df_pilots = df_pilots.dropna()
     df_pilots = df_pilots.reset_index(drop=True)
 
     
-    df_coeficient = coef_func.create_primary_coeficient()
+    df_coeficient = coef_func.create_primary_coeficient(
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
+    )
 
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,
-        df_of_primary_coeficient=df_coeficient
+        df_of_primary_coeficient=df_coeficient,
+        
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
+        
     )
     del df_coeficient
 
@@ -180,18 +211,16 @@ def analyze_race(race_id):
         df_karts=df_karts,
     )
     
-    df_with_prediction = prediction_processing.assemble_prediction(
-        0.0,
-        df_of_pilots=df_pilots.copy(),
-        df_of_karts=df_karts.copy(),
-    )
-
-    # Deleting from df_pilots info, that won`t be used in regression process
-    # df_pilots.pop("pilot_temp")
-    # df_pilots.pop("this_race_coeficient")
-    # df_pilots.pop("coeficient")
-    # df_pilots.pop("average_coeficient")
-    # df_pilots.pop("pilot_fastest_lap")
+    list_with_predictions = []
+    for coeficient in coeficients_for_predictions:
+        df_with_prediction = prediction_processing.assemble_prediction(
+            coeficient,
+            df_of_pilots=df_pilots.copy(),
+            df_of_karts=df_karts.copy(),
+        )
+        list_with_predictions.append(
+            df_with_prediction
+        )
 
     try:
         df_to_analyze = pd.DataFrame(
@@ -228,8 +257,19 @@ def analyze_race(race_id):
         name="kart",
     )
 
-    print("1.")
-    dicts_from_temp_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction]) 
+    if logging_on:
+        print("1. Temp")
+    dicts_from_temp_predictions = regression_process.regression_process(
+        df_to_analyze, list_with_predictions,
+        
+        regression_model_builder_functions=regression_model_builder_functions,
+        minimum_value_to_r2=minimum_value_to_r2,
+        size_of_test_set=size_of_test_set,
+        train_test_split_random_state=train_test_split_random_state,
+        sequence_number_of_columns_to_OHE=sequence_number_of_columns_to_OHE,
+        
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
+    ) 
     data = functions_for_return.form_return_after_analyzation_with_error_check(
         dict_with_predictions=dicts_from_temp_predictions,
         series_of_karts=series_of_karts,
@@ -241,8 +281,19 @@ def analyze_race(race_id):
     df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
     del df_stats
 
-    print("2.")
-    dicts_from_fastestlap_predictions = regression_process.regression_process(df_to_analyze, [df_with_prediction])
+    if logging_on:
+        print("2. Fastest lap")
+    dicts_from_fastestlap_predictions = regression_process.regression_process(
+        df_to_analyze, list_with_predictions,
+        
+        regression_model_builder_functions=regression_model_builder_functions,
+        minimum_value_to_r2=minimum_value_to_r2,
+        size_of_test_set=size_of_test_set,
+        train_test_split_random_state=train_test_split_random_state,
+        sequence_number_of_columns_to_OHE=sequence_number_of_columns_to_OHE,
+        
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
+    )
     data = functions_for_return.form_return_after_analyzation_with_error_check(
         dict_with_predictions=dicts_from_fastestlap_predictions,
         series_of_karts=series_of_karts,
@@ -250,8 +301,9 @@ def analyze_race(race_id):
     )
     return_dict["data"].update(data)
     
-    end = time.perf_counter()
-    print(end-start)
+    if logging_on:
+        end_timer = time.perf_counter()
+        print(f"END:{end_timer-start_timer} seconds were used by whole analyzetion process before finishing")
 
     return return_dict
 

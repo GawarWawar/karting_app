@@ -3,6 +3,7 @@ import numpy as np
 import requests
 
 import time
+import logging
 
 import sys
 from os.path import dirname, abspath
@@ -42,6 +43,17 @@ def train_the_model(
     
     return regressor
 
+def fit_one_dimentional_data_set (
+    data_set_to_fit,
+    standard_scaler_instance: StandardScaler
+):
+    standard_scaler_instance.fit(
+        data_set_to_fit.reshape(
+            len(data_set_to_fit), 
+            1
+        )
+    )
+
 def transform_one_dimentional_data_set (
     data_set_to_transform,
     standard_scaler_instance: StandardScaler
@@ -58,15 +70,42 @@ def transform_one_dimentional_data_set (
     
     return data_set_to_transform
 
+def invers_transform_one_dimentional_data_set(
+    data_set_to_transform,
+    standard_scaler_instance: StandardScaler
+):
+    return np.ravel(
+            standard_scaler_instance.inverse_transform(
+                [column_or_1d(data_set_to_transform)]
+            )
+        )
+
+
 def regression_process(
     df_with_whole_data_set: pd.DataFrame,  
     list_of_df_to_predict: list[pd.DataFrame],
     
-    minimum_value_to_r2:float = 0,
+    regression_model_builder_functions: list = [
+        regression_models.multiple_linear_regression,
+        regression_models.polinomial_regression,
+        regression_models.support_vector_regression,
+        regression_models.decision_tree_regression,
+        regression_models.random_forest_regression,
+    ],
     
-    size_of_test_set:float = 0.15,
-    train_test_split_random_state:int = 2
+    logging_on: bool = False,
+    
+    minimum_value_to_r2: float = 0,
+    
+    size_of_test_set: float = 0.15,
+    train_test_split_random_state: int = 2,
+    
+    sequence_number_of_columns_to_OHE: list[int] = [0],
+    
+    how_many_digits_after_period_to_leave_in: int = 4
 ):
+    start_timer = time.perf_counter()
+    
     data_to_analyze = df_with_whole_data_set.iloc[:, :-1].values # (x) Matrix of Features
     answers_to_data = df_with_whole_data_set.iloc[:, -1].values # (y) Depending variable vector
     
@@ -74,7 +113,10 @@ def regression_process(
 
     # Encoding the Independent Variable
     column_transformer_instance = ColumnTransformer(
-        transformers=[("encoder", OneHotEncoder(), [0])],
+        transformers=[
+            ("encoder", OneHotEncoder(), 
+            sequence_number_of_columns_to_OHE)
+        ],
         remainder="passthrough"
     )
     data_to_analyze = column_transformer_instance.fit_transform(data_to_analyze)
@@ -102,11 +144,9 @@ def regression_process(
     )
     
     standard_scaler_for_answers_to_data = StandardScaler()
-    standard_scaler_for_answers_to_data.fit(
-        answers_to_data_training_set.reshape(
-            len(answers_to_data_training_set), 
-            1
-        )
+    fit_one_dimentional_data_set(
+        answers_to_data_training_set,
+        standard_scaler_for_answers_to_data
     )
     
     answers_to_data_training_set = transform_one_dimentional_data_set(
@@ -132,24 +172,17 @@ def regression_process(
                 "lists_of_values_to_predict"
             )
         
-    
-    del standard_scaler_for_data_to_analyze,\
+    del (
+        standard_scaler_for_data_to_analyze,
         list_of_df_to_predict
-    
-    list_of_regression_models = [
-        regression_models.multiple_linear_regression,
-        regression_models.polinomial_regression,
-        regression_models.support_vector_regression,
-        regression_models.decision_tree_regression,
-        regression_models.random_forest_regression,
-    ]
+    )
     
     operational_dict = {
         "list_of_predictions_dict": [],
         "r2_score_values_dict": {},
         "r2_score_less_norm_count": 0 
     }
-    for model in list_of_regression_models:
+    for model in regression_model_builder_functions:
         regressor = train_the_model(
             x_train=data_to_analyze_training_set,
             y_train=answers_to_data_training_set,
@@ -159,10 +192,12 @@ def regression_process(
         r2_score_value = regression_evaluation.evaluate_model_perfomance(
             model_regressor=regressor,
             x_test=data_to_analyze_test_set,
-            y_test=answers_to_data_test_set
+            y_test=answers_to_data_test_set,
+            
+            logging_on=logging_on
         )
 
-        r2_score_value = float(f"{r2_score_value:.4f}")
+        r2_score_value = float(f"{r2_score_value:.{how_many_digits_after_period_to_leave_in}f}")
 
         predictions = []
         predictions = prediction_processing.make_some_predictions(
@@ -171,11 +206,10 @@ def regression_process(
         )
 
         # Inversing Feature Scaling for predictions
-        for i in range(len(predictions)):
-            predictions[i] = np.ravel(
-                standard_scaler_for_answers_to_data.inverse_transform(
-                    [column_or_1d(predictions[i])]
-                )
+        for prediction_number in range(len(predictions)):
+            predictions[prediction_number] = invers_transform_one_dimentional_data_set(
+                predictions[prediction_number],
+                standard_scaler_for_answers_to_data
             )
 
         regression_evaluation.update_operational_dict_based_on_r2_score(
@@ -188,15 +222,17 @@ def regression_process(
         
         del r2_score_value
     
-    del standard_scaler_for_answers_to_data, \
-        minimum_value_to_r2,\
-        lists_of_values_to_predict,\
-        data_to_analyze_training_set,\
-        answers_to_data_training_set,\
-        data_to_analyze_test_set,\
-        answers_to_data_test_set,\
+    del (
+        standard_scaler_for_answers_to_data, 
+        minimum_value_to_r2,
+        lists_of_values_to_predict,
+        data_to_analyze_training_set,
+        answers_to_data_training_set,
+        data_to_analyze_test_set,
+        answers_to_data_test_set,
+    )
 
-    if operational_dict["r2_score_less_norm_count"] < len(list_of_regression_models):
+    if operational_dict["r2_score_less_norm_count"] < len(regression_model_builder_functions):
         dict_to_return = {
             "predictions": operational_dict["list_of_predictions_dict"],
             "r2_score_values_dict": operational_dict["r2_score_values_dict"]
@@ -207,6 +243,9 @@ def regression_process(
             "message": "There weren`t any statistically significant answers" 
         }
     
-    del list_of_regression_models, operational_dict
+    del regression_model_builder_functions, operational_dict
         
+    if logging_on:
+        end_timer = time.perf_counter()    
+        print(f"Amount of time programme took to run: {end_timer-start_timer}")
     return dict_to_return

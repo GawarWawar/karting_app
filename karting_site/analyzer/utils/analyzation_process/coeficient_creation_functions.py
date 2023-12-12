@@ -24,8 +24,13 @@ def normalize_temp(
 
     return normilezed_temp
 
-def create_primary_coeficient ():
-    st_t = time.perf_counter()
+def create_primary_coeficient (
+    
+    how_many_digits_after_period_to_leave_in:int = 4,
+    loggin_on: bool = False,
+):
+    if loggin_on:
+        start_timer = time.perf_counter()
     
     races = models.BigRace.objects.all()
     
@@ -36,8 +41,9 @@ def create_primary_coeficient ():
                 "coeficient": pd.Series(dtype=float)
             }
         )
-        en_t = time.perf_counter()
-        print(en_t-st_t)
+        if loggin_on:
+            end_timer = time.perf_counter()
+            print(f"{end_timer-start_timer} seconds seconds were used by 'create_primary_coeficient' (no races were found)")
         return individual_pilot_statistic_df
     else:
         individual_pilot_statistic_df = pd.DataFrame(
@@ -58,7 +64,8 @@ def create_primary_coeficient ():
             this_race_statistic_df["average_lap_time"].apply(
                 normalize_temp,
                 max_temp = max_temp,
-                min_temp = min_temp
+                min_temp = min_temp,
+                how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
             )
 
         individual_pilot_statistic_df = pd.concat(
@@ -83,8 +90,9 @@ def create_primary_coeficient ():
         }
     )
 
-    en_t = time.perf_counter()
-    print(en_t-st_t)
+    if loggin_on:
+        end_timer = time.perf_counter()
+        print(f"{end_timer-start_timer} seconds were used by 'create_primary_coeficient'")
     return individual_pilot_statistic_df
 
 def make_temp_from_average_coeficient(
@@ -106,7 +114,9 @@ def make_temp_from_average_coeficient(
 
 def add_coeficients_and_temp_from_average_coeficient_to_df (
     df_to_create_coeficients_into: pd.DataFrame,
-    df_of_primary_coeficient: pd.DataFrame
+    df_of_primary_coeficient: pd.DataFrame,
+    
+    how_many_digits_after_period_to_leave_in:int = 4
 ):
     max_temp = df_to_create_coeficients_into["pilot_temp"].max()
     min_temp = df_to_create_coeficients_into["pilot_temp"].min()
@@ -115,7 +125,8 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
        df_to_create_coeficients_into["pilot_temp"].apply(
                 normalize_temp,
                 max_temp = max_temp,
-                min_temp = min_temp
+                min_temp = min_temp,
+                how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
             )
     
     df_to_create_coeficients_into = pd.merge(

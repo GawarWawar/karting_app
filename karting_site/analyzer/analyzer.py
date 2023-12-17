@@ -50,8 +50,8 @@ def compute_kart_statistic(race_id):
     # df_from_recorded_records.pop("team_segment")
     df_from_recorded_records.pop("lap_count")
 
-    df_pilots = statistic_creation.module_to_create_pilot_statistics(
-        df_of_records=df_from_recorded_records
+    df_pilots = statistic_creation.create_pilot_statistics(
+        df_with_records=df_from_recorded_records,
     )
    
     df_pilots = df_pilots.dropna()
@@ -66,8 +66,8 @@ def compute_kart_statistic(race_id):
     )
     del df_coeficient
 
-    df_karts = statistic_creation.module_to_create_kart_statistics(
-        df_of_records=df_from_recorded_records,
+    df_karts = statistic_creation.create_kart_statistics(
+        df_with_records=df_from_recorded_records,
     )
 
     df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(
@@ -198,8 +198,8 @@ def analyze_race(
     df_from_recorded_records.pop("team_segment")
     df_from_recorded_records.pop("lap_count")
 
-    df_pilots = statistic_creation.module_to_create_pilot_statistics(
-        df_of_records = df_from_recorded_records
+    df_pilots = statistic_creation.create_pilot_statistics(
+        df_with_records=df_from_recorded_records,
     )
    
     df_pilots = df_pilots.dropna()
@@ -220,8 +220,8 @@ def analyze_race(
     )
     del df_coeficient
 
-    df_karts = statistic_creation.module_to_create_kart_statistics(
-        df_of_records=df_from_recorded_records,
+    df_karts = statistic_creation.create_kart_statistics(
+        df_with_records=df_from_recorded_records,
     )
 
     df_pilot_on_karts = statistic_creation.module_to_create_karts_statistics_for_every_pilot(

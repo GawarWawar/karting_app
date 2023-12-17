@@ -56,64 +56,69 @@ def module_to_create_df_with_statistic(
     return df_with_features
 
 
-# NEED SOME REVISION IN FUTURE TOGETHER WITH module_to_create_kart_statistics
-def module_to_create_pilot_statistics (
-    df_of_records: pd.DataFrame,
-):
-    df_of_pilots = df_of_records.loc[
-        (df_of_records.loc[:, "true_name" ]== True), 
-        "pilot_name"
-    ].drop_duplicates().copy().T.to_frame()
-    df_of_pilots = df_of_pilots.reset_index(drop=True)
+def create_statistic_module_for_certain_column_in_df_with_records (
+    df_with_records: pd.DataFrame,
+    column_to_create_module_on: str,
     
-    # df_of_pilots["pilot_temp"] = 0
-    # df_of_pilots["pilot_fastest_lap"] = 0
+    column_to_look_for_value_of_the_lable:str = "lap_time",
     
-    df_of_pilots = module_to_create_df_with_statistic(
-        df_of_records=df_of_records,
+    **kwargs
+) -> pd.DataFrame:
+    # WORKS properly ONLY IF df_of_records DOESNT HAVE:
+        # true_kart == False (for karts` statistic)
+        # true_name == False (for pilots` statistic)
         
-        df_with_features=df_of_pilots,
-        column_of_the_lable="pilot_name",
+    df_with_statistic = df_with_records.loc[
+        :, 
+        column_to_create_module_on
+    ].drop_duplicates().T.to_frame()
+    df_with_statistic = df_with_statistic.reset_index(drop=True)
+    
+    df_with_statistic = module_to_create_df_with_statistic(
+        df_of_records=df_with_records,
         
-        column_to_look_for_value_of_the_lable="lap_time",
+        df_with_features=df_with_statistic,
+        column_of_the_lable=column_to_create_module_on,
         
-        mean="pilot_temp",
-        min="pilot_fastest_lap",
+        column_to_look_for_value_of_the_lable=column_to_look_for_value_of_the_lable,
+        
+        **kwargs
     )
         
+    return df_with_statistic
+
+def create_pilot_statistics (
+    df_with_records: pd.DataFrame,
+):
+    df_of_pilots = create_statistic_module_for_certain_column_in_df_with_records(
+        df_with_records=df_with_records,
+        column_to_create_module_on="pilot_name",
+        
+        mean="pilot_temp",
+        min="pilot_fastest_lap" 
+    )
+    
     return df_of_pilots
 
-def module_to_create_kart_statistics (
-    df_of_records: pd.DataFrame,
+def create_kart_statistics (
+    df_with_records: pd.DataFrame,
 ):  
-    df_of_karts = df_of_records.loc[
-        df_of_records.loc[:, "true_kart" ]== True,
-        "kart"
-    ].drop_duplicates().T.to_frame()
-    
-    # df_of_karts["kart_temp"] = 0
-    # df_of_karts["kart_fastest_lap"] = 0
-    
-    df_of_karts = module_to_create_df_with_statistic(
-        df_of_records=df_of_records,
-        
-        df_with_features=df_of_karts,
-        column_of_the_lable="kart",
-        
-        column_to_look_for_value_of_the_lable="lap_time",
+    df_of_karts = create_statistic_module_for_certain_column_in_df_with_records(
+        df_with_records=df_with_records,
+        column_to_create_module_on="kart",
         
         mean="kart_temp",
-        min="kart_fastest_lap",
+        min="kart_fastest_lap"
     )
     
     return df_of_karts
 
 def module_to_create_karts_statistics_for_every_pilot(
     df_of_records: pd.DataFrame,
-):
-    # WORKS ONLY IF df_of_records DOESNT HAVE:
-    # true_kart == False
-    # true_name == False (recomended, not mandatory)
+) -> pd.DataFrame:
+    # WORKS ONLY properly IF df_of_records DOESNT HAVE:
+        # true_kart == False
+        # true_name == False (recomended, not mandatory)
     df_of_records = df_of_records.drop(
             columns=[
                 "team_number", "true_name", "true_kart"

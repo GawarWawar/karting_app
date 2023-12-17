@@ -51,19 +51,24 @@ def make_some_predictions (
         list_of_predictions.append(prediction)
     return list_of_predictions
 
-def add_prediction_to_list_in_dict_form(
+def incorporate_predictions_into_dict_list(
     list_of_predictions_dict: list[dict],
     predictions: list[list],
     model: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,
 ) -> None:
-    for prediction_count in range(len(predictions)):
-        list_of_predictions_dict.append({})
-        prediction_to_add = predictions[prediction_count]
-        list_of_predictions_dict[prediction_count].update(
-            {
-                model.__name__  : prediction_to_add
-            }
-        )
+    for prediction_count, prediction in enumerate(predictions):
+        while True:
+            try:
+                list_of_predictions_dict[prediction_count].update(
+                    {
+                        model.__name__  : prediction
+                    }
+                )
+            except IndexError:
+                list_of_predictions_dict.append({})
+                continue
+            else:
+                break
         
 def encode_and_scale_prediction_data(
     list_of_df_with_predictions: list[pd.DataFrame],

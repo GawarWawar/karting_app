@@ -69,7 +69,7 @@ def update_operational_dict_based_on_r2_score(
     - dict: The updated operational dictionary.
     """
     if current_r2_score >= min_r2_threshold:
-        prediction_processing.add_prediction_to_list_in_dict_form(
+        prediction_processing.incorporate_predictions_into_dict_list(
             operational_dict["list_of_predictions_dict"],
             predictions,
             model,

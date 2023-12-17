@@ -5,6 +5,8 @@ import time
 
 from . import models_transmissions
 
+from recorder import models as recorder_models
+
 
 def does_race_has_true_karts(
     df_with_race_records: pd.DataFrame
@@ -50,8 +52,11 @@ def column_with_str_time_into_float_time (
 def create_df_from_recorded_records(
     race_id
 ):    
-    df_from_recorded_records = models_transmissions.collect_race_records_into_DataFrame(
-        race_id=race_id
+    df_from_recorded_records = models_transmissions.collect_model_records_into_DataFrame(
+        model = recorder_models.RaceRecords,
+        inheritance_id = race_id,
+        column_of_inheritance_id = "race",
+            purge_models_technical_columns=True
     )
     
     if not does_race_has_true_karts(
@@ -64,12 +69,12 @@ def create_df_from_recorded_records(
     df_from_recorded_records["kart"] = df_from_recorded_records["kart"].apply(
         kart_column_into_str
     )
-    df_from_recorded_records["pilot"] = df_from_recorded_records["pilot"].str.strip()
+    df_from_recorded_records["pilot_name"] = df_from_recorded_records["pilot_name"].str.strip()
 
     columns_to_change=[
             "lap_time",
-            "s1",
-            "s2",
+            "s1_time",
+            "s2_time",
         ]
     for column in columns_to_change:    
         df_from_recorded_records[column]=column_with_str_time_into_float_time(

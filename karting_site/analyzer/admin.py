@@ -55,8 +55,8 @@ class BigRacesAdmin(admin.ModelAdmin):
             
             csv_file = request.FILES["csv_file"]
             csv_content = pd.read_csv(csv_file)
-            for pilot in list(csv_content.loc[:, "pilot"].index):
-                pilot_name = csv_content.at[pilot, "pilot"]
+            for pilot in list(csv_content.loc[:, "pilot_name"].index):
+                pilot_name = csv_content.at[pilot, "pilot_name"]
                 average_lap_time = csv_content.at[pilot, "average_lap_time"]
                 pilot = models.TempOfPilotsInBR(
                     race = race,

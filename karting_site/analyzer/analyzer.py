@@ -37,7 +37,7 @@ def compute_kart_statistic(race_id):
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
         df_from_recorded_records,
         
-        column_to_look_into="pilot",
+        column_to_look_into="pilot_name",
         wrong_string_to_look_for="Карт ",
     )
     df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_kart"]]
@@ -47,8 +47,8 @@ def compute_kart_statistic(race_id):
         df_with_race_records=df_from_recorded_records
     )
 
-    # df_from_recorded_records.pop("segment")
-    df_from_recorded_records.pop("lap")
+    # df_from_recorded_records.pop("team_segment")
+    df_from_recorded_records.pop("lap_count")
 
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records=df_from_recorded_records
@@ -85,7 +85,7 @@ def compute_kart_statistic(race_id):
         "data": {}
     }
     
-    df_stats = df_stats.sort_values(["kart", "segment"], inplace=False)
+    df_stats = df_stats.sort_values(["kart", "team_segment"], inplace=False)
     
     for kart in df_stats.loc[:, "kart"].drop_duplicates():
         kart_dict = {
@@ -93,7 +93,7 @@ def compute_kart_statistic(race_id):
         }
         pilots_of_kart_index = df_stats.loc[
             df_stats.loc[:, "kart"] == kart,
-            "pilot"
+            "pilot_name"
         ].index
         kart_dict.update(
             {
@@ -105,12 +105,12 @@ def compute_kart_statistic(race_id):
         for index in pilots_of_kart_index:
             kart_dict["pilots"].append(
                     {
-                        "pilot": df_stats.loc[index, "pilot"],
+                        "pilot_name": df_stats.loc[index, "pilot_name"],
                         "temp_with_pilot" : df_stats.loc[index, "temp_with_pilot"],
                         "fastest_lap_with_pilot" : df_stats.loc[index, "fastest_lap_with_pilot"],
                         "pilot_temp" : df_stats.loc[index, "pilot_temp"],
                         "pilot_fastest_lap" : df_stats.loc[index, "pilot_fastest_lap"],
-                        "team_segment": df_stats.loc[index, "segment"],
+                        "team_segment": df_stats.loc[index, "team_segment"],
                         #"this_race_coeficient" : df_stats.loc[index, "this_race_coeficient"],
                         #"pilot_coeficient" : df_stats.loc[index, "coeficient"],
                         #"average_coeficient" : df_stats.loc[index, "average_coeficient"],
@@ -183,7 +183,7 @@ def analyze_race(
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
         df_from_recorded_records,
         
-        column_to_look_into="pilot",
+        column_to_look_into="pilot_name",
         wrong_string_to_look_for="Карт ",
     )
     df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_kart"]]
@@ -195,8 +195,8 @@ def analyze_race(
         margin_to_add_to_mean_time=margin_in_seconds_to_add_to_mean_time
     )
 
-    df_from_recorded_records.pop("segment")
-    df_from_recorded_records.pop("lap")
+    df_from_recorded_records.pop("team_segment")
+    df_from_recorded_records.pop("lap_count")
 
     df_pilots = statistic_creation.module_to_create_pilot_statistics(
         df_of_records = df_from_recorded_records
@@ -248,7 +248,7 @@ def analyze_race(
     try:
         df_to_analyze = pd.DataFrame(
             {
-                #"pilot": df_stats["pilot"].copy(),
+                #"pilot_name": df_stats["pilot_name"].copy(),
                 "kart": df_stats["kart"].copy(),
                 #"pilot_temp": df_stats.pop("pilot_temp"),
                 #"pilot_fastest_lap": df_stats.pop("pilot_fastest_lap"),

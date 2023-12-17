@@ -62,7 +62,7 @@ def module_to_create_pilot_statistics (
 ):
     df_of_pilots = df_of_records.loc[
         (df_of_records.loc[:, "true_name" ]== True), 
-        "pilot"
+        "pilot_name"
     ].drop_duplicates().copy().T.to_frame()
     df_of_pilots = df_of_pilots.reset_index(drop=True)
     
@@ -73,7 +73,7 @@ def module_to_create_pilot_statistics (
         df_of_records=df_of_records,
         
         df_with_features=df_of_pilots,
-        column_of_the_lable="pilot",
+        column_of_the_lable="pilot_name",
         
         column_to_look_for_value_of_the_lable="lap_time",
         
@@ -116,7 +116,7 @@ def module_to_create_karts_statistics_for_every_pilot(
     # true_name == False (recomended, not mandatory)
     df_of_records = df_of_records.drop(
             columns=[
-                "team", "true_name", "true_kart"
+                "team_number", "true_name", "true_kart"
             ],
             inplace=False
         ).copy()
@@ -125,15 +125,15 @@ def module_to_create_karts_statistics_for_every_pilot(
     # Will leave it here for now, to specify Dtypes
     df_pilot_on_karts = pd.DataFrame(
         {
-            "pilot": pd.Series(dtype=str),
+            "pilot_name": pd.Series(dtype=str),
             "kart": pd.Series(dtype=str),
             "temp_with_pilot": pd.Series(dtype=float),
             "fastest_lap_with_pilot": pd.Series(dtype=float),   
         }
     )
     
-    for pilot_name, pilot_records in df_of_records.groupby("pilot"):
-        # df_of_records.groupby("pilot") returns tuple with:
+    for pilot_name, pilot_records in df_of_records.groupby("pilot_name"):
+        # df_of_records.groupby("pilot_name") returns tuple with:
         # 1st - Element of the column by which rows were groupped by
         # 2nd - pd.DataFrame or pd.Series with groupped rows
         # SO: we dont need 1st element, but we dont want to use tuple ->
@@ -152,8 +152,8 @@ def module_to_create_karts_statistics_for_every_pilot(
         )
         
         karts_of_pilot_df.pop("lap_time")
-        karts_of_pilot_df.pop("s1")
-        karts_of_pilot_df.pop("s2")
+        karts_of_pilot_df.pop("s1_time")
+        karts_of_pilot_df.pop("s2_time")
 
         df_pilot_on_karts = pd.concat(
             [df_pilot_on_karts, karts_of_pilot_df]   
@@ -166,11 +166,11 @@ def module_to_create_karts_statistics_for_every_pilot(
 def module_to_create_karts_statistics_for_every_pilot_old(
     df_of_records: pd.DataFrame,
 ):
-    df_of_records.pop("team")
+    df_of_records.pop("team_number")
     
     df_pilot_on_karts = pd.DataFrame(
         {
-            "pilot": pd.Series(dtype=str),
+            "pilot_name": pd.Series(dtype=str),
             "kart": pd.Series(dtype=str),
             "temp_with_pilot": pd.Series(dtype=float),
             "fastest_lap_with_pilot": pd.Series(dtype=float),   
@@ -182,10 +182,10 @@ def module_to_create_karts_statistics_for_every_pilot_old(
     
     for pilot in df_of_records.loc[
         (df_of_records.loc[:, "true_name" ]== True),
-        "pilot"
+        "pilot_name"
     ].drop_duplicates():
         all_pilot_kart_records = df_of_records.loc[
-            df_of_records.loc[:, "pilot"]==pilot,
+            df_of_records.loc[:, "pilot_name"]==pilot,
             :
         ]
 
@@ -209,8 +209,8 @@ def module_to_create_karts_statistics_for_every_pilot_old(
         )
 
         karts_of_pilot_df.pop("lap_time")
-        karts_of_pilot_df.pop("s1")
-        karts_of_pilot_df.pop("s2")
+        karts_of_pilot_df.pop("s1_time")
+        karts_of_pilot_df.pop("s2_time")
 
 
         df_pilot_on_karts = pd.concat(
@@ -226,7 +226,7 @@ def create_df_stats(
     df_stats = pd.DataFrame.merge(
         df_pilot_on_karts,
         df_pilots,
-        on="pilot"
+        on="pilot_name"
     )
 
     df_stats = pd.DataFrame.merge(

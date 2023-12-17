@@ -4,7 +4,7 @@ import pandas as pd
 import time
 import logging
 
-from analyzer import models
+from analyzer import models as analyzer_models
 
 from . import statistic_creation
 from . import models_transmissions
@@ -34,12 +34,12 @@ def create_primary_coeficient (
     if logger_instance is not None:
         start_timer = time.perf_counter()
     
-    races = models.BigRace.objects.all()
+    races = analyzer_models.BigRace.objects.all()
     
     if not races:
         individual_pilot_statistic_df = pd.DataFrame(
             {
-                "pilot": pd.Series(dtype=str),
+                "pilot_name": pd.Series(dtype=str),
                 "coeficient": pd.Series(dtype=float)
             }
         )
@@ -50,13 +50,16 @@ def create_primary_coeficient (
     else:
         individual_pilot_statistic_df = pd.DataFrame(
             {
-                "pilot": pd.Series(dtype=str)
+                "pilot_name": pd.Series(dtype=str)
             }
         )
     
     for big_race in races:
-        this_race_statistic_df = models_transmissions.collect_BR_temp_records_into_DataFrame(
-            race_id=big_race.id,
+        this_race_statistic_df = models_transmissions.collect_model_records_into_DataFrame(
+            model = analyzer_models.TempOfPilotsInBR,
+            inheritance_id = big_race.id,
+            column_of_inheritance_id="race",
+            purge_models_technical_columns=True
         )
         
         max_temp = this_race_statistic_df["average_lap_time"].max()
@@ -87,7 +90,7 @@ def create_primary_coeficient (
 
     individual_pilot_statistic_df = pd.DataFrame(
         {
-            "pilot": individual_pilot_statistic_df["pilot"],
+            "pilot_name": individual_pilot_statistic_df["pilot"],
             "coeficient": individual_pilot_statistic_df["average_coeficient"]
         }
     )
@@ -138,7 +141,7 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
     df_to_create_coeficients_into = pd.merge(
         df_to_create_coeficients_into,
         df_of_primary_coeficient,
-        on="pilot",
+        on="pilot_name",
         how="left",
     )
     

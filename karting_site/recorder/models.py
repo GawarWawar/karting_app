@@ -32,7 +32,7 @@ class Race(models.Model):
 # Each of the RaceRecords contains info about 1 lap of 1 team into particular Race
 class RaceRecords(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    team_number = models.CharField("team", max_length=10)
+    team_number = models.CharField("team_number", max_length=10)
     pilot_name = models.CharField("pilot_name", max_length=200)
     kart = models.IntegerField("kart", default=0)
     lap_count = models.IntegerField("lap_count")

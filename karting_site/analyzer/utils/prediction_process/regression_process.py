@@ -29,31 +29,10 @@ from . import regression_models
 from . import prediction_processing
 from . import data_preprocessing
 
-def train_the_model(
-    x_train: list,
-    y_train: list,
-    model_to_train: Callable[
-        [list, list], 
-        LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor]
-) -> LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor:
-    regressor = model_to_train(
-        x_train,
-        y_train
-    )
-    
-    return regressor
-
 def regression_process(
     df_with_whole_data_set: pd.DataFrame,  
     list_of_df_to_predict: list[pd.DataFrame],
-    
-    regression_model_builders: list[regression_models.RegressionModel] = [
-        regression_models.MultipleLinearRegression_,
-        regression_models.PolinomialRegression_,
-        regression_models.SupportVectorRegression_,
-        regression_models.DecisionTreeRegression_,
-        regression_models.RandomForestRegression_,
-    ],
+    regression_class_instances: list[regression_models.RegressionModel],
     
     logger_instance: logging.Logger|None = None,
     
@@ -146,12 +125,19 @@ def regression_process(
         "r2_score_values_dict": {},
         "r2_score_less_norm_count": 0 
     }
-    for model in regression_model_builders:
-        regressor_trained_on_data = train_the_model(
-            x_train=data_to_analyze_training_set,
-            y_train=answers_to_data_training_set,
-            model_to_train=model.regressor_building_function
-        )
+    for model in regression_class_instances:
+        try:
+            regressor_trained_on_data = model.train_the_model(
+                x_train=data_to_analyze_training_set,
+                y_train=answers_to_data_training_set,
+            )
+        except TypeError as raised_type_error:
+            raise TypeError(
+                f"""
+                {raised_type_error}.
+                Make sure that RegressionModel instance is activated. Please give class object into regression_class_instances, not class itself
+                """
+            )
 
         r2_score_value = regression_evaluation.evaluate_model_perfomance(
             model_regressor=regressor_trained_on_data,
@@ -197,7 +183,7 @@ def regression_process(
         answers_to_data_test_set,
     )
 
-    if len(regression_model_builders) > operational_dict["r2_score_less_norm_count"]:
+    if len(regression_class_instances) > operational_dict["r2_score_less_norm_count"]:
         dict_to_return = {
             "predictions": operational_dict["list_of_predictions_dict"],
             "r2_score_values_dict": operational_dict["r2_score_values_dict"]
@@ -208,7 +194,7 @@ def regression_process(
             "message": "There weren`t any statistically significant answers" 
         }
     
-    del regression_model_builders, operational_dict
+    del regression_class_instances, operational_dict
         
     if logger_instance is not None:
         end_timer = time.perf_counter()    

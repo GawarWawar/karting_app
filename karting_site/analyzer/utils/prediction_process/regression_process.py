@@ -27,7 +27,7 @@ from collections.abc import Callable
 from . import regression_evaluation
 from . import regression_models
 from . import prediction_processing
-
+from . import data_preprocessing
 
 def train_the_model(
     x_train: list,
@@ -42,44 +42,6 @@ def train_the_model(
     )
     
     return regressor
-
-def fit_one_dimentional_data_set (
-    data_set_to_fit,
-    standard_scaler_instance: StandardScaler
-):
-    standard_scaler_instance.fit(
-        data_set_to_fit.reshape(
-            len(data_set_to_fit), 
-            1
-        )
-    )
-
-def transform_one_dimentional_data_set (
-    data_set_to_transform,
-    standard_scaler_instance: StandardScaler
-):
-    data_set_to_transform = data_set_to_transform.reshape(
-            len(data_set_to_transform), 
-            1
-        )
-    data_set_to_transform = np.ravel(
-        standard_scaler_instance.transform(
-            data_set_to_transform
-        )
-    )
-    
-    return data_set_to_transform
-
-def invers_transform_one_dimentional_data_set(
-    data_set_to_transform,
-    standard_scaler_instance: StandardScaler
-):
-    return np.ravel(
-            standard_scaler_instance.inverse_transform(
-                [column_or_1d(data_set_to_transform)]
-            )
-        )
-
 
 def regression_process(
     df_with_whole_data_set: pd.DataFrame,  
@@ -144,19 +106,21 @@ def regression_process(
     )
     
     standard_scaler_for_answers_to_data = StandardScaler()
-    fit_one_dimentional_data_set(
+    data_preprocessing.standart_scaler_fit_one_dimentional_data_set(
         answers_to_data_training_set,
         standard_scaler_for_answers_to_data
     )
     
-    answers_to_data_training_set = transform_one_dimentional_data_set(
-        answers_to_data_training_set,
-        standard_scaler_for_answers_to_data
-    )
-    answers_to_data_test_set = transform_one_dimentional_data_set(
-        answers_to_data_test_set,
-        standard_scaler_for_answers_to_data
-    )
+    answers_to_data_training_set = \
+        data_preprocessing.standart_scaler_transform_one_dimentional_data_set(
+            answers_to_data_training_set,
+            standard_scaler_for_answers_to_data
+        )
+    answers_to_data_test_set = \
+        data_preprocessing.standart_scaler_transform_one_dimentional_data_set(
+            answers_to_data_test_set,
+            standard_scaler_for_answers_to_data
+        )
     
     operational_dict = prediction_processing.encode_and_scale_prediction_data(
         list_of_df_with_predictions=list_of_df_to_predict,
@@ -207,10 +171,11 @@ def regression_process(
 
         # Inversing Feature Scaling for predictions
         for prediction_number in range(len(predictions)):
-            predictions[prediction_number] = invers_transform_one_dimentional_data_set(
-                predictions[prediction_number],
-                standard_scaler_for_answers_to_data
-            )
+            predictions[prediction_number] = \
+                data_preprocessing.standart_scaler_invers_transform_one_dimentional_data_set(
+                    predictions[prediction_number],
+                    standard_scaler_for_answers_to_data
+                )
 
         regression_evaluation.update_operational_dict_based_on_r2_score(
             operational_dict=operational_dict,

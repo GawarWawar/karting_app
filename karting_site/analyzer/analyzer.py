@@ -139,12 +139,12 @@ def analyze_race(
     
     margin_in_seconds_to_add_to_mean_time: int = 5,
     
-    regression_model_builder_functions = [
-        regression_models.multiple_linear_regression,
-        regression_models.polinomial_regression,
-        regression_models.support_vector_regression,
-        regression_models.decision_tree_regression,
-        regression_models.random_forest_regression,
+    regression_model_builders = [
+        regression_models.MultipleLinearRegression_,
+        regression_models.PolinomialRegression_,
+        regression_models.SupportVectorRegression_,
+        regression_models.DecisionTreeRegression_,
+        regression_models.RandomForestRegression_,
     ],
     minimum_value_to_r2 = 0,
     size_of_test_set = 0.15,
@@ -287,7 +287,7 @@ def analyze_race(
         
         logger_instance=race_logger,
         
-        regression_model_builder_functions=regression_model_builder_functions,
+        regression_model_builders=regression_model_builders,
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
         train_test_split_random_state=train_test_split_random_state,
@@ -313,7 +313,7 @@ def analyze_race(
         
         logger_instance=race_logger,
         
-        regression_model_builder_functions=regression_model_builder_functions,
+        regression_model_builders=regression_model_builders,
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
         train_test_split_random_state=train_test_split_random_state,

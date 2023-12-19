@@ -15,6 +15,8 @@ from sklearn.ensemble import RandomForestRegressor
 
 from analyzer.utils.analyzation_process import coeficient_creation_functions
 
+from . import regression_models
+
 def assemble_prediction (
     coeficient_for_prediction: float,
     df_of_pilots: pd.DataFrame,
@@ -54,14 +56,14 @@ def make_some_predictions (
 def incorporate_predictions_into_dict_list(
     list_of_predictions_dict: list[dict],
     predictions: list[list],
-    model: LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor,
+    model: regression_models.RegressionModel,
 ) -> None:
     for prediction_count, prediction in enumerate(predictions):
         while True:
             try:
                 list_of_predictions_dict[prediction_count].update(
                     {
-                        model.__name__  : prediction
+                        model.name  : prediction
                     }
                 )
             except IndexError:

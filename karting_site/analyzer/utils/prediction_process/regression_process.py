@@ -47,12 +47,12 @@ def regression_process(
     df_with_whole_data_set: pd.DataFrame,  
     list_of_df_to_predict: list[pd.DataFrame],
     
-    regression_model_builder_functions: list = [
-        regression_models.multiple_linear_regression,
-        regression_models.polinomial_regression,
-        regression_models.support_vector_regression,
-        regression_models.decision_tree_regression,
-        regression_models.random_forest_regression,
+    regression_model_builders: list[regression_models.RegressionModel] = [
+        regression_models.MultipleLinearRegression_,
+        regression_models.PolinomialRegression_,
+        regression_models.SupportVectorRegression_,
+        regression_models.DecisionTreeRegression_,
+        regression_models.RandomForestRegression_,
     ],
     
     logger_instance: logging.Logger|None = None,
@@ -146,15 +146,15 @@ def regression_process(
         "r2_score_values_dict": {},
         "r2_score_less_norm_count": 0 
     }
-    for model in regression_model_builder_functions:
-        regressor = train_the_model(
+    for model in regression_model_builders:
+        regressor_trained_on_data = train_the_model(
             x_train=data_to_analyze_training_set,
             y_train=answers_to_data_training_set,
-            model_to_train=model
+            model_to_train=model.regressor_building_function
         )
 
         r2_score_value = regression_evaluation.evaluate_model_perfomance(
-            model_regressor=regressor,
+            model_regressor=regressor_trained_on_data,
             x_test=data_to_analyze_test_set,
             y_test=answers_to_data_test_set,
             
@@ -165,7 +165,7 @@ def regression_process(
 
         predictions = []
         predictions = prediction_processing.make_some_predictions(
-            regressor=regressor,
+            regressor=regressor_trained_on_data,
             lists_of_values_to_predict=lists_of_values_to_predict
         )
 
@@ -197,7 +197,7 @@ def regression_process(
         answers_to_data_test_set,
     )
 
-    if operational_dict["r2_score_less_norm_count"] < len(regression_model_builder_functions):
+    if len(regression_model_builders) > operational_dict["r2_score_less_norm_count"]:
         dict_to_return = {
             "predictions": operational_dict["list_of_predictions_dict"],
             "r2_score_values_dict": operational_dict["r2_score_values_dict"]
@@ -208,9 +208,10 @@ def regression_process(
             "message": "There weren`t any statistically significant answers" 
         }
     
-    del regression_model_builder_functions, operational_dict
+    del regression_model_builders, operational_dict
         
     if logger_instance is not None:
         end_timer = time.perf_counter()    
         logger_instance.debug(f"{end_timer-start_timer} seconds were taken by 'regression_process'")
+    
     return dict_to_return

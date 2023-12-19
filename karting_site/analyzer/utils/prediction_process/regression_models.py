@@ -13,6 +13,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 from sklearn.utils.validation import column_or_1d 
 
+from collections.abc import Callable
+
+@staticmethod
 def multiple_linear_regression(
     x_train,
     y_train,
@@ -26,6 +29,7 @@ def multiple_linear_regression(
     
     return regressor
     
+@staticmethod
 def polinomial_regression(
     x_train,
     y_train,
@@ -42,6 +46,7 @@ def polinomial_regression(
     
     return regressor 
     
+@staticmethod
 def support_vector_regression(
     x_train,
     y_train,
@@ -57,6 +62,7 @@ def support_vector_regression(
     
     return regressor
 
+@staticmethod
 def decision_tree_regression(
     x_train,
     y_train,
@@ -70,7 +76,8 @@ def decision_tree_regression(
     regressor.fit(x_train, y_train)
 
     return regressor
-    
+
+@staticmethod 
 def random_forest_regression(
     x_train,
     y_train,
@@ -86,3 +93,44 @@ def random_forest_regression(
     regressor.fit(x_train, y_train)
     
     return regressor
+
+class RegressionModel ():
+    
+    def __init_subclass__(
+        cls,
+        regressor_building_function: Callable[[list, list],LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor],
+        name: str
+    ) -> None:
+        cls.regressor_building_function = regressor_building_function
+        cls.name = name
+        
+class MultipleLinearRegression_ (
+    RegressionModel, 
+    regressor_building_function = multiple_linear_regression,
+    name = "Multiple Linear Regression"
+): ...
+
+class PolinomialRegression_ (
+    RegressionModel, 
+    regressor_building_function = polinomial_regression,
+    name = "Polinomial Regression"
+): ...
+
+class SupportVectorRegression_ (
+    RegressionModel, 
+    regressor_building_function = support_vector_regression,
+    name = "Support Vector Regression"
+): ...
+
+class DecisionTreeRegression_ (
+    RegressionModel, 
+    regressor_building_function = decision_tree_regression,
+    name = "Decision Tree Regression"
+): ...
+
+class RandomForestRegression_ (
+    RegressionModel, 
+    regressor_building_function = random_forest_regression,
+    name = "Random Forest Regression"
+): ...
+

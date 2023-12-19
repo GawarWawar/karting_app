@@ -16,14 +16,20 @@ from sklearn.utils.validation import column_or_1d
 from collections.abc import Callable
 
 class RegressionModel ():
-    regressor_building_function = None
-    name = "Generic Regression Model"
-    default_parameters = {}
+    def __init_subclass__(
+        cls,
+        regressor_building_function = None,
+        name: str = "Generic Regression Model",
+        default_parameters: dict = {},
+    ) -> None:
+        cls.regressor_building_function = regressor_building_function
+        cls.name = name
+        cls.default_parameters = default_parameters
         
     def train_the_model(
         self,
-        x_train: list,
-        y_train: list,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
 
         **kwargs
     ) -> LinearRegression|SVR|DecisionTreeRegressor|RandomForestRegressor:
@@ -42,8 +48,8 @@ class RegressionModel ():
 class MultipleLinearRegression_ (RegressionModel): 
     @staticmethod
     def multiple_linear_regression(
-        x_train: list,
-        y_train: list,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
     ) -> LinearRegression:  
         # Training the Mulltiple Linear Regression model on the Training set
         regressor = LinearRegression()
@@ -54,14 +60,22 @@ class MultipleLinearRegression_ (RegressionModel):
 
         return regressor
     
-    regressor_building_function = multiple_linear_regression
-    name = "Multiple Linear Regression"
+    def __init__(
+        self,
+        regressor_building_function: Callable[[np.ndarray,np.ndarray], LinearRegression] = multiple_linear_regression,
+        name: str = "Multiple Linear Regression",
+        default_parameters: dict = {},
+    ) -> None:
+        self.regressor_building_function = regressor_building_function
+        self.name = name
+        self.default_parameters = default_parameters
+        return super().__init__()
 
 class PolinomialRegression_ (RegressionModel): 
     @staticmethod
     def polinomial_regression(
-        x_train: list,
-        y_train: list,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
         
         polynomial_degree:int = 2
     ) -> Pipeline:  
@@ -75,17 +89,24 @@ class PolinomialRegression_ (RegressionModel):
         
         return regressor 
     
-    regressor_building_function = polinomial_regression
-    name = "Polinomial Regression"
-    default_parameters = {
-        "polynomial_degree": 2
-    }
+    def __init__(
+        self,
+        regressor_building_function: Callable[[np.ndarray,np.ndarray], Pipeline] = polinomial_regression,
+        name: str = "Polinomial Regression",
+        default_parameters: dict = {
+            "polynomial_degree": 2
+        }
+    ) -> None:
+        self.regressor_building_function = regressor_building_function
+        self.name = name
+        self.default_parameters = default_parameters
+        return super().__init__()
 
 class SupportVectorRegression_ (RegressionModel): 
     @staticmethod
     def support_vector_regression(
-        x_train: list,
-        y_train: list,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
         
         svr_kernel:str = "rbf"
     ):  
@@ -98,17 +119,26 @@ class SupportVectorRegression_ (RegressionModel):
         
         return regressor
     
-    regressor_building_function = support_vector_regression
-    name = "Support Vector Regression"
-    default_parameters = {
-        "svr_kernel": "rbf"
-    }
+    
+    
+    def __init__(
+        self,
+        regressor_building_function: Callable[[np.ndarray,np.ndarray], SVR] = support_vector_regression,
+        name: str = "Support Vector Regression",
+        default_parameters: dict = {
+            "svr_kernel": "rbf"
+        }
+    ) -> None:
+        self.regressor_building_function = regressor_building_function
+        self.name = name
+        self.default_parameters = default_parameters
+        return super().__init__()
     
 class DecisionTreeRegression_ (RegressionModel): 
     @staticmethod
     def decision_tree_regression(
-        x_train,
-        y_train,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
         
         random_state:int = 0
     ):
@@ -120,17 +150,24 @@ class DecisionTreeRegression_ (RegressionModel):
 
         return regressor
     
-    regressor_building_function = decision_tree_regression
-    name = "Decision Tree Regression"
-    default_parameters = {
-        "random_state": 0
-    }
+    def __init__(
+        self,
+        regressor_building_function: Callable[[np.ndarray,np.ndarray], DecisionTreeRegressor] = decision_tree_regression,
+        name: str = "Decision Tree Regression",
+        default_parameters: dict = {
+            "random_state": 0
+        }
+    ) -> None:
+        self.regressor_building_function = regressor_building_function
+        self.name = name
+        self.default_parameters = default_parameters
+        return super().__init__()
 
 class RandomForestRegression_ (RegressionModel):
     @staticmethod 
     def random_forest_regression(
-        x_train,
-        y_train,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
         
         number_of_estimators:int = 50,
         random_state:int = 0,
@@ -143,10 +180,17 @@ class RandomForestRegression_ (RegressionModel):
         regressor.fit(x_train, y_train)
         
         return regressor
-
-    regressor_building_function = random_forest_regression
-    name = "Random Forest Regression"
-    default_parameters = {
-        "number_of_estimators": 50,
-        "random_state": 0,
-    }
+    
+    def __init__(
+        self,
+        regressor_building_function: Callable[[np.ndarray,np.ndarray], RandomForestRegressor] = random_forest_regression,
+        name: str = "Random Forest Regression",
+        default_parameters: dict = {
+            "number_of_estimators": 50, 
+            "random_state": 0,
+        }
+    ) -> None:
+        self.regressor_building_function = regressor_building_function
+        self.name = name
+        self.default_parameters = default_parameters
+        return super().__init__()

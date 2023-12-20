@@ -223,20 +223,21 @@ def module_to_create_karts_statistics_for_every_pilot_old(
         )
     return df_pilot_on_karts
 
-def create_df_stats(
-    df_pilot_on_karts: pd.DataFrame,
-    df_pilots: pd.DataFrame,
-    df_karts: pd.DataFrame
+# NEED REWORK
+def merge_all_statistic_about_pilots_and_karts(
+    df_with_each_kart_and_pilot_combo_statistic: pd.DataFrame,
+    df_with_statistic_of_pilots: pd.DataFrame,
+    df_with_statistic_of_karts: pd.DataFrame
 ):
     df_stats = pd.DataFrame.merge(
-        df_pilot_on_karts,
-        df_pilots,
+        df_with_each_kart_and_pilot_combo_statistic,
+        df_with_statistic_of_pilots,
         on="pilot_name"
     )
 
     df_stats = pd.DataFrame.merge(
         df_stats,
-        df_karts,
+        df_with_statistic_of_karts,
         on="kart"
     )
 

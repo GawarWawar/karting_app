@@ -22,6 +22,8 @@ from .utils.prediction_process import regression_process
 from .utils.prediction_process import prediction_processing
 from .utils.prediction_process import regression_models
 
+from .utils import logging_initialization
+
 import warnings
 # Suppress FutureWarning messages
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -74,10 +76,10 @@ def compute_kart_statistic(race_id):
         df_of_records=df_from_recorded_records,
     )
    
-    df_stats = statistic_creation.create_df_stats(
-        df_pilot_on_karts=df_pilot_on_karts,
-        df_pilots=df_pilots,
-        df_karts=df_karts,
+    df_stats = statistic_creation.merge_all_statistic_about_pilots_and_karts(
+        df_with_each_kart_and_pilot_combo_statistic = df_pilot_on_karts,
+        df_with_statistic_of_pilots = df_pilots,
+        df_with_statistic_of_karts = df_karts,
     )
     
     
@@ -154,20 +156,17 @@ def analyze_race(
     if logg_level is not None:
         logger_set_up_start_timer = time.perf_counter()
         
-        
         # Create logger to make logs
-        logger_name_and_file_name = f"race_id_{race_id}"
-        race_logger = logging.getLogger(logger_name_and_file_name)
-        race_logger.setLevel(logg_level)
-                
-        
-        # FileHandler change for logger, to change logger location
-        file_handler = logging.FileHandler(
-            f'analyzer/data/logs/{logger_name_and_file_name}.log'
+        race_logger = logging_initialization.get_or_create_logger_for_race(
+            race_id = race_id,
+            log_level = logg_level
         )
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-        race_logger.addHandler(file_handler)
+                
+        # FileHandler change for logger, to change logger location
+        file_handler = logging_initialization.create_and_assign_filehandler_to_logger(
+            race_logger = race_logger,
+            race_id=race_id
+        )
         
         logger_set_up_end_time = time.perf_counter()
         
@@ -201,9 +200,6 @@ def analyze_race(
     df_pilots = statistic_creation.create_pilot_statistics(
         df_with_records=df_from_recorded_records,
     )
-   
-    df_pilots = df_pilots.dropna()
-    df_pilots = df_pilots.reset_index(drop=True)
 
     
     df_coeficient = coef_func.create_primary_coeficient(
@@ -228,22 +224,20 @@ def analyze_race(
         df_of_records=df_from_recorded_records,
     )
    
-    df_stats = statistic_creation.create_df_stats(
-        df_pilot_on_karts=df_pilot_on_karts,
-        df_pilots=df_pilots,
-        df_karts=df_karts,
+    df_stats = statistic_creation.merge_all_statistic_about_pilots_and_karts(
+        df_with_each_kart_and_pilot_combo_statistic = df_pilot_on_karts,
+        df_with_statistic_of_pilots = df_pilots,
+        df_with_statistic_of_karts = df_karts,
     )
     
-    list_with_predictions = []
-    for coeficient in coeficients_for_predictions:
-        df_with_prediction = prediction_processing.assemble_prediction(
-            coeficient,
-            df_of_pilots=df_pilots.copy(),
-            df_of_karts=df_karts.copy(),
-        )
-        list_with_predictions.append(
-            df_with_prediction
-        )
+    list_with_predictions = [
+        prediction_processing.assemble_prediction(
+                coeficient,
+                df_of_pilots=df_pilots.copy(),
+                df_of_karts=df_karts.copy(),
+            )
+        for coeficient in coeficients_for_predictions
+    ]
 
     try:
         df_to_analyze = pd.DataFrame(
@@ -276,7 +270,7 @@ def analyze_race(
     } 
 
     series_of_karts = pd.Series(
-        df_with_prediction.loc[:, "kart"].drop_duplicates().copy(),
+        list_with_predictions[0].loc[:, "kart"].drop_duplicates().copy(),
         name="kart",
     )
 

@@ -28,9 +28,35 @@ import warnings
 # Suppress FutureWarning messages
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-def compute_kart_statistic(race_id):
+def compute_kart_statistic(
+    race_id,
+    
+    logg_level: str|None = "WARNING",
+    how_many_digits_after_period_to_leave_in: int = 4,
+    margin_in_seconds_to_add_to_mean_time: int = 5,
+):
 
-    start = time.perf_counter()
+    if logg_level is not None:
+        logger_set_up_start_timer = time.perf_counter()
+        
+        # Create logger to make logs
+        race_logger = logging_initialization.get_or_create_logger_for_race(
+            race_id = race_id,
+            log_level = logg_level
+        )
+                
+        # FileHandler change for logger, to change logger location
+        file_handler = logging_initialization.create_and_assign_filehandler_to_logger(
+            race_logger = race_logger,
+            race_id=race_id
+        )
+        
+        logger_set_up_end_time = time.perf_counter()
+        
+        race_logger.debug(f"{logger_set_up_end_time-logger_set_up_start_timer} secons took logger to set up")
+        race_logger.debug("START")
+        
+        start_timer = time.perf_counter()
     
     df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
@@ -46,7 +72,9 @@ def compute_kart_statistic(race_id):
     df_from_recorded_records = df_from_recorded_records[df_from_recorded_records["true_name"]]
     
     df_from_recorded_records = laps_frame_modifications.clear_outstanding_laps(
-        df_with_race_records=df_from_recorded_records
+        df_with_race_records = df_from_recorded_records,
+        
+        margin_to_add_to_mean_time=margin_in_seconds_to_add_to_mean_time
     )
 
     # df_from_recorded_records.pop("team_segment")
@@ -55,16 +83,18 @@ def compute_kart_statistic(race_id):
     df_pilots = statistic_creation.create_pilot_statistics(
         df_with_records=df_from_recorded_records,
     )
-   
-    df_pilots = df_pilots.dropna()
-    df_pilots = df_pilots.reset_index(drop=True)
 
-    
-    df_coeficient = coef_func.create_primary_coeficient()
+    df_coeficient = coef_func.create_primary_coeficient(
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,
+        logger_instance=race_logger
+    )
 
     df_pilots = coef_func.add_coeficients_and_temp_from_average_coeficient_to_df(
         df_to_create_coeficients_into=df_pilots,
-        df_of_primary_coeficient=df_coeficient
+        df_of_primary_coeficient=df_coeficient,
+        
+        how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,
+        logger_instance=race_logger
     )
     del df_coeficient
 
@@ -82,56 +112,50 @@ def compute_kart_statistic(race_id):
         df_with_statistic_of_karts = df_karts,
     )
     
-    
     return_dict = {
-        "data": {}
+        "data": {
+            "karts":[]
+        }
     }
     
     df_stats = df_stats.sort_values(["kart", "team_segment"], inplace=False)
-    
-    for kart in df_stats.loc[:, "kart"].drop_duplicates():
+        
+    kart_grouped = df_stats.groupby("kart")
+    del df_stats
+
+    for kart, group in kart_grouped:
         kart_dict = {
-            "kart": kart, 
+            "kart": kart,
+            "kart_fastest_lap": group.iloc[0]["kart_fastest_lap"],
+            "kart_temp": group.iloc[0]["kart_temp"],
+            "pilots": group[
+                [
+                    "pilot_name", 
+                    "temp_with_pilot", 
+                    "fastest_lap_with_pilot", 
+                    "pilot_temp", 
+                    "pilot_fastest_lap", 
+                    "team_segment", 
+                    #"this_race_coeficient",
+                    #"pilot_coeficient",
+                    #"average_coeficient",
+                    "temp_from_average_coeficient"
+                ]
+            ].to_dict(orient="records")
         }
-        pilots_of_kart_index = df_stats.loc[
-            df_stats.loc[:, "kart"] == kart,
-            "pilot_name"
-        ].index
-        kart_dict.update(
-            {
-                "kart_fastest_lap": df_stats.loc[pilots_of_kart_index[0], "kart_fastest_lap"],
-                "kart_temp": df_stats.loc[pilots_of_kart_index[0], "kart_temp"],
-                "pilots": []
-            }
-        )
-        for index in pilots_of_kart_index:
-            kart_dict["pilots"].append(
-                    {
-                        "pilot_name": df_stats.loc[index, "pilot_name"],
-                        "temp_with_pilot" : df_stats.loc[index, "temp_with_pilot"],
-                        "fastest_lap_with_pilot" : df_stats.loc[index, "fastest_lap_with_pilot"],
-                        "pilot_temp" : df_stats.loc[index, "pilot_temp"],
-                        "pilot_fastest_lap" : df_stats.loc[index, "pilot_fastest_lap"],
-                        "team_segment": df_stats.loc[index, "team_segment"],
-                        #"this_race_coeficient" : df_stats.loc[index, "this_race_coeficient"],
-                        #"pilot_coeficient" : df_stats.loc[index, "coeficient"],
-                        #"average_coeficient" : df_stats.loc[index, "average_coeficient"],
-                        "temp_from_average_coeficient" : df_stats.loc[index, "temp_from_average_coeficient"],
-                    }
-            )
-        return_dict["data"].update(
-            {
-                "karts": kart_dict
-            }
-        )
+        
+        return_dict["data"]["karts"].append(kart_dict)
+
     
     return_dict.update(
         {
             "race_id": race_id
         }
     )
-    end = time.perf_counter()
-    print(end-start)
+    if logg_level is not None:
+        end_timer = time.perf_counter()
+        race_logger.info(f"END:{end_timer-start_timer} seconds were used by generating statistic process before finishing")
+        race_logger.removeHandler(file_handler)
     return return_dict
     
 
@@ -205,7 +229,6 @@ def analyze_race(
     df_pilots = statistic_creation.create_pilot_statistics(
         df_with_records=df_from_recorded_records,
     )
-
 
     df_coeficient = coef_func.create_primary_coeficient(
         how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,

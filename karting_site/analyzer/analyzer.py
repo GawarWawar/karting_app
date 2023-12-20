@@ -125,6 +125,11 @@ def compute_kart_statistic(race_id):
             }
         )
     
+    return_dict.update(
+        {
+            "race_id": race_id
+        }
+    )
     end = time.perf_counter()
     print(end-start)
     return return_dict
@@ -201,7 +206,7 @@ def analyze_race(
         df_with_records=df_from_recorded_records,
     )
 
-    
+
     df_coeficient = coef_func.create_primary_coeficient(
         how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in,
         logger_instance=race_logger
@@ -257,7 +262,9 @@ def analyze_race(
             }
         )
     except KeyError:
-        return None
+        return {
+            "race_id": race_id
+        }
 
 
     return_dict = {
@@ -321,6 +328,12 @@ def analyze_race(
         word_to_name_predictions_type="fastestlap",
     )
     return_dict["data"].update(data)
+
+    return_dict.update(
+        {
+            "race_id": race_id
+        }
+    )
     
     if logg_level is not None:
         end_timer = time.perf_counter()

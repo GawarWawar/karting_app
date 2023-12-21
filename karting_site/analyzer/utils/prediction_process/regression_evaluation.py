@@ -30,13 +30,13 @@ def evaluate_model_perfomance(
     """
     Evaluate the performance of a regression model using R^2 score.
 
-    This function takes a regression model, test data (features and answers), and evaluates the model's
+    This function takes a regression model, test data (features and target values), and evaluates the model's
     performance using the R^2 score. Optionally, it can log the R^2 score using a provided logger.
 
     Parameters:
     - model_regressor (regression_models.RegressionModel): Regression model to evaluate.
     - x_test (list): List of features for testing.
-    - y_test (list): List of answers for testing.
+    - y_test (list): List of target values for testing.
     - logger_instance (logging.Logger|None): Optional logger instance for logging R^2 score.
     - log_r2_score (bool): Flag to determine whether to log the R^2 score.
 

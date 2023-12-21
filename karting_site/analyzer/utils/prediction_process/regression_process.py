@@ -165,7 +165,7 @@ def regression_process(
 
         regression_evaluation.update_operational_dict_based_on_r2_score(
             operational_dict=operational_dict,
-            current_r2_score=r2_score_value,
+            this_model_r2_score=r2_score_value,
             min_r2_threshold=minimum_value_to_r2,
             predictions=predictions,
             model=model

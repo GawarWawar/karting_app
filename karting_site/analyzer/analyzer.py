@@ -35,7 +35,30 @@ def compute_kart_statistic(
     how_many_digits_after_period_to_leave_in: int = 4,
     margin_in_seconds_to_add_to_mean_time: int = 5,
 ):
+    """
+    Compute statistics for each kart in a race and return the results in a structured format.
 
+    Parameters:
+    - race_id: Identifier for the race.
+    - logg_level (str|None, optional): Logging level for the race logger. Default set to "WARNING" level.
+    - how_many_digits_after_period_to_leave_in (int, optional): Number of digits to round floating-point values to. Default set to 4 digits.
+    - margin_in_seconds_to_add_to_mean_time (int, optional): Margin in seconds to add to the mean lap time. Default set to 5 seconds.
+
+    Returns:
+    - dict: A dictionary containing computed statistics for each kart in the race.
+    
+    Note:
+    This function performs the following steps:
+    1. Loads race records and creates a DataFrame.
+    2. Cleans and filters the DataFrame, removing irrelevant data.
+    3. Computes pilot and kart statistics based on the cleaned DataFrame.
+    4. Creates a structured dictionary containing detailed statistics for each kart.
+    
+    The function utilizes a logging system to record the process details if a logging level is specified.
+    
+    The generated statistics include information about each kart, its fastest lap, tempo, and associated pilots.
+    """
+    # Set up the logger for the race
     if logg_level is not None:
         logger_set_up_start_timer = time.perf_counter()
         
@@ -58,10 +81,12 @@ def compute_kart_statistic(
         
         start_timer = time.perf_counter()
     
+    # 1. Loads race records and creates a DataFrame.
     df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
     )
     
+    # 2. Cleans and filters the DataFrame, removing irrelevant data.
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
         df_from_recorded_records,
         
@@ -80,6 +105,7 @@ def compute_kart_statistic(
     # df_from_recorded_records.pop("team_segment")
     df_from_recorded_records.pop("lap_count")
 
+    # 3. Computes pilot and kart statistics based on the cleaned DataFrame.
     df_pilots = statistic_creation.create_pilot_statistics(
         df_with_records=df_from_recorded_records,
     )
@@ -112,6 +138,7 @@ def compute_kart_statistic(
         df_with_statistic_of_karts = df_karts,
     )
     
+    # 4. Creates a structured dictionary containing detailed statistics for each kart.
     return_dict = {
         "data": {
             "karts":[]
@@ -123,6 +150,7 @@ def compute_kart_statistic(
     kart_grouped = df_stats.groupby("kart")
     del df_stats
 
+    # Iterate through each kart and extract statistics
     for kart, group in kart_grouped:
         kart_dict = {
             "kart": kart,
@@ -146,16 +174,19 @@ def compute_kart_statistic(
         
         return_dict["data"]["karts"].append(kart_dict)
 
-    
+    # Add race_id to the return dictionary
     return_dict.update(
         {
             "race_id": race_id
         }
     )
+    
+    # Log the time taken by the function if logging is enabled
     if logg_level is not None:
         end_timer = time.perf_counter()
         race_logger.info(f"END:{end_timer-start_timer} seconds were used by generating statistic process before finishing")
         race_logger.removeHandler(file_handler)
+        
     return return_dict
     
 
@@ -177,11 +208,43 @@ def analyze_race(
         regression_models.DecisionTreeRegression_(),
         regression_models.RandomForestRegression_(),
     ],
-    minimum_value_to_r2 = 0,
-    size_of_test_set = 0.15,
+    minimum_value_to_r2:float = 0.0,
+    size_of_test_set:float = 0.15,
     train_test_split_random_state = 2,
-    sequence_number_of_columns_to_OHE = [0]
 ):  
+    """
+    Analyze a kart race by generating statistics and making tempo and fastest lap predictions.
+
+    Parameters:
+    - race_id (int): Identifier for the race.
+    - coeficients_for_predictions (list[float], optional): List of coefficients for generating predictions. Default set to [0.0].
+    - logg_level (str|None, optional): Logging level for the race logger. Default set to "WARNING" level.
+    - how_many_digits_after_period_to_leave_in (int, optional): Number of digits to round floating-point values to. Default set to 4 digits.
+    - margin_in_seconds_to_add_to_mean_time (int, optional): Margin in seconds to add to the mean lap time. Default set to 5 seconds.
+    - regression_class_instances (list, optional): List of regression model instances for prediction. 
+    Default contains: regression_models.MultipleLinearRegression_, regression_models.PolinomialRegression_, regression_models.SupportVectorRegression_, regression_models.DecisionTreeRegression_, regression_models.RandomForestRegression_.
+    - minimum_value_to_r2 (float, optional): Minimum R2 score threshold for regression models. Default set to 0.0.
+    - size_of_test_set (float, optional): Size of the test set during regression model evaluation. Default set to  0.15 (15%).
+    - train_test_split_random_state (int, optional): Random state for train-test splitting. Default set to 2 iterations.
+
+    Returns:
+    - dict: A dictionary containing the analyzed race data, including predictions and statistics.
+
+    Note:
+    This function performs the following steps:
+    1. Retrieves race records and creates a DataFrame.
+    2. Cleans and filters the DataFrame, removing irrelevant data.
+    3. Computes pilot and kart statistics based on the cleaned DataFrame.
+    4. Generates predictions for tempo and fastest lap using regression models.
+    5. Formats and organizes the results into a structured dictionary.
+    
+    The function utilizes a logging system to record the process details if a logging level is specified.
+    
+    The generated statistics include information about each kart, its fastest lap, tempo, and associated pilots.
+    
+    Predictions for tempo and fastest lap are generated using specified regression models.
+    """
+    # Set up the logger for the race
     if logg_level is not None:
         logger_set_up_start_timer = time.perf_counter()
         
@@ -204,10 +267,12 @@ def analyze_race(
         
         start_timer = time.perf_counter()
     
+    # 1. Retrieves race records and creates a DataFrame.
     df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
         race_id=race_id
     )
     
+    # 2. Cleans and filters the DataFrame, removing irrelevant data.
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
         df_from_recorded_records,
         
@@ -226,6 +291,7 @@ def analyze_race(
     df_from_recorded_records.pop("team_segment")
     df_from_recorded_records.pop("lap_count")
 
+    # 3. Computes pilot and kart statistics based on the cleaned DataFrame.
     df_pilots = statistic_creation.create_pilot_statistics(
         df_with_records=df_from_recorded_records,
     )
@@ -290,6 +356,10 @@ def analyze_race(
         }
 
 
+    # 4. Generates predictions for tempo and fastest lap using regression models.
+    # and
+    # 5. Formats and organizes the results into a structured dictionary.
+    
     return_dict = {
         "data": {    
             #"temp_predictions": [],
@@ -303,6 +373,9 @@ def analyze_race(
         list_with_predictions[0].loc[:, "kart"].drop_duplicates().copy(),
         name="kart",
     )
+    
+    # Sequence number of columns to apply OneHotEncoding. It is set to be done on first column only
+    SEQUENCE_NUMBER_OF_COLUMNS_TO_OHE = [0]
 
     if logg_level is not None:
         race_logger.debug("1. Temp")
@@ -315,7 +388,7 @@ def analyze_race(
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
         train_test_split_random_state=train_test_split_random_state,
-        sequence_number_of_columns_to_OHE=sequence_number_of_columns_to_OHE,
+        sequence_number_of_columns_to_OHE=SEQUENCE_NUMBER_OF_COLUMNS_TO_OHE,
         
         how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
     ) 
@@ -341,7 +414,7 @@ def analyze_race(
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
         train_test_split_random_state=train_test_split_random_state,
-        sequence_number_of_columns_to_OHE=sequence_number_of_columns_to_OHE,
+        sequence_number_of_columns_to_OHE=SEQUENCE_NUMBER_OF_COLUMNS_TO_OHE,
         
         how_many_digits_after_period_to_leave_in = how_many_digits_after_period_to_leave_in
     )
@@ -358,6 +431,7 @@ def analyze_race(
         }
     )
     
+    # Log the time taken by the function if logging is enabled
     if logg_level is not None:
         end_timer = time.perf_counter()
         race_logger.info(f"END:{end_timer-start_timer} seconds were used by whole analyzation process before finishing")

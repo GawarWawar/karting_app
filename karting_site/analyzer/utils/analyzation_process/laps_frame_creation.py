@@ -129,7 +129,7 @@ def create_df_from_recorded_records(
     processed, including converting lap time-related columns to float values in seconds.
 
     Parameters:
-    - race_id: The identification number of the race.
+    - race_id (int): The identification number of the race.
 
     Returns:
     - pd.DataFrame: The DataFrame containing recorded race records.
@@ -145,6 +145,9 @@ def create_df_from_recorded_records(
     representing seconds.
 
     The resulting DataFrame is ready for further analysis.
+
+    Raises:
+    - ValueError: If no records are found for the specified race, an error is raised.
     """
     df_from_recorded_records = models_transmissions.collect_model_records_into_DataFrame(
         model = recorder_models.RaceRecords,
@@ -153,6 +156,8 @@ def create_df_from_recorded_records(
             purge_models_technical_columns=True
     )
     
+    if df_from_recorded_records.empty:
+        raise ValueError (f"Could not create DataFrame for this race, because there are no records for race under {race_id} id.")
     if not does_race_has_true_karts(
         df_with_race_records=df_from_recorded_records
     ): 

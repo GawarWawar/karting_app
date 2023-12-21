@@ -81,10 +81,17 @@ def compute_kart_statistic(
         
         start_timer = time.perf_counter()
     
+    
     # 1. Loads race records and creates a DataFrame.
-    df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
-        race_id=race_id
-    )
+    try:
+        df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
+            race_id=race_id
+        )
+    except ValueError:
+        return {
+            "race_id": race_id
+        }
+
     
     # 2. Cleans and filters the DataFrame, removing irrelevant data.
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(
@@ -268,9 +275,18 @@ def analyze_race(
         start_timer = time.perf_counter()
     
     # 1. Retrieves race records and creates a DataFrame.
-    df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
-        race_id=race_id
-    )
+    try:
+        # Attempt to create a DataFrame from recorded race records using the create_df_from_recorded_records function.
+        # If no records are found for the specified race, a ValueError is raised, and the function returns a dictionary
+        # indicating the race_id with an error message.
+        df_from_recorded_records = laps_frame_creation.create_df_from_recorded_records(
+            race_id=race_id
+        )
+    except ValueError:
+        return {
+            "race_id": race_id
+        }
+
     
     # 2. Cleans and filters the DataFrame, removing irrelevant data.
     df_from_recorded_records = laps_frame_modifications.clear_column_from_unneeded_strings(

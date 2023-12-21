@@ -259,7 +259,7 @@ def analyze_race(
     )
     
     list_with_predictions = [
-        prediction_processing.assemble_prediction(
+        prediction_processing.generate_regression_prediction_input(
                 coeficient,
                 df_of_pilots=df_pilots.copy(),
                 df_of_karts=df_karts.copy(),

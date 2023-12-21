@@ -19,28 +19,10 @@ from . import analyzer
 
 def analyze_race_api(request, race_id):
     content = analyzer.analyze_race(race_id)
-    try:
-        content.update(
-            {
-                "race_id": race_id
-            }
-        )
-    except AttributeError:
-        content = {
-                "race_id": race_id
-            }
+    
     return HttpResponse(json.dumps(content))
 
 def race_kart_statistic_api (request, race_id):
     content = analyzer.compute_kart_statistic(race_id)
-    try:
-        content.update(
-            {
-                "race_id": race_id
-            }
-        )
-    except AttributeError:
-        content = {
-                "race_id": race_id
-            }
+
     return HttpResponse(json.dumps(content))

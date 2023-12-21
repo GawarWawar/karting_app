@@ -20,7 +20,7 @@ from celery.result import AsyncResult
 from . import models
 from . import tasks
 from . import recorder
-from analyzer.utils.analyzer_functions import collect_race_records_into_DataFrame
+from analyzer.utils.analyzation_process.models_transmissions import collect_model_records_into_DataFrame
 
    
 class ExportCsvMixin:
@@ -137,9 +137,20 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
         
         with zipfile.ZipFile(response, 'w', zipfile.ZIP_DEFLATED) as archive:
             for race_object in queryset:
-                race_records = collect_race_records_into_DataFrame(race_object.id)
+                race_records = collect_model_records_into_DataFrame(
+                    model = models.RaceRecords,
+                    inheritance_id = race_object.id,
+                    column_of_inheritance_id = "race"
+                )
                 race_name_as_file_name = race_object.name_of_the_race
-                archive.writestr(race_name_as_file_name,race_records.to_csv(None, index=False, index_label=False))
+                archive.writestr(
+                    race_name_as_file_name,
+                    race_records.to_csv(
+                        None, 
+                        index=False, 
+                        index_label=False
+                    )
+                )
                
         return response
     
@@ -214,14 +225,14 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
             for row_index in list(csv_content.iloc[:, 0].index):
                 race_record = models.RaceRecords(
                     race = race,
-                    team_number = csv_content.at[row_index, "team"],
-                    pilot_name = csv_content.at[row_index, "pilot"],
+                    team_number = csv_content.at[row_index, "team_number"],
+                    pilot_name = csv_content.at[row_index, "pilot_name"],
                     kart = csv_content.at[row_index, "kart"],
-                    lap_count = csv_content.at[row_index, "lap"],
+                    lap_count = csv_content.at[row_index, "lap_count"],
                     lap_time = csv_content.at[row_index, "lap_time"],
-                    s1_time = csv_content.at[row_index, "s1"],
-                    s2_time = csv_content.at[row_index, "s2"],
-                    team_segment = csv_content.at[row_index, "segment"],
+                    s1_time = csv_content.at[row_index, "s1_time"],
+                    s2_time = csv_content.at[row_index, "s2_time"],
+                    team_segment = csv_content.at[row_index, "team_segment"],
                     true_name = csv_content.at[row_index, "true_name"],
                     true_kart = csv_content.at[row_index, "true_kart"],
                 )

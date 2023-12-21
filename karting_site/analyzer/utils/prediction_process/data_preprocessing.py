@@ -71,7 +71,7 @@ def standart_scaler_transform_one_dimentional_data_set (
 def standart_scaler_invers_transform_one_dimentional_data_set(
     data_set_to_transform,
     standard_scaler_instance: StandardScaler
-):
+) -> np.ndarray:
     """
     Inversely transform a one-dimensional data set using a pre-fitted StandardScaler instance.
 

@@ -118,7 +118,7 @@ def create_primary_coeficient (
         df_of_records=individual_pilot_statistic_df,
         
         df_with_features=individual_pilot_statistic_df.drop_duplicates("pilot"),
-        column_of_the_lable="pilot",
+        column_of_the_label="pilot",
         
         column_to_look_for_value_of_the_lable="coeficient",
         

@@ -17,6 +17,24 @@ def normalize_temp(
     
     how_many_digits_after_period_to_leave_in:int = 4
 ):
+    """
+    Normalize the race tempo within a specified range.
+
+    This function calculates the normalized tempo based on the given race tempo,
+    maximum tempo, and minimum tempo. The normalization is performed using the formula:
+
+    normalized_tempo = (tempo - min_tempo) / (max_tempo - min_tempo)
+
+    Parameters:
+    - pilot_temp (float): The race tempo of pilot to be normalized.
+    - max_tempo (float): The maximum tempo in the range.
+    - min_tempo (float): The minimum tempo in the range.
+    - how_many_digits_after_period_to_leave_in (int, optional): The number of digits to round the
+      normalized tempo to after the decimal point. Default is 4.
+
+    Returns:
+    - float: The normalized race tempo within the specified range.
+    """
     normilezed_temp =(
         (pilot_temp-min_temp)
         /
@@ -31,6 +49,25 @@ def create_primary_coeficient (
     how_many_digits_after_period_to_leave_in:int = 4,
     logger_instance: logging.Logger|None = None,
 ):
+    """
+    Create and normalize primary coefficients for each pilot based on race tempo.
+
+    This function retrieves race data, calculates coefficients for each pilot based on their
+    average lap times, normalizes the coefficients, and aggregates the results.
+
+    Parameters:
+    - how_many_digits_after_period_to_leave_in (int, optional): The number of digits to round the
+      normalized coefficients to after the decimal point. Default is 4.
+    - logger_instance (logging.Logger | None, optional): An optional logger instance to log
+      performance information. Default is None.
+
+    Returns:
+    - pd.DataFrame: A DataFrame containing the primary coefficients for each pilot.
+
+    Note:
+    If no races are found, an empty DataFrame with columns 'pilot_name' and 'coeficient' is
+    returned.
+    """
     if logger_instance is not None:
         start_timer = time.perf_counter()
     
@@ -105,7 +142,25 @@ def make_temp_from_average_coeficient(
     max_temp: float,
     min_temp: float
 ) -> float:
-   temp_from_average_coeficient = (
+    """
+    Calculate tempo from the average coefficient.
+
+    This function takes the average coefficient for a pilot, along with the maximum and minimum
+    tempos in a given range, and calculates the corresponding tempo.
+
+    Parameters:
+    - average_coeficient (float): The average coefficient for a pilot.
+    - max_tempo (float): The maximum tempo in the range.
+    - min_tempo (float): The minimum tempo in the range.
+
+    Returns:
+    - float: The calculated tempo from the average coefficient.
+
+    Note:
+    The formula used for calculation is: tempo_from_average_coeficient = (average_coeficient *
+    (max_tempo - min_tempo)) + min_tempo
+    """
+    temp_from_average_coeficient = (
                 average_coeficient
             *
                 (
@@ -114,7 +169,7 @@ def make_temp_from_average_coeficient(
                     min_temp
                 )
             ) + min_temp
-   return temp_from_average_coeficient
+    return temp_from_average_coeficient
         
 
 def add_coeficients_and_temp_from_average_coeficient_to_df (
@@ -124,6 +179,36 @@ def add_coeficients_and_temp_from_average_coeficient_to_df (
     how_many_digits_after_period_to_leave_in:int = 4,
     logger_instance: logging.Logger|None = None,
 ):
+    """
+    Add coefficients and tempo from average coefficient to a DataFrame.
+
+    This function calculates the race coefficients and average coefficients for each pilot
+    based on their tempo and merges the results with a DataFrame containing primary coefficients.
+
+    Parameters:
+    - df_to_create_coeficients_into (pd.DataFrame): The DataFrame to add coefficients and
+      tempo information to.
+    - df_of_primary_coeficient (pd.DataFrame): The DataFrame containing primary coefficients
+      for each pilot.
+    - how_many_digits_after_period_to_leave_in (int, optional): The number of digits to round the
+      normalized coefficients to after the decimal point. Default is 4.
+    - logger_instance (logging.Logger | None, optional): An optional logger instance to log
+      performance information. Default is None.
+
+    Returns:
+    - pd.DataFrame: The modified DataFrame with added coefficients and tempo information.
+
+    Note:
+    The input DataFrame 'df_to_create_coeficients_into' is expected to contain a 'pilot_temp'
+    column representing the pilot tempo.
+
+    The resulting DataFrame will have additional columns:
+    - 'this_race_coeficient': The normalized coefficient for each pilot based on their tempo
+      in the current race.
+    - 'coeficient': The primary coefficient for each pilot (taken from 'df_of_primary_coeficient').
+    - 'average_coeficient': The average of 'this_race_coeficient' and 'coeficient' for each pilot.
+    - 'temp_from_average_coeficient': The tempo calculated from the 'average_coeficient'.
+    """
     if logger_instance is not None:
         start_timer = time.perf_counter()
     

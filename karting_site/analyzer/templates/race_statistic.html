@@ -1,0 +1,36 @@
+{% load analyzer_extras %} {% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    </head>
+    <body>
+        {%if data|lookup:"karts"%}
+            {%for kart in data|lookup:"karts"%}
+                <ul> 
+                    <li>Kart: <strong>{{kart.kart}}</strong>, Kart Fastest Lap: <strong>{{kart.kart_fastest_lap}}</strong>, Kart Temp: <strong>{{kart.kart_temp}}</strong></li>
+                    <li>
+                        <details>
+                            <summary> Pilots </summary> 
+                            {%for pilot in kart.pilots%}
+                                <details>
+                                        <summary> Pilot Name: {{pilot.pilot_name}} </summary> 
+                                        <ul>
+                                            <li> Temp With Pilot : {{pilot.temp_with_pilot}} </li>
+                                            <li> Fastest Lap With Pilot {{pilot.fastest_lap_with_pilot}} </li>
+                                            <li> Pilot Temp : {{pilot.pilot_temp}} </li>
+                                            <li> Pilot Fastest_lap : {{pilot.pilot_fastest_lap}} </li>
+                                            <li> Team Segment : {{pilot.team_segment}} </li>
+                                            <li> Temp From Average Coeficient: {{pilot.temp_from_average_coeficient}} </li>
+                                        </ul>
+                                </details>
+                            {%endfor%}
+                        </details>
+                    </li>
+                </ul> 
+
+            {%endfor%}
+        {%endif%}
+
+    </body>
+</html>

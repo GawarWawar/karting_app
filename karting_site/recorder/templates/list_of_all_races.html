@@ -3,7 +3,11 @@
 <html>
   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   <body>
-      <a class="padding" href="{%url 'recorder:index' %}">Go to the records of lastest race</a>
+    <div class="top_navigation">
+      <a href={%url 'index' %}>Main page</a>
+      <a href={%url 'recorder:index' %}>Last race</a>
+      <a class="active" href={%url 'recorder:races' %}>List of races</a>
+    </div>
     {% if all_races_list %}
     <table class="section">
       <tr>

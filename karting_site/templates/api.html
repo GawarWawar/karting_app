@@ -4,6 +4,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 </head>
 <body>
+    <div class="top_navigation">
+        <a href={%url 'index' %}>Main page</a>
+        <a class="active" href={%url 'api' %}>API section</a>
+        <a href={%url 'admin:index' %}>Admin</a>
+        <a href={%url 'recorder:index' %}>Last race</a>
+        <a href={%url 'recorder:races' %}>List of races</a>
+    </div>
 <p>
     This is api page for Karting App project <br>
     <a class='in_p' href="{%url 'index' %}">Get back to main page</a>

@@ -3,11 +3,16 @@
   <head>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   </head>
-  <body>
-    <a class="padding" href="{%url 'recorder:races' %}">Go back to the list of races</a>
+  <div class="top_navigation">
+    <a href={%url 'index' %}>Main page</a>
+    <a href={%url 'recorder:index' %}>Last race</a>
+    <a href={%url 'recorder:races' %}>List of races</a>
     {%if race.id%}
-    <a class="padding" href="{%url 'analyzer:analyze_race' race.id%}">Analyze this race</a>
+    <a class="active" href={%url 'recorder:view' race.id %}>Race records</a>
+    <a href={%url 'analyzer:analyze_race' race.id%}>Analyze race</a>
+    <a href={%url 'analyzer:statistic' race.id%}>Get race statistic</a>
     {%endif%}
+  </div>
     {%if race%}
     <h1>Race information</h1>
     <div class="section">

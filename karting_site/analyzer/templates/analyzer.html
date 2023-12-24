@@ -4,8 +4,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <a class="padding" href="{%url 'recorder:view' race_id %}"
-      >Go back to the records of the race</a>
+    <div class="top_navigation">
+      <a href={%url 'index' %}>Main page</a>
+      <a href={%url 'recorder:index' %}>Last race</a>
+      <a href={%url 'recorder:races' %}>List of races</a>
+      <a href={%url 'recorder:view' race_id %}>Race records</a>
+      <a class="active" href={%url 'analyzer:analyze_race' race_id%}>Analyze race</a>
+      <a href={%url 'analyzer:statistic' race_id%}>Get race statistic</a>
+    </div>
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message" or data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%} 
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message"%}
     <h1>Predictions of the karts` temp:</h1>

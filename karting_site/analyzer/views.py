@@ -26,5 +26,4 @@ def race_analyze(request, race_id):
 def race_kart_statistic (request, race_id):
     content = analyzer.compute_kart_statistic(race_id)
 
-    #return render(request, "kart_statistic.html", content)
     return render(request, "race_statistic.html", content)

@@ -89,6 +89,7 @@ def compute_kart_statistic(
         )
     except ValueError:
         return {
+            "data":{},
             "race_id": race_id
         }
 

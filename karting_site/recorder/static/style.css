@@ -1,11 +1,12 @@
 /* Define custom CSS variables using :root */
 :root {
   --border_color: rgba(120, 106, 148, 0.689);
+  --color_for_background: rgb(250, 248, 242)
 }
 
 /* Set background color and font family for the entire page */
 body {
-  background-color: rgb(250, 248, 242);
+  background-color: var(--color_for_background) ;
   font-family: verdana;
 }
 
@@ -26,12 +27,16 @@ th, td  {
 .top_navigation {
   background-color: #333;
   overflow: hidden;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+
 }
 
 /* Style for links in the top navigation bar */
 .top_navigation a {
   float: left;
-  color: #f2f2f2;
+  color: var(--color_for_background);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -46,7 +51,7 @@ th, td  {
 /* Add a color to the active/current link */
 .top_navigation a.active {
   background-color: #04AA6D;
-  color: white;
+  color: var(--color_for_background);
 }
 
 /* Class to center a block-level element horizontally */
@@ -60,6 +65,9 @@ div.race_info_container {
   padding-left: 3px;
   border: 1px solid;
   border-color: var(--border_color);
+}
+.common_table_container{
+  padding-top: 3px;
 }
 
 /* Media query for screens with a maximum width of 1080 pixels */

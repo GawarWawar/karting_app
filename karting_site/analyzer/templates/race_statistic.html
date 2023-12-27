@@ -17,19 +17,19 @@
         {%if data|lookup:"karts"%}
             {%for kart in data|lookup:"karts"%}
                 <div> 
-                    <p>Kart: <strong>{{kart.kart}}</strong>, Kart Fastest Lap: <strong>{{kart.kart_fastest_lap}}</strong>, Kart Temp: <strong>{{kart.kart_temp}}</strong></li></p>
+                    <p>Kart: <strong>{{kart.kart}}</strong>, Kart Fastest Lap: <strong>{{kart.kart_fastest_lap}}</strong>, Kart Temp: <strong>{{kart.kart_temp}}</strong></p>
                         <details>
                             <summary> Pilots </summary> 
                             {%for pilot in kart.pilots%}
                                 <details>
                                         <summary> Pilot Name: <strong>{{pilot.pilot_name}}</strong>, Temp With Pilot: <strong>{{pilot.temp_with_pilot}}</strong>, Fastest Lap With Pilot: <strong>{{pilot.fastest_lap_with_pilot}}</strong>  </summary> 
                                         <ul>
-                                            <li> Temp With Pilot: {{pilot.temp_with_pilot}} </li>
-                                            <li> Fastest Lap With Pilot: {{pilot.fastest_lap_with_pilot}} </li>
-                                            <li> Pilot Temp: {{pilot.pilot_temp}} </li>
-                                            <li> Pilot Fastest_lap: {{pilot.pilot_fastest_lap}} </li>
-                                            <li> Team Segment: {{pilot.team_segment}} </li>
-                                            <li> Temp From Average Coeficient: {{pilot.temp_from_average_coeficient}} </li>
+                                            {% comment %} <li> Temp With Pilot: {{pilot.temp_with_pilot}} </li>
+                                            <li> Fastest Lap With Pilot: {{pilot.fastest_lap_with_pilot}} </li> {% endcomment %}
+                                            <li> Pilot Temp: <strong>{{pilot.pilot_temp}} </strong></li>
+                                            <li> Pilot Fastest_lap: <strong>{{pilot.pilot_fastest_lap}} </strong></li>
+                                            <li> Team Segment: <strong>{{pilot.team_segment}} </strong></li>
+                                            <li> Temp From Average Coeficient: <strong>{{pilot.temp_from_average_coeficient}} </strong></li>
                                         </ul>
                                 </details>
                             {%endfor%}

@@ -12,12 +12,14 @@
       <a class="active" href={%url 'analyzer:analyze_race' race_id%}>Analyze race</a>
       <a href={%url 'analyzer:statistic' race_id%}>Get race statistic</a>
     </div>
+<div class="main_container">
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message" or data|lookup:"fastestlap_predictions" or data|lookup:"fastestlap_message"%} 
     {%if data|lookup:"temp_predictions" or data|lookup:"temp_message"%}
     <h1>Predictions of the karts` temp:</h1>
     {%if data|lookup:"temp_predictions"%} 
     {%for table in data|lookup:"temp_predictions"%}
-    <table class="section">
+    <div class="common_table_container">
+      <table class="common">
       <tr>
         {%for header in table.0%}
         <th>
@@ -34,6 +36,7 @@
       </tr>
       {%endfor%}
     </table>
+    </div>
     {%endfor%} 
     {% else %}
     <p>{{data|lookup:"temp_message"}}</p>
@@ -42,7 +45,8 @@
     <h1>Predictions of the karts` fastest lap:</h1>
     {%if data|lookup:"fastestlap_predictions"%} 
     {%for table in data|lookup:"fastestlap_predictions"%}
-    <table class="section">
+    <div class="common_table_container">
+      <table class="common">
       <tr>
         {%for header in table.0%}
         <th>
@@ -59,11 +63,13 @@
       </tr>
       {%endfor%}
     </table>
+    </div>
     {%endfor%} {% else %}
     <p>{{data|lookup:"fastestlap_message"}}</p>
     {%endif%} {%endif%}
     {% else %}
     <p>There are no viable records to analyze for this race.</p>
     {%endif%}
+  </div>
   </body>
 </html>

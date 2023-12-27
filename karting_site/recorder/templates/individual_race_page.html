@@ -13,51 +13,55 @@
     <a href={%url 'analyzer:statistic' race.id%}>Get race statistic</a>
     {%endif%}
   </div>
+  <div class="main_container">
     {%if race%}
-    <h1>Race information</h1>
-    <div class="section">
-      <p>Id: {{race.id}}</p>
-      <p>Name: {{race.name_of_the_race}}</p>
-      <p>Publish Date: {{race.publish_date}}</p>
-      <p>Date and time when record started: {{race.date_record_started}}</p>
-      <p>Date and time when record finished: {{race.date_record_finished}}</p>
-      <p>Was race recorded: {{race.is_recorded}}</p>
-      <p>Was process of recording complete: {{race.was_recorded_complete}}</p>
+    <h2>Race information:</h2>
+    <div class="race_info_container">
+      <p>Id:<strong> {{race.id}}</strong> </p>
+      <p>Name:<strong> {{race.name_of_the_race}}</strong></p>
+      <p>Publish Date:<strong> {{race.publish_date}}</strong></p>
+      <p>Date and time when record started:<strong> {{race.date_record_started}}</strong></p>
+      <p>Date and time when record finished:<strong> {{race.date_record_finished}}</strong></p>
+      <p>Was race recorded:<strong> {{race.is_recorded}}</strong></p>
+      <p>Was process of recording complete: <strong>{{race.was_recorded_complete}}</strong></p>
     </div>
     <h2>Records of the race:</h2>
     {% if records_of_the_race %}
-    <table class="section">
-      <tr>
-        <th>team_number</th>
-        <th>pilot_name</th>
-        <th>kart</th>
-        <th>lap_count</th>
-        <th>lap_time</th>
-        <th>s1_time</th>
-        <th>s2_time</th>
-        <th>team_segment</th>
-        <th>true_name</th>
-        <th>true_kart</th>
-      </tr>
-      {% for record in records_of_the_race %}
-      <tr>
-        <td>{{record.team_number}}</td>
-        <td>{{record.pilot_name}}</td>
-        <td>{{record.kart}}</td>
-        <td>{{record.lap_count}}</td>
-        <td>{{record.lap_time}}</td>
-        <td>{{record.s1_time}}</td>
-        <td>{{record.s2_time}}</td>
-        <td>{{record.team_segment}}</td>
-        <td>{{record.true_name}}</td>
-        <td>{{record.true_kart}}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    <div class="common_table_container">
+      <table class="common">
+        <tr>
+          <th>team_number</th>
+          <th>pilot_name</th>
+          <th>kart</th>
+          <th>lap_count</th>
+          <th>lap_time</th>
+          <th>s1_time</th>
+          <th>s2_time</th>
+          <th>team_segment</th>
+          <th>true_name</th>
+          <th>true_kart</th>
+        </tr>
+        {% for record in records_of_the_race %}
+        <tr>
+          <td>{{record.team_number}}</td>
+          <td>{{record.pilot_name}}</td>
+          <td>{{record.kart}}</td>
+          <td>{{record.lap_count}}</td>
+          <td>{{record.lap_time}}</td>
+          <td>{{record.s1_time}}</td>
+          <td>{{record.s2_time}}</td>
+          <td>{{record.team_segment}}</td>
+          <td>{{record.true_name}}</td>
+          <td>{{record.true_kart}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
     {% else %}
     <p>There are no records for this race</p>
     {% endif %} {%else%}
     <p>Race with this ID doesnt exist!</p>
     {%endif%}
+  </div>
   </body>
 </html>

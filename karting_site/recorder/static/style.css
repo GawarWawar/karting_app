@@ -1,19 +1,40 @@
+/* Define custom CSS variables using :root */
+:root {
+  --border_color: rgba(120, 106, 148, 0.689);
+}
+
+/* Set background color and font family for the entire page */
 body {
   background-color: rgb(250, 248, 242);
+  font-family: verdana;
+}
+
+/* Remove list item markers for specific unordered lists */
+ul.with_no_marker {
+  list-style-type: none;
+}
+
+/* Apply common styles to table header and data cells */
+th, td  {
+  border: 1px solid;
+  border-color: var(--border_color);
+  text-align: center;
+  padding: auto;
 }
  
+/* Style for the top navigation bar */
 .top_navigation {
   background-color: #333;
   overflow: hidden;
 }
 
+/* Style for links in the top navigation bar */
 .top_navigation a {
   float: left;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
 }
 
 /* Change the color of links on hover */
@@ -28,55 +49,60 @@ body {
   color: white;
 }
 
-:root {
-  --border_color: rgba(120, 106, 148, 0.689);
+/* Class to center a block-level element horizontally */
+div.main_container {
+  margin: 0 auto;
 }
 
-h1 {
-  font-family: verdana;
-
-}
-  
-p {
-  font-family: verdana;
-}
-
-a.padding {
-  padding-left: 3px;
-}
-
-a.in_p {
-  font-family: 'Times New Roman', Times, serif;
-}
-
-ul.with_none {
-  list-style-type: none;
-}
-
-th, td  {
-  border: 1px solid;
-  border-color: var(--border_color);
-}
-
-table.full_width {
-  width: 100%;
-}
-
-div.white_back{
-  background-color: whitesmoke;
-  width: 100%
-}
-
-.section {
-  width: 100%;
+/* Style for a container holding race information */
+div.race_info_container {
   margin: 10px;
   padding-left: 3px;
   border: 1px solid;
   border-color: var(--border_color);
 }
 
-@media (min-width: 1080px) {
-  .section {
+/* Media query for screens with a maximum width of 1080 pixels */
+@media only screen and (max-width: 1080px) {
+  body {
+    font-size: 28px;
+  }
+  h1{
+    font-size: 1.2em;
+
+  }
+  h2 {
+    font-size: 1.2em;
+  }
+
+  div.main_container{
+    width: 98%;
+  }
+  .common_table_container{
+    overflow-x: auto;
+  }
+  table.common{
+    font-size: 28px;
+  }
+  div.race_info_container {
+    width: 97%;
+  }
+  .top_navigation {
+    font-size: 28px;
+    /* width: 100%; */
+
+  }
+}
+
+/* Media query for screens with a minimum width of 1081 pixels */
+@media (min-width: 1081px) {
+  div.main_container{
+    width: 50%;
+  }
+  table.common{
+    width: 75%;
+  }
+  div.race_info_container {
     width: 75%;
   }
 }

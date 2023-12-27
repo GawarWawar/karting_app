@@ -24,7 +24,7 @@ def recorder_starting_page (request):
     last_race = models.Race.objects.last()
     context["race"] = last_race
     try:
-        records_of_the_race = models.RaceRecords.objects.filter(race = last_race.pk).values()
+        records_of_the_race = models.RaceRecords.objects.filter(race = last_race.pk).order_by("-pk").values()
     except AttributeError:
         # Dont need to do anything here
         # Template will display all needed info with NoneType object given

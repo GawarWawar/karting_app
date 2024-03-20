@@ -16,13 +16,13 @@
     <div class="main_container">
         {%if data|lookup:"karts"%}
             {%for kart in data|lookup:"karts"%}
-                <div> 
-                    <p>Kart: <strong>{{kart.kart}}</strong>, Kart Fastest Lap: <strong>{{kart.kart_fastest_lap}}</strong>, Kart Temp: <strong>{{kart.kart_temp}}</strong></p>
+                <div class="race_info_container"> 
+                    <p><strong>{{kart.kart}}</strong>, Kart Fastest Lap: <strong>{{kart.kart_fastest_lap}}</strong>, Kart Temp: <strong>{{kart.kart_temp}}</strong></p>
                         <details>
                             <summary> Pilots </summary> 
                             {%for pilot in kart.pilots%}
                                 <details>
-                                        <summary> Pilot Name: <strong>{{pilot.pilot_name}}</strong>, Temp With Pilot: <strong>{{pilot.temp_with_pilot}}</strong>, Fastest Lap With Pilot: <strong>{{pilot.fastest_lap_with_pilot}}</strong>  </summary> 
+                                        <summary> Pilot: <strong>{{pilot.pilot_name}}</strong>, Temp With Pilot: <strong>{{pilot.temp_with_pilot}}</strong>, Fastest Lap With Pilot: <strong>{{pilot.fastest_lap_with_pilot}}</strong>  </summary> 
                                         <ul>
                                             {% comment %} <li> Temp With Pilot: {{pilot.temp_with_pilot}} </li>
                                             <li> Fastest Lap With Pilot: {{pilot.fastest_lap_with_pilot}} </li> {% endcomment %}

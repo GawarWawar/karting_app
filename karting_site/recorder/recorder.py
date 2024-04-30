@@ -43,7 +43,7 @@ def record_race (
     
     # Looking for and writing into variable recorder.models.Race object to 
     # create and change recorder.models.RaceRecords in future steps
-    race = models.Race.objects.get(pk = self.race_id)
+    race_instance = models.Race.objects.get(pk = self.race_id)
     
     # Logger set up
     logger_name_and_file_name = f"race_id_{self.race_id}"
@@ -67,9 +67,13 @@ def record_race (
         shared_task_instance = self
     )
     # Method to abort recording
-    if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
+    if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
 
     # Variables to check if race is still going
     race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
@@ -133,9 +137,13 @@ def record_race (
             shared_task_instance = self,
             start_time_to_wait = time.perf_counter() # attempt to fix, check is needed
         )
-        if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
+        if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
 
     # Main cycle
     while (
@@ -175,7 +183,7 @@ def record_race (
             ):
                 recorder_functions.change_name_to_true_value(
                     current_segment=df_last_lap_info.loc[team, "current_segment"],
-                    race=race,
+                    race=race_instance,
                     team=team,
                     pilot_name=pilot_name,
                     logger=logger,
@@ -195,7 +203,7 @@ def record_race (
             ):
                 recorder_functions.change_kart_to_true_value(
                     current_segment=df_last_lap_info.loc[team, "current_segment"],
-                    race=race,
+                    race=race_instance,
                     team=team,
                     kart=kart,
                     logger=logger
@@ -229,7 +237,7 @@ def record_race (
 
                 lap_record = models.RaceRecords.objects.create(
                     # Using race object created earlier
-                    race = race,
+                    race = race_instance,
                     team_number = int(team),
                     pilot_name = pilot_name,
                     kart = kart,
@@ -257,9 +265,13 @@ def record_race (
             start_time_to_wait=cycle_start_time,
             shared_task_instance = self
         )
-        if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
+        if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
         
         # Renew variables for the next cycle
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
@@ -273,6 +285,11 @@ def record_race (
         # TESTING STUFF
         only_one_cycle -= 0
 
+    race_instance.was_recorded_complete = True
+    race_instance.save()
+    
     # End of the programme
     end_of_programme = time.perf_counter()
     logger.info(f"Amount of time programme took to run: {end_of_programme-start_of_the_programme}")
+    
+    return 0

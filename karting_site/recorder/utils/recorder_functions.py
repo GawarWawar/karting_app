@@ -1,15 +1,15 @@
-import pandas as pd
-import numpy as np
-import requests
-from urllib3 import exceptions
-
+import datetime
+import logging
+from os.path import dirname, abspath
+import sys
 import time
+from typing import Literal
 
 from celery.contrib.abortable import AbortableTask
-import sys
-from os.path import dirname, abspath
-import importlib.util
-import logging
+import numpy as np
+import pandas as pd
+import requests
+from urllib3 import exceptions
 
 from recorder import models
 
@@ -248,3 +248,18 @@ def make_request_until_its_successful(
     body_content = server_request.json()
     del start_time_to_wait
     return body_content, request_count
+
+def abort_recording(
+    race_instance: models.Race,
+    logger_instance: logging.Logger,
+    start_of_the_programme: float
+) -> Literal[0]:
+    logger_instance.info(f"Recording was aborted at {datetime.datetime.now()}")
+            
+    race_instance.was_recorded_complete = False
+    race_instance.save()
+    
+    end_of_programme = time.perf_counter()
+    logger_instance.info(f"Amount of time programme took to run: {end_of_programme-start_of_the_programme}")
+    
+    return 0

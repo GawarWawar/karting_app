@@ -124,11 +124,14 @@ def record_race (
     while (
             total_race_time == body_content["onTablo"]["totalRaceTime"] 
     ):
+        # BUG HAVE BEEN FOUND HERE
+        # TODO: NEED TO FIX THE TIMING IN WHICH FUNCTION MAKES REQUESTS, RN IT DOES NOT RESET start_time_to_wait
         body_content, request_count = recorder_functions.make_request_until_its_successful(
             server=server_link,
             request_count=request_count,
             logger=logger,
-            shared_task_instance = self
+            shared_task_instance = self,
+            start_time_to_wait = time.perf_counter() # attempt to fix, check is needed
         )
         if body_content == None:
             logger.info(f"Recording was aborted at {datetime.datetime.now()}")

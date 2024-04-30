@@ -5,6 +5,7 @@ from urllib3 import exceptions
 
 import time
 
+from celery.contrib.abortable import AbortableTask
 import sys
 from os.path import dirname, abspath
 import importlib.util
@@ -197,7 +198,7 @@ def make_request_until_its_successful(
     server: str,
     request_count: int,
     logger: logging.Logger,
-    shared_task_instance,
+    shared_task_instance: AbortableTask,
     start_time_to_wait:float = time.perf_counter(),
     time_to_wait:int = 1
 ) -> tuple:
@@ -225,6 +226,7 @@ def make_request_until_its_successful(
     ):
         if shared_task_instance.is_aborted():
             return None, request_count
+        
         request_count += 1
         server_request = make_request_after_some_time(
             server=server,
@@ -233,16 +235,16 @@ def make_request_until_its_successful(
             start_time_to_wait=start_time_to_wait,
             time_to_wait=time_to_wait
         )
+        
         # After make_request_after_some_time returns requests.Response,
         # we can read its status_code and if it indicates about successful response, programme proceed
-        # othervie exeption is catched and cycle starts again
-        try:
+        
+        if not server_request is None:
             server_request_status_code = server_request.status_code
-        except AttributeError:
-            pass
-        else:
-            logger.info(f"Request numder {request_count} returned {server_request_status_code} status_code ")
+            logger.info(f"Request numder {request_count} returned {server_request_status_code} status_code.")
+        
         start_time_to_wait = time.perf_counter()
+
     body_content = server_request.json()
     del start_time_to_wait
     return body_content, request_count

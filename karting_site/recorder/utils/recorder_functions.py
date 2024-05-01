@@ -183,10 +183,10 @@ def make_request_after_some_time(
         )
     # If we recieve exeption that indicates that connection wasn`t aquired,
     # we return None to indicate it  
-    except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
+    except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError) as occured_exception:
         end_time_to_wait = time.perf_counter()
         logger.info(
-            f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception"
+            f"While getting request numder {request_count} recieve {occured_exception}. It took {end_time_to_wait-start_time_to_wait} time to get exception"
         )
         return None
     else:
@@ -199,7 +199,8 @@ def make_request_until_its_successful(
     request_count: int,
     logger: logging.Logger,
     shared_task_instance: AbortableTask,
-    start_time_to_wait:float = time.perf_counter(),
+    start_time_to_wait:float, # Cannot use = time.perf_counter() ->  
+        # If we use it lie this, in loop it will bug out and use only the 1st value
     time_to_wait:int = 1
 ) -> tuple:
     """Call make_request_after_some_time and check if it was successful:\n

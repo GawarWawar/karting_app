@@ -64,7 +64,8 @@ def record_race (
         request_count=request_count,
         logger=logger,
         time_to_wait = 1,
-        shared_task_instance = self
+        shared_task_instance = self,
+        start_time_to_wait= time.perf_counter()
     )
     # Method to abort recording
     if body_content is None:
@@ -128,14 +129,12 @@ def record_race (
     while (
             total_race_time == body_content["onTablo"]["totalRaceTime"] 
     ):
-        # BUG HAVE BEEN FOUND HERE
-        # TODO: NEED TO FIX THE TIMING IN WHICH FUNCTION MAKES REQUESTS, RN IT DOES NOT RESET start_time_to_wait
         body_content, request_count = recorder_functions.make_request_until_its_successful(
             server=server_link,
             request_count=request_count,
             logger=logger,
             shared_task_instance = self,
-            start_time_to_wait = time.perf_counter() # attempt to fix, check is needed
+            start_time_to_wait = time.perf_counter()
         )
         if body_content is None:
             recorder_functions.abort_recording(
@@ -144,12 +143,23 @@ def record_race (
                 start_of_the_programme=start_of_the_programme
             )
             return 1
-
+    
+    
+    # TODO Empty races
+    # Sometimes kc doesnt record any records into the race ->
+    # database receive empty races with no records ->
+    # Need to think if this needs to be fixed
+    # laps_recorded = 0
+    
     # Main cycle
     while (
         # In the end of the race race_finished_timestamp will become bigger and cycle will end
         (
             race_started_button_timestamp > race_finished_timestamp
+            
+            # TODO Empty races
+            # or
+            # laps_recorded == 0
         )
     ) and not (
         only_one_cycle == 0 # Check used while testing
@@ -254,8 +264,12 @@ def record_race (
                 )
                 lap_record.save()
                 
-                logger.info(f"For team {team} added row for lap {lap_count}")           
+                # TODO Empty races
+                # laps_recorded += 1
+                
+                logger.info(f"For team {team} added row for lap {lap_count} after request {request_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
+                
         
         # New request
         body_content, request_count = recorder_functions.make_request_until_its_successful(

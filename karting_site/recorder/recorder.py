@@ -119,7 +119,7 @@ def record_race (
 
     # End of preparation before main cycle
     preparation_ends = time.perf_counter()
-    logger.info(f"Time of preparation: {preparation_ends-start_of_the_programme}")
+    logger.debug(f"Time of preparation: {preparation_ends-start_of_the_programme}")
 
     # Cycle to check, if totalRaceTime is changing:
         #no -> make new requests
@@ -267,7 +267,7 @@ def record_race (
                 # TODO Empty races
                 # laps_recorded += 1
                 
-                logger.info(f"For team {team} added row for lap {lap_count} after request {request_count}")           
+                logger.info(f"For team {team} added row for lap {lap_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
                 
         

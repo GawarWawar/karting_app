@@ -185,13 +185,13 @@ def make_request_after_some_time(
     # we return None to indicate it  
     except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError) as occured_exception:
         end_time_to_wait = time.perf_counter()
-        logger.info(
+        logger.debug(
             f"While getting request numder {request_count} recieve {occured_exception}. It took {end_time_to_wait-start_time_to_wait} time to get exception"
         )
         return None
     else:
         end_time_to_wait = time.perf_counter()
-        logger.info(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
+        logger.debug(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
         return server_request
         
 def make_request_until_its_successful(
@@ -242,7 +242,7 @@ def make_request_until_its_successful(
         
         if not server_request is None:
             server_request_status_code = server_request.status_code
-            logger.info(f"Request numder {request_count} returned {server_request_status_code} status_code.")
+            logger.debug(f"Request numder {request_count} returned {server_request_status_code} status_code.")
         
         start_time_to_wait = time.perf_counter()
 

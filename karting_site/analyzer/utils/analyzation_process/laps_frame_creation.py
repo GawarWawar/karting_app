@@ -161,7 +161,7 @@ def create_df_from_recorded_records(
     if not does_race_has_true_karts(
         df_with_race_records=df_from_recorded_records
     ): 
-        df_from_recorded_records["kart"] = df_from_recorded_records["team"].astype(int)
+        df_from_recorded_records["kart"] = df_from_recorded_records["team_number"].astype(int)
         df_from_recorded_records["true_kart"] = True
     
 

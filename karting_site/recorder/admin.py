@@ -167,7 +167,7 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
     def response_change(self, request, obj):
         # Button to start race recording
         if "_start_recording" in request.POST:
-            obj = self.get_queryset(request).get(pk=obj.id)
+            obj :models.Race = self.get_queryset(request).get(pk=obj.id)
             obj.is_recorded = True
             obj.date_record_started = datetime.datetime.now()
             task_to_do_name = recorder.record_race.name

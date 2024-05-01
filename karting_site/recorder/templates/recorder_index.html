@@ -17,7 +17,7 @@
 <div class="main_container">
     <h2>Last race created information:</h2>
     {%if race%}
-    <p>This is the last race that was created and information about it:</p>
+    <p>This is the last race that was created and has records of laps associated with it. Information about it:</p>
     <div class="race_info_container">
       <p>Id:<strong> {{race.id}}</strong> </p>
       <p>Name:<strong> {{race.name_of_the_race}}</strong></p>
@@ -60,7 +60,7 @@
       </table>
     </div>
     {% else %}
-    <p>There are no records for this race</p>
+    <p>There are no records for this race. This race was returned because it is the latest created and there are not any races with records.</p>
     {% endif %} {%else%}
     <p>There was not created any race. Ask admin to create first race</p>
     {%endif%}

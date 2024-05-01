@@ -267,7 +267,7 @@ def record_race (
                 # TODO Empty races
                 # laps_recorded += 1
                 
-                logger.info(f"For team {team} added row for lap {lap_count}")           
+                logger.info(f"For team {team} added row for lap {lap_count}, after request {request_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
                 
         
@@ -294,7 +294,7 @@ def record_race (
         teams_stats = body_content["onTablo"]["teams2"]
         
         end_of_the_cycle = time.perf_counter()
-        logger.info(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
+        logger.debug(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
 
         # TESTING STUFF
         only_one_cycle -= 0

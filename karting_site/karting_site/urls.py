@@ -28,7 +28,8 @@ urlpatterns = [
     path("analyzer/", include("analyzer.urls", namespace="analyzer")),
     path("api", views.api, name="api"),
     path("api/recorder/", include("recorder.urls_api", namespace="api_recorder")),
-    path("api/analyzer/", include("analyzer.urls_api", namespace="api_analyzer"))   
+    path("api/analyzer/", include("analyzer.urls_api", namespace="api_analyzer")),
+    path("loaderio-7bc48c07cd88559cb85ae4f5ec0ebd7f/", views.loade_io, name="loader")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 admin.site.site_header = "Karting App Admin"

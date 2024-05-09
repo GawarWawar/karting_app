@@ -5,6 +5,8 @@ import requests
 import time
 import logging
 
+from scipy.sparse import spmatrix
+
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
 
@@ -197,11 +199,9 @@ def encode_and_scale_prediction_data(
             )
             return dict_to_return
         
-        try:
+        if isinstance(values_to_predict, spmatrix):
             # Convert sparse matrix to dense array if applicable
             values_to_predict = values_to_predict.toarray()
-        except AttributeError:
-            pass
         
         # Scale the data using the provided StandardScaler
         values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)

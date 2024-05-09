@@ -46,11 +46,11 @@ def record_race (
     race_instance = models.Race.objects.get(pk = self.race_id)
     
     # Logger set up
-    logger_name_and_file_name = f"race_id_{self.race_id}"
-    logger = logging.getLogger(logger_name_and_file_name)
+    logger_name = f"race_id_{self.race_id}"
+    logger = logging.getLogger(logger_name)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     # FileHandler change for logger, to change logger location
-    fh = logging.FileHandler(f'recorder/data/logs/{logger_name_and_file_name}.log')
+    fh = logging.FileHandler(f'recorder/data/logs/recorder.log')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     

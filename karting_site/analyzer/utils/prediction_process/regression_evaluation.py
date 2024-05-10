@@ -1,11 +1,8 @@
+import logging
 import numpy as np
 import pandas as pd
 
-import time
-import logging
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
@@ -14,6 +11,8 @@ from sklearn.ensemble import RandomForestRegressor
 
 from sklearn.metrics import r2_score
 from sklearn.utils.validation import column_or_1d 
+
+import time
 
 from . import prediction_processing 
 from . import regression_models
@@ -47,37 +46,10 @@ def evaluate_model_perfomance(
     r2_score_value = r2_score(y_test, y_pred)
     if logger_instance is not None and log_r2_score:
         regression_name_to_log = model_regressor.name
-        logger_instance.info(
+        logger_instance.debug(
             f"{r2_score_value} is R^2 score for {regression_name_to_log}"
         )
     return r2_score_value
-
-def update_r2_score_values(
-        operational_dict: dict,
-        this_model_r2_score: float,
-        model: regression_models.RegressionModel
-) -> None:
-    """
-    Update the dictionary of R^2 score values with a model's score.
-
-    This function takes an operational dictionary, the R^2 score of a specific regression model, and
-    the model itself. It then updates the R^2 score values dictionary in the operational dictionary.
-
-    Parameters:
-    - operational_dict (dict): Operational dictionary containing R^2 score values.
-    - this_model_r2_score (float): R^2 score of the current regression model.
-    - model (regression_models.RegressionModel): The regression model for which the R^2 score is obtained.
-
-    Returns:
-    - None: The function modifies the input operational_dict in-place and does not return a new object.
-    
-    Note:
-    - The purpose of this function is to keep track of R^2 score values for different regression models
-      within an operational context. It allows dynamic updating of the R^2 score values dictionary.
-    """
-    operational_dict["r2_score_values_dict"].update({
-        model.name: this_model_r2_score
-    })
 
 def update_operational_dict_based_on_r2_score(
         operational_dict: dict,
@@ -110,7 +82,9 @@ def update_operational_dict_based_on_r2_score(
             predictions,
             model,
         )
-        update_r2_score_values(operational_dict, this_model_r2_score, model)
+        
+        # Updates the R^2 score values dictionary in the operational dictionary with a model's score
+        operational_dict["r2_score_values_dict"].update({model.name: this_model_r2_score})
     else:
         operational_dict['r2_score_less_norm_count'] += 1
 

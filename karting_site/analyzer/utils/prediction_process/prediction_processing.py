@@ -1,23 +1,22 @@
-import pandas as pd
+import logging
 import numpy as np
+import pandas as pd
 import requests
 
-import time
-import logging
-
-from scipy.sparse import spmatrix
 
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
+from scipy.sparse import spmatrix
 
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
-from analyzer.utils.analyzation_process import coeficient_creation_functions
+import time
 
 from . import regression_models
+from analyzer.utils.analyzation_process import coeficient_creation_functions
 
 def generate_regression_prediction_input (
     coeficient_for_prediction: float,
@@ -143,27 +142,25 @@ def incorporate_predictions_into_dict_list(
                 # Break the loop once the dictionary has been updated or appended  
                 break
         
-def encode_and_scale_prediction_data(
+def encode_prediction_data(
     list_of_df_with_predictions: list[pd.DataFrame],
     column_transfoarmer_instance: ColumnTransformer,
-    standard_scaler_for_data_to_analyze: StandardScaler,
     
     logger_instance: logging.Logger|None = None
 ) -> dict:
     """
-    Encode and scale prediction data using a ColumnTransformer and StandardScaler.
+    Encode prediction data using a ColumnTransformer.
 
     This function takes a list of DataFrames containing prediction data, encodes the categorical features 
-    using a provided ColumnTransformer, and scales the data using a provided StandardScaler.
+    using a provided ColumnTransformer.
 
     Parameters:
     - list_of_df_with_predictions (List[pd.DataFrame]): List of DataFrames with prediction data.
     - column_transfoarmer_instance (ColumnTransformer): ColumnTransformer instance for encoding features.
-    - standard_scaler_for_data_to_analyze (StandardScaler): StandardScaler instance for scaling data.
     - logger_instance (logging.Logger|None): Optional logger instance for logging warnings.
 
     Returns:
-    - dict: A dictionary containing the scaled and encoded lists of values to predict, error flag, 
+    - dict: A dictionary containing the encoded lists of values to predict, error flag, 
       and an error message if an exception occurs during the transformation.
       Example: 
       {
@@ -202,7 +199,6 @@ def encode_and_scale_prediction_data(
             values_to_predict = values_to_predict.toarray()
         
         # Scale the data using the provided StandardScaler
-        values_to_predict = standard_scaler_for_data_to_analyze.transform(values_to_predict)
         dict_to_return["lists_of_values_to_predict"].append(values_to_predict)
     
     return dict_to_return

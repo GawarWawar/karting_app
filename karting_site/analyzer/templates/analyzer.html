@@ -23,7 +23,7 @@
       <tr>
         {%for header in table.0%}
         <th>
-          {{header}} {%if header != "kart"%}, score =
+          {{header}}{%if header != "kart"%}, score =
           {{data|lookup:"temp_r2_scores"|lookup:header}}
         </th>
         {%endif%} {%endfor%}
@@ -50,7 +50,7 @@
       <tr>
         {%for header in table.0%}
         <th>
-          {{header}} {%if header != "kart"%}, score =
+          {{header}}{%if header != "kart"%}, score =
           {{data|lookup:"fastestlap_r2_scores"|lookup:header}}
         </th>
         {%endif%} {%endfor%}

@@ -1,13 +1,13 @@
 # FORMING DATABASE TO ANALIZE
+from dateutil import parser
+import logging
 import numpy as np
 import pandas as pd
-from dateutil import parser
-
-import time
-import logging
 
 import sys
 import os
+
+import time
 
 from recorder import models as recorder_models
 from . import models
@@ -209,15 +209,16 @@ def analyze_race(
     
     margin_in_seconds_to_add_to_mean_time: int = 5,
     
-    regression_class_instances = [
-        regression_models.MultipleLinearRegression_(),
-        regression_models.PolinomialRegression_(),
-        regression_models.SupportVectorRegression_(),
-        regression_models.DecisionTreeRegression_(),
-        regression_models.RandomForestRegression_(),
+    regression_models_instances = [
+        regression_models.MultipleLinearRegression_,
+        # regression_models.PolinomialRegression_,
+        regression_models.SupportVectorRegression_,
+        # regression_models.DecisionTreeRegression_,
+        regression_models.RandomForestRegression_,
     ],
     minimum_value_to_r2:float = 0.0,
     size_of_test_set:float = 0.15,
+    set_n_splits: int = 20,
     train_test_split_random_state = 2,
 ):  
     """
@@ -229,28 +230,29 @@ def analyze_race(
     - logg_level (str|None, optional): Logging level for the race logger. Default set to "WARNING" level.
     - how_many_digits_after_period_to_leave_in (int, optional): Number of digits to round floating-point values to. Default set to 4 digits.
     - margin_in_seconds_to_add_to_mean_time (int, optional): Margin in seconds to add to the mean lap time. Default set to 5 seconds.
-    - regression_class_instances (list, optional): List of regression model instances for prediction. 
+    - regression_models_instances (list, optional): List of regression model instances for prediction. 
     Default contains: regression_models.MultipleLinearRegression_, regression_models.PolinomialRegression_, regression_models.SupportVectorRegression_, regression_models.DecisionTreeRegression_, regression_models.RandomForestRegression_.
     - minimum_value_to_r2 (float, optional): Minimum R2 score threshold for regression models. Default set to 0.0.
     - size_of_test_set (float, optional): Size of the test set during regression model evaluation. Default set to  0.15 (15%).
+    - set_n_splits (int): Number of splits for ShuffleSplit.
     - train_test_split_random_state (int, optional): Random state for train-test splitting. Default set to 2 iterations.
 
     Returns:
     - dict: A dictionary containing the analyzed race data, including predictions and statistics.
 
     Note:
-    This function performs the following steps:
-    1. Retrieves race records and creates a DataFrame.
-    2. Cleans and filters the DataFrame, removing irrelevant data.
-    3. Computes pilot and kart statistics based on the cleaned DataFrame.
-    4. Generates predictions for tempo and fastest lap using regression models.
-    5. Formats and organizes the results into a structured dictionary.
+    - This function performs the following steps:
+        1. Retrieves race records and creates a DataFrame.
+        2. Cleans and filters the DataFrame, removing irrelevant data.
+        3. Computes pilot and kart statistics based on the cleaned DataFrame.
+        4. Generates predictions for tempo and fastest lap using regression models.
+        5. Formats and organizes the results into a structured dictionary.
     
-    The function utilizes a logging system to record the process details if a logging level is specified.
+    - The function utilizes a logging system to record the process details if a logging level is specified.
     
-    The generated statistics include information about each kart, its fastest lap, tempo, and associated pilots.
+    - The generated statistics include information about each kart, its fastest lap, tempo, and associated pilots.
     
-    Predictions for tempo and fastest lap are generated using specified regression models.
+    - Predictions for tempo and fastest lap are generated using specified regression models.
     """
     # Set up the logger for the race
     if logg_level is not None:
@@ -401,9 +403,11 @@ def analyze_race(
         
         logger_instance=race_logger,
         
-        regression_class_instances=regression_class_instances,
+        regression_models_instances=regression_models_instances,
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
+        set_n_splits=set_n_splits,
+        
         train_test_split_random_state=train_test_split_random_state,
         sequence_number_of_columns_to_OHE=SEQUENCE_NUMBER_OF_COLUMNS_TO_OHE,
         
@@ -417,7 +421,7 @@ def analyze_race(
     return_dict["data"].update(data)
 
     df_to_analyze.pop("temp_with_pilot")
-    df_to_analyze["fastest_lap_with_pilot"]=df_stats.pop("fastest_lap_with_pilot")
+    df_to_analyze["fastest_lap_with_pilot"] = df_stats.pop("fastest_lap_with_pilot")
     del df_stats
 
     if logg_level is not None:
@@ -427,7 +431,7 @@ def analyze_race(
         
         logger_instance=race_logger,
         
-        regression_class_instances=regression_class_instances,
+        regression_models_instances=regression_models_instances,
         minimum_value_to_r2=minimum_value_to_r2,
         size_of_test_set=size_of_test_set,
         train_test_split_random_state=train_test_split_random_state,

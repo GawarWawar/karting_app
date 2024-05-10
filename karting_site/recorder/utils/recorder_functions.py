@@ -1,14 +1,15 @@
-import pandas as pd
+import datetime
+import logging
+from os.path import dirname, abspath
+import sys
+import time
+from typing import Literal
+
+from celery.contrib.abortable import AbortableTask
 import numpy as np
+import pandas as pd
 import requests
 from urllib3 import exceptions
-
-import time
-
-import sys
-from os.path import dirname, abspath
-import importlib.util
-import logging
 
 from recorder import models
 
@@ -182,23 +183,24 @@ def make_request_after_some_time(
         )
     # If we recieve exeption that indicates that connection wasn`t aquired,
     # we return None to indicate it  
-    except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError):
+    except (requests.exceptions.ReadTimeout, ConnectionResetError, exceptions.ProtocolError, requests.exceptions.ConnectionError) as occured_exception:
         end_time_to_wait = time.perf_counter()
-        logger.info(
-            f"While getting request numder {request_count} recieve exception. It took {end_time_to_wait-start_time_to_wait} time to get exception"
+        logger.debug(
+            f"While getting request numder {request_count} recieve {occured_exception}. It took {end_time_to_wait-start_time_to_wait} time to get exception"
         )
         return None
     else:
         end_time_to_wait = time.perf_counter()
-        logger.info(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
+        logger.debug(f"Request numder {request_count} took {end_time_to_wait-start_time_to_wait} time to get")
         return server_request
         
 def make_request_until_its_successful(
     server: str,
     request_count: int,
     logger: logging.Logger,
-    shared_task_instance,
-    start_time_to_wait:float = time.perf_counter(),
+    shared_task_instance: AbortableTask,
+    start_time_to_wait:float, # Cannot use = time.perf_counter() ->  
+        # If we use it lie this, in loop it will bug out and use only the 1st value
     time_to_wait:int = 1
 ) -> tuple:
     """Call make_request_after_some_time and check if it was successful:\n
@@ -225,6 +227,7 @@ def make_request_until_its_successful(
     ):
         if shared_task_instance.is_aborted():
             return None, request_count
+        
         request_count += 1
         server_request = make_request_after_some_time(
             server=server,
@@ -233,16 +236,31 @@ def make_request_until_its_successful(
             start_time_to_wait=start_time_to_wait,
             time_to_wait=time_to_wait
         )
+        
         # After make_request_after_some_time returns requests.Response,
         # we can read its status_code and if it indicates about successful response, programme proceed
-        # othervie exeption is catched and cycle starts again
-        try:
+        
+        if not server_request is None:
             server_request_status_code = server_request.status_code
-        except AttributeError:
-            pass
-        else:
-            logger.info(f"Request numder {request_count} returned {server_request_status_code} status_code ")
+            logger.debug(f"Request numder {request_count} returned {server_request_status_code} status_code.")
+        
         start_time_to_wait = time.perf_counter()
+
     body_content = server_request.json()
     del start_time_to_wait
     return body_content, request_count
+
+def abort_recording(
+    race_instance: models.Race,
+    logger_instance: logging.Logger,
+    start_of_the_programme: float
+) -> Literal[0]:
+    logger_instance.info(f"Recording was aborted at {datetime.datetime.now()}")
+            
+    race_instance.was_recorded_complete = False
+    race_instance.save()
+    
+    end_of_programme = time.perf_counter()
+    logger_instance.info(f"Amount of time programme took to run: {end_of_programme-start_of_the_programme}")
+    
+    return 0

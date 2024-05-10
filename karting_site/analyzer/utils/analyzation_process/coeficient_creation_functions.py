@@ -71,7 +71,9 @@ def create_primary_coeficient (
     if logger_instance is not None:
         start_timer = time.perf_counter()
     
-    races = analyzer_models.BigRace.objects.all()
+    # TODO: rethink the coeficient idea
+    # races = analyzer_models.BigRace.objects.all()
+    races = None
     
     if not races:
         individual_pilot_statistic_df = pd.DataFrame(

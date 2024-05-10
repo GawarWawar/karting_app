@@ -57,10 +57,10 @@ def create_and_assign_filehandler_to_logger (
     # FileHandler change for logger, to change logger location
     file_handler = logging.FileHandler(
         os.path.join(
-            'analyzer', 'data', 'logs', f'{file_name_for_logger}.log'
+            'analyzer', 'data', 'logs', 'analyzer.log'
         )
     )
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
     race_logger.addHandler(file_handler)
     

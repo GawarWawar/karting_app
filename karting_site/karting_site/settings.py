@@ -146,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'CET'
+TIME_ZONE = 'EET'
 
 USE_I18N = True
 
@@ -163,18 +163,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-CELERY_BROKER_URL= f'redis://{os.getenv("REDIS_USER")}:{os.getenv("REDIS_PASSWORD")}@{os.getenv("REDIS_URL")}:{os.getenv("REDIS_PORT")}'
+# For locale puroposes
+CELERY_BROKER_URL= 'redis://localhost:6379'
+# CELERY_BROKER_URL= f'redis://{os.getenv("REDIS_USER")}:{os.getenv("REDIS_PASSWORD")}@{os.getenv("REDIS_URL")}:{os.getenv("REDIS_PORT")}'
 CELERY_BROKER_TRANSPORT_OPTIONS = {
         'data_folder_in': './broker/out',
         'data_folder_out': './broker/out',
         'data_folder_processed': './broker/processed'
 }
 CELERY_HOSTNAME = "localhost"
-CELERY_TASK_TRACK_STARTED = True
 CELERY_RESULT_BACKEND = "django-db"
-CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_ACKS_LATE = True
+
+CELERY_ENABLE_UTC = False
+CELERY_TASK_TRACK_STARTED = True
+CELERY_RESULT_EXTENDED = True
+
 include=('recorder.tasks')

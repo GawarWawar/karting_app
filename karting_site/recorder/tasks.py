@@ -3,6 +3,7 @@ from celery.signals import after_task_publish, task_postrun, task_success, after
 from celery.contrib.abortable import AbortableTask
 from celery.utils.log import get_task_logger
 
+from django_celery_results.models import TaskResult
 from celery.result import AsyncResult
 
 import logging
@@ -33,5 +34,16 @@ def task_success_handler(
            pk = sender.race_id, 
         )
         queryset.date_record_finished = datetime.datetime.now()
-        queryset.was_recorded_complete = True       
         queryset.save()
+        
+        if queryset.was_recorded_complete:
+            new_race = models.Race.objects.create(
+                    name_of_the_race = datetime.datetime.now()
+                )
+            new_race.is_recorded = True
+            new_race.date_record_started = datetime.datetime.now()
+
+            recording_by_celery = recorder.record_race.delay(new_race.id)
+            new_race.celery_recorder_id = recording_by_celery.id
+
+            new_race.save()

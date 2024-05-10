@@ -43,14 +43,14 @@ def record_race (
     
     # Looking for and writing into variable recorder.models.Race object to 
     # create and change recorder.models.RaceRecords in future steps
-    race = models.Race.objects.get(pk = self.race_id)
+    race_instance = models.Race.objects.get(pk = self.race_id)
     
     # Logger set up
-    logger_name_and_file_name = f"race_id_{self.race_id}"
-    logger = logging.getLogger(logger_name_and_file_name)
+    logger_name = f"race_id_{self.race_id}"
+    logger = logging.getLogger(logger_name)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     # FileHandler change for logger, to change logger location
-    fh = logging.FileHandler(f'recorder/data/logs/{logger_name_and_file_name}.log')
+    fh = logging.FileHandler(f'recorder/data/logs/recorder.log')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     
@@ -64,12 +64,17 @@ def record_race (
         request_count=request_count,
         logger=logger,
         time_to_wait = 1,
-        shared_task_instance = self
+        shared_task_instance = self,
+        start_time_to_wait= time.perf_counter()
     )
     # Method to abort recording
-    if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
+    if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
 
     # Variables to check if race is still going
     race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
@@ -114,7 +119,7 @@ def record_race (
 
     # End of preparation before main cycle
     preparation_ends = time.perf_counter()
-    logger.info(f"Time of preparation: {preparation_ends-start_of_the_programme}")
+    logger.debug(f"Time of preparation: {preparation_ends-start_of_the_programme}")
 
     # Cycle to check, if totalRaceTime is changing:
         #no -> make new requests
@@ -128,17 +133,33 @@ def record_race (
             server=server_link,
             request_count=request_count,
             logger=logger,
-            shared_task_instance = self
+            shared_task_instance = self,
+            start_time_to_wait = time.perf_counter()
         )
-        if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
-
+        if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
+    
+    
+    # TODO Empty races
+    # Sometimes kc doesnt record any records into the race ->
+    # database receive empty races with no records ->
+    # Need to think if this needs to be fixed
+    # laps_recorded = 0
+    
     # Main cycle
     while (
         # In the end of the race race_finished_timestamp will become bigger and cycle will end
         (
             race_started_button_timestamp > race_finished_timestamp
+            
+            # TODO Empty races
+            # or
+            # laps_recorded == 0
         )
     ) and not (
         only_one_cycle == 0 # Check used while testing
@@ -172,7 +193,7 @@ def record_race (
             ):
                 recorder_functions.change_name_to_true_value(
                     current_segment=df_last_lap_info.loc[team, "current_segment"],
-                    race=race,
+                    race=race_instance,
                     team=team,
                     pilot_name=pilot_name,
                     logger=logger,
@@ -192,7 +213,7 @@ def record_race (
             ):
                 recorder_functions.change_kart_to_true_value(
                     current_segment=df_last_lap_info.loc[team, "current_segment"],
-                    race=race,
+                    race=race_instance,
                     team=team,
                     kart=kart,
                     logger=logger
@@ -226,7 +247,7 @@ def record_race (
 
                 lap_record = models.RaceRecords.objects.create(
                     # Using race object created earlier
-                    race = race,
+                    race = race_instance,
                     team_number = int(team),
                     pilot_name = pilot_name,
                     kart = kart,
@@ -243,8 +264,12 @@ def record_race (
                 )
                 lap_record.save()
                 
-                logger.info(f"For team {team} added row for lap {lap_count}")           
+                # TODO Empty races
+                # laps_recorded += 1
+                
+                logger.info(f"For team {team} added row for lap {lap_count}, after request {request_count}")           
                 df_last_lap_info.loc[team, "last_lap"] = lap_count
+                
         
         # New request
         body_content, request_count = recorder_functions.make_request_until_its_successful(
@@ -254,9 +279,13 @@ def record_race (
             start_time_to_wait=cycle_start_time,
             shared_task_instance = self
         )
-        if body_content == None:
-            logger.info(f"Recording was aborted at {datetime.datetime.now()}")
-            return
+        if body_content is None:
+            recorder_functions.abort_recording(
+                race_instance=race_instance,
+                logger_instance=logger,
+                start_of_the_programme=start_of_the_programme
+            )
+            return 1
         
         # Renew variables for the next cycle
         race_started_button_timestamp = body_content["onTablo"]['raceStartedButtonTimestamp']
@@ -265,11 +294,16 @@ def record_race (
         teams_stats = body_content["onTablo"]["teams2"]
         
         end_of_the_cycle = time.perf_counter()
-        logger.info(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
+        logger.debug(f"Time of cycle: {end_of_the_cycle-cycle_start_time}, after request {request_count}")
 
         # TESTING STUFF
         only_one_cycle -= 0
 
+    race_instance.was_recorded_complete = True
+    race_instance.save()
+    
     # End of the programme
     end_of_programme = time.perf_counter()
     logger.info(f"Amount of time programme took to run: {end_of_programme-start_of_the_programme}")
+    
+    return 0

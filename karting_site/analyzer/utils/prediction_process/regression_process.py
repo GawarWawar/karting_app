@@ -153,7 +153,6 @@ def regression_process(
             prediction_dict = prediction_processing.encode_prediction_data(
                 list_of_df_with_predictions=list_of_df_to_predict,
                 column_transfoarmer_instance=column_transformer_instance,
-                standard_scaler_for_data_to_analyze=cycle_model.regressor
             )
             
             # Checking for errors in the predictions' preprocessing

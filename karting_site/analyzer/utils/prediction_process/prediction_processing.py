@@ -128,21 +128,19 @@ def incorporate_predictions_into_dict_list(
     """
     # Iterate over each prediction count and corresponding prediction list
     for prediction_count, prediction in enumerate(predictions):
-        # Ensure the predictions list does not exceed the length of the list_of_predictions_dict
         while True:
-            try:
+            # Ensure the predictions list does not exceed the length of the list_of_predictions_dict
+            if len(list_of_predictions_dict) < prediction_count + 1:
+                # If the prediction count exceeds the existing dictionaries, append a new dictionary  
+                list_of_predictions_dict.append({})
+            else:
                 # Update the dictionary at the current prediction count with the predictions
                 list_of_predictions_dict[prediction_count].update(
                     {
-                        model.name  : prediction
+                        model.name: prediction
                     }
                 )
-            except IndexError:
-                # If the prediction count exceeds the existing dictionaries, append a new dictionary
-                list_of_predictions_dict.append({})
-                continue
-            else:
-                # Break the loop once the dictionary has been updated or appended
+                # Break the loop once the dictionary has been updated or appended  
                 break
         
 def encode_and_scale_prediction_data(

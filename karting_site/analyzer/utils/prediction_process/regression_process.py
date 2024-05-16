@@ -36,7 +36,7 @@ def regression_process(
     
     size_of_test_set: float = 0.15,
     train_test_split_random_state: int = 2,
-    set_n_splits: int = 20,
+    set_n_splits: int = 10,
     
     sequence_number_of_columns_to_OHE: list[int] = [0],
     

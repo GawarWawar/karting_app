@@ -218,7 +218,7 @@ def analyze_race(
     ],
     minimum_value_to_r2:float = 0.0,
     size_of_test_set:float = 0.15,
-    set_n_splits: int = 20,
+    set_n_splits: int = 10,
     train_test_split_random_state = 2,
 ):  
     """

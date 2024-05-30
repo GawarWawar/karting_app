@@ -1,21 +1,27 @@
+
 from collections.abc import Iterator
-from typing import Any
-from django.contrib import admin
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.datastructures import MultiValueDictKeyError
-from django.db.utils import IntegrityError
+import csv
+
+import datetime
+
+from celery.result import AsyncResult
+
+from django import forms
+from django.contrib import admin, messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import path
-from django import forms
-
-import pandas as pd
-import datetime
-import csv
-import zipfile
+from django.utils.datastructures import MultiValueDictKeyError
 
 from django_celery_results.models import TaskResult
-from celery.result import AsyncResult
+
+from kombu.exceptions import OperationalError
+
+import pandas as pd
+from typing import Any
+import zipfile
 
 from . import models
 from . import tasks
@@ -168,37 +174,75 @@ class RaceAdmin(admin.ModelAdmin, ExportCsvMixin):
         # Button to start race recording
         if "_start_recording" in request.POST:
             obj :models.Race = self.get_queryset(request).get(pk=obj.id)
-            obj.is_recorded = True
             obj.date_record_started = datetime.datetime.now()
-            task_to_do_name = recorder.record_race.name
-            try:
-                celery_object_that_started_recording = TaskResult.objects.get(task_id = obj.celery_recorder_id, status = "STARTED", task_name = task_to_do_name)
-            except TaskResult.DoesNotExist:
-                recording_by_celery = recorder.record_race.delay(obj.id)
-                obj.celery_recorder_id = recording_by_celery.id
-                obj.save()
-                message = f"Recording started. Process id is {recording_by_celery.id}"
+        
+            # Check if the Celery already assigned task if to the race
+            if obj.celery_recorder_id == "0":
+                # Check for broker connecton b4 sending task
+                try:
+                    recording_by_celery = recorder.record_race.delay(obj.id)
+                except OperationalError:
+                    messages.add_message(
+                        request, messages.ERROR, 
+                        "Recording was not started. Couldn't establish connection with Redis."
+                    )
+                # Update Race instance in database after successful task sending
+                else:
+                    obj.is_recorded = True
+                    obj.celery_recorder_id = recording_by_celery.id
+                    obj.save()
+                    messages.add_message(
+                        request, messages.INFO, 
+                        f"Recording started. Process id is {recording_by_celery.id}"
+                    ) 
             else:
                 obj.save()
-                message = f"Recording for this race has already started. Celery working on it {celery_object_that_started_recording.task_id} id"
-            self.message_user(request, message)
+                
+                task_to_do_name = recorder.record_race.name
+                # Search if Celery has already startdet the task id given 
+                celery_object_that_started_recording = TaskResult.objects.filter(
+                    task_id = obj.celery_recorder_id, task_name = task_to_do_name
+                ).values()
+                
+                # Send message according to the result of the search
+                if len(celery_object_that_started_recording) == 0:
+                    messages.add_message(
+                        request, messages.INFO, 
+                        f"Task to record this race has been given to broker. Celery task id is {obj.celery_recorder_id}."
+                    ) 
+                else:
+                    messages.add_message(
+                        request, messages.WARNING, 
+                        f"Recording for this race has already started. Celery task id is {obj.celery_recorder_id}."
+                    ) 
             return HttpResponseRedirect(".")
+        
         # Button to abort race recording
         elif "_abort_recording" in request.POST:
             obj = self.get_queryset(request).get(pk=obj.id)
-            task_to_abort_name = recorder.record_race.name
-            try:
-                celery_object_that_started_recording = TaskResult.objects.get(task_id = obj.celery_recorder_id, status = "STARTED", task_name = task_to_abort_name)
-            except TaskResult.DoesNotExist:
+
+            # Look if recording started at all
+            if obj.celery_recorder_id == "0" or obj.celery_recorder_id == 0:
+                obj.celery_recorder_id = "0"
                 obj.save()
-                message = f"Recording for the race with {obj.id} id is not in progress!"
+                messages.add_message(
+                    request, messages.INFO, 
+                    f"Recording for this race isn't assigned to Celery."
+                ) 
             else:
-                task_in_progress = recorder.record_race.AsyncResult(obj.celery_recorder_id)
+                # Abort task by id written into the race obj
+                task_in_progress = recorder.record_race.AsyncResult(
+                    obj.celery_recorder_id
+                )
                 task_in_progress.abort()
-                obj.celery_recorder_id = 0
+                
+                # Update Race instance in database after successful task aborting
+                obj.celery_recorder_id = "0"
                 obj.save()
-                message = f"Recording aborted, process id was {task_in_progress.id}"
-            self.message_user(request, message)
+                messages.add_message(
+                    request, messages.INFO, 
+                    f"Recording with task id {task_in_progress.id} was aborted."
+                )
             return HttpResponseRedirect(".")
             
         return super().response_change(request, obj)

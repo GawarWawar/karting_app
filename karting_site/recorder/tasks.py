@@ -17,26 +17,28 @@ from . import recorder
 #Tasks
 
 # Signals
-#NEEDS REWORK OR DELETION
+#TODO: REWORK OR DELETE
 @after_task_publish.connect(sender= recorder.record_race.name)
 def task_sent_handler(sender=None, headers=None, body=None, **kwargs):
     # information about task are located in headers for task messages
     # using the task protocol version 2.
-    print(f"Recording started successfully at {datetime.datetime.now()}")
+    # print(f"Recording started successfully at {datetime.datetime.now()}")
+    ...
 
-#NEEDS REWORK
+#TODO: make it prettier
 @task_postrun.connect()
 def task_success_handler(
     sender=None, task_id = None, **kwargs
 ):
    if sender.name == recorder.record_race.name:
-        queryset = models.Race.objects.get(
+        race_obj = models.Race.objects.get(
            pk = sender.race_id, 
         )
-        queryset.date_record_finished = datetime.datetime.now()
-        queryset.save()
+        race_obj.date_record_finished = datetime.datetime.now()
+        race_obj.celery_recorder_id = "0"
+        race_obj.save()
         
-        if queryset.was_recorded_complete:
+        if race_obj.was_recorded_complete:
             new_race = models.Race.objects.create(
                     name_of_the_race = datetime.datetime.now()
                 )
